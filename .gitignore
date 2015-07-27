@@ -103,3 +103,8 @@ crashlytics-build.properties
 
  # TeXlipse plugin
  .texlipse
+
+
+# pdf ignore
+
+*.pdf
