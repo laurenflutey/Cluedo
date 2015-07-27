@@ -29,7 +29,7 @@ public class UI {
 
     public int getPlayerCount() {
         //TODO Add invalid input check
-        System.out.println("Ever the number of players (3-6");
+        System.out.println("Enter the number of players (3-6)");
         int playerCount = reader.nextInt();
         return playerCount;
     }

@@ -8,7 +8,4 @@ package model;
  */
 public class Board {
 	
-	public void test(){
-		System.out.println("HELLO");
-	}
 }
