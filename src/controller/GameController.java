@@ -19,15 +19,9 @@ public class GameController {
      * Constructor for the {@link GameController} class
      */
     public GameController() {
-        this.UI = new UI();
+        UI = new UI();
+        System.out.println(UI.getPlayerCount());
     }
 
-    /**
-     * Main method calls the creation of a new Game Controller
-     *
-     * @param args redundant
-     */
-    public static void main(String[] args) {
-        new GameController();
-    }
+
 }
