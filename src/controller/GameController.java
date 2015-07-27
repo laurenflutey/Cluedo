@@ -11,10 +11,15 @@ import view.UI;
 public class GameController {
 
     /**
-     * F
+     * UI Class used to interact with the players in the game
      */
-    private final view.UI UI;
+    private final UI UI;
 
-
+    /**
+     * Constructor for the {@link GameController} class
+     */
+    public GameController() {
+        this.UI = new UI();
+    }
 
 }
