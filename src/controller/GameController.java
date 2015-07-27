@@ -22,4 +22,9 @@ public class GameController {
         this.UI = new UI();
     }
 
+
+
+    public static void main(String[] args) {
+        new GameController();
+    }
 }
