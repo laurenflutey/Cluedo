@@ -22,7 +22,6 @@ public class GameController {
         this.UI = new UI();
     }
 
-
     /**
      * Main method calls the creation of a new Game Controller
      *
