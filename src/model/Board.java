@@ -7,4 +7,8 @@ package model;
  * @author Reuben Puketapu
  */
 public class Board {
+	
+	public void test(){
+		System.out.println("HELLO");
+	}
 }
