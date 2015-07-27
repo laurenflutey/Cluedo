@@ -1,5 +1,7 @@
 package controller;
 
+import view.UI;
+
 /**
  * MVC Controller class to handle the logic of the Cluedo game.
  *
@@ -7,4 +9,19 @@ package controller;
  * @author Reuben Puketapu
  */
 public class GameController {
+
+    /**
+     * UI Class used to interact with the players in the game
+     */
+    private final UI UI;
+
+    /**
+     * Constructor for the {@link GameController} class
+     */
+    public GameController() {
+        UI = new UI();
+        System.out.println(UI.getPlayerCount());
+    }
+
+
 }
