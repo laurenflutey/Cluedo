@@ -8,4 +8,9 @@ package model;
  */
 public class Board {
 	
+	private static char[] positions;
+	
+	
 }
+
+
