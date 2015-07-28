@@ -13,7 +13,11 @@ public class UI {
     /**
      * Initial messaged displayed to players of the Cluedo game
      */
-    private String initMessage = "Welcome to Cluedo."; //TODO Placeholder
+    private String initMessage = "Welcome to Cluedo.\n" +
+            "--------------------------------\n" +
+            "| A simple text based Java game.\n" +
+            "| Created by: \n|\tReuben Puketapu\n|\tMarcel van Workum.\n" +
+            "--------------------------------\n\n";
 
     /**
      * Input scanner used to handle all inputted information from the players
