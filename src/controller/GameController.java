@@ -16,11 +16,20 @@ public class GameController {
     private final UI UI;
 
     /**
+     * Number of players in the Cluedo game. Must be between 3 - 6.
+     * Initialised in {@link #GameController()}
+     */
+    private int playerCount;
+
+    /**
      * Constructor for the {@link GameController} class
      */
     public GameController() {
         UI = new UI();
-        System.out.println(UI.getPlayerCount());
+
+        // Delegates player count parsing to UI class
+        playerCount = UI.getPlayerCount();
+        System.out.println(playerCount);
     }
 
 
