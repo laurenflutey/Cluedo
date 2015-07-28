@@ -7,5 +7,5 @@ package model;
  * @author Reuben Puketapu
  */
 public class Board {
-	
+
 }
