@@ -14,6 +14,6 @@ public class Main {
      * @param args redundant
      */
     public static void main(String[] args) {
-        new GameController();
+        new GameController().initGame();
     }
 }
