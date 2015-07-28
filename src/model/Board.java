@@ -7,10 +7,5 @@ package model;
  * @author Reuben Puketapu
  */
 public class Board {
-	
-	private static char[] positions;
-	
-	
+
 }
-
-
