@@ -33,11 +33,18 @@ public class GameController {
     public GameController() {
         UI = new UI();
         ENTITIES = new Entities(); //TODO init all entities and assign positions
+    }
 
+    /**
+     * Performs all of the initialisation of the game.
+     *
+     * @see UI
+     * @see Entities
+     */
+    public void initGame() {
         // Delegates player count parsing to UI class
         playerCount = UI.getPlayerCount();
         System.out.println(playerCount);
-
     }
 
     /**
