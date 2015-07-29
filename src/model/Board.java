@@ -1,10 +1,7 @@
 package model;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-
-import javafx.stage.FileChooser;
+import java.io.*;
+import java.util.*;
 
 /**
  * Class representing the Cluedo board
@@ -88,7 +85,7 @@ public class Board {
 				} else if (board[x][y] == 'N') {
 					System.out.print("▓ ");
 				} else if (board[x][y] == '?') {
-					System.out.print(" ");
+					System.out.print("x ");
 				} else {
 					System.out.print(board[x][y] + " ");
 				}
@@ -97,10 +94,48 @@ public class Board {
 		}
 	}
 
-	// public static void main(String[] args) {
-	// Board b = new Board(26, 26);
-	// b.parseBoard("Board.txt");
-	// b.printBoard();
-	// }
+	public ArrayList<XYPosition> findAllowedMoves(int xOrigin, int yOrigin, int roll) {
+
+		ArrayList<XYPosition> allowed = new ArrayList<XYPosition>();
+
+		board[xOrigin][yOrigin] = '.';
+
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[0].length; j++) {
+				if (board[j][i] == '0') {
+					if (roll >= Math.abs(xOrigin - j) + Math.abs(yOrigin - i)
+							&& ((Math.abs(xOrigin - j) + Math.abs(yOrigin - i)) % roll == 0
+									|| (Math.abs(xOrigin - j) + Math.abs(yOrigin - i)) % roll % 2 == 1)) {
+						allowed.add(new XYPosition(j, i));
+					}
+				}
+			}
+		}
+
+		return allowed;
+	}
+
+	private class XYPosition {
+		int x;
+		int y;
+
+		public XYPosition(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+	}
+
+	public static void main(String[] args) {
+		Board b = new Board(26, 26);
+		b.parseBoard("Board.txt");
+		List<XYPosition> set = b.findAllowedMoves(8, 8, 5);
+		char count = '1';
+		for (XYPosition p : set) {
+			b.board[p.x][p.y] = count;
+		}
+		b.printBoard();
+
+	}
 
 }
