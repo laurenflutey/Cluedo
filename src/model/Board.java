@@ -14,6 +14,9 @@ import javafx.stage.FileChooser;
  */
 public class Board {
 
+	// TODO create a way to ensure that the player is entering a room in the
+	// correct orientation
+
 	private char[][] board;
 
 	private int height;
@@ -23,10 +26,6 @@ public class Board {
 		this.width = width;
 		this.height = height;
 		this.board = new char[width][height];
-	}
-
-	public Board() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -78,29 +77,30 @@ public class Board {
 		}
 	}
 
+	/**
+	 * prints the board
+	 */
 	public void printBoard() {
 		for (int y = 0; y < this.width; y++) {
 			for (int x = 0; x < this.height; x++) {
-				if(board[x][y] == '0'){
-					System.out.print(". ");
-				}
-				else if(board[x][y] == 'N'){
-					System.out.print("█ ");
-				}
-				else{
+				if (board[x][y] == '0') {
+					System.out.print("░ ");
+				} else if (board[x][y] == 'N') {
+					System.out.print("▓ ");
+				} else if (board[x][y] == '?') {
+					System.out.print(" ");
+				} else {
 					System.out.print(board[x][y] + " ");
 				}
-
 			}
 			System.out.println();
 		}
+	}
 
-	}
-	
-	public static void main(String[] args){
-		Board b = new Board(26, 26);
-		b.parseBoard("Board.txt");
-		b.printBoard();
-	}
+	// public static void main(String[] args) {
+	// Board b = new Board(26, 26);
+	// b.parseBoard("Board.txt");
+	// b.printBoard();
+	// }
 
 }
