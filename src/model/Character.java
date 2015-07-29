@@ -10,6 +10,9 @@ public class Character {
 	
 	private String name;
 	
+	private int xPos;
+	private int yPos;
+	
 	/**
 	 * Constructor for Character class
 	 * @param name the name of the Character
@@ -17,4 +20,6 @@ public class Character {
 	public Character(String name){
 		this.name = name;
 	}
+	
+	
 }

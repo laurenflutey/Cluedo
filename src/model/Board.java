@@ -78,26 +78,27 @@ public class Board {
 		}
 	}
 
+	/**
+	 * prints the board
+	 */
 	public void printBoard() {
 		for (int y = 0; y < this.width; y++) {
 			for (int x = 0; x < this.height; x++) {
-				if(board[x][y] == '0'){
-					System.out.print(". ");
-				}
-				else if(board[x][y] == 'N'){
-					System.out.print("█ ");
-				}
-				else{
+				if (board[x][y] == '0') {
+					System.out.print("░ ");
+				} else if (board[x][y] == 'N') {
+					System.out.print("▓ ");
+				} else if (board[x][y] == '?') {
+					System.out.print("▒ ");
+				} else {
 					System.out.print(board[x][y] + " ");
 				}
-
 			}
 			System.out.println();
 		}
-
 	}
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		Board b = new Board(26, 26);
 		b.parseBoard("Board.txt");
 		b.printBoard();
