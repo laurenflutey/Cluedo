@@ -1,5 +1,6 @@
 package controller;
 
+import model.Entities;
 import view.UI;
 
 /**
@@ -16,6 +17,11 @@ public class GameController {
     private final UI UI;
 
     /**
+     * Collection of entities within the game {@link model.Entities}
+     */
+    private final Entities ENTITIES;
+
+    /**
      * Number of players in the Cluedo game. Must be between 3 - 6.
      * Initialised in {@link #GameController()}
      */
@@ -26,11 +32,28 @@ public class GameController {
      */
     public GameController() {
         UI = new UI();
+        ENTITIES = new Entities(); //TODO init all entities and assign positions
+    }
 
+    /**
+     * Performs all of the initialisation of the game.
+     *
+     * @see UI
+     * @see Entities
+     */
+    public void initGame() {
         // Delegates player count parsing to UI class
         playerCount = UI.getPlayerCount();
         System.out.println(playerCount);
     }
 
+    /**
+     * Rolls the dice for a player, returning a value between 1 - 6
+     *
+     * @return integer 1 - 6
+     */
+    private int rollDice() {
+        return (int)(Math.random() * 6 + 1);
+    }
 
 }
