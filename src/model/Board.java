@@ -129,11 +129,11 @@ public class Board {
 	public static void main(String[] args) {
 		Board b = new Board(26, 26);
 		b.parseBoard("Board.txt");
-		List<XYPosition> set = b.findAllowedMoves(8, 8, 5);
+		//List<XYPosition> set = b.findAllowedMoves(8, 18, 5);
 		char count = '1';
-		for (XYPosition p : set) {
-			b.board[p.x][p.y] = count;
-		}
+//		for (XYPosition p : set) {
+//			b.board[p.x][p.y] = count;
+//		}
 		b.printBoard();
 
 	}
