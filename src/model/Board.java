@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import javafx.stage.FileChooser;
-
 /**
  * Class representing the Cluedo board
  *
@@ -70,6 +68,7 @@ public class Board {
 				for (int x = 0; x < line.length(); x++) {
 					board[x][y] = line.charAt(x);
 				}
+
 				y++;
 			}
 		} catch (FileNotFoundException e) {
@@ -96,11 +95,5 @@ public class Board {
 			System.out.println();
 		}
 	}
-
-	// public static void main(String[] args) {
-	// Board b = new Board(26, 26);
-	// b.parseBoard("Board.txt");
-	// b.printBoard();
-	// }
 
 }
