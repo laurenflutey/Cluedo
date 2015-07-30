@@ -10,6 +10,8 @@ public class Character {
 
 	private String name;
 
+	private char ch;
+
 	private int xPos;
 	private int yPos;
 
@@ -19,8 +21,9 @@ public class Character {
 	 * @param name
 	 *            the name of the Character
 	 */
-	public Character(String name, int xOrigin, int yOrigin) {
+	public Character(String name, char ch, int xOrigin, int yOrigin) {
 		this.name = name;
+		this.ch = ch;
 		this.xPos = xOrigin;
 		this.yPos = yOrigin;
 	}
@@ -43,6 +46,10 @@ public class Character {
 
 	public String getName() {
 		return name;
+	}
+
+	public char getCh() {
+		return ch;
 	}
 
 }

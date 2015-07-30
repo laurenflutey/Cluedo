@@ -15,18 +15,22 @@ public class Entities {
 	private Set<Weapon> weapons;
 	private Set<Room> rooms;
 
+	public Entities() {
+		init();
+	}
+
 	public void init() {
 
 		characters = new HashSet<Character>();
 		weapons = new HashSet<Weapon>();
 		rooms = new HashSet<Room>();
 
-		characters.add(new Character("Mrs Peacock", 6, 25));
-		characters.add(new Character("Proffesor Plum", 25, 20));
-		characters.add(new Character("Miss Scarlet", 7, 25));
-		characters.add(new Character("Colonel Mustard", 0, 18));
-		characters.add(new Character("Mrs White", 9, 0));
-		characters.add(new Character("Reverend Green", 14, 0));
+		characters.add(new Character("Mrs Peacock", 'p', 6, 25));
+		characters.add(new Character("Proffesor Plum", 'l', 25, 20));
+		characters.add(new Character("Miss Scarlet", 's', 7, 25));
+		characters.add(new Character("Colonel Mustard", 'm', 0, 18));
+		characters.add(new Character("Mrs White", 'w', 9, 0));
+		characters.add(new Character("Reverend Green", 'g', 14, 0));
 
 		weapons.add(new Weapon("Candlestick"));
 		weapons.add(new Weapon("Dagger"));
