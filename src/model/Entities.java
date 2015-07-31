@@ -19,7 +19,7 @@ public class Entities {
 		init();
 	}
 
-	public void init() {
+	private void init() {
 
 		characters = new HashSet<Character>();
 		weapons = new HashSet<Weapon>();
