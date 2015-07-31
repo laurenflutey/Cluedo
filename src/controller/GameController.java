@@ -11,49 +11,50 @@ import view.UI;
  */
 public class GameController {
 
-    /**
-     * UI Class used to interact with the players in the game
-     */
-    private final UI UI;
+	/**
+	 * UI Class used to interact with the players in the game
+	 */
+	private final UI UI;
 
-    /**
-     * Collection of entities within the game {@link model.Entities}
-     */
-    private final Entities ENTITIES;
+	/**
+	 * Collection of entities within the game {@link model.Entities}
+	 */
+	private final Entities ENTITIES;
 
-    /**
-     * Number of players in the Cluedo game. Must be between 3 - 6.
-     * Initialised in {@link #GameController()}
-     */
-    private int playerCount;
+	/**
+	 * Number of players in the Cluedo game. Must be between 3 - 6. Initialised
+	 * in {@link #GameController()}
+	 */
+	private int playerCount;
 
-    /**
-     * Constructor for the {@link GameController} class
-     */
-    public GameController() {
-        UI = new UI();
-        ENTITIES = new Entities(); //TODO init all entities and assign positions
-    }
+	/**
+	 * Constructor for the {@link GameController} class
+	 */
+	public GameController() {
+		UI = new UI();
+		ENTITIES = new Entities(); // TODO init all entities and assign
+									// positions
+	}
 
-    /**
-     * Performs all of the initialisation of the game.
-     *
-     * @see UI
-     * @see Entities
-     */
-    public void initGame() {
-        // Delegates player count parsing to UI class
-        playerCount = UI.getPlayerCount();
-        System.out.println(playerCount);
-    }
+	/**
+	 * Performs all of the initialisation of the game.
+	 *
+	 * @see UI
+	 * @see Entities
+	 */
+	public void initGame() {
+		// Delegates player count parsing to UI class
+		playerCount = UI.getPlayerCount();
+		System.out.println(playerCount);
+	}
 
-    /**
-     * Rolls the dice for a player, returning a value between 1 - 6
-     *
-     * @return integer 1 - 6
-     */
-    private int rollDice() {
-        return (int)(Math.random() * 6 + 1);
-    }
+	/**
+	 * Rolls the dice for a player, returning a value between 1 - 6
+	 *
+	 * @return integer 1 - 6
+	 */
+	private int rollDice() {
+		return (int) (Math.random() * 6 + 1);
+	}
 
 }
