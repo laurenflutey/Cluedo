@@ -11,8 +11,27 @@ import java.util.Set;
  */
 public class Entities {
 
+	/**
+	 * Set of all characters in the game, a random character will be selected to be the murder
+     *
+     * @see Character
+	 */
 	private Set<Character> characters;
+
+    /**
+     * Set of all weapons in the game, a random weapon will be selected on gameStart
+     * to be the specified murder weapon.
+     *
+     * @see Weapon
+     */
 	private Set<Weapon> weapons;
+
+    /**
+     * Set of all rooms in the game. A random room will be selected as the room where the
+     * murder was carried out.
+     *
+     * @see Room
+     */
 	private Set<Room> rooms;
 
 	public Entities() {
