@@ -76,6 +76,7 @@ public class Board {
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot find file: " + filename);
 		}
+		printBoard();
 	}
 
 	public ArrayList<XYPosition> findAllowedMoves(int xOrigin, int yOrigin, int roll) {
@@ -86,7 +87,7 @@ public class Board {
 
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[0].length; j++) {
-				if (board[j][i] == '0') {
+				if (board[j][i] == '—') {
 					if (roll >= Math.abs(xOrigin - j) + Math.abs(yOrigin - i)
 							&& ((Math.abs(xOrigin - j) + Math.abs(yOrigin - i)) % roll == 0)) {
 						allowed.add(new XYPosition(j, i));
@@ -115,9 +116,9 @@ public class Board {
 	public void printBoard() {
 		for (int y = 0; y < this.width; y++) {
 			for (int x = 0; x < this.height; x++) {
-				if (board[x][y] == '0') {
+				if (board[x][y] == '-') {
 					System.out.print("  ");
-				} else if (board[x][y] == 'N') {
+				} else if (board[x][y] == '@') {
 					System.out.print("▓ ");
 				} else if (board[x][y] == '?') {
 					System.out.print("  ");
@@ -132,19 +133,18 @@ public class Board {
 	public static void main(String[] args){
 		Board b = new Board(28, 28);
 		b.parseBoard("Board.txt");
-		ArrayList<XYPosition> list = b.findAllowedMoves(10, 10, 4);
-		char count = '1';
-		for(XYPosition li : list){
-			b.board[li.x][li.y] = count++;
-		}
+		//ArrayList<XYPosition> list = b.findAllowedMoves(10, 10, 4);
+		//char count = '1';
+		//for(XYPosition li : list){
+		//	b.board[li.x][li.y] = count++;
+		//}
 		
-		b.printBoard();
 		
-		System.out.flush();
+		//System.out.flush();
 		
-		System.out.println("\f");
+		//System.out.println("\f");
 		
-		System.out.println("HEllo");
+		//System.out.println("HEllo");
 		
 	}
 
