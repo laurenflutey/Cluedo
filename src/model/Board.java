@@ -117,7 +117,7 @@ public class Board {
 		for (int y = 0; y < this.width; y++) {
 			for (int x = 0; x < this.height; x++) {
 				if (board[x][y] == '-') {
-					System.out.print("  ");
+					System.out.print(". ");
 				} else if (board[x][y] == '@') {
 					System.out.print("▓ ");
 				} else if (board[x][y] == '?') {

@@ -1,28 +1,28 @@
 @@@@@@@@@?@@@@?@@@@@@@@@ 1
-KKKKKS@---BBBB----CCCCCC 2
-K----K--BBBBBBBB--C----C 3
-K----K--BBBBBBBB--C----C 4
-K----K--BBBBBBBB--CC---C 5
-K----K--BBBBBBBB--CCCCL@ 6
-KKKKKK--BBBBBBBB-------? 7
---------BBBBBBBB-------@ 8
+KKKKKS@---B--B----CCCCCC 2
+K----K--BBB--BBB--C----C 3
+K----K--B------B--C----C 4
+K----K--B------B--C----C 5
+K----K--B------B----CCL@ 6
+KKKK-K--B------B-------? 7
+--------B-BBBB-B-------@ 8
 @-----------------BBBBBB 9
-DDDDD-------------B----B 10
+DDDDD------------------B 10
 D---DDDD----------B----B 11
 D------D--XXXXX---B----B 12
 D------D--XXXXX---B----B 13
-D------D--XXXXX---BBBBBB 14
+D---------XXXXX---BBBB-B 14
 D------D--XXXXX--------@ 15
-D------D--XXXXX---YYYYY@ 16
-DDDDDDDD--XXXXX--YY---YY 17
-@---------XXXXX--Y-----Y 18
+D------D--XXXXX---YY-YY@ 16
+DDDDDD-D--XXXXX--YY---YY 17
+@---------XXXXX--------Y 18
 ?----------------YY----Y 19
-@--------HHHHHH---YYYYY@ 20
-CLLLLLL--H----H--------? 21
+@--------HH--HH---YYYYY@ 20
+CLLLL-L--H----H--------? 21
 L-----L--H----H--------@ 22
-L-----L--H----H--SSSSSSK 23
+L-----L--H----H--S-SSSSK 23
 L-----L--H----H--S-----S 24
 L-----L--H----H--S-----S 25
 LLLLLL@?@HHHHHH@-@SSSSSS 26
 
-ABCDEFGHIJKLMNOPQRSTUVWXYZ
+ABCDEFGHIJKLMNOPQRSTUVWX
