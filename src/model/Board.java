@@ -2,6 +2,8 @@ package model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -76,6 +78,37 @@ public class Board {
 		}
 	}
 
+	public ArrayList<XYPosition> findAllowedMoves(int xOrigin, int yOrigin, int roll) {
+
+		ArrayList<XYPosition> allowed = new ArrayList<XYPosition>();
+
+		board[xOrigin][yOrigin] = '.';
+
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[0].length; j++) {
+				if (board[j][i] == '0') {
+					if (roll >= Math.abs(xOrigin - j) + Math.abs(yOrigin - i)
+							&& ((Math.abs(xOrigin - j) + Math.abs(yOrigin - i)) % roll == 0)) {
+						allowed.add(new XYPosition(j, i));
+					}
+				}
+			}
+		}
+
+		return allowed;
+	}
+
+	private class XYPosition {
+		int x;
+		int y;
+
+		public XYPosition(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+	}
+
 	/**
 	 * prints the board
 	 */
@@ -83,17 +116,36 @@ public class Board {
 		for (int y = 0; y < this.width; y++) {
 			for (int x = 0; x < this.height; x++) {
 				if (board[x][y] == '0') {
-					System.out.print("░ ");
+					System.out.print("  ");
 				} else if (board[x][y] == 'N') {
 					System.out.print("▓ ");
 				} else if (board[x][y] == '?') {
-					System.out.print(" ");
+					System.out.print("  ");
 				} else {
 					System.out.print(board[x][y] + " ");
 				}
 			}
 			System.out.println();
 		}
+	}
+	
+	public static void main(String[] args){
+		Board b = new Board(28, 28);
+		b.parseBoard("Board.txt");
+		ArrayList<XYPosition> list = b.findAllowedMoves(10, 10, 4);
+		char count = '1';
+		for(XYPosition li : list){
+			b.board[li.x][li.y] = count++;
+		}
+		
+		b.printBoard();
+		
+		System.out.flush();
+		
+		System.out.println("\f");
+		
+		System.out.println("HEllo");
+		
 	}
 
 }
