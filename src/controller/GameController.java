@@ -60,7 +60,6 @@ public class GameController {
 		initPlayers();
 		isGameOver = false;
 		//Board.parseBoard("Board.txt", ENTITIES);
-
 		doGame();
 	}
 
