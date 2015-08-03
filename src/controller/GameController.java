@@ -78,21 +78,30 @@ public class GameController {
 		while (!isGameOver) {
 			BOARD.printBoard();
 			
-			int roll = rollDice();
+			int roll = 10;
 			Player currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
 			BOARD.printBoard();
 			//TODO GAME LOGIC
 			System.out.println("x: " + currentPlayer.getxPos() + " y: " + currentPlayer.getyPos());
 			System.out.println("currentPlayerNumber = " + currentPlayer.getPlayerNumber());
 			System.out.println("roll = " + roll);
-			Move proposedMove = UI.getPlayerMove(currentPlayer);
+			Move proposedMove;
 
-			if(MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll)) {
-				tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(null);
-				currentPlayer.setxPos(proposedMove.getX());
-				currentPlayer.setyPos(proposedMove.getY());
-				tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(currentPlayer);
+			boolean validTurn = false;
+
+			while (!validTurn) {
+				proposedMove = UI.getPlayerMove(currentPlayer);
+				if(MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll)) {
+					tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(null);
+					currentPlayer.setxPos(proposedMove.getX());
+					currentPlayer.setyPos(proposedMove.getY());
+					tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(currentPlayer);
+					validTurn = true;
+				} else {
+					System.out.println("Please enter a valid coordinate");
+				}
 			}
+
 			playerTurn++;
 		}
 	}

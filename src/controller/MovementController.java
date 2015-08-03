@@ -82,8 +82,8 @@ public class MovementController {
 
         if (currentX > 1) if(pathSearch(target, TILES[currentX - 1][currentY], remaining - 1)) return true;
         if (currentY > 1) if(pathSearch(target, TILES[currentX][currentY - 1], remaining - 1)) return true;
-        if (currentX < 25) if(pathSearch(target, TILES[currentX + 1][currentY], remaining - 1)) return true;
-        if (currentY < 25) if(pathSearch(target, TILES[currentX][currentY + 1], remaining - 1)) return true;
+        if (currentX < 23) if(pathSearch(target, TILES[currentX + 1][currentY], remaining - 1)) return true;
+        if (currentY < 24) if(pathSearch(target, TILES[currentX][currentY + 1], remaining - 1)) return true;
 
         return false;
     }
