@@ -1,5 +1,6 @@
 package controller;
 
+import model.Board;
 import model.Entities;
 import view.UI;
 
@@ -21,6 +22,11 @@ public class GameController {
 	 */
 	private final Entities ENTITIES;
 
+
+	private final Board BOARD;
+
+	private final MovementController MOVEMENT_CONTROLLER;
+
 	/**
 	 * Number of players in the Cluedo game. Must be between 3 - 6. Initialised
 	 * in {@link #GameController()}
@@ -32,8 +38,11 @@ public class GameController {
 	 */
 	public GameController() {
 		UI = new UI();
-		ENTITIES = new Entities(); // TODO init all entities and assign
-									// positions
+		ENTITIES = new Entities(); /* TODO init all entities and assign position */
+		this.BOARD = ENTITIES.getBoard();
+
+		/* Assign board to movement controller */
+		MOVEMENT_CONTROLLER = new MovementController(BOARD);
 	}
 
 	/**

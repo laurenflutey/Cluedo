@@ -34,11 +34,15 @@ public class Entities {
      */
 	private Set<Room> rooms;
 
+	private Board board;
+
 	public Entities() {
 		init();
 	}
 
 	private void init() {
+
+		board = new Board(26, 26);
 
 		characters = new HashSet<Character>();
 		weapons = new HashSet<Weapon>();
@@ -79,4 +83,12 @@ public class Entities {
 
 	}
 
+	/**
+	 * Getter
+	 *
+	 * @return Gets the board
+	 */
+	public Board getBoard() {
+		return board;
+	}
 }
