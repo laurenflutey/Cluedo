@@ -33,6 +33,7 @@ public class Entities {
      * @see Room
      */
 	private Set<Room> rooms;
+	private Set<Card> cards;
 
 	private Board board;
 
@@ -47,6 +48,7 @@ public class Entities {
 		characters = new HashSet<Character>();
 		weapons = new HashSet<Weapon>();
 		rooms = new HashSet<Room>();
+		cards = new HashSet<Card>();
 
 		characters.add(new Character("Mrs Peacock", 'p', 6, 25));
 		characters.add(new Character("Proffesor Plum", 'l', 25, 20));
@@ -81,6 +83,45 @@ public class Entities {
 		rooms.add(new Room("Hall"));
 		rooms.add(new Room("Dining Room"));
 
+		cards.add(new Card("Mrs Peacock", "Character"));
+		cards.add(new Card("Mrs White", "Character"));
+		cards.add(new Card("Miss Scarlet", "Character"));
+		cards.add(new Card("Proffesor Plum", "Character"));
+		cards.add(new Card("Reverend Green", "Character"));
+		cards.add(new Card("Colonel Mustard", "Character"));
+
+		cards.add(new Card("Candlestick", "Weapon"));
+		cards.add(new Card("Dagger", "Weapon"));
+		cards.add(new Card("Lead Pipe", "Weapon"));
+		cards.add(new Card("Revolver", "Weapon"));
+		cards.add(new Card("Rope", "Weapon"));
+		cards.add(new Card("Spanner", "Weapon"));
+
+		cards.add(new Card("Kitchen", "Room"));
+		cards.add(new Card("Study", "Room"));
+		cards.add(new Card("Lounge", "Room"));
+		cards.add(new Card("Conservatory", "Room"));
+		cards.add(new Card("Ball Room", "Room"));
+		cards.add(new Card("Billiard Room", "Room"));
+		cards.add(new Card("Library", "Room"));
+		cards.add(new Card("Hall", "Room"));
+		cards.add(new Card("Dining Room", "Room"));
+	}
+
+	public Set<Character> getCharacters() {
+		return characters;
+	}
+
+	public Set<Weapon> getWeapons() {
+		return weapons;
+	}
+
+	public Set<Room> getRooms() {
+		return rooms;
+	}
+
+	public Set<Card> getCards() {
+		return cards;
 	}
 
 	/**
