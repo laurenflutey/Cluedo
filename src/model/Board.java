@@ -15,7 +15,6 @@ import java.util.Set;
  */
 public class Board {
 
-	private final Entities ENTITIES;
 	private char[][] board;
 
 	private int height;
@@ -34,10 +33,9 @@ public class Board {
 	 * @param height
 	 *            height of game board
 	 */
-	public Board(int width, int height, Entities entities, Map<String, Room> rooms) {
+	public Board(int width, int height, Map<String, Room> rooms) {
 		this.width = width;
 		this.height = height;
-		this.ENTITIES = entities;
 		this.board = new char[width][height];
 		this.rooms = rooms;
 		Board.tiles = new Tile[width][height];
@@ -164,7 +162,7 @@ public class Board {
 					System.out.printf("  ");
 				}
 			}
-			System.out.println(y+1);
+			System.out.println(y + 1);
 
 		}
 		System.out.println();
@@ -174,11 +172,11 @@ public class Board {
 	public Tile[][] getTiles() {
 		return tiles;
 	}
-	
-	public static void main(String[] args){
-		
+
+	public static void main(String[] args) {
+
 		Entities en = new Entities();
-		Board b = new Board(26, 26, en, en.getRooms());
+		Board b = new Board(26, 26, en.getRooms());
 		b.parseBoard("Board.txt");
 		b.printBoard();
 	}
