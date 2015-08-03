@@ -131,6 +131,17 @@ public class Entities {
 		Collections.shuffle(cards);
 	}
 
+	/**
+	 * Getter
+	 *
+	 * @param index index of player to get from players list
+	 *
+	 * @return {@link Player}
+	 */
+	public Player getPlayer(int index) {
+		return players.get(index);
+	}
+
 	public List<Character> getCharacters() {
 		return characters;
 	}

@@ -150,8 +150,9 @@ public class UI {
 					// Gets the players chosen character
 					Character character = characters.get(choice - 1);
 
-					//Creates a new player object with the given character name and char and adds to the players list
+					//Creates a new player object, sets it associated character and adds to the players list
 					Player player = new Player(character.getName(), character.getCh(), 10, 10); // TODO fix this broken ass shit
+					player.setCharacter(character);
 					players.add(player);
 
 					// finally removes the Character from the list of available characters

@@ -1,9 +1,6 @@
 package controller;
 
-import model.Board;
-import model.Card;
-import model.Entities;
-import model.Player;
+import model.*;
 import view.UI;
 
 import java.util.HashSet;
@@ -36,6 +33,7 @@ public class GameController {
 	 * in {@link #GameController()}
 	 */
 	private int playerCount;
+	private boolean isGameOver;
 
 	/**
 	 * Constructor for the {@link GameController} class
@@ -59,7 +57,35 @@ public class GameController {
 		// Delegates player count parsing to UI class
 		playerCount = UI.getPlayerCount();
 		initPlayers();
+		isGameOver = false;
 		//Board.parseBoard("Board.txt", ENTITIES);
+
+		doGame();
+	}
+
+	/**
+	 * Game loop
+	 *
+	 * Continuously performs the games logic until the game is ended
+	 */
+	private void doGame() {
+
+		int playerTurn = 0;
+		while (!isGameOver) {
+			int roll = rollDice();
+			Player currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
+			//TODO GAME LOGIC
+			Move proposedMove = UI.getPlayerMove(currentPlayer);
+
+			System.out.println("currentPlayerx = " + currentPlayer.getxPos());
+			System.out.println("currentPlayer = " + currentPlayer.getyPos());
+
+			System.out.println("roll = " + roll);
+			System.out.println("currentPlayer = " + currentPlayer.getName());
+
+			System.out.println(MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll));
+			playerTurn++;
+		}
 	}
 
 	/**
