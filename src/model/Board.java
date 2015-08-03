@@ -41,12 +41,6 @@ public class Board {
 		Board.tiles = new Tile[width][height];
 	}
 
-	// TODO redundant method?
-	public void movePieceOnBoard(char p, int fromX, int fromY, int toX, int toY) {
-		board[fromX][fromY] = '0';
-		board[toX][toY] = p;
-	}
-
 	/**
 	 * simple parser for the file
 	 * 
