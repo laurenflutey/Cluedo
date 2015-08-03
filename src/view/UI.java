@@ -2,6 +2,8 @@ package view;
 
 import java.util.Scanner;
 
+import model.Player;
+
 /**
  * MVC View class for interacting with the players in the Cluedo game.
  *
@@ -75,5 +77,7 @@ public class UI {
             return false;
         }
     }
+    
+
 
 }
