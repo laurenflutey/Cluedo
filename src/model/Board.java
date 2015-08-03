@@ -145,7 +145,7 @@ public class Board {
 	public void printBoard() {
 		for (int y = 0; y < this.height; y++) {
 			for (int x = 0; x < this.width; x++) {
-				if (tiles[x][y] instanceof RoomTile) {
+				if (tiles[x][y] instanceof RoomTile && tiles[x][y].getPlayer() == null) {
 					System.out.print(tiles[x][y].getName() + " ");
 				} else if (tiles[x][y] instanceof BoundaryTile) {
 					System.out.print("█ ");
