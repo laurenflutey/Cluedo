@@ -4,6 +4,7 @@ import model.*;
 import view.UI;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -99,7 +100,23 @@ public class GameController {
 	 * The UI class returns a list of players and that is then stored in the {@link Entities} class
 	 */
 	private void initPlayers() {
-		ENTITIES.setPlayers(UI.getPlayers(ENTITIES.getCharacters(), playerCount));
+		// Gets a list of player objects from the UI class and sets the entities to hold it
+		List<Player> players = UI.getPlayers(ENTITIES.getCharacters(), playerCount);
+		ENTITIES.setPlayers(players);
+
+		// Gets the list of tiles from the Entities class to set player locations to tiles
+		Tile[][] tiles = ENTITIES.getBoard().getTiles();
+		for (int i = 0; i < tiles.length; i++) {
+			for (int j = 0; j < tiles[0].length; j++) {
+				for (Player p : players) {
+
+					// assigns a player to a tile location
+					if (p.getxPos() == i && p.getyPos() == j) {
+						tiles[i][j].setPlayer(p);
+					}
+				}
+			}
+		}
 	}
 
 	private void chooseSolutionCards() {
