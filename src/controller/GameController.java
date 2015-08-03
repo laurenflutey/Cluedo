@@ -64,9 +64,4 @@ public class GameController {
 	private int rollDice() {
 		return (int) (Math.random() * 6 + 1);
 	}
-	
-	private void playGame(){
-		
-	}
-
 }
