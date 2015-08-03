@@ -78,7 +78,7 @@ public class GameController {
 		while (!isGameOver) {
 			BOARD.printBoard();
 			
-			int roll = 15; // TODO HARDCODED 10 for testing
+			int roll = rollDice();
 			Player currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
 			currentPlayer.setIsCurrentPlayer(true);
 			//TODO GAME LOGIC
