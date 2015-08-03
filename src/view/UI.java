@@ -284,4 +284,17 @@ public class UI {
 			}
 		}
 	}
+
+	/**
+	 * Displays all the cards in the players hand
+	 *
+	 * @param currentPlayer Player to display their cards
+	 */
+	public void doDisplayInformation(Player currentPlayer) {
+		System.out.println("\nCurrent Cards\n-----------------\n");
+		for (Card c : currentPlayer.getCards()) {
+			System.out.println(c.getName());
+		}
+		System.out.println("\n");
+	}
 }

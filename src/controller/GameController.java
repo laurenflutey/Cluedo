@@ -100,7 +100,7 @@ public class GameController {
 			while (choice == -1) {
 				choice = displayOptions(currentPlayer);
 				if (choice == 2) {
-					doDisplayInformation(currentPlayer);
+					UI.doDisplayInformation(currentPlayer);
 					choice = -1;
 				}
 			}
@@ -111,19 +111,6 @@ public class GameController {
 
 			//playerTurn++; //TODO set to never increment player for testing purposes
 		}
-	}
-
-	/**
-	 * Displays all the cards in the players hand
-	 *
-	 * @param currentPlayer Player to display their cards
-	 */
-	private void doDisplayInformation(Player currentPlayer) {
-		System.out.println("\nCurrent Cards\n-----------------\n");
-		for (Card c : currentPlayer.getCards()) {
-			System.out.println(c.getName());
-		}
-		System.out.println("\n");
 	}
 
 	/**
