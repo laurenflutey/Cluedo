@@ -138,6 +138,12 @@ public class Board {
 		}
 
 	}
+	
+	public void printPlayerLocations(Entities entities) {
+		for (Player player : entities.getPlayers()) {
+			System.out.println("x: " + player.getxPos() + " y: " + player.getyPos());
+		}
+	}
 
 	/**
 	 * prints the board
