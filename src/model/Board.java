@@ -77,65 +77,67 @@ public class Board {
 					} else if (line.charAt(x) == '-') {
 						tiles[x][y] = new Tile(x, y, false);
 					} else if (line.charAt(x) == 'K') {
-						tiles[x][y] = new RoomTile(x, y, true, 'K');
+						tiles[x][y] = new RoomTile(x, y, false, 'K');
 						entities.getRooms().get("Kitchen").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'k') {
-						tiles[x][y] = new RoomTile(x, y, false, 'k');
+						tiles[x][y] = new RoomTile(x, y, true, 'k');
 						entities.getRooms().get("Kitchen").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'B') {
-						tiles[x][y] = new RoomTile(x, y, true,'B');
+						tiles[x][y] = new RoomTile(x, y, false, 'B');
 						entities.getRooms().get("Ball Room").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'b') {
-						tiles[x][y] = new RoomTile(x, y, false,'b');
+						tiles[x][y] = new RoomTile(x, y, true, 'b');
 						entities.getRooms().get("Ball Room").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'C') {
-						tiles[x][y] = new RoomTile(x, y, true,'C');
+						tiles[x][y] = new RoomTile(x, y, false, 'C');
 						entities.getRooms().get("Conservatory").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'c') {
-						tiles[x][y] = new RoomTile(x, y, false,'c');
+						tiles[x][y] = new RoomTile(x, y, true, 'c');
 						entities.getRooms().get("Conservatory").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'D') {
-						tiles[x][y] = new RoomTile(x, y, true,'D');
+						tiles[x][y] = new RoomTile(x, y, false, 'D');
 						entities.getRooms().get("Dining Room").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'd') {
-						tiles[x][y] = new RoomTile(x, y, false,'d');
+						tiles[x][y] = new RoomTile(x, y, true, 'd');
 						entities.getRooms().get("Dining Room").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'X') {
-						tiles[x][y] = new RoomTile(x, y, true,'X');
+						tiles[x][y] = new RoomTile(x, y, false, 'X');
 						entities.getRooms().get("Pool").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'x') {
-						tiles[x][y] = new RoomTile(x, y, false,'x');
+						tiles[x][y] = new RoomTile(x, y, true, 'x');
 						entities.getRooms().get("Pool").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'I') {
-						tiles[x][y] = new RoomTile(x, y, true,'I');
+						tiles[x][y] = new RoomTile(x, y, false, 'I');
 						entities.getRooms().get("Billiard Room").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'i') {
-						tiles[x][y] = new RoomTile(x, y, false,'i');
+						tiles[x][y] = new RoomTile(x, y, true, 'i');
 						entities.getRooms().get("Billiard Room").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'Y') {
-						tiles[x][y] = new RoomTile(x, y, true,'Y');
+						tiles[x][y] = new RoomTile(x, y, false, 'Y');
 						entities.getRooms().get("Library").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'y') {
-						tiles[x][y] = new RoomTile(x, y, false,'y');
+						tiles[x][y] = new RoomTile(x, y, true, 'y');
 						entities.getRooms().get("Library").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'H') {
-						tiles[x][y] = new RoomTile(x, y, true,'H');
+						tiles[x][y] = new RoomTile(x, y, false, 'H');
 						entities.getRooms().get("Hall").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'h') {
-						tiles[x][y] = new RoomTile(x, y, false,'h');
+						tiles[x][y] = new RoomTile(x, y, true, 'h');
 						entities.getRooms().get("Hall").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'S') {
-						tiles[x][y] = new RoomTile(x, y, true,'S');
+						tiles[x][y] = new RoomTile(x, y, false, 'S');
 						entities.getRooms().get("Study").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 's') {
-						tiles[x][y] = new RoomTile(x, y, false,'s');
+						tiles[x][y] = new RoomTile(x, y, true, 's');
 						entities.getRooms().get("Study").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'L') {
-						tiles[x][y] = new RoomTile(x, y, true,'L');
+						tiles[x][y] = new RoomTile(x, y, false, 'L');
 						entities.getRooms().get("Lounge").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'l') {
-						tiles[x][y] = new RoomTile(x, y, false,'l');
+						tiles[x][y] = new RoomTile(x, y, true, 'l');
 						entities.getRooms().get("Lounge").getTiles().add((RoomTile) tiles[x][y]);
+					} else if (line.charAt(x) == '@') {
+						tiles[x][y] = new BoundaryTile(x, y, false);
 					} else {
 						tiles[x][y] = new Tile(x, y, true);
 					}
@@ -189,6 +191,8 @@ public class Board {
 			for (int x = 0; x < this.height; x++) {
 				if (tiles[x][y] instanceof RoomTile) {
 					System.out.print(tiles[x][y].getName() + " ");
+				} else if (tiles[x][y] instanceof BoundaryTile) {
+					System.out.print("█ ");
 				} else {
 					System.out.printf("  ");
 				}
