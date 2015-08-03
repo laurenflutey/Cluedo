@@ -5,6 +5,9 @@ public class RoomTile extends Tile {
 	private Room belongsTo;
 	private boolean isWall;
 
+	public RoomTile(int x, int y, boolean isRoomTile) {
+		super(x, y, isRoomTile);
+	}
 
 	/**
 	 * @return the belongsTo
