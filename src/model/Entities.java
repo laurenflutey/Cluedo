@@ -54,8 +54,6 @@ public class Entities {
 
 	private void init() {
 
-		board = new Board(26, 26);
-
 		characters = new ArrayList<>();
 		weapons = new HashSet<Weapon>();
 		rooms = new HashMap<String, Room>();
@@ -129,6 +127,8 @@ public class Entities {
 		cards.add(new Card("Dining Room", "Room"));
 
 		Collections.shuffle(cards);
+
+		board = new Board(26, 26, this);
 	}
 
 	/**
