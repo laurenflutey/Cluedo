@@ -35,7 +35,7 @@ public class Room {
 
 	/**
 	 * @param connectingRoom
-	 *            the connectingRoom to set
+	 *            the connectingRoom to se
 	 */
 	public void setConnectingRoom(Room connectingRoom) {
 		this.connectingRoom = connectingRoom;

@@ -2,8 +2,8 @@
 KKKKKs@---BbbB----CCCCCC
 KkkkkK--BBBbbBBB--CccccC
 KkkkkK--BbbbbbbB--CccccC
-KkkkkK--BbbbbbbB--CccccC
-KkkkkK--BbbbbbbB----CCL@
+KkkkkK--BbbbbbbB--CccclC
+KkkkkK--BbbbbbbB----CCC@
 KKKKkK--BbbbbbbB-------?
 --------BbBBBBbB-------@
 @-----------------IIIIII
@@ -18,8 +18,8 @@ DDDDDDdD--XxxxX--YYyyyYY
 @---------XXXXX--yyyyyyY
 ?----------------YYyyyyY
 @--------HHhhHH---YYYYY@
-CLLLLlL--HhhhhH--------?
-LlllllL--HhhhhH--------@
+LLLLLlL--HhhhhH--------?
+LcllllL--HhhhhH--------@
 LlllllL--HhhhhH--SsSSSSk
 LlllllL--HhhhhH--SsssssS
 LlllllL--HhhhhH--SsssssS
