@@ -1,6 +1,11 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -33,11 +38,13 @@ public class Entities {
 	 *
 	 * @see Room
 	 */
-	private Set<Room> rooms;
+	private Map<String, Room> rooms;
 
-	private Set<Card> cards;
+	private List<Card> cards;
 
 	private Set<Player> players;
+
+	private Set<Card> winningCards;
 
 	private Board board;
 
@@ -51,9 +58,10 @@ public class Entities {
 
 		characters = new HashSet<Character>();
 		weapons = new HashSet<Weapon>();
-		rooms = new HashSet<Room>();
-		cards = new HashSet<Card>();
+		rooms = new HashMap<String, Room>();
+		cards = new ArrayList<Card>();
 		players = new HashSet<Player>();
+		winningCards = new HashSet<Card>();
 
 		characters.add(new Character("Mrs Peacock", 'p', 6, 25));
 		characters.add(new Character("Proffesor Plum", 'l', 25, 20));
@@ -73,20 +81,28 @@ public class Entities {
 		Room study = new Room("Study");
 		Room lounge = new Room("Lounge");
 		Room conservatory = new Room("Conservatory");
+		Room ballRoom = new Room("Ball Room");
+		Room billiardRoom = new Room("Billiard Room");
+		Room library = new Room("Library");
+		Room hall = new Room("Hall");
+		Room diningRoom = new Room("Dining Room");
+		Room pool = new Room("Pool");
+
 		kitchen.setConnectingRoom(study);
 		study.setConnectingRoom(kitchen);
 		lounge.setConnectingRoom(conservatory);
 		conservatory.setConnectingRoom(lounge);
 
-		rooms.add(conservatory);
-		rooms.add(lounge);
-		rooms.add(kitchen);
-		rooms.add(study);
-		rooms.add(new Room("Ball Room"));
-		rooms.add(new Room("Billiard Room"));
-		rooms.add(new Room("Library"));
-		rooms.add(new Room("Hall"));
-		rooms.add(new Room("Dining Room"));
+		rooms.put(conservatory.getName(), conservatory);
+		rooms.put(lounge.getName(), lounge);
+		rooms.put(kitchen.getName(), kitchen);
+		rooms.put(study.getName(), study);
+		rooms.put(hall.getName(), hall);
+		rooms.put(ballRoom.getName(), ballRoom);
+		rooms.put(billiardRoom.getName(), billiardRoom);
+		rooms.put(library.getName(), library);
+		rooms.put(diningRoom.getName(), diningRoom);
+		rooms.put(pool.getName(), pool);
 
 		cards.add(new Card("Mrs Peacock", "Character"));
 		cards.add(new Card("Mrs White", "Character"));
@@ -111,6 +127,8 @@ public class Entities {
 		cards.add(new Card("Library", "Room"));
 		cards.add(new Card("Hall", "Room"));
 		cards.add(new Card("Dining Room", "Room"));
+
+		Collections.shuffle(cards);
 	}
 
 	public Set<Character> getCharacters() {
@@ -121,11 +139,11 @@ public class Entities {
 		return weapons;
 	}
 
-	public Set<Room> getRooms() {
+	public Map<String, Room> getRooms() {
 		return rooms;
 	}
 
-	public Set<Card> getCards() {
+	public List<Card> getCards() {
 		return cards;
 	}
 
@@ -144,5 +162,12 @@ public class Entities {
 	 */
 	public Board getBoard() {
 		return board;
+	}
+
+	/**
+	 * @return the winningCards
+	 */
+	public Set<Card> getWinningCards() {
+		return winningCards;
 	}
 }

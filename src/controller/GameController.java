@@ -58,6 +58,7 @@ public class GameController {
 	public void initGame() {
 		// Delegates player count parsing to UI class
 		playerCount = UI.getPlayerCount();
+		Board.parseBoard("Board.txt", ENTITIES);
 	}
 
 	/**
@@ -69,18 +70,42 @@ public class GameController {
 		return (int) (Math.random() * 6 + 1);
 	}
 
+	private void chooseSolutionCards() {
+		boolean room = false;
+		boolean character = false;
+		boolean weapon = false;
+		for (Card card : ENTITIES.getCards()) {
+			if (!room && card.getType() == "Room") {
+				ENTITIES.getWinningCards().add(card);
+				room = true;
+			} else if (!character && card.getType() == "Character") {
+				ENTITIES.getWinningCards().add(card);
+				character = true;
+			} else if (!weapon && card.getType() == "Weapon") {
+				ENTITIES.getWinningCards().add(card);
+				weapon = true;
+			} 
+		}
+
+		ENTITIES.getCards().removeAll(ENTITIES.getWinningCards());
+
+	}
+
 	private void dealCards() {
+
+		int size = ENTITIES.getCards().size();
 
 		for (Player player : ENTITIES.getPlayers()) {
 			int count = 0;
 			Set<Card> cardsDealt = new HashSet<Card>();
 			for (Card card : ENTITIES.getCards()) {
+				if (count >= size / playerCount) {
+					break;
+				}
 				player.getCards().add(card);
 				cardsDealt.add(card);
 				count++;
-				if (count > ENTITIES.getCards().size() / playerCount) {
-					break;
-				}
+
 			}
 			ENTITIES.getCards().removeAll(cardsDealt);
 		}
@@ -90,14 +115,22 @@ public class GameController {
 	public static void main(String[] args) {
 		GameController gc = new GameController();
 		gc.initGame();
-		
+
 		gc.ENTITIES.addPlayer(new Player("reuben", 'r', 2, 2));
 		gc.ENTITIES.addPlayer(new Player("marcel", 'm', 4, 4));
 		gc.ENTITIES.addPlayer(new Player("djp", 'd', 6, 6));
+		gc.ENTITIES.addPlayer(new Player("djp", 'd', 6, 6));
+		gc.chooseSolutionCards();
 		gc.dealCards();
 		System.out.println("HELLO");
-		for(Player player : gc.ENTITIES.getPlayers()){
-			for(Card card : player.getCards()){
+
+		for (Card card : gc.ENTITIES.getWinningCards()) {
+			System.out.println(card.getName());
+		}
+		System.out.println();
+
+		for (Player player : gc.ENTITIES.getPlayers()) {
+			for (Card card : player.getCards()) {
 				System.out.println(card.getName());
 			}
 			System.out.println();

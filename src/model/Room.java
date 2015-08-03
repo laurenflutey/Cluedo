@@ -15,7 +15,8 @@ public class Room {
 	private Room connectingRoom;
 
 	public Room(String name) {
-		this.setName(name);
+		this.name = name;
+		this.tiles = new ArrayList<RoomTile>();
 	}
 
 	/**
@@ -45,14 +46,6 @@ public class Room {
 	 */
 	public String getName() {
 		return name;
-	}
-
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
 	}
 
 }
