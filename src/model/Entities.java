@@ -128,7 +128,7 @@ public class Entities {
 
 		Collections.shuffle(cards);
 
-		board = new Board(26, 26, rooms);
+		board = new Board(24, 26, rooms);
 	}
 
 	/**
