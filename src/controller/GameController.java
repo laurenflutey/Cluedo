@@ -1,7 +1,12 @@
 package controller;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import model.Board;
+import model.Card;
 import model.Entities;
+import model.Player;
 import view.UI;
 
 /**
@@ -36,12 +41,12 @@ public class GameController {
 	 * Constructor for the {@link GameController} class
 	 */
 	public GameController() {
-		UI = new UI();
-		ENTITIES = new Entities(); /* TODO init all entities and assign position */
+		this.UI = new UI();
+		this.ENTITIES = new Entities();
 		this.BOARD = ENTITIES.getBoard();
 
 		/* Assign board to movement controller */
-		MOVEMENT_CONTROLLER = new MovementController(BOARD);
+		this.MOVEMENT_CONTROLLER = new MovementController(BOARD);
 	}
 
 	/**
@@ -63,8 +68,39 @@ public class GameController {
 	private int rollDice() {
 		return (int) (Math.random() * 6 + 1);
 	}
-	
-	private void dealCards(){
+
+	private void dealCards() {
+
+		for (Player player : ENTITIES.getPlayers()) {
+			int count = 0;
+			Set<Card> cardsDealt = new HashSet<Card>();
+			for (Card card : ENTITIES.getCards()) {
+				player.getCards().add(card);
+				cardsDealt.add(card);
+				count++;
+				if (count > ENTITIES.getCards().size() / playerCount) {
+					break;
+				}
+			}
+			ENTITIES.getCards().removeAll(cardsDealt);
+		}
+
+	}
+
+	public static void main(String[] args) {
+		GameController gc = new GameController();
+		gc.initGame();
 		
+		gc.ENTITIES.addPlayer(new Player("reuben", 'r', 2, 2));
+		gc.ENTITIES.addPlayer(new Player("marcel", 'm', 4, 4));
+		gc.ENTITIES.addPlayer(new Player("djp", 'd', 6, 6));
+		gc.dealCards();
+		System.out.println("HELLO");
+		for(Player player : gc.ENTITIES.getPlayers()){
+			for(Card card : player.getCards()){
+				System.out.println(card.getName());
+			}
+			System.out.println();
+		}
 	}
 }
