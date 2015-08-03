@@ -1,6 +1,5 @@
 package view;
 
-import controller.GameController;
 import model.Move;
 import model.Player;
 
@@ -83,14 +82,6 @@ public class UI {
 			return false;
 		}
 	}
-
-
-	public void playMove(Player player, GameController gc) {
-
-        System.out.println("It is " + player.getCharacter() + "'s turn");
-        System.out.println("You have rolled a: ");
-        System.out.println("Please enter the coordinates that you would like to move to: ");
-    }
 
     public Move getPlayerMove(Player player) {
         System.out.println("It's your turn now " + player.getName());
