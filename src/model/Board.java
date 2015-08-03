@@ -69,12 +69,16 @@ public class Board {
 			while (s.hasNextLine()) {
 				String line = s.nextLine();
 				for (int x = 0; x < line.length(); x++) {
-					
-					if(line.charAt(x) == '@'){
-//						board[x][y] == 
+
+					if (line.charAt(x) == '@') {
+						tiles[x][y] = new Tile(x, y, false);
+					} else if (line.charAt(x) == '?') {
+						tiles[x][y] = new Tile(x, y, false);
+					} else if (line.charAt(x) == '-') {
+						tiles[x][y] = new Tile(x, y, false);
+					} else {
+						tiles[x][y] = new RoomTile(x, y, true);
 					}
-					
-					board[x][y] = line.charAt(x);
 				}
 
 				y++;
@@ -142,11 +146,12 @@ public class Board {
 			}
 		}
 	}
+
 	public Tile[][] getTiles() {
 		return tiles;
 	}
 
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		Board b = new Board(28, 28);
 		b.parseBoard("Board.txt");
 		// ArrayList<XYPosition> list = b.findAllowedMoves(10, 10, 4);
