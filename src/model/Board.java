@@ -146,7 +146,11 @@ public class Board {
 				if (tiles[x][y] instanceof BoundaryTile) {
 					System.out.print("█ ");
 				} else if (tiles[x][y].getPlayer() != null) {
-					System.out.print("\u001B[31m" + tiles[x][y].getPlayer().getPlayerNumber() + "\u001B[0m" + " ");
+					if (tiles[x][y].getPlayer().isCurrentPlayer()) {
+						System.out.print("\u001B[32m" + tiles[x][y].getPlayer().getPlayerNumber() + "\u001B[0m" + " ");
+					} else {
+						System.out.print("\u001B[31m" + tiles[x][y].getPlayer().getPlayerNumber() + "\u001B[0m" + " ");
+					}
 				} else {
 					System.out.printf(tiles[x][y].getName() + " ");
 				}
