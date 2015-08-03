@@ -80,9 +80,9 @@ public class GameController {
 			BOARD.printBoard();
 			//TODO GAME LOGIC
 			System.out.println("x: " + currentPlayer.getxPos() + " y: " + currentPlayer.getyPos());
+			System.out.println("currentPlayerNumber = " + currentPlayer.getPlayerNumber());
+			System.out.println("roll = " + roll);
 			Move proposedMove = UI.getPlayerMove(currentPlayer);
-
-
 
 			System.out.println(MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll));
 			playerTurn++;
