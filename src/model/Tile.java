@@ -5,6 +5,8 @@ public class Tile {
 	private boolean isRoomTile;
 	private int x, y;
 
+	private Player player;
+
 	public Tile(int x, int y, boolean isRoomTile) {
 		this.x = x;
 		this.y = y;
@@ -35,6 +37,21 @@ public class Tile {
 	 */
 	public boolean isRoomTile() {
 		return isRoomTile;
+	}
+
+	/**
+	 * @return the player
+	 */
+	public Player getPlayer() {
+		return player;
+	}
+
+	/**
+	 * @param player
+	 *            the player to set
+	 */
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 
 }
