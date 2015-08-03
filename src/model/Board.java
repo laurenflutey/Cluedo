@@ -154,6 +154,7 @@ public class Board {
 	public static void main(String[] args) {
 		Board b = new Board(28, 28);
 		b.parseBoard("Board.txt");
+		b.printBoard();
 		// ArrayList<XYPosition> list = b.findAllowedMoves(10, 10, 4);
 		// char count = '1';
 		// for(XYPosition li : list){

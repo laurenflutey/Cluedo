@@ -1,13 +1,13 @@
 package controller;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import model.Board;
 import model.Card;
 import model.Entities;
 import model.Player;
 import view.UI;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * MVC Controller class to handle the logic of the Cluedo game.
