@@ -17,7 +17,7 @@ public class Board {
 	private int height;
 	private int width;
 
-	private Tile[][]tiles;
+	private Tile[][] tiles;
 
 	private Map<String, Room> rooms;
 
@@ -146,9 +146,13 @@ public class Board {
 				if (tiles[x][y] instanceof BoundaryTile) {
 					System.out.print("█ ");
 				} else if (tiles[x][y].getPlayer() != null) {
-					System.out.print(tiles[x][y].getPlayer().getPlayerNumber() + " ");
+					if (tiles[x][y].getPlayer().isCurrentPlayer()) {
+						System.out.print("\u001B[32m" + tiles[x][y].getPlayer().getPlayerNumber() + "\u001B[0m" + " ");
+					} else {
+						System.out.print("\u001B[31m" + tiles[x][y].getPlayer().getPlayerNumber() + "\u001B[0m" + " ");
+					}
 				} else {
-					System.out.printf("\u001B[31m" + tiles[x][y].getName() + "\u001B[0m" + " ");
+					System.out.printf(tiles[x][y].getName() + " ");
 				}
 
 			}
