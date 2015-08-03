@@ -164,13 +164,23 @@ public class Board {
 					System.out.printf("  ");
 				}
 			}
-			System.out.println();
+			System.out.println(y+1);
 
 		}
+		System.out.println();
+		System.out.println("A B C D E F G H I J K L M N O P Q R S T U V W X ");
 	}
 
 	public Tile[][] getTiles() {
 		return tiles;
+	}
+	
+	public static void main(String[] args){
+		
+		Entities en = new Entities();
+		Board b = new Board(26, 26, en, en.getRooms());
+		b.parseBoard("Board.txt");
+		b.printBoard();
 	}
 
 }
