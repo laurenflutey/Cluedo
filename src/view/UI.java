@@ -151,7 +151,9 @@ public class UI {
 					Character character = characters.get(choice - 1);
 
 					//Creates a new player object, sets it associated character and adds to the players list
-					Player player = new Player(character.getName(), character.getCh(), 10, 10); // TODO fix this broken ass shit
+					Player player = new Player(character.getName(), character.getCh(),
+							character.getxPos(), character.getyPos());
+
 					player.setCharacter(character);
 					players.add(player);
 
