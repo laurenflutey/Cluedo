@@ -77,6 +77,8 @@ public class GameController {
 			//TODO GAME LOGIC
 			Move proposedMove = UI.getPlayerMove(currentPlayer);
 
+			BOARD.printBoard();
+
 			System.out.println("currentPlayerx = " + currentPlayer.getxPos());
 			System.out.println("currentPlayer = " + currentPlayer.getyPos());
 

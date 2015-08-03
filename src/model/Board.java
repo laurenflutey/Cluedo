@@ -34,6 +34,7 @@ public class Board {
 		this.ENTITIES = entities;
 		this.board = new char[width][height];
 		Board.tiles = new Tile[width][height];
+		parseBoard("Board.txt");
 	}
 
 	//TODO redundant method?
