@@ -1,13 +1,10 @@
 package controller;
 
+import model.*;
+import view.UI;
+
 import java.util.HashSet;
 import java.util.Set;
-
-import model.Board;
-import model.Card;
-import model.Entities;
-import model.Player;
-import view.UI;
 
 /**
  * MVC Controller class to handle the logic of the Cluedo game.
@@ -36,6 +33,7 @@ public class GameController {
 	 * in {@link #GameController()}
 	 */
 	private int playerCount;
+	private boolean isGameOver;
 
 	/**
 	 * Constructor for the {@link GameController} class
@@ -58,7 +56,36 @@ public class GameController {
 	public void initGame() {
 		// Delegates player count parsing to UI class
 		playerCount = UI.getPlayerCount();
-		Board.parseBoard("Board.txt", ENTITIES);
+		initPlayers();
+		isGameOver = false;
+		//Board.parseBoard("Board.txt", ENTITIES);
+
+		doGame();
+	}
+
+	/**
+	 * Game loop
+	 *
+	 * Continuously performs the games logic until the game is ended
+	 */
+	private void doGame() {
+
+		int playerTurn = 0;
+		while (!isGameOver) {
+			int roll = rollDice();
+			Player currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
+			//TODO GAME LOGIC
+			Move proposedMove = UI.getPlayerMove(currentPlayer);
+
+			System.out.println("currentPlayerx = " + currentPlayer.getxPos());
+			System.out.println("currentPlayer = " + currentPlayer.getyPos());
+
+			System.out.println("roll = " + roll);
+			System.out.println("currentPlayer = " + currentPlayer.getName());
+
+			System.out.println(MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll));
+			playerTurn++;
+		}
 	}
 
 	/**
@@ -68,6 +95,15 @@ public class GameController {
 	 */
 	private int rollDice() {
 		return (int) (Math.random() * 6 + 1);
+	}
+
+	/**
+	 * Delegates the creation of a Player list to the {@link UI} class
+	 *
+	 * The UI class returns a list of players and that is then stored in the {@link Entities} class
+	 */
+	private void initPlayers() {
+		ENTITIES.setPlayers(UI.getPlayers(ENTITIES.getCharacters(), playerCount));
 	}
 
 	private void chooseSolutionCards() {
@@ -110,30 +146,5 @@ public class GameController {
 			ENTITIES.getCards().removeAll(cardsDealt);
 		}
 
-	}
-
-	public static void main(String[] args) {
-		GameController gc = new GameController();
-		gc.initGame();
-
-		gc.ENTITIES.addPlayer(new Player("reuben", 'r', 2, 2));
-		gc.ENTITIES.addPlayer(new Player("marcel", 'm', 4, 4));
-		gc.ENTITIES.addPlayer(new Player("djp", 'd', 6, 6));
-		gc.ENTITIES.addPlayer(new Player("djp", 'd', 6, 6));
-		gc.chooseSolutionCards();
-		gc.dealCards();
-		System.out.println("HELLO");
-
-		for (Card card : gc.ENTITIES.getWinningCards()) {
-			System.out.println(card.getName());
-		}
-		System.out.println();
-
-		for (Player player : gc.ENTITIES.getPlayers()) {
-			for (Card card : player.getCards()) {
-				System.out.println(card.getName());
-			}
-			System.out.println();
-		}
 	}
 }

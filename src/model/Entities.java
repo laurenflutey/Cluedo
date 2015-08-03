@@ -22,7 +22,7 @@ public class Entities {
 	 *
 	 * @see Character
 	 */
-	private Set<Character> characters;
+	private List<Character> characters;
 
 	/**
 	 * Set of all weapons in the game, a random weapon will be selected on
@@ -42,7 +42,7 @@ public class Entities {
 
 	private List<Card> cards;
 
-	private Set<Player> players;
+	private List<Player> players;
 
 	private Set<Card> winningCards;
 
@@ -54,13 +54,11 @@ public class Entities {
 
 	private void init() {
 
-		board = new Board(26, 26);
-
-		characters = new HashSet<Character>();
+		characters = new ArrayList<>();
 		weapons = new HashSet<Weapon>();
 		rooms = new HashMap<String, Room>();
 		cards = new ArrayList<Card>();
-		players = new HashSet<Player>();
+		players = new ArrayList<>();
 		winningCards = new HashSet<Card>();
 
 		characters.add(new Character("Mrs Peacock", 'p', 6, 25));
@@ -129,9 +127,22 @@ public class Entities {
 		cards.add(new Card("Dining Room", "Room"));
 
 		Collections.shuffle(cards);
+
+		board = new Board(26, 26, this);
 	}
 
-	public Set<Character> getCharacters() {
+	/**
+	 * Getter
+	 *
+	 * @param index index of player to get from players list
+	 *
+	 * @return {@link Player}
+	 */
+	public Player getPlayer(int index) {
+		return players.get(index);
+	}
+
+	public List<Character> getCharacters() {
 		return characters;
 	}
 
@@ -147,8 +158,12 @@ public class Entities {
 		return cards;
 	}
 
-	public Set<Player> getPlayers() {
+	public List<Player> getPlayers() {
 		return players;
+	}
+
+	public void setPlayers(List<Player> players) {
+		this.players = players;
 	}
 
 	public void addPlayer(Player player) {

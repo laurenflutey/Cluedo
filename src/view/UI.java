@@ -1,8 +1,11 @@
 package view;
 
+import model.Character;
 import model.Move;
 import model.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -83,6 +86,12 @@ public class UI {
 		}
 	}
 
+	/**
+	 * Gets the proposed move from the player in the form of an x y {@link Move} object
+	 *
+	 * @param player Player making the move
+	 * @return Returns the players move
+	 */
     public Move getPlayerMove(Player player) {
         System.out.println("It's your turn now " + player.getName());
         System.out.println("Please enter the x:y coordinate for your move (e.g 10 12)");
@@ -103,6 +112,60 @@ public class UI {
         return move;
     }
 
+	/**
+	 * Method to handle the creation of the list of {@link Player}. Allows a player to choose a unique character
+	 *
+	 * @param characters List of {@link Character} available to choose
+	 * @param playerCount Number of players in the game
+	 *
+	 * @return List of player objects
+	 */
+	public List<Player> getPlayers(List<Character> characters, int playerCount) {
+
+		// List of player objects created
+		List<Player> players = new ArrayList<>();
+
+		/* Loops through playerCount number of times to create Player Objects for each player */
+		for (int i = 0; i < playerCount; i++) {
+			System.out.println("Player " + (i+1) + ", please select a character:");
+
+			// Displays the list of all remaining characters that can be chosen
+			for (int j = 0; j < characters.size(); j++) {
+				System.out.println((j+1) + ": " + characters.get(j).getName());
+			}
+
+			boolean found = false;
+			int choice = -1;
+
+			// Continually loop until a valid choice is found
+			while (!found) {
+
+				// Gets the input number from the user
+				if (reader.hasNextInt()) {
+					choice = reader.nextInt();
+				}
+
+				// Checks that the choice falls within the bounds of the remaining list
+				if (choice <= characters.size() && choice > 0) {
+					// Gets the players chosen character
+					Character character = characters.get(choice - 1);
+
+					//Creates a new player object, sets it associated character and adds to the players list
+					Player player = new Player(character.getName(), character.getCh(), 10, 10); // TODO fix this broken ass shit
+					player.setCharacter(character);
+					players.add(player);
+
+					// finally removes the Character from the list of available characters
+					characters.remove(choice - 1);
+
+					found = true;
+				}
+			}
+		}
+
+		return players;
+	}
+
     /**
      * Helper method for {@link #getPlayerCount()}. Checks the validity of a users input to see
      * if it is first a valid integer and then if it is between 3 - 6.
@@ -119,5 +182,6 @@ public class UI {
             return false;
         }
     }
+
 
 }
