@@ -50,6 +50,15 @@ public class Tile {
 	}
 
 	/**
+	 * Checks whether there is a player on the tile or not
+	 *
+	 * @return Is there a player currently on this tile
+	 */
+	public boolean isOccupied() {
+		return player != null;
+	}
+
+	/**
 	 * @param player
 	 *            the player to set
 	 */

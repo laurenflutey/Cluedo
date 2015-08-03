@@ -36,10 +36,18 @@ public class MovementController {
      */
     public boolean isValidMove(Move move, Player player, int roll) {
         if (isValidDistance(move, player, roll)) {
-            return pathSearch(move, TILES[player.getxPos()][player.getyPos()], roll);
+            if (!isTileOccupied(move)) {
+                return pathSearch(move, TILES[player.getxPos()][player.getyPos()], roll);
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
+    }
+
+    private boolean isTileOccupied(Move move) {
+        return TILES[move.getX()][move.getY()].isOccupied();
     }
 
     /**

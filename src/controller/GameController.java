@@ -25,10 +25,21 @@ public class GameController {
 	 */
 	private final Entities ENTITIES;
 
+	/**
+	 * Board that the game is played on
+	 */
 	private final Board BOARD;
 
+	/**
+	 * Movement controller used to handle all of the players movement throughout the board.
+	 *
+	 * Movement is controlled by a recursive brute force(maybe greedy?) algorithm
+	 */
 	private final MovementController MOVEMENT_CONTROLLER;
 
+	/**
+	 * 2D array of Tile objects, representing the board
+	 */
 	private Tile[][] tiles;
 
 	/**
@@ -80,35 +91,71 @@ public class GameController {
 		while (!isGameOver) {
 			BOARD.printBoard();
 
-			int roll = 3; // TODO HARDCODED 10 for testing
 			Player currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
 			currentPlayer.setIsCurrentPlayer(true);
-			BOARD.printBoard();
-			// TODO GAME LOGIC
-			System.out.println("x: " + currentPlayer.getxPos() + " y: " + currentPlayer.getyPos());
-			System.out.println("currentPlayerNumber = " + currentPlayer.getPlayerNumber());
-			System.out.println("roll = " + roll);
-			Move proposedMove;
 
-			boolean validTurn = false;
+			System.out.println(currentPlayer.getName() + ", what would you like to do?");
 
-			while (!validTurn) {
-				proposedMove = UI.getPlayerMove(currentPlayer);
-				if (MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll)) {
-					tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(null);
-					currentPlayer.setxPos(proposedMove.getX());
-					currentPlayer.setyPos(proposedMove.getY());
-					tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(currentPlayer);
-					validTurn = true;
-				} else {
-					System.out.println("Please enter a valid coordinate");
-				}
+			int choice = -1;
+			while (choice == -1) {
+				choice = displayOptions(currentPlayer);
 			}
 
-			currentPlayer.setIsCurrentPlayer(false);
+			if (choice == 1) {
+				doMove(currentPlayer);
+			}
 
-			playerTurn++;
+
+			//playerTurn++; //TODO set to never increment player for testing purposes
 		}
+	}
+
+	/**
+	 * Method to handle the choice when the player wants to move around the board.
+	 *
+	 * Rolls the dice for the player and then delegates to {@link UI} to get the move coordinates
+	 *
+	 * @param currentPlayer The player trying to make the move
+	 */
+	private void doMove(Player currentPlayer) {
+		int roll = rollDice();
+
+		//TODO GAME LOGIC
+		System.out.println("x: " + currentPlayer.getxPos() + " y: " + currentPlayer.getyPos());
+		System.out.println("currentPlayerNumber = " + currentPlayer.getPlayerNumber());
+		System.out.println("roll = " + roll);
+		Move proposedMove;
+
+		boolean validTurn = false;
+
+		while (!validTurn) {
+			proposedMove = UI.getPlayerMove(currentPlayer);
+			if(MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll)) {
+				tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(null);
+				currentPlayer.setxPos(proposedMove.getX());
+				currentPlayer.setyPos(proposedMove.getY());
+				Tile currentTile = tiles[currentPlayer.getxPos()][currentPlayer.getyPos()];
+				currentTile.setPlayer(currentPlayer);
+				currentPlayer.setRoom(currentTile.getRoom());
+				validTurn = true;
+			} else {
+				System.out.println("Please enter a valid coordinate");
+			}
+		}
+
+		currentPlayer.setIsCurrentPlayer(false);
+	}
+
+	/**
+	 * Method to delegate the option select to the {@link UI} class, and gets the player's proposed move for their
+	 * turn.
+	 *
+	 * @param currentPlayer Player to select the move
+	 *
+	 * @return int representing the players choice for their move
+	 */
+	private int displayOptions(Player currentPlayer) {
+		return UI.getTurnOptions(currentPlayer, BOARD);
 	}
 
 	/**

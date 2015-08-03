@@ -213,7 +213,6 @@ public class UI {
 
 		boolean found = false;
 		while (!found) {
-
 			if (reader.hasNextInt()) {
 				suggestedCharacter = players.get(reader.nextInt() - 1);
 				found = true;
@@ -239,4 +238,52 @@ public class UI {
 
 	}
 
+
+	/**
+	 * Method that displays the current options to the player and gets their choice for their turn
+	 *
+	 * @param currentPlayer The player making the move
+	 * @param BOARD board that the player is playing on
+	 *
+	 * @return returns the player's choice for their turn
+	 */
+	public int getTurnOptions(Player currentPlayer, final Board BOARD) {
+		// loop until choice is found
+		while (true) {
+			int choice;
+
+			// the range of valid choice depends on whether a player is in a room or not.
+			int range = 3;
+
+			// display options to the user
+			System.out.println("Select a option using the number beside it.");
+			System.out.println("-----------------------------\n");
+			System.out.println("1: Roll dice and make a move.");
+			System.out.println("2: Look at your collected information.");
+			System.out.println("3: Make an accusation");
+
+			// Checks if the player is currently in a room or not
+			Tile currentTile = BOARD.getTiles()[currentPlayer.getxPos()][currentPlayer.getyPos()];
+			if (currentTile.isRoomTile()) {
+				System.out.println("4: Make an suggestion");
+				// increments the range of valid choices so that a user can now select 4
+				range++;
+				if (currentTile.getRoom().getConnectingRoom() != null) {
+					range++;
+					System.out.println("5: Take secret passage to connecting room: " +
+							currentTile.getRoom().getConnectingRoom().getName());
+				}
+			}
+
+			// parse the users input
+			if (reader.hasNextInt()) {
+				choice = reader.nextInt();
+
+				// Check to see if the input falls within a valid range and then return it
+				if (choice <= range && choice > 0) {
+					return choice;
+				}
+			}
+		}
+	}
 }
