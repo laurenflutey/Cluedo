@@ -117,7 +117,6 @@ public class Board {
 					} else if (line.charAt(x) == 'l') {
 						tiles[x][y] = new Tile(x, y, true, false, 'l');
 						rooms.get("Lounge").getTiles().add(tiles[x][y]);
-
 					} else {
 						tiles[x][y] = new Tile(x, y, false, false, '0');
 					}
