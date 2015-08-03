@@ -10,6 +10,7 @@ public class Player extends Character {
 
 	private Character character;
 	private Set<Card> cards;
+	private int playerNumber;
 
 	/**
 	 * Constructor for Character class
@@ -42,5 +43,19 @@ public class Player extends Character {
 
 	public void setCharacter(Character character) {
 		this.character = character;
+	}
+
+	/**
+	 * @return the playerNumber
+	 */
+	public int getPlayerNumber() {
+		return playerNumber;
+	}
+
+	/**
+	 * @param playerNumber the playerNumber to set
+	 */
+	public void setPlayerNumber(int playerNumber) {
+		this.playerNumber = playerNumber;
 	}
 }
