@@ -30,7 +30,7 @@ public class Entities {
 	 *
 	 * @see Weapon
 	 */
-	private Set<Weapon> weapons;
+	private List<Weapon> weapons;
 
 	/**
 	 * Set of all rooms in the game. A random room will be selected as the room
@@ -55,7 +55,7 @@ public class Entities {
 	private void init() {
 
 		characters = new ArrayList<>();
-		weapons = new HashSet<Weapon>();
+		weapons = new ArrayList<Weapon>();
 		rooms = new HashMap<String, Room>();
 		cards = new ArrayList<Card>();
 		players = new ArrayList<>();
@@ -151,7 +151,7 @@ public class Entities {
 		return characters;
 	}
 
-	public Set<Weapon> getWeapons() {
+	public List<Weapon> getWeapons() {
 		return weapons;
 	}
 

@@ -1,6 +1,8 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -9,8 +11,11 @@ import java.util.Set;
 public class Player extends Character {
 
 	private Character character;
+	private Room room;
 	private Set<Card> cards;
 	private int playerNumber;
+
+	private List<Suggestion> suggestions;
 
 	private boolean isCurrentPlayer = false;
 
@@ -26,6 +31,7 @@ public class Player extends Character {
 	public Player(String name, char ch, int xOrigin, int yOrigin) {
 		super(name, ch, xOrigin, yOrigin);
 		this.cards = new HashSet<Card>();
+		this.suggestions = new ArrayList<Suggestion>();
 	}
 
 	public Character getCharacter() {
@@ -55,7 +61,8 @@ public class Player extends Character {
 	}
 
 	/**
-	 * @param playerNumber the playerNumber to set
+	 * @param playerNumber
+	 *            the playerNumber to set
 	 */
 	public void setPlayerNumber(int playerNumber) {
 		this.playerNumber = playerNumber;
@@ -68,10 +75,31 @@ public class Player extends Character {
 	public void setIsCurrentPlayer(boolean isCurrentPlayer) {
 		this.isCurrentPlayer = isCurrentPlayer;
 	}
-	
-	public void printCards(){
-		for(Card card : cards){
+
+	public void printCards() {
+		for (Card card : cards) {
 			System.out.println(card.getName());
 		}
+	}
+
+	/**
+	 * @return the suggestions
+	 */
+	public List<Suggestion> getSuggestions() {
+		return suggestions;
+	}
+
+	/**
+	 * @return the room
+	 */
+	public Room getRoom() {
+		return room;
+	}
+
+	/**
+	 * @param room the room to set
+	 */
+	public void setRoom(Room room) {
+		this.room = room;
 	}
 }
