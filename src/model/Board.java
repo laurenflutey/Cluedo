@@ -68,15 +68,22 @@ public class Board {
 			while (s.hasNextLine()) {
 				String line = s.nextLine();
 				for (int x = 0; x < line.length(); x++) {
+					
+					if(line.charAt(x) == '@'){
+//						board[x][y] == 
+					}
+					
 					board[x][y] = line.charAt(x);
 				}
 
 				y++;
 			}
+			s.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot find file: " + filename);
 		}
 		printBoard();
+
 	}
 
 	public ArrayList<XYPosition> findAllowedMoves(int xOrigin, int yOrigin, int roll) {
@@ -134,23 +141,22 @@ public class Board {
 			}
 		}
 	}
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		Board b = new Board(28, 28);
 		b.parseBoard("Board.txt");
-		//ArrayList<XYPosition> list = b.findAllowedMoves(10, 10, 4);
-		//char count = '1';
-		//for(XYPosition li : list){
-		//	b.board[li.x][li.y] = count++;
-		//}
-		
-		
-		//System.out.flush();
-		
-		//System.out.println("\f");
-		
-		//System.out.println("HEllo");
-		
+		// ArrayList<XYPosition> list = b.findAllowedMoves(10, 10, 4);
+		// char count = '1';
+		// for(XYPosition li : list){
+		// b.board[li.x][li.y] = count++;
+		// }
+
+		// System.out.flush();
+
+		// System.out.println("\f");
+
+		// System.out.println("HEllo");
+
 	}
 
 }
