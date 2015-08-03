@@ -73,6 +73,8 @@ public class GameController {
 
 		int playerTurn = 0;
 		while (!isGameOver) {
+			BOARD.printBoard();
+			
 			int roll = rollDice();
 			Player currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
 			BOARD.printBoard();
