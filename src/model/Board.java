@@ -206,6 +206,12 @@ public class Board {
 		return tiles;
 	}
 
+	public void printPlayerLocations(Entities entities) {
+		for (Player player : entities.getPlayers()) {
+			System.out.println("x: " + player.getxPos() + " y: " + player.getyPos());
+		}
+	}
+
 	public static void main(String[] args) {
 		Board b = new Board(26, 26);
 		Entities e = new Entities();
