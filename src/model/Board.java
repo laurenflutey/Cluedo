@@ -2,7 +2,6 @@ package model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -21,6 +20,8 @@ public class Board {
 
 	private int height;
 	private int width;
+
+	private Tile[][] tiles;
 
 	public Board(int width, int height) {
 		this.width = width;
@@ -134,7 +135,11 @@ public class Board {
 			}
 		}
 	}
-	
+
+	public Tile[][] getTiles() {
+		return tiles;
+	}
+
 	public static void main(String[] args){
 		Board b = new Board(28, 28);
 		b.parseBoard("Board.txt");
