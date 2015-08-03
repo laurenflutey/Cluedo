@@ -12,28 +12,32 @@ import java.util.Set;
 public class Entities {
 
 	/**
-	 * Set of all characters in the game, a random character will be selected to be the murder
-     *
-     * @see Character
+	 * Set of all characters in the game, a random character will be selected to
+	 * be the murder
+	 *
+	 * @see Character
 	 */
 	private Set<Character> characters;
 
-    /**
-     * Set of all weapons in the game, a random weapon will be selected on gameStart
-     * to be the specified murder weapon.
-     *
-     * @see Weapon
-     */
+	/**
+	 * Set of all weapons in the game, a random weapon will be selected on
+	 * gameStart to be the specified murder weapon.
+	 *
+	 * @see Weapon
+	 */
 	private Set<Weapon> weapons;
 
-    /**
-     * Set of all rooms in the game. A random room will be selected as the room where the
-     * murder was carried out.
-     *
-     * @see Room
-     */
+	/**
+	 * Set of all rooms in the game. A random room will be selected as the room
+	 * where the murder was carried out.
+	 *
+	 * @see Room
+	 */
 	private Set<Room> rooms;
+
 	private Set<Card> cards;
+
+	private Set<Player> players;
 
 	private Board board;
 
@@ -49,6 +53,7 @@ public class Entities {
 		weapons = new HashSet<Weapon>();
 		rooms = new HashSet<Room>();
 		cards = new HashSet<Card>();
+		players = new HashSet<Player>();
 
 		characters.add(new Character("Mrs Peacock", 'p', 6, 25));
 		characters.add(new Character("Proffesor Plum", 'l', 25, 20));
@@ -122,6 +127,14 @@ public class Entities {
 
 	public Set<Card> getCards() {
 		return cards;
+	}
+
+	public Set<Player> getPlayers() {
+		return players;
+	}
+
+	public void addPlayer(Player player) {
+		players.add(player);
 	}
 
 	/**

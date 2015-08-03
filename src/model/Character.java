@@ -15,6 +15,8 @@ public class Character {
 	private int xPos;
 	private int yPos;
 
+	private boolean isUsed;
+
 	/**
 	 * Constructor for Character class
 	 * 
@@ -50,6 +52,21 @@ public class Character {
 
 	public char getCh() {
 		return ch;
+	}
+
+	/**
+	 * @return the isUsed
+	 */
+	public boolean isUsed() {
+		return isUsed;
+	}
+
+	/**
+	 * @param isUsed
+	 *            the isUsed to set
+	 */
+	public void setUsed(boolean isUsed) {
+		this.isUsed = isUsed;
 	}
 
 }

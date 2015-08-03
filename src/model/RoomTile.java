@@ -1,9 +1,13 @@
 package model;
 
-public class RoomTile extends Tile{
-	
+public class RoomTile extends Tile {
+
 	private Room belongsTo;
 	private boolean isWall;
+
+	public RoomTile(int x, int y, boolean isRoomTile) {
+		super(x, y, isRoomTile);
+	}
 
 	/**
 	 * @return the belongsTo
@@ -13,7 +17,8 @@ public class RoomTile extends Tile{
 	}
 
 	/**
-	 * @param belongsTo the belongsTo to set
+	 * @param belongsTo
+	 *            the belongsTo to set
 	 */
 	public void setBelongsTo(Room belongsTo) {
 		this.belongsTo = belongsTo;
@@ -27,7 +32,8 @@ public class RoomTile extends Tile{
 	}
 
 	/**
-	 * @param isWall the isWall to set
+	 * @param isWall
+	 *            the isWall to set
 	 */
 	public void setWall(boolean isWall) {
 		this.isWall = isWall;
