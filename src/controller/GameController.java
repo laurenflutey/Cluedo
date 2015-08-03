@@ -22,6 +22,7 @@ public class GameController {
 	 */
 	private final Entities ENTITIES;
 
+	
 
 	private final Board BOARD;
 
@@ -63,5 +64,9 @@ public class GameController {
 	 */
 	private int rollDice() {
 		return (int) (Math.random() * 6 + 1);
+	}
+	
+	private void dealCards(){
+		
 	}
 }
