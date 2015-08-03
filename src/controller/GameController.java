@@ -75,10 +75,12 @@ public class GameController {
 		while (!isGameOver) {
 			int roll = rollDice();
 			Player currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
+			BOARD.printBoard();
 			//TODO GAME LOGIC
+			System.out.println("x: " + currentPlayer.getxPos() + " y: " + currentPlayer.getyPos());
 			Move proposedMove = UI.getPlayerMove(currentPlayer);
 
-			System.out.println("x: " + currentPlayer.getxPos() + " y: " + currentPlayer.getyPos());
+
 
 			System.out.println(MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll));
 			playerTurn++;
