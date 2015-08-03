@@ -2,16 +2,16 @@ package model;
 
 public class Tile {
 	private char name;
-	private boolean isRoomTile;
+	private Room room;
 	private boolean isWallTile;
 	private int x, y;
 
 	private Player player;
 
-	public Tile(int x, int y, boolean isRoomTile, boolean isWallTile, char name) {
+	public Tile(int x, int y, Room room, boolean isWallTile, char name) {
 		this.x = x;
 		this.y = y;
-		this.isRoomTile = isRoomTile;
+		this.room = room;
 		this.isWallTile = isWallTile;
 		this.name = name;
 	}
@@ -36,10 +36,10 @@ public class Tile {
 	}
 
 	/**
-	 * @return the isRoomTile
+	 * @return the Room
 	 */
-	public boolean isRoomTile() {
-		return isRoomTile;
+	public Room getRoom() {
+		return room;
 	}
 
 	/**
@@ -62,6 +62,10 @@ public class Tile {
 	 */
 	public boolean isWallTile() {
 		return isWallTile;
+	}
+
+	public boolean isRoomTile() {
+		return room != null;
 	}
 
 }
