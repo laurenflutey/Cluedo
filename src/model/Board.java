@@ -120,13 +120,18 @@ public class Board {
 					System.out.print(". ");
 				} else if (board[x][y] == '@') {
 					System.out.print("▓ ");
-				} else if (board[x][y] == '?') {
-					System.out.print("  ");
-				} else {
-					System.out.print(board[x][y] + " ");
+					if (board[x][y] == '0') {
+						System.out.print(" ");
+					} else if (board[x][y] == 'N') {
+						System.out.print(" ");
+					} else if (board[x][y] == '?') {
+						System.out.print("  ");
+					} else {
+						System.out.print(board[x][y] + " ");
+					}
 				}
+				System.out.println();
 			}
-			System.out.println();
 		}
 	}
 	
