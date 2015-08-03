@@ -1,12 +1,10 @@
 package controller;
 
-import model.Board;
-import model.Card;
-import model.Entities;
-import model.Player;
+import model.*;
 import view.UI;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -58,7 +56,8 @@ public class GameController {
 	public void initGame() {
 		// Delegates player count parsing to UI class
 		playerCount = UI.getPlayerCount();
-		Board.parseBoard("Board.txt", ENTITIES);
+		initPlayers();
+		//Board.parseBoard("Board.txt", ENTITIES);
 	}
 
 	/**
@@ -68,6 +67,10 @@ public class GameController {
 	 */
 	private int rollDice() {
 		return (int) (Math.random() * 6 + 1);
+	}
+
+	private void initPlayers() {
+		List<Player> players = UI.getPlayers(ENTITIES.getCharacters(), playerCount);
 	}
 
 	private void chooseSolutionCards() {

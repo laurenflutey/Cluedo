@@ -40,4 +40,7 @@ public class Player extends Character {
 		return cards;
 	}
 
+	public void setCharacter(Character character) {
+		this.character = character;
+	}
 }

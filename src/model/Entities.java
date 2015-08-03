@@ -22,7 +22,7 @@ public class Entities {
 	 *
 	 * @see Character
 	 */
-	private Set<Character> characters;
+	private List<Character> characters;
 
 	/**
 	 * Set of all weapons in the game, a random weapon will be selected on
@@ -56,7 +56,7 @@ public class Entities {
 
 		board = new Board(26, 26);
 
-		characters = new HashSet<Character>();
+		characters = new ArrayList<>();
 		weapons = new HashSet<Weapon>();
 		rooms = new HashMap<String, Room>();
 		cards = new ArrayList<Card>();
@@ -131,7 +131,7 @@ public class Entities {
 		Collections.shuffle(cards);
 	}
 
-	public Set<Character> getCharacters() {
+	public List<Character> getCharacters() {
 		return characters;
 	}
 
