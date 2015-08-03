@@ -86,6 +86,8 @@ public class Entities {
 		Room library = new Room("Library");
 		Room hall = new Room("Hall");
 		Room diningRoom = new Room("Dining Room");
+		Room pool = new Room("Pool");
+
 		kitchen.setConnectingRoom(study);
 		study.setConnectingRoom(kitchen);
 		lounge.setConnectingRoom(conservatory);
@@ -100,6 +102,7 @@ public class Entities {
 		rooms.put(billiardRoom.getName(), billiardRoom);
 		rooms.put(library.getName(), library);
 		rooms.put(diningRoom.getName(), diningRoom);
+		rooms.put(pool.getName(), pool);
 
 		cards.add(new Card("Mrs Peacock", "Character"));
 		cards.add(new Card("Mrs White", "Character"));

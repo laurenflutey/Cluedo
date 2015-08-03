@@ -3,6 +3,7 @@ package model;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 /**
@@ -27,7 +28,7 @@ public class Board {
 		this.width = width;
 		this.height = height;
 		this.board = new char[width][height];
-		this.tiles = new Tile[width][height];
+		Board.tiles = new Tile[width][height];
 	}
 
 	/**
@@ -77,44 +78,66 @@ public class Board {
 						tiles[x][y] = new Tile(x, y, false);
 					} else if (line.charAt(x) == 'K') {
 						tiles[x][y] = new RoomTile(x, y, true);
-						ENITIES.
+						entities.getRooms().get("Kitchen").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'k') {
 						tiles[x][y] = new RoomTile(x, y, false);
-						
+						entities.getRooms().get("Kitchen").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'B') {
 						tiles[x][y] = new RoomTile(x, y, true);
+						entities.getRooms().get("Ball Room").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'b') {
 						tiles[x][y] = new RoomTile(x, y, false);
+						entities.getRooms().get("Ball Room").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'C') {
 						tiles[x][y] = new RoomTile(x, y, true);
+						entities.getRooms().get("Conservatory").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'c') {
 						tiles[x][y] = new RoomTile(x, y, false);
+						entities.getRooms().get("Conservatory").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'D') {
 						tiles[x][y] = new RoomTile(x, y, true);
+						entities.getRooms().get("Dining Room").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'd') {
 						tiles[x][y] = new RoomTile(x, y, false);
+						entities.getRooms().get("Dining Room").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'X') {
 						tiles[x][y] = new RoomTile(x, y, true);
+						entities.getRooms().get("Pool").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'x') {
 						tiles[x][y] = new RoomTile(x, y, false);
+						entities.getRooms().get("Pool").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'I') {
 						tiles[x][y] = new RoomTile(x, y, true);
+						entities.getRooms().get("Billiard Room").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'i') {
 						tiles[x][y] = new RoomTile(x, y, false);
-					} else if (line.charAt(x) == 'L') {
+						entities.getRooms().get("Billiard Room").getTiles().add((RoomTile) tiles[x][y]);
+					} else if (line.charAt(x) == 'Y') {
 						tiles[x][y] = new RoomTile(x, y, true);
-					} else if (line.charAt(x) == 'l') {
+						entities.getRooms().get("Library").getTiles().add((RoomTile) tiles[x][y]);
+					} else if (line.charAt(x) == 'y') {
 						tiles[x][y] = new RoomTile(x, y, false);
+						entities.getRooms().get("Library").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'H') {
 						tiles[x][y] = new RoomTile(x, y, true);
+						entities.getRooms().get("Hall").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'h') {
 						tiles[x][y] = new RoomTile(x, y, false);
+						entities.getRooms().get("Hall").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 'S') {
 						tiles[x][y] = new RoomTile(x, y, true);
+						entities.getRooms().get("Study").getTiles().add((RoomTile) tiles[x][y]);
 					} else if (line.charAt(x) == 's') {
 						tiles[x][y] = new RoomTile(x, y, false);
-					} else {
+						entities.getRooms().get("Study").getTiles().add((RoomTile) tiles[x][y]);
+					} else if (line.charAt(x) == 'L') {
 						tiles[x][y] = new RoomTile(x, y, true);
+						entities.getRooms().get("Lounge").getTiles().add((RoomTile) tiles[x][y]);
+					} else if (line.charAt(x) == 'l') {
+						tiles[x][y] = new RoomTile(x, y, false);
+						entities.getRooms().get("Lounge").getTiles().add((RoomTile) tiles[x][y]);
+					} else {
+						tiles[x][y] = new Tile(x, y, true);
 					}
 				}
 
@@ -180,8 +203,12 @@ public class Board {
 	}
 
 	public static void main(String[] args) {
-		Board b = new Board(28, 28);
-		b.parseBoard("Board.txt");
+		Board b = new Board(26, 26);
+		Entities e = new Entities();
+		for (Entry<String, Room> room : e.getRooms().entrySet()) {
+			System.out.println(room.getKey());
+		}
+		Board.parseBoard("Board.txt", e);
 		b.printBoard();
 		// ArrayList<XYPosition> list = b.findAllowedMoves(10, 10, 4);
 		// char count = '1';
