@@ -3,14 +3,17 @@ package model;
 public class Tile {
 	private char name;
 	private boolean isRoomTile;
+	private boolean isWallTile;
 	private int x, y;
 
 	private Player player;
 
-	public Tile(int x, int y, boolean isRoomTile) {
+	public Tile(int x, int y, boolean isRoomTile, boolean isWallTile, char name) {
 		this.x = x;
 		this.y = y;
 		this.isRoomTile = isRoomTile;
+		this.isWallTile = isWallTile;
+		this.name = name;
 	}
 
 	public int getX() {
@@ -52,6 +55,13 @@ public class Tile {
 	 */
 	public void setPlayer(Player player) {
 		this.player = player;
+	}
+
+	/**
+	 * @return the isWallTile
+	 */
+	public boolean isWallTile() {
+		return isWallTile;
 	}
 
 }

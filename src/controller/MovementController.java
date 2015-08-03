@@ -1,9 +1,6 @@
 package controller;
 
-import model.Board;
-import model.Move;
-import model.Player;
-import model.Tile;
+import model.*;
 
 /**
  * Class to handle the movement of a player throughout the board
@@ -58,7 +55,7 @@ public class MovementController {
         int changeX = Math.abs(move.getX() - player.getxPos());
         int changeY = Math.abs(move.getY() - player.getyPos());
 
-        if ((changeX + changeY) < roll) {
+        if ((changeX + changeY) <= roll) {
             return true;
         }
         return false;
@@ -74,7 +71,9 @@ public class MovementController {
      * @return Is there a valid path to the specified {@link Move}
      */
     private boolean pathSearch(Move target, Tile currentTile, int remaining) {
-        if (currentTile.isRoomTile()) return false;
+        if (currentTile.isRoomTile()){
+            if (currentTile.isWallTile()) return false;
+        }
         if (target.getX() == currentTile.getX() && target.getY() == currentTile.getY()) return true;
         if (remaining == 0) return false;
 
@@ -83,8 +82,8 @@ public class MovementController {
 
         if (currentX > 1) if(pathSearch(target, TILES[currentX - 1][currentY], remaining - 1)) return true;
         if (currentY > 1) if(pathSearch(target, TILES[currentX][currentY - 1], remaining - 1)) return true;
-        if (currentX < 25) if(pathSearch(target, TILES[currentX + 1][currentY], remaining - 1)) return true;
-        if (currentY < 25) if(pathSearch(target, TILES[currentX][currentY + 1], remaining - 1)) return true;
+        if (currentX < 23) if(pathSearch(target, TILES[currentX + 1][currentY], remaining - 1)) return true;
+        if (currentY < 24) if(pathSearch(target, TILES[currentX][currentY + 1], remaining - 1)) return true;
 
         return false;
     }

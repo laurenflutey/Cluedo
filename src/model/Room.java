@@ -11,18 +11,18 @@ import java.util.ArrayList;
 public class Room {
 
 	private String name;
-	private ArrayList<RoomTile> tiles;
+	private ArrayList<Tile> tiles;
 	private Room connectingRoom;
 
 	public Room(String name) {
 		this.name = name;
-		this.tiles = new ArrayList<RoomTile>();
+		this.tiles = new ArrayList<Tile>();
 	}
 
 	/**
 	 * @return the tiles
 	 */
-	public ArrayList<RoomTile> getTiles() {
+	public ArrayList<Tile> getTiles() {
 		return tiles;
 	}
 
