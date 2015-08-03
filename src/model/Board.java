@@ -27,6 +27,7 @@ public class Board {
 		this.width = width;
 		this.height = height;
 		this.board = new char[width][height];
+		this.tiles = new Tile[width][height];
 	}
 
 	/**
@@ -87,7 +88,6 @@ public class Board {
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot find file: " + filename);
 		}
-		printBoard();
 
 	}
 
@@ -128,22 +128,14 @@ public class Board {
 	public void printBoard() {
 		for (int y = 0; y < this.width; y++) {
 			for (int x = 0; x < this.height; x++) {
-				if (board[x][y] == '-') {
-					System.out.print(". ");
-				} else if (board[x][y] == '@') {
-					System.out.print("▓ ");
-					if (board[x][y] == '0') {
-						System.out.print(" ");
-					} else if (board[x][y] == 'N') {
-						System.out.print(" ");
-					} else if (board[x][y] == '?') {
-						System.out.print("  ");
-					} else {
-						System.out.print(board[x][y] + " ");
-					}
+				if (tiles[x][y] instanceof RoomTile) {
+					System.out.printf("R ");
+				} else {
+					System.out.printf("  ");
 				}
-				System.out.println();
 			}
+			System.out.println();
+
 		}
 	}
 
@@ -154,6 +146,7 @@ public class Board {
 	public static void main(String[] args) {
 		Board b = new Board(28, 28);
 		b.parseBoard("Board.txt");
+		b.printBoard();
 		// ArrayList<XYPosition> list = b.findAllowedMoves(10, 10, 4);
 		// char count = '1';
 		// for(XYPosition li : list){
