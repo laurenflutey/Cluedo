@@ -63,6 +63,8 @@ public class GameController {
 		playerCount = UI.getPlayerCount();
 		initPlayers();
 		isGameOver = false;
+		chooseSolutionCards();
+		dealCards();
 		//Board.parseBoard("Board.txt", ENTITIES);
 		doGame();
 	}

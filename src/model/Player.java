@@ -68,4 +68,10 @@ public class Player extends Character {
 	public void setIsCurrentPlayer(boolean isCurrentPlayer) {
 		this.isCurrentPlayer = isCurrentPlayer;
 	}
+	
+	public void printCards(){
+		for(Card card : cards){
+			System.out.println(card.getName());
+		}
+	}
 }

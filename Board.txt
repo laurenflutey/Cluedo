@@ -1,9 +1,9 @@
 @@@@@@@@@?@@@@?@@@@@@@@@
-KKKKKs@---BbbB----CCCCCC
-KkkkkK--BBBbbBBB--CccccC
+KKKKKK@---BbbB----CCCCCC
+KkkkSK--BBBbbBBB--CccccC
 KkkkkK--BbbbbbbB--CccccC
-KkkkkK--BbbbbbbB--CccccC
-KkkkkK--BbbbbbbB----CCL@
+KkkkkK--BbbbbbbB--CcccLC
+KkkkkK--BbbbbbbB----CCC@
 KKKKkK--BbbbbbbB-------?
 --------BbBBBBbB-------@
 @-----------------IIIIII
@@ -18,9 +18,9 @@ DDDDDDdD--XxxxX--YYyyyYY
 @---------XXXXX--yyyyyyY
 ?----------------YYyyyyY
 @--------HHhhHH---YYYYY@
-CLLLLlL--HhhhhH--------?
-LlllllL--HhhhhH--------@
-LlllllL--HhhhhH--SsSSSSk
-LlllllL--HhhhhH--SsssssS
+LLLLLlL--HhhhhH--------?
+LCllllL--HhhhhH--------@
+LlllllL--HhhhhH--SsSSSSS
+LlllllL--HhhhhH--SssssKS
 LlllllL--HhhhhH--SsssssS
 LLLLLL@?@HHHHHH@-@SSSSSS
