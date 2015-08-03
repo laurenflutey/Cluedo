@@ -76,7 +76,7 @@ public class GameController {
 		isGameOver = false;
 		chooseSolutionCards();
 		dealCards();
-		//Board.parseBoard("Board.txt", ENTITIES);
+		// Board.parseBoard("Board.txt", ENTITIES);
 		doGame();
 	}
 
@@ -170,14 +170,17 @@ public class GameController {
 	/**
 	 * Delegates the creation of a Player list to the {@link UI} class
 	 *
-	 * The UI class returns a list of players and that is then stored in the {@link Entities} class
+	 * The UI class returns a list of players and that is then stored in the
+	 * {@link Entities} class
 	 */
 	private void initPlayers() {
-		// Gets a list of player objects from the UI class and sets the entities to hold it
+		// Gets a list of player objects from the UI class and sets the entities
+		// to hold it
 		List<Player> players = UI.getPlayers(ENTITIES.getCharacters(), playerCount);
 		ENTITIES.setPlayers(players);
 
-		// Gets the list of tiles from the Entities class to set player locations to tile
+		// Gets the list of tiles from the Entities class to set player
+		// locations to tile
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {
 				for (Player p : players) {
@@ -205,7 +208,7 @@ public class GameController {
 			} else if (!weapon && card.getType() == "Weapon") {
 				ENTITIES.getWinningCards().add(card);
 				weapon = true;
-			} 
+			}
 		}
 
 		ENTITIES.getCards().removeAll(ENTITIES.getWinningCards());
@@ -230,6 +233,13 @@ public class GameController {
 			}
 			ENTITIES.getCards().removeAll(cardsDealt);
 		}
+
+	}
+
+	private void makeSuggestion(Player player) {
+
+		Suggestion suggestion = UI.getSuggestion(ENTITIES.getPlayers(), ENTITIES.getWeapons(), player);
+		player.getSuggestions().add(suggestion);
 
 	}
 }
