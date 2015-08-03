@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 /**
  * Class representing the Cluedo board which is a 2D array of {@link Tile}
@@ -20,7 +19,7 @@ public class Board {
 	private int height;
 	private int width;
 
-	private static Tile[][] tiles;
+	private Tile[][] tiles;
 
 	private Map<String, Room> rooms;
 
@@ -38,7 +37,7 @@ public class Board {
 		this.height = height;
 		this.board = new char[width][height];
 		this.rooms = rooms;
-		Board.tiles = new Tile[width][height];
+		tiles = new Tile[width][height];
 		parseBoard("Board.txt");
 	}
 

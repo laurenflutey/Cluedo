@@ -155,6 +155,7 @@ public class UI {
 							character.getxPos(), character.getyPos());
 
 					player.setCharacter(character);
+					//TODO SET PLAYER NUMBER
 					players.add(player);
 
 					// finally removes the Character from the list of available characters
