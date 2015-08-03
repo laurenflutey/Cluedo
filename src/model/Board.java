@@ -148,7 +148,7 @@ public class Board {
 				} else if (tiles[x][y].getPlayer() != null) {
 					System.out.print(tiles[x][y].getPlayer().getPlayerNumber() + " ");
 				} else {
-					System.out.printf(tiles[x][y].getName() + " ");
+					System.out.printf("\u001B[31m" + tiles[x][y].getName() + "\u001B[0m" + " ");
 				}
 
 			}
