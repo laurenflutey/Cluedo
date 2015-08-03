@@ -139,39 +139,6 @@ public class Board {
 
 	}
 
-	// TODO Un-needed method?
-	// public ArrayList<XYPosition> findAllowedMoves(int xOrigin, int yOrigin,
-	// int roll) {
-	//
-	// ArrayList<XYPosition> allowed = new ArrayList<XYPosition>();
-	//
-	// board[xOrigin][yOrigin] = '.';
-	//
-	// for (int i = 0; i < board.length; i++) {
-	// for (int j = 0; j < board[0].length; j++) {
-	// if (board[j][i] == '—') {
-	// if (roll >= Math.abs(xOrigin - j) + Math.abs(yOrigin - i)
-	// && ((Math.abs(xOrigin - j) + Math.abs(yOrigin - i)) % roll == 0)) {
-	// allowed.add(new XYPosition(j, i));
-	// }
-	// }
-	// }
-	// }
-	//
-	// return allowed;
-	// }
-	//
-	// private class XYPosition {
-	// int x;
-	// int y;
-	//
-	// public XYPosition(int x, int y) {
-	// this.x = x;
-	// this.y = y;
-	// }
-	//
-	// }
-
 	/**
 	 * prints the board
 	 */
