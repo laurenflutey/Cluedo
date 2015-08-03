@@ -147,29 +147,4 @@ public class GameController {
 		}
 
 	}
-
-	public static void main(String[] args) {
-		GameController gc = new GameController();
-		gc.initGame();
-
-		gc.ENTITIES.addPlayer(new Player("reuben", 'r', 2, 2));
-		gc.ENTITIES.addPlayer(new Player("marcel", 'm', 4, 4));
-		gc.ENTITIES.addPlayer(new Player("djp", 'd', 6, 6));
-		gc.ENTITIES.addPlayer(new Player("djp", 'd', 6, 6));
-		gc.chooseSolutionCards();
-		gc.dealCards();
-		System.out.println("HELLO");
-
-		for (Card card : gc.ENTITIES.getWinningCards()) {
-			System.out.println(card.getName());
-		}
-		System.out.println();
-
-		for (Player player : gc.ENTITIES.getPlayers()) {
-			for (Card card : player.getCards()) {
-				System.out.println(card.getName());
-			}
-			System.out.println();
-		}
-	}
 }
