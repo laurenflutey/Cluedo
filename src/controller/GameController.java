@@ -54,8 +54,6 @@ public class GameController {
 	public void initGame() {
 		// Delegates player count parsing to UI class
 		playerCount = UI.getPlayerCount();
-		System.out.println(playerCount);
-		
 	}
 
 	/**
