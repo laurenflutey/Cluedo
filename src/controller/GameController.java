@@ -22,8 +22,6 @@ public class GameController {
 	 */
 	private final Entities ENTITIES;
 
-	
-
 	private final Board BOARD;
 
 	private final MovementController MOVEMENT_CONTROLLER;
