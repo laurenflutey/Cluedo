@@ -29,6 +29,8 @@ public class GameController {
 
 	private final MovementController MOVEMENT_CONTROLLER;
 
+	private Tile[][] tiles;
+
 	/**
 	 * Number of players in the Cluedo game. Must be between 3 - 6. Initialised
 	 * in {@link #GameController()}
@@ -43,6 +45,8 @@ public class GameController {
 		this.UI = new UI();
 		this.ENTITIES = new Entities();
 		this.BOARD = ENTITIES.getBoard();
+
+		tiles = ENTITIES.getBoard().getTiles();
 
 		/* Assign board to movement controller */
 		this.MOVEMENT_CONTROLLER = new MovementController(BOARD);
@@ -76,12 +80,19 @@ public class GameController {
 			
 			int roll = rollDice();
 			Player currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
+			BOARD.printBoard();
 			//TODO GAME LOGIC
+			System.out.println("x: " + currentPlayer.getxPos() + " y: " + currentPlayer.getyPos());
+			System.out.println("currentPlayerNumber = " + currentPlayer.getPlayerNumber());
+			System.out.println("roll = " + roll);
 			Move proposedMove = UI.getPlayerMove(currentPlayer);
 
-			System.out.println("x: " + currentPlayer.getxPos() + " y: " + currentPlayer.getyPos());
-
-			System.out.println(MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll));
+			if(MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll)) {
+				tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(null);
+				currentPlayer.setxPos(proposedMove.getX());
+				currentPlayer.setyPos(proposedMove.getY());
+				tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(currentPlayer);
+			}
 			playerTurn++;
 		}
 	}
@@ -105,8 +116,7 @@ public class GameController {
 		List<Player> players = UI.getPlayers(ENTITIES.getCharacters(), playerCount);
 		ENTITIES.setPlayers(players);
 
-		// Gets the list of tiles from the Entities class to set player locations to tiles
-		Tile[][] tiles = ENTITIES.getBoard().getTiles();
+		// Gets the list of tiles from the Entities class to set player locations to tile
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {
 				for (Player p : players) {
