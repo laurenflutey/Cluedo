@@ -72,7 +72,7 @@ public class MovementController {
      */
     private boolean pathSearch(Move target, Tile currentTile, int remaining) {
         if (currentTile.isRoomTile()){
-            if (currentTile.isWall()) return false;
+            if (currentTile.isWallTile()) return false;
         }
         if (target.getX() == currentTile.getX() && target.getY() == currentTile.getY()) return true;
         if (remaining == 0) return false;
