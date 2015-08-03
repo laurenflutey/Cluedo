@@ -1,9 +1,10 @@
 package view;
 
-import java.util.Scanner;
-
 import controller.GameController;
+import model.Move;
 import model.Player;
+
+import java.util.Scanner;
 
 /**
  * MVC View class for interacting with the players in the Cluedo game.
@@ -52,6 +53,10 @@ public class UI {
 			if (isValidInteger(input)) {
 				break;
 			}
+            // Checks if number input is integer and between 3 - 6
+            if (isValidInteger(input, 3, 6)) {
+                break;
+            }
 
 			System.out.println("Please enter a valid integer between 3 - 6");
 		}
@@ -79,12 +84,49 @@ public class UI {
 		}
 	}
 
-	public void playMove(Player player, GameController gc){
-    	
-    	System.out.println("It is " + player.getCharacter() + "'s turn");
-    	System.out.println("You have rolled a: "+);
-    	System.out.println("Please enter the coordinates that you would like to move to: ");
-    	
+
+	public void playMove(Player player, GameController gc) {
+
+        System.out.println("It is " + player.getCharacter() + "'s turn");
+        System.out.println("You have rolled a: ");
+        System.out.println("Please enter the coordinates that you would like to move to: ");
+    }
+
+    public Move getPlayerMove(Player player) {
+        System.out.println("It's your turn now " + player.getName());
+        System.out.println("Please enter the x:y coordinate for your move (e.g 10 12)");
+
+        Move move = null;
+        int x, y;
+
+        while (move == null) {
+            if (reader.hasNextInt()) {
+                x = reader.nextInt();
+                if (reader.hasNextInt()) {
+                    y = reader.nextInt();
+                    move = new Move(x, y);
+                }
+            }
+        }
+
+        return move;
+    }
+
+    /**
+     * Helper method for {@link #getPlayerCount()}. Checks the validity of a users input to see
+     * if it is first a valid integer and then if it is between 3 - 6.
+     *
+     * @param input input from user via System.In
+     *
+     * @return The result of the validity check
+     */
+    private boolean isValidInteger(String input, int min, int max) {
+        try {
+            int valid = Integer.parseInt(input);
+            return valid >= min && valid <= max;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
 }

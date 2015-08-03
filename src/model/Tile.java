@@ -1,7 +1,6 @@
 package model;
 
 public class Tile {
-
 	private String name;
 	private boolean isRoomTile;
 

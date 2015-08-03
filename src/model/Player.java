@@ -1,22 +1,18 @@
 package model;
 
+/**
+ * Created by Marcel on 3/08/15.
+ */
 public class Player {
-
+	private String name;
 	private Character character;
 
-	public Player(Character character) {
-		this.character = character;
-	}
-
-	/**
-	 * @return the character
-	 */
 	public Character getCharacter() {
 		return character;
 	}
 
 	public String getName() {
-		return character.getName();
+		return name;
 	}
 
 }
