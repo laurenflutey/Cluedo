@@ -70,17 +70,20 @@ public class GameController {
 	}
 
 	private void dealCards() {
+		
+		int size = ENTITIES.getCards().size();
 
 		for (Player player : ENTITIES.getPlayers()) {
 			int count = 0;
 			Set<Card> cardsDealt = new HashSet<Card>();
 			for (Card card : ENTITIES.getCards()) {
+				if (count >=  size / playerCount) {
+					break;
+				}
 				player.getCards().add(card);
 				cardsDealt.add(card);
 				count++;
-				if (count > ENTITIES.getCards().size() / playerCount) {
-					break;
-				}
+
 			}
 			ENTITIES.getCards().removeAll(cardsDealt);
 		}
@@ -90,14 +93,14 @@ public class GameController {
 	public static void main(String[] args) {
 		GameController gc = new GameController();
 		gc.initGame();
-		
+
 		gc.ENTITIES.addPlayer(new Player("reuben", 'r', 2, 2));
 		gc.ENTITIES.addPlayer(new Player("marcel", 'm', 4, 4));
 		gc.ENTITIES.addPlayer(new Player("djp", 'd', 6, 6));
 		gc.dealCards();
 		System.out.println("HELLO");
-		for(Player player : gc.ENTITIES.getPlayers()){
-			for(Card card : player.getCards()){
+		for (Player player : gc.ENTITIES.getPlayers()) {
+			for (Card card : player.getCards()) {
 				System.out.println(card.getName());
 			}
 			System.out.println();
