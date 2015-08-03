@@ -42,7 +42,7 @@ public class Entities {
 
 	private List<Card> cards;
 
-	private Set<Player> players;
+	private List<Player> players;
 
 	private Set<Card> winningCards;
 
@@ -60,7 +60,7 @@ public class Entities {
 		weapons = new HashSet<Weapon>();
 		rooms = new HashMap<String, Room>();
 		cards = new ArrayList<Card>();
-		players = new HashSet<Player>();
+		players = new ArrayList<>();
 		winningCards = new HashSet<Card>();
 
 		characters.add(new Character("Mrs Peacock", 'p', 6, 25));
@@ -147,8 +147,12 @@ public class Entities {
 		return cards;
 	}
 
-	public Set<Player> getPlayers() {
+	public List<Player> getPlayers() {
 		return players;
+	}
+
+	public void setPlayers(List<Player> players) {
+		this.players = players;
 	}
 
 	public void addPlayer(Player player) {

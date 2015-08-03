@@ -1,10 +1,12 @@
 package controller;
 
-import model.*;
+import model.Board;
+import model.Card;
+import model.Entities;
+import model.Player;
 import view.UI;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -69,8 +71,13 @@ public class GameController {
 		return (int) (Math.random() * 6 + 1);
 	}
 
+	/**
+	 * Delegates the creation of a Player list to the {@link UI} class
+	 *
+	 * The UI class returns a list of players and that is then stored in the {@link Entities} class
+	 */
 	private void initPlayers() {
-		List<Player> players = UI.getPlayers(ENTITIES.getCharacters(), playerCount);
+		ENTITIES.setPlayers(UI.getPlayers(ENTITIES.getCharacters(), playerCount));
 	}
 
 	private void chooseSolutionCards() {
