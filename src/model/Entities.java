@@ -2,8 +2,10 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -36,7 +38,7 @@ public class Entities {
 	 *
 	 * @see Room
 	 */
-	private Set<Room> rooms;
+	private Map<String, Room> rooms;
 
 	private List<Card> cards;
 
@@ -56,7 +58,7 @@ public class Entities {
 
 		characters = new HashSet<Character>();
 		weapons = new HashSet<Weapon>();
-		rooms = new HashSet<Room>();
+		rooms = new HashMap<String, Room>();
 		cards = new ArrayList<Card>();
 		players = new HashSet<Player>();
 		winningCards = new HashSet<Card>();
@@ -79,20 +81,25 @@ public class Entities {
 		Room study = new Room("Study");
 		Room lounge = new Room("Lounge");
 		Room conservatory = new Room("Conservatory");
+		Room ballRoom = new Room("Ball Room");
+		Room billiardRoom = new Room("Billiard Room");
+		Room library = new Room("Library");
+		Room hall = new Room("Hall");
+		Room diningRoom = new Room("Dining Room");
 		kitchen.setConnectingRoom(study);
 		study.setConnectingRoom(kitchen);
 		lounge.setConnectingRoom(conservatory);
 		conservatory.setConnectingRoom(lounge);
 
-		rooms.add(conservatory);
-		rooms.add(lounge);
-		rooms.add(kitchen);
-		rooms.add(study);
-		rooms.add(new Room("Ball Room"));
-		rooms.add(new Room("Billiard Room"));
-		rooms.add(new Room("Library"));
-		rooms.add(new Room("Hall"));
-		rooms.add(new Room("Dining Room"));
+		rooms.put(conservatory.getName(), conservatory);
+		rooms.put(lounge.getName(), lounge);
+		rooms.put(kitchen.getName(), kitchen);
+		rooms.put(study.getName(), study);
+		rooms.put(hall.getName(), hall);
+		rooms.put(ballRoom.getName(), ballRoom);
+		rooms.put(billiardRoom.getName(), billiardRoom);
+		rooms.put(library.getName(), library);
+		rooms.put(diningRoom.getName(), diningRoom);
 
 		cards.add(new Card("Mrs Peacock", "Character"));
 		cards.add(new Card("Mrs White", "Character"));
@@ -129,7 +136,7 @@ public class Entities {
 		return weapons;
 	}
 
-	public Set<Room> getRooms() {
+	public Map<String, Room> getRooms() {
 		return rooms;
 	}
 

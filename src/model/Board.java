@@ -21,7 +21,7 @@ public class Board {
 	private int height;
 	private int width;
 
-	private Tile[][] tiles;
+	private static Tile[][] tiles;
 
 	public Board(int width, int height) {
 		this.width = width;
@@ -62,7 +62,7 @@ public class Board {
 	 * @param filename
 	 * @throws FileNotFoundException
 	 */
-	public void parseBoard(String filename) {
+	public static void parseBoard(String filename, Entities entities) {
 
 		try {
 			Scanner s = new Scanner(new File(filename));
@@ -72,11 +72,47 @@ public class Board {
 				for (int x = 0; x < line.length(); x++) {
 
 					if (line.charAt(x) == '@') {
-						tiles[x][y] = new Tile(x, y, false);
-					} else if (line.charAt(x) == '?') {
-						tiles[x][y] = new Tile(x, y, false);
+						tiles[x][y] = new BoundaryTile(x, y, false);
 					} else if (line.charAt(x) == '-') {
 						tiles[x][y] = new Tile(x, y, false);
+					} else if (line.charAt(x) == 'K') {
+						tiles[x][y] = new RoomTile(x, y, true);
+						ENITIES.
+					} else if (line.charAt(x) == 'k') {
+						tiles[x][y] = new RoomTile(x, y, false);
+						
+					} else if (line.charAt(x) == 'B') {
+						tiles[x][y] = new RoomTile(x, y, true);
+					} else if (line.charAt(x) == 'b') {
+						tiles[x][y] = new RoomTile(x, y, false);
+					} else if (line.charAt(x) == 'C') {
+						tiles[x][y] = new RoomTile(x, y, true);
+					} else if (line.charAt(x) == 'c') {
+						tiles[x][y] = new RoomTile(x, y, false);
+					} else if (line.charAt(x) == 'D') {
+						tiles[x][y] = new RoomTile(x, y, true);
+					} else if (line.charAt(x) == 'd') {
+						tiles[x][y] = new RoomTile(x, y, false);
+					} else if (line.charAt(x) == 'X') {
+						tiles[x][y] = new RoomTile(x, y, true);
+					} else if (line.charAt(x) == 'x') {
+						tiles[x][y] = new RoomTile(x, y, false);
+					} else if (line.charAt(x) == 'I') {
+						tiles[x][y] = new RoomTile(x, y, true);
+					} else if (line.charAt(x) == 'i') {
+						tiles[x][y] = new RoomTile(x, y, false);
+					} else if (line.charAt(x) == 'L') {
+						tiles[x][y] = new RoomTile(x, y, true);
+					} else if (line.charAt(x) == 'l') {
+						tiles[x][y] = new RoomTile(x, y, false);
+					} else if (line.charAt(x) == 'H') {
+						tiles[x][y] = new RoomTile(x, y, true);
+					} else if (line.charAt(x) == 'h') {
+						tiles[x][y] = new RoomTile(x, y, false);
+					} else if (line.charAt(x) == 'S') {
+						tiles[x][y] = new RoomTile(x, y, true);
+					} else if (line.charAt(x) == 's') {
+						tiles[x][y] = new RoomTile(x, y, false);
 					} else {
 						tiles[x][y] = new RoomTile(x, y, true);
 					}
