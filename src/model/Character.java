@@ -30,6 +30,8 @@ public class Character {
 		this.yPos = yOrigin;
 	}
 
+
+
 	public int getxPos() {
 		return xPos;
 	}
