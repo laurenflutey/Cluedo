@@ -1,8 +1,7 @@
 package view;
 
+import model.*;
 import model.Character;
-import model.Move;
-import model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -187,5 +186,37 @@ public class UI {
         }
     }
 
-
+	/**
+	 * Method that displays the current options to the player and gets their choice for their turn
+	 *
+	 * @param currentPlayer The player making the move
+	 * @param BOARD board that the player is playing on
+	 *
+	 * @return returns the player's choice for their turn
+	 */
+	public int getTurnOptions(Player currentPlayer, final Board BOARD) {
+		while (true) {
+			int choice;
+			int range = 3;
+			System.out.println("1: Roll dice and make a move.");
+			System.out.println("2: Look at your collected information.");
+			System.out.println("3: Make an accusation");
+			Tile currentTile = BOARD.getTiles()[currentPlayer.getxPos()][currentPlayer.getyPos()];
+			if (currentTile.isRoomTile()) {
+				System.out.println("4: Make an suggestion");
+				range++;
+				if (currentTile.getRoom().getConnectingRoom() != null) {
+					range++;
+					System.out.println("5: Take secret passage to connection room: " +
+							currentTile.getRoom().getConnectingRoom().getName());
+				}
+			}
+			if (reader.hasNextInt()) {
+				choice = reader.nextInt();
+				if (choice <= range && choice > 0) {
+					return choice;
+				}
+			}
+		}
+	}
 }

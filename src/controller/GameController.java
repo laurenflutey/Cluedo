@@ -83,15 +83,13 @@ public class GameController {
 			Player currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
 			currentPlayer.setIsCurrentPlayer(true);
 
-			boolean chosen = false;
-
 			System.out.println(currentPlayer.getName() + ", what would you like to do?");
 
-			displayOptions(currentPlayer);
-
-			while (!chosen) {
-
+			int choice = -1;
+			while (choice == -1) {
+				choice = displayOptions(currentPlayer);
 			}
+
 
 			int roll = rollDice();
 
@@ -122,13 +120,8 @@ public class GameController {
 		}
 	}
 
-	private void displayOptions(Player currentPlayer) {
-		System.out.println("1: Roll dice and make a move.");
-		System.out.println("2: Look at your collected information.");
-		Tile currentTile = BOARD.getTiles()[currentPlayer.getxPos()][currentPlayer.getyPos()];
-		if (currentTile.isRoomTile()) {
-			System.out.println("3: see room options");
-		}
+	private int displayOptions(Player currentPlayer) {
+		return UI.getTurnOptions(currentPlayer, BOARD);
 	}
 
 	/**
