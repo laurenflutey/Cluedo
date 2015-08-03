@@ -80,6 +80,7 @@ public class GameController {
 			
 			int roll = 10; // TODO HARDCODED 10 for testing
 			Player currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
+			currentPlayer.setIsCurrentPlayer(true);
 			BOARD.printBoard();
 			//TODO GAME LOGIC
 			System.out.println("x: " + currentPlayer.getxPos() + " y: " + currentPlayer.getyPos());
@@ -101,6 +102,8 @@ public class GameController {
 					System.out.println("Please enter a valid coordinate");
 				}
 			}
+
+			currentPlayer.setIsCurrentPlayer(false);
 
 			playerTurn++;
 		}

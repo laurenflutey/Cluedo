@@ -12,6 +12,8 @@ public class Player extends Character {
 	private Set<Card> cards;
 	private int playerNumber;
 
+	private boolean isCurrentPlayer = false;
+
 	/**
 	 * Constructor for Character class
 	 *
@@ -57,5 +59,13 @@ public class Player extends Character {
 	 */
 	public void setPlayerNumber(int playerNumber) {
 		this.playerNumber = playerNumber;
+	}
+
+	public boolean isCurrentPlayer() {
+		return isCurrentPlayer;
+	}
+
+	public void setIsCurrentPlayer(boolean isCurrentPlayer) {
+		this.isCurrentPlayer = isCurrentPlayer;
 	}
 }
