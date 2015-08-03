@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.HashSet;
+
 import model.Entities;
 import view.UI;
 
@@ -46,6 +48,10 @@ public class GameController {
 		// Delegates player count parsing to UI class
 		playerCount = UI.getPlayerCount();
 		System.out.println(playerCount);
+		
+		dealCards();
+		setSolution();
+		
 	}
 
 	/**
@@ -55,6 +61,10 @@ public class GameController {
 	 */
 	private int rollDice() {
 		return (int) (Math.random() * 6 + 1);
+	}
+	
+	private void playGame(){
+		
 	}
 
 }

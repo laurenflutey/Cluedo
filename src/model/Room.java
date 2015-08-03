@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * Class representing a room in the Cluedo game.
  *
@@ -9,40 +11,48 @@ package model;
 public class Room {
 
 	private String name;
-	private Character character;
-	private Weapon weapon;
+	private ArrayList<RoomTile> tiles;
 	private Room connectingRoom;
 
 	public Room(String name) {
-		this.name = name;
+		this.setName(name);
 	}
 
-	public Character getCharacter() {
-		return character;
+	/**
+	 * @return the tiles
+	 */
+	public ArrayList<RoomTile> getTiles() {
+		return tiles;
 	}
 
-	public void setCharacter(Character character) {
-		this.character = character;
-	}
-
-	public Weapon getWeapon() {
-		return weapon;
-	}
-
-	public void setWeapon(Weapon weapon) {
-		this.weapon = weapon;
-	}
-
-	public String getName() {
-		return name;
-	}
-
+	/**
+	 * @return the connectingRoom
+	 */
 	public Room getConnectingRoom() {
 		return connectingRoom;
 	}
 
+	/**
+	 * @param connectingRoom
+	 *            the connectingRoom to set
+	 */
 	public void setConnectingRoom(Room connectingRoom) {
 		this.connectingRoom = connectingRoom;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
