@@ -123,7 +123,9 @@ public class GameController {
 				tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(null);
 				currentPlayer.setxPos(proposedMove.getX());
 				currentPlayer.setyPos(proposedMove.getY());
-				tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(currentPlayer);
+				Tile currentTile = tiles[currentPlayer.getxPos()][currentPlayer.getyPos()];
+				currentTile.setPlayer(currentPlayer);
+				currentPlayer.setRoom(currentTile.getRoom());
 				validTurn = true;
 			} else {
 				System.out.println("Please enter a valid coordinate");
