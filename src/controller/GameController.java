@@ -191,7 +191,8 @@ public class GameController {
 
 	private void makeSuggestion(Player player) {
 
-		UI.getSuggestion(ENTITIES.getPlayers(), ENTITIES.getWeapons(), player);
+		Suggestion suggestion = UI.getSuggestion(ENTITIES.getPlayers(), ENTITIES.getWeapons(), player);
+		player.getSuggestions().add(suggestion);
 
 	}
 }
