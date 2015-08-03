@@ -36,6 +36,7 @@ public class Board {
 		this.height = height;
 		this.rooms = rooms;
 		Board.tiles = new Tile[width][height];
+		parseBoard("Board.txt");
 	}
 
 	/**

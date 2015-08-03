@@ -77,11 +77,7 @@ public class GameController {
 			//TODO GAME LOGIC
 			Move proposedMove = UI.getPlayerMove(currentPlayer);
 
-			System.out.println("currentPlayerx = " + currentPlayer.getxPos());
-			System.out.println("currentPlayer = " + currentPlayer.getyPos());
-
-			System.out.println("roll = " + roll);
-			System.out.println("currentPlayer = " + currentPlayer.getName());
+			System.out.println("x: " + currentPlayer.getxPos() + " y: " + currentPlayer.getyPos());
 
 			System.out.println(MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll));
 			playerTurn++;
