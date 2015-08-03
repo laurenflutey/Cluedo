@@ -77,10 +77,22 @@ public class GameController {
 		int playerTurn = 0;
 		while (!isGameOver) {
 			BOARD.printBoard();
-			
-			int roll = rollDice();
+
 			Player currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
 			currentPlayer.setIsCurrentPlayer(true);
+
+			boolean chosen = false;
+
+			System.out.println(currentPlayer.getName() + ", what would you like to do?");
+
+			displayOptions(currentPlayer);
+
+			while (!chosen) {
+
+			}
+
+			int roll = rollDice();
+
 			//TODO GAME LOGIC
 			System.out.println("x: " + currentPlayer.getxPos() + " y: " + currentPlayer.getyPos());
 			System.out.println("currentPlayerNumber = " + currentPlayer.getPlayerNumber());
@@ -104,7 +116,16 @@ public class GameController {
 
 			currentPlayer.setIsCurrentPlayer(false);
 
-			playerTurn++;
+			//playerTurn++;
+		}
+	}
+
+	private void displayOptions(Player currentPlayer) {
+		System.out.println("1: Roll dice and make a move.");
+		System.out.println("2: Look at your collected information.");
+		Tile currentTile = BOARD.getTiles()[currentPlayer.getxPos()][currentPlayer.getyPos()];
+		if (currentTile.isRoomTile()) {
+			System.out.println("3: see room options");
 		}
 	}
 
