@@ -14,8 +14,6 @@ import java.util.Scanner;
  */
 public class Board {
 
-	private char[][] board;
-
 	private int height;
 	private int width;
 
@@ -35,7 +33,6 @@ public class Board {
 	public Board(int width, int height, Map<String, Room> rooms) {
 		this.width = width;
 		this.height = height;
-		this.board = new char[width][height];
 		this.rooms = rooms;
 		tiles = new Tile[width][height];
 		parseBoard("Board.txt");
@@ -146,33 +143,30 @@ public class Board {
 	 * prints the board
 	 */
 	public void printBoard() {
-		for (int y = 0; y < this.width; y++) {
-			for (int x = 0; x < this.height; x++) {
-				if (tiles[x][y] instanceof RoomTile) {
+		for (int y = 0; y < this.height; y++) {
+			for (int x = 0; x < this.width; x++) {
+				if (tiles[x][y] instanceof RoomTile && tiles[x][y].getPlayer() == null) {
 					System.out.print(tiles[x][y].getName() + " ");
 				} else if (tiles[x][y] instanceof BoundaryTile) {
 					System.out.print("█ ");
+				} else if (tiles[x][y].getPlayer() != null) {
+					System.out.print(tiles[x][y].getPlayer().getPlayerNumber() + " ");
 				} else {
 					System.out.printf("  ");
 				}
+
 			}
 			System.out.println(y + 1);
 
 		}
 		System.out.println();
 		System.out.println("A B C D E F G H I J K L M N O P Q R S T U V W X ");
+
 	}
 
 	public Tile[][] getTiles() {
 		return tiles;
 	}
 
-	public static void main(String[] args) {
-
-		Entities en = new Entities();
-		Board b = new Board(26, 26, en.getRooms());
-		b.parseBoard("Board.txt");
-		b.printBoard();
-	}
 
 }

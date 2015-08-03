@@ -62,7 +62,7 @@ public class Entities {
 		winningCards = new HashSet<Card>();
 
 		characters.add(new Character("Mrs Peacock", 'p', 6, 25));
-		characters.add(new Character("Proffesor Plum", 'l', 25, 20));
+		characters.add(new Character("Proffesor Plum", 'r', 25, 20));
 		characters.add(new Character("Miss Scarlet", 's', 7, 25));
 		characters.add(new Character("Colonel Mustard", 'm', 0, 18));
 		characters.add(new Character("Mrs White", 'w', 9, 0));
