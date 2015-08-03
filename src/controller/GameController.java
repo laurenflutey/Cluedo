@@ -25,10 +25,21 @@ public class GameController {
 	 */
 	private final Entities ENTITIES;
 
+	/**
+	 * Board that the game is played on
+	 */
 	private final Board BOARD;
 
+	/**
+	 * Movement controller used to handle all of the players movement throughout the board.
+	 *
+	 * Movement is controlled by a recursive brute force(maybe greedy?) algorithm
+	 */
 	private final MovementController MOVEMENT_CONTROLLER;
 
+	/**
+	 * 2D array of Tile objects, representing the board
+	 */
 	private Tile[][] tiles;
 
 	/**
