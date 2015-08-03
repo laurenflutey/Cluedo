@@ -155,7 +155,8 @@ public class UI {
 							character.getxPos(), character.getyPos());
 
 					player.setCharacter(character);
-					//TODO SET PLAYER NUMBER
+					// sets the player number to print to the board
+					player.setPlayerNumber(i + 1);
 					players.add(player);
 
 					// finally removes the Character from the list of available characters
