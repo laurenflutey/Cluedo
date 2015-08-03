@@ -1,5 +1,7 @@
 package view;
 
+import model.Move;
+
 import java.util.Scanner;
 
 /**
@@ -48,7 +50,7 @@ public class UI {
             input = reader.nextLine();
 
             // Checks if number input is integer and between 3 - 6
-            if (isValidInteger(input)) {
+            if (isValidInteger(input, 3, 6)) {
                 break;
             }
 
@@ -59,6 +61,26 @@ public class UI {
         return Integer.parseInt(input);
     }
 
+    public Move getPlayerMove(Player player) {
+        System.out.println("It's your turn now " + player.getName());
+        System.out.println("Please enter the x:y coordinate for your move (e.g 10 12)");
+
+        Move move = null;
+        int x, y;
+
+        while (move == null) {
+            if (reader.hasNextInt()) {
+                x = reader.nextInt();
+                if (reader.hasNextInt()) {
+                    y = reader.nextInt();
+                    move = new Move(x, y);
+                }
+            }
+        }
+
+        return move;
+    }
+
     /**
      * Helper method for {@link #getPlayerCount()}. Checks the validity of a users input to see
      * if it is first a valid integer and then if it is between 3 - 6.
@@ -67,10 +89,10 @@ public class UI {
      *
      * @return The result of the validity check
      */
-    private boolean isValidInteger(String input) {
+    private boolean isValidInteger(String input, int min, int max) {
         try {
             int valid = Integer.parseInt(input);
-            return valid >= 3 && valid <= 6;
+            return valid >= min && valid <= max;
         } catch (NumberFormatException e) {
             return false;
         }
