@@ -44,7 +44,7 @@ public class Entities {
 
 	private List<Player> players;
 
-	private List<Character> finalCharacters;
+	private List<Player> finalPlayers;
 
 	private Set<Card> winningCards;
 
@@ -57,7 +57,7 @@ public class Entities {
 	private void init() {
 
 		characters = new ArrayList<Character>();
-		finalCharacters = new ArrayList<Character>();
+		finalPlayers = new ArrayList<Player>();
 		weapons = new ArrayList<Weapon>();
 		rooms = new HashMap<String, Room>();
 		cards = new ArrayList<Card>();
@@ -71,25 +71,23 @@ public class Entities {
 		characters.add(new Character("Mrs White", 'w', 9, 0));
 		characters.add(new Character("Reverend Green", 'g', 14, 0));
 
-		finalCharacters.addAll(characters);
-
 		weapons.add(new Weapon("Candlestick", '!'));
 		weapons.add(new Weapon("Dagger", '%'));
-		weapons.add(new Weapon("Lead Pipe", '|'));
+		weapons.add(new Weapon("Lead Pipe", '?'));
 		weapons.add(new Weapon("Revolver", '&'));
 		weapons.add(new Weapon("Rope", '#'));
 		weapons.add(new Weapon("Spanner", '*'));
 
-		Room kitchen = new Room("Kitchen", 1);
-		Room study = new Room("Study", 2);
-		Room lounge = new Room("Lounge", 3);
-		Room conservatory = new Room("Conservatory", 4);
-		Room ballRoom = new Room("Ball Room", 5);
-		Room billiardRoom = new Room("Billiard Room", 6);
-		Room library = new Room("Library", 7);
-		Room hall = new Room("Hall", 8);
-		Room diningRoom = new Room("Dining Room", 9);
-		Room pool = new Room("Pool", 10);
+		Room kitchen = new Room("Kitchen", 1, 'K');
+		Room study = new Room("Study", 2, 'S');
+		Room lounge = new Room("Lounge", 3, 'L');
+		Room conservatory = new Room("Conservatory", 4, 'C');
+		Room ballRoom = new Room("Ball Room", 5, 'B');
+		Room billiardRoom = new Room("Billiard Room", 6, 'I');
+		Room library = new Room("Library", 7, 'Y');
+		Room hall = new Room("Hall", 8, 'H');
+		Room diningRoom = new Room("Dining Room", 9, 'D');
+		Room pool = new Room("Pool", 10, 'X');
 
 		kitchen.setConnectingRoom(study);
 		study.setConnectingRoom(kitchen);
@@ -196,16 +194,26 @@ public class Entities {
 	/**
 	 * @return the finalCharacters
 	 */
-	public List<Character> getFinalCharacters() {
-		return finalCharacters;
+	public List<Player> getFinalPlayers() {
+		return finalPlayers;
 	}
 
 	/**
 	 * @param finalCharacters
 	 *            the finalCharacters to set
 	 */
-	public void setFinalCharacters(List<Character> finalCharacters) {
-		this.finalCharacters = finalCharacters;
+	public void setFinalPlayers(List<Player> finalPlayers) {
+		this.finalPlayers = finalPlayers;
+	}
+
+	public Player getPlayerFromCharacter(Character character) {
+		for (Player player : players) {
+			if (player.getCharacter().getName().equals(character.getName())) {
+				return player;
+			}
+		}
+
+		return null;
 	}
 
 }

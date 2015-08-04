@@ -2,21 +2,21 @@ package model;
 
 public class Suggestion {
 
-	private Character character;
+	private Player player;
 	private Weapon weapon;
 	private Room room;
 
-	public Suggestion(Character character, Weapon weapon, Room room) {
-		this.character = character;
+	public Suggestion(Player player, Weapon weapon, Room room) {
+		this.player = player;
 		this.weapon = weapon;
 		this.room = room;
 	}
 
 	/**
-	 * @return the character
+	 * @return the player
 	 */
-	public Character getCharacter() {
-		return character;
+	public Player getPlayer() {
+		return player;
 	}
 
 	/**

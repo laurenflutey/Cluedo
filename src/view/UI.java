@@ -2,13 +2,13 @@ package view;
 
 import model.*;
 import model.Character;
-import model.Room;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 /**
  * MVC View class for interacting with the players in the Cluedo game.
@@ -29,6 +29,8 @@ public class UI {
 	 * Input scanner used to handle all inputted information from the players
 	 */
 	private Scanner reader = new Scanner(System.in);
+
+	private String singleCharRegex = "[a-zA-Z]";
 
 	/**
 	 * Constructor for the UI Class
@@ -97,25 +99,59 @@ public class UI {
 	 * @return Returns the players move
 	 */
 	public Move getPlayerMove(Player player, int roll) {
-		System.out.println(player.getName() + ", you rolled a " + roll + ". You're currently at x: " + player.getxPos()
+		System.out.println(player.getName() + ", you rolled a " + roll + ". You're currently at x: "
+				+ parseIntToCharacter(player.getxPos())
 				+ " y: " + player.getyPos());
 
-		System.out.println("\nPlease enter the x:y coordinate for your move (e.g 10 12)");
+		System.out.println("\nPlease enter the x:y coordinate for your move (e.g F 12)");
 
 		Move move = null;
 		int x, y;
 
+		// Continually loops until the player enters a valid move
 		while (move == null) {
-			if (reader.hasNextInt()) {
-				x = reader.nextInt();
-				if (reader.hasNextInt()) {
-					y = reader.nextInt();
-					move = new Move(x, y);
+			if (reader.hasNext()) {
+				String character = reader.next();
+
+				// If the player entered a single character matching the single character regex
+				if (Pattern.matches(singleCharRegex, character)) {
+
+					// convert the players character to a valid int representing a x position on the board
+					x = parseCharacterToInt(character);
+
+					// Then parse the users y position on the board
+					if (reader.hasNextInt()) {
+						y = reader.nextInt();
+						move = new Move(x, y);
+					}
 				}
 			}
 		}
 
 		return move;
+	}
+
+	/**
+	 * Method to parse the integer value from a char
+	 *
+	 * @param character String representing a single char
+	 *
+	 * @return int value representing the a-z grid value of the board
+	 */
+	private int parseCharacterToInt(String character) {
+		character = character.toLowerCase();
+		return (int)character.charAt(0) - 97;
+	}
+
+	/**
+	 * Parses the int x position back to a char to be displayed to the user
+	 *
+	 * @param xPosition X position of the player on the board
+	 *
+	 * @return character value representing the players position on the board
+	 */
+	private char parseIntToCharacter(int xPosition) {
+		return java.lang.Character.toUpperCase((char) (xPosition + 97));
 	}
 
 	/**
@@ -136,14 +172,16 @@ public class UI {
 		// List of player objects created
 		List<Player> players = new ArrayList<>();
 
+		int i;
+
 		/*
 		 * Loops through playerCount number of times to create Player Objects
 		 * for each player
 		 */
-		for (int i = 0; i < playerCount; i++) {
+		for (i = 0; i < playerCount; i++) {
 
-			System.out.println("\nPlayer " + (i + 1) + ", please select a character:\n" +
-					"------------------------------------");
+			System.out.println(
+					"\nPlayer " + (i + 1) + ", please select a character:\n" + "------------------------------------");
 
 			// Displays the list of all remaining characters that can be chosen
 			for (int j = 0; j < characters.size(); j++) {
@@ -186,6 +224,19 @@ public class UI {
 					doClearOutput();
 				}
 			}
+
+		}
+
+		// add inactive players
+		for (int j = 0; j < characters.size(); j++) {
+			Character character = characters.get(j);
+			Player player = new Player(character.getName(), character.getCh(), character.getxPos(),
+					character.getyPos());
+			if (!players.contains(player)) {
+				player.setAlive(false);
+				player.setPlayerNumber(i += 1);
+				players.add(player);
+			}
 		}
 
 		return players;
@@ -211,35 +262,42 @@ public class UI {
 	}
 
 	/**
-	 * Method to handle when a player wants to make a suggestion. The method gets the suggested character and
-	 * the suggested weapon. It then create a {@link Suggestion} object which is stored in the {@link Player}.
+	 * Method to handle when a player wants to make a suggestion. The method
+	 * gets the suggested character and the suggested weapon. It then create a
+	 * {@link Suggestion} object which is stored in the {@link Player}.
 	 *
-	 * @param characters List of characters in the game
-	 * @param weapons List of weapons in the game
-	 * @param currentPlayer The current player making the suggestion
+	 * @param players
+	 *            List of characters in the game
+	 * @param weapons
+	 *            List of weapons in the game
+	 * @param currentPlayer
+	 *            The current player making the suggestion
 	 *
 	 * @return A Suggest that the player has picked
 	 */
-	public Suggestion getSuggestion(List<Character> characters, List<Weapon> weapons, Player currentPlayer) {
-		// Set the character and weapon to null initially, but assign the room to the current room
-		Character suggestedCharacter = null;
+	public Suggestion getSuggestion(List<Player> players, List<Weapon> weapons, Player currentPlayer) {
+		// Set the character and weapon to null initially, but assign the room
+		// to the current room
+		Player suggestedPlayer = null;
 		Weapon suggestedWeapon = null;
 		Room suggestedRoom = currentPlayer.getRoom();
 
-		// Displays the list of available characters that the user can select as a suggestion
-		System.out.println("Which character would you like to suggest: ");
-		for (int i = 0; i < characters.size(); i++) {
-			System.out.println((i + 1) + ": " + characters.get(i).getName());
+		// Displays the list of available characters that the user can select as
+		// a suggestion
+		System.out.println("Which player would you like to suggest: ");
+		for (int i = 0; i < players.size(); i++) {
+			System.out.println((i + 1) + ": " + players.get(i).getName());
 		}
 
 		// loop until the user selects a valid character to suggest
-		while (suggestedCharacter == null) {
+		while (suggestedPlayer == null) {
 			if (reader.hasNextInt()) {
-				suggestedCharacter = characters.get(reader.nextInt() - 1);
+				suggestedPlayer = players.get(reader.nextInt() - 1);
 			}
 		}
 
-		// Displays the list of available weapons that the user can select as a suggestion
+		// Displays the list of available weapons that the user can select as a
+		// suggestion
 		System.out.println("Which weapon would you like to suggest: ");
 		for (int i = 0; i < weapons.size(); i++) {
 			System.out.println((i + 1) + ": " + weapons.get(i).getName());
@@ -253,23 +311,28 @@ public class UI {
 		}
 
 		// The suggestion is then return and stored in the Player
-		return new Suggestion(suggestedCharacter, suggestedWeapon, suggestedRoom);
+		return new Suggestion(suggestedPlayer, suggestedWeapon, suggestedRoom);
 
 	}
 
 	/**
-	 * Delegate method to handle the parsing of a players proposed accusation. If a player incorrectly makes an
-	 * accusation, they're removed from the game.
+	 * Delegate method to handle the parsing of a players proposed accusation.
+	 * If a player incorrectly makes an accusation, they're removed from the
+	 * game.
 	 *
-	 * @param players List of characters in the game
-	 * @param weapons List of weapons in the game
-	 * @param rooms List of rooms in the game
+	 * @param players
+	 *            List of characters in the game
+	 * @param weapons
+	 *            List of weapons in the game
+	 * @param rooms
+	 *            List of rooms in the game
 	 *
-	 * @return Returns the proposed accusation in the form of a Suggestion object
+	 * @return Returns the proposed accusation in the form of a Suggestion
+	 *         object
 	 */
-	public Suggestion getAccusation(List<Character> players, List<Weapon> weapons, Map<String, Room> rooms) {
+	public Suggestion getAccusation(List<Player> players, List<Weapon> weapons, Map<String, Room> rooms) {
 		// Sets the suggestion components to null initially
-		Character suggestedCharacter = null;
+		Player suggestedPlayer = null;
 		Weapon suggestedWeapon = null;
 		Room suggestedRoom = null;
 
@@ -283,12 +346,13 @@ public class UI {
 		boolean found = false;
 		while (!found) {
 			if (reader.hasNextInt()) {
-				suggestedCharacter = players.get(reader.nextInt() - 1);
+				suggestedPlayer = players.get(reader.nextInt() - 1);
 				found = true;
 			}
 		}
 
-		// Display the list of weapons that the user can use as the accused murder weapon
+		// Display the list of weapons that the user can use as the accused
+		// murder weapon
 		System.out.println("Which weapon would you like to accuse: ");
 		for (int i = 0; i < weapons.size(); i++) {
 			System.out.println((i + 1) + ": " + weapons.get(i).getName());
@@ -327,8 +391,9 @@ public class UI {
 			}
 		}
 
-		// Finally returns the accusation back to the game controller, where it will be parsed to be valid or not.
-		return new Suggestion(suggestedCharacter, suggestedWeapon, suggestedRoom);
+		// Finally returns the accusation back to the game controller, where it
+		// will be parsed to be valid or not.
+		return new Suggestion(suggestedPlayer, suggestedWeapon, suggestedRoom);
 
 	}
 
@@ -355,6 +420,7 @@ public class UI {
 			// display options to the user
 			System.out.println("Select a option using the number beside it.");
 			System.out.println("-----------------------------\n");
+			System.out.println("#: Enter '#' to display the key for the board");
 			System.out.println("1: Roll dice and make a move.");
 			System.out.println("2: Look at your collected information.");
 			System.out.println("3: Make an accusation");
@@ -383,7 +449,49 @@ public class UI {
 					return choice;
 				}
 			}
+
+			// Parse the special case where the user enters a #
+			if (reader.hasNext()) {
+				char ch = reader.next().charAt(0);
+				if (ch == '#') {
+					return -10;
+				}
+			}
 		}
+	}
+
+	/**
+	 * Displays all the keys on the baord
+	 * 
+	 * @param entities
+	 *            all the entities on the board to be displayed
+	 */
+	public void displayKeys(Entities entities) {
+
+		System.out.println("Key displayer: ");
+		System.out.println("---------------");
+		System.out.println("Weapons: \n");
+		System.out.println("---------------");
+		for (Weapon weapon : entities.getWeapons()) {
+			System.out.println("\u001B[33m" + weapon.getId() + " = " + weapon.getName() + "\u001B[0m");
+		}
+		System.out.println("\nCharacters: ");
+		System.out.println("---------------\n");
+		for (Player player : entities.getPlayers()) {
+			if (player.isCurrentPlayer()) {
+				System.out.println("\u001B[32m" + player.getPlayerNumber() + " = " + player.getName() + "\u001B[0m");
+			} else {
+				System.out.println("\u001B[31m" + player.getPlayerNumber() + " = " + player.getName() + "\u001B[0m");
+			}
+		}
+		System.out.println("\nRooms: ");
+		System.out.println("---------------\n");
+		for (Entry<String, Room> room : entities.getRooms().entrySet()) {
+			System.out.println(room.getValue().getID() + " = " + room.getValue().getName());
+		}
+
+		System.out.println("\n");
+
 	}
 
 	/**
@@ -410,18 +518,27 @@ public class UI {
 	}
 
 	/**
-	 * Simple method that simulates the output of the console being cleared by pushing the previous content
-	 * way up by printing 50 new lines
+	 * Simple method that simulates the output of the console being cleared by
+	 * pushing the previous content way up by printing 50 new lines
 	 */
 	public void doClearOutput() {
-		for (int i = 0; i < 50; ++i) System.out.println();
+		for (int i = 0; i < 50; ++i)
+			System.out.println();
 	}
 
-	public void doEndGame(Player currentPlayer) {
-		System.out.println("Congratulations " + currentPlayer.getName() + ", you accused correctly");
+	/**
+	 * Method to handle the end game display
+	 *
+	 * @param winningPlayer The Player who won the game
+	 */
+	public void doEndGame(Player winningPlayer) {
+		System.out.println("Congratulations " + winningPlayer.getName() + ", you accused correctly");
 		System.out.println("You guessed : ");
-		System.out.println("\t" + currentPlayer.getAccusation().getCharacter().getName());
-		System.out.println("\t" + currentPlayer.getAccusation().getRoom().getName());
-		System.out.println("\t" + currentPlayer.getAccusation().getWeapon().getName());
+		System.out.println("\t" + winningPlayer.getAccusation().getPlayer().getName());
+		System.out.println("\t" + winningPlayer.getAccusation().getRoom().getName());
+		System.out.println("\t" + winningPlayer.getAccusation().getWeapon().getName());
+		System.out.println("\t" + winningPlayer.getAccusation().getPlayer().getName());
+		System.out.println("\t" + winningPlayer.getAccusation().getRoom().getName());
+		System.out.println("\t" + winningPlayer.getAccusation().getWeapon().getName());
 	}
 }

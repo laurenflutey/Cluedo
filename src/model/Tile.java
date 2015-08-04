@@ -8,7 +8,7 @@ public class Tile {
 	private int x, y;
 
 	private Player player;
-	
+
 	private Weapon weapon;
 
 	public Tile(int x, int y, Room room, boolean isWallTile, char name) {
@@ -18,7 +18,7 @@ public class Tile {
 		this.isWallTile = isWallTile;
 		this.name = name;
 	}
-	
+
 	public Tile(int x, int y, Room room, boolean isWallTile, boolean isDoor, char name) {
 		this.x = x;
 		this.y = y;
@@ -67,7 +67,7 @@ public class Tile {
 	 * @return Is there a player currently on this tile
 	 */
 	public boolean isOccupied() {
-		return player != null;
+		return player != null && weapon != null;
 	}
 
 	/**
@@ -104,7 +104,8 @@ public class Tile {
 	}
 
 	/**
-	 * @param weapon the weapon to set
+	 * @param weapon
+	 *            the weapon to set
 	 */
 	public void setWeapon(Weapon weapon) {
 		this.weapon = weapon;

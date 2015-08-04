@@ -88,7 +88,7 @@ public class Board {
 						rooms.get("Conservatory").getTiles().add(tiles[x][y]);
 						rooms.get("Conservatory").getDoors().add(tiles[x][y]);
 					} else if (line.charAt(x) == 'D') {
-						tiles[x][y] = new Tile(x, y, rooms.get("Dining Room"), false, 'D');
+						tiles[x][y] = new Tile(x, y, rooms.get("Dining Room"), true, 'D');
 						rooms.get("Dining Room").getTiles().add(tiles[x][y]);
 					} else if (line.charAt(x) == 'd') {
 						tiles[x][y] = new Tile(x, y, rooms.get("Dining Room"), false, '.');

@@ -14,14 +14,16 @@ public class Room {
 	private ArrayList<Tile> tiles;
 	private Room connectingRoom;
 	private int roomNumber;
+	private char ID;
 
 	private ArrayList<Tile> doors;
 
-	public Room(String name, int number) {
+	public Room(String name, int number, char ID) {
 		this.name = name;
 		this.roomNumber = number;
 		this.doors = new ArrayList<Tile>();
 		this.tiles = new ArrayList<Tile>();
+		this.ID = ID;
 	}
 
 	/**
@@ -85,15 +87,26 @@ public class Room {
 
 	public void addWeaponToAvailableTile(Weapon weapon) {
 		for (Tile tile : tiles) {
-			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile()) {
+			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile() && !tile.isOccupied()) {
 				tile.setWeapon(weapon);
 				break;
 			}
 		}
 	}
 
-	public void addCharacterToAvailableTile(Character character) {
+	public void addPlayerToAvailableTile(Player player) {
+		for (Tile tile : tiles) {
+			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile() && !tile.isOccupied()) {
+				tile.setPlayer(player);
+				player.setxPos(tile.getX());
+				player.setyPos(tile.getY());
+				break;
+			}
+		}
+	}
 
+	public char getID() {
+		return ID;
 	}
 
 }
