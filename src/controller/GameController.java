@@ -268,8 +268,9 @@ public class GameController {
 		List<Weapon> remainingWeapons = new ArrayList<Weapon>();
 		remainingWeapons.addAll(ENTITIES.getWeapons());
 
-		Collections.shuffle(Arrays.asList(ENTITIES.getRooms()));
-		for (Entry<String, Room> room : ENTITIES.getRooms().entrySet()) {
+		List<Map.Entry<String, Room>> list = new ArrayList<Map.Entry<String, Room>>(ENTITIES.getRooms().entrySet());
+		Collections.shuffle(list);
+		for (Entry<String, Room> room : list) {
 			if (remainingWeapons.isEmpty())
 				break;
 			// room.
