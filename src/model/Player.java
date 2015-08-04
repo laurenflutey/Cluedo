@@ -51,6 +51,12 @@ public class Player extends Character {
 	private List<Card> successfulSuggestions;
 
 	/**
+	 * Suggestion that the player made, which can be considered as an accusation, as the player may only made one
+	 * accusation per game.
+	 */
+	private Suggestion accusation;
+
+	/**
 	 * Boolean to hold whether this is the current player or not and is used in
 	 * the {@link controller.GameController} to perform game logic
 	 *
@@ -171,5 +177,13 @@ public class Player extends Character {
 	 */
 	public void setAlive(boolean isAlive) {
 		this.isAlive = isAlive;
+	}
+
+	public Suggestion getAccusation() {
+		return accusation;
+	}
+
+	public void setAccusation(Suggestion accusation) {
+		this.accusation = accusation;
 	}
 }

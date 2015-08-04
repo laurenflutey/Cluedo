@@ -6,7 +6,6 @@ import view.UI;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -94,9 +93,10 @@ public class GameController {
 	private void doGame() {
 
 		int playerTurn = 0;
+		Player currentPlayer = null;
 		while (!isGameOver) {
 
-			Player currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
+			currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
 			currentPlayer.setIsCurrentPlayer(true);
 
 			BOARD.printBoard();
@@ -126,9 +126,14 @@ public class GameController {
 				makeSuggestion(currentPlayer);
 			}
 
-			// playerTurn++; //TODO set to never increment player for testing
-			// purposes
+			playerTurn++;
 		}
+
+		endGame(currentPlayer);
+	}
+
+	private void endGame(Player currentPlayer) {
+		UI.doEndGame(currentPlayer);
 	}
 
 	/**
@@ -142,7 +147,7 @@ public class GameController {
 	 *            The player trying to make the move
 	 */
 	private void doMove(Player currentPlayer) {
-		int roll = 5;
+		int roll = 30;
 
 		// TODO GAME LOGIC
 		System.out.println("x: " + currentPlayer.getxPos() + " y: " + currentPlayer.getyPos());
@@ -325,6 +330,8 @@ public class GameController {
 				}
 			}
 		}
+
+		player.setAccusation(suggestion);
 
 		return true;
 

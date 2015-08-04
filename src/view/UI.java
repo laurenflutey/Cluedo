@@ -378,4 +378,12 @@ public class UI {
 		}
 		System.out.println("\n");
 	}
+
+	public void doEndGame(Player currentPlayer) {
+		System.out.println("Congratulations " + currentPlayer.getName() + ", you accused correctly");
+		System.out.println("You guessed : ");
+		System.out.println("\t" + currentPlayer.getAccusation().getCharacter().getName());
+		System.out.println("\t" + currentPlayer.getAccusation().getRoom().getName());
+		System.out.println("\t" + currentPlayer.getAccusation().getWeapon().getName());
+	}
 }
