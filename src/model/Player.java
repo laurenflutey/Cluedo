@@ -44,7 +44,7 @@ public class Player extends Character {
 	/**
 	 * A collection of suggestions that the player has made whilst in a room
 	 */
-	private List<Suggestion> suggestions;
+	private List<Card> successfulSuggestions;
 
 	/**
 	 * Boolean to hold whether this is the current player or not and is used in the {@link controller.GameController}
@@ -66,7 +66,7 @@ public class Player extends Character {
 	public Player(String name, char ch, int xOrigin, int yOrigin) {
 		super(name, ch, xOrigin, yOrigin);
 		this.cards = new HashSet<Card>();
-		this.suggestions = new ArrayList<Suggestion>();
+		this.successfulSuggestions = new ArrayList<Card>();
 	}
 
 	public Character getCharacter() {
@@ -120,8 +120,8 @@ public class Player extends Character {
 	/**
 	 * @return the suggestions
 	 */
-	public List<Suggestion> getSuggestions() {
-		return suggestions;
+	public List<Card> getSuggestions() {
+		return successfulSuggestions;
 	}
 
 	/**
