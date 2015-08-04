@@ -76,10 +76,24 @@ public class Room {
 	}
 
 	/**
-	 * @param roomNumber the roomNumber to set
+	 * @param roomNumber
+	 *            the roomNumber to set
 	 */
 	public void setRoomNumber(int roomNumber) {
 		this.roomNumber = roomNumber;
+	}
+
+	public void addWeaponToAvailableTile(Weapon weapon) {
+		for (Tile tile : tiles) {
+			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile()) {
+				tile.setWeapon(weapon);
+				break;
+			}
+		}
+	}
+
+	public void addCharacterToAvailableTile(Character character) {
+
 	}
 
 }

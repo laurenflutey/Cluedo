@@ -8,6 +8,8 @@ public class Tile {
 	private int x, y;
 
 	private Player player;
+	
+	private Weapon weapon;
 
 	public Tile(int x, int y, Room room, boolean isWallTile, char name) {
 		this.x = x;
@@ -92,6 +94,20 @@ public class Tile {
 	 */
 	public boolean isDoor() {
 		return isDoor;
+	}
+
+	/**
+	 * @return the weapon
+	 */
+	public Weapon getWeapon() {
+		return weapon;
+	}
+
+	/**
+	 * @param weapon the weapon to set
+	 */
+	public void setWeapon(Weapon weapon) {
+		this.weapon = weapon;
 	}
 
 }
