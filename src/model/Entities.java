@@ -75,21 +75,21 @@ public class Entities {
 
 		weapons.add(new Weapon("Candlestick", '!'));
 		weapons.add(new Weapon("Dagger", '%'));
-		weapons.add(new Weapon("Lead Pipe", '|'));
+		weapons.add(new Weapon("Lead Pipe", '?'));
 		weapons.add(new Weapon("Revolver", '&'));
 		weapons.add(new Weapon("Rope", '#'));
 		weapons.add(new Weapon("Spanner", '*'));
 
-		Room kitchen = new Room("Kitchen", 1);
-		Room study = new Room("Study", 2);
-		Room lounge = new Room("Lounge", 3);
-		Room conservatory = new Room("Conservatory", 4);
-		Room ballRoom = new Room("Ball Room", 5);
-		Room billiardRoom = new Room("Billiard Room", 6);
-		Room library = new Room("Library", 7);
-		Room hall = new Room("Hall", 8);
-		Room diningRoom = new Room("Dining Room", 9);
-		Room pool = new Room("Pool", 10);
+		Room kitchen = new Room("Kitchen", 1, 'K');
+		Room study = new Room("Study", 2, 'S');
+		Room lounge = new Room("Lounge", 3, 'L');
+		Room conservatory = new Room("Conservatory", 4, 'C');
+		Room ballRoom = new Room("Ball Room", 5, 'B');
+		Room billiardRoom = new Room("Billiard Room", 6, 'I');
+		Room library = new Room("Library", 7, 'Y');
+		Room hall = new Room("Hall", 8, 'H');
+		Room diningRoom = new Room("Dining Room", 9, 'D');
+		Room pool = new Room("Pool", 10, 'X');
 
 		kitchen.setConnectingRoom(study);
 		study.setConnectingRoom(kitchen);

@@ -14,10 +14,11 @@ public class Room {
 	private ArrayList<Tile> tiles;
 	private Room connectingRoom;
 	private int roomNumber;
+	private char ID;
 
 	private ArrayList<Tile> doors;
 
-	public Room(String name, int number) {
+	public Room(String name, int number, char ID) {
 		this.name = name;
 		this.roomNumber = number;
 		this.doors = new ArrayList<Tile>();
@@ -94,6 +95,10 @@ public class Room {
 
 	public void addCharacterToAvailableTile(Character character) {
 
+	}
+
+	public char getID() {
+		return ID;
 	}
 
 }

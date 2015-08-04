@@ -142,8 +142,8 @@ public class UI {
 		 */
 		for (int i = 0; i < playerCount; i++) {
 
-			System.out.println("\nPlayer " + (i + 1) + ", please select a character:\n" +
-					"------------------------------------");
+			System.out.println(
+					"\nPlayer " + (i + 1) + ", please select a character:\n" + "------------------------------------");
 
 			// Displays the list of all remaining characters that can be chosen
 			for (int j = 0; j < characters.size(); j++) {
@@ -211,22 +211,28 @@ public class UI {
 	}
 
 	/**
-	 * Method to handle when a player wants to make a suggestion. The method gets the suggested character and
-	 * the suggested weapon. It then create a {@link Suggestion} object which is stored in the {@link Player}.
+	 * Method to handle when a player wants to make a suggestion. The method
+	 * gets the suggested character and the suggested weapon. It then create a
+	 * {@link Suggestion} object which is stored in the {@link Player}.
 	 *
-	 * @param characters List of characters in the game
-	 * @param weapons List of weapons in the game
-	 * @param currentPlayer The current player making the suggestion
+	 * @param characters
+	 *            List of characters in the game
+	 * @param weapons
+	 *            List of weapons in the game
+	 * @param currentPlayer
+	 *            The current player making the suggestion
 	 *
 	 * @return A Suggest that the player has picked
 	 */
 	public Suggestion getSuggestion(List<Character> characters, List<Weapon> weapons, Player currentPlayer) {
-		// Set the character and weapon to null initially, but assign the room to the current room
+		// Set the character and weapon to null initially, but assign the room
+		// to the current room
 		Character suggestedCharacter = null;
 		Weapon suggestedWeapon = null;
 		Room suggestedRoom = currentPlayer.getRoom();
 
-		// Displays the list of available characters that the user can select as a suggestion
+		// Displays the list of available characters that the user can select as
+		// a suggestion
 		System.out.println("Which character would you like to suggest: ");
 		for (int i = 0; i < characters.size(); i++) {
 			System.out.println((i + 1) + ": " + characters.get(i).getName());
@@ -239,7 +245,8 @@ public class UI {
 			}
 		}
 
-		// Displays the list of available weapons that the user can select as a suggestion
+		// Displays the list of available weapons that the user can select as a
+		// suggestion
 		System.out.println("Which weapon would you like to suggest: ");
 		for (int i = 0; i < weapons.size(); i++) {
 			System.out.println((i + 1) + ": " + weapons.get(i).getName());
@@ -258,14 +265,19 @@ public class UI {
 	}
 
 	/**
-	 * Delegate method to handle the parsing of a players proposed accusation. If a player incorrectly makes an
-	 * accusation, they're removed from the game.
+	 * Delegate method to handle the parsing of a players proposed accusation.
+	 * If a player incorrectly makes an accusation, they're removed from the
+	 * game.
 	 *
-	 * @param players List of characters in the game
-	 * @param weapons List of weapons in the game
-	 * @param rooms List of rooms in the game
+	 * @param players
+	 *            List of characters in the game
+	 * @param weapons
+	 *            List of weapons in the game
+	 * @param rooms
+	 *            List of rooms in the game
 	 *
-	 * @return Returns the proposed accusation in the form of a Suggestion object
+	 * @return Returns the proposed accusation in the form of a Suggestion
+	 *         object
 	 */
 	public Suggestion getAccusation(List<Character> players, List<Weapon> weapons, Map<String, Room> rooms) {
 		// Sets the suggestion components to null initially
@@ -288,7 +300,8 @@ public class UI {
 			}
 		}
 
-		// Display the list of weapons that the user can use as the accused murder weapon
+		// Display the list of weapons that the user can use as the accused
+		// murder weapon
 		System.out.println("Which weapon would you like to accuse: ");
 		for (int i = 0; i < weapons.size(); i++) {
 			System.out.println((i + 1) + ": " + weapons.get(i).getName());
@@ -327,7 +340,8 @@ public class UI {
 			}
 		}
 
-		// Finally returns the accusation back to the game controller, where it will be parsed to be valid or not.
+		// Finally returns the accusation back to the game controller, where it
+		// will be parsed to be valid or not.
 		return new Suggestion(suggestedCharacter, suggestedWeapon, suggestedRoom);
 
 	}
@@ -386,6 +400,32 @@ public class UI {
 		}
 	}
 
+	private void displayKeys(Entities entities) {
+
+		System.out.println("Key displayer: ");
+		System.out.println("---------------");
+		System.out.println("Weapons: \n");
+		System.out.println("---------------");
+		for (Weapon weapon : entities.getWeapons()) {
+			System.out.println("\u001B[33m" + weapon.getId() + " = " + weapon.getName() + "\u001B[0m");
+		}
+		System.out.println("\nCharacters: ");
+		System.out.println("---------------\n");
+		for (Player player : entities.getPlayers()) {
+			if (player.isCurrentPlayer()) {
+				System.out.println("\u001B[32m" + player.getPlayerNumber() + " = " + player.getName() + "\u001B[0m");
+			} else {
+				System.out.println("\u001B[31m" + player.getPlayerNumber() + " = " + player.getName() + "\u001B[0m");
+			}
+		}
+		System.out.println("\nRooms: ");
+		System.out.println("---------------\n");
+		for (Entry<String, Room> room : entities.getRooms().entrySet()) {
+			System.out.println(room.getValue().getID() + " = " + room.getValue().getName());
+		}
+
+	}
+
 	/**
 	 * Displays all the cards in the players hand
 	 *
@@ -410,11 +450,12 @@ public class UI {
 	}
 
 	/**
-	 * Simple method that simulates the output of the console being cleared by pushing the previous content
-	 * way up by printing 50 new lines
+	 * Simple method that simulates the output of the console being cleared by
+	 * pushing the previous content way up by printing 50 new lines
 	 */
 	public void doClearOutput() {
-		for (int i = 0; i < 50; ++i) System.out.println();
+		for (int i = 0; i < 50; ++i)
+			System.out.println();
 	}
 
 	public void doEndGame(Player currentPlayer) {
