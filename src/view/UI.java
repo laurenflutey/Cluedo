@@ -238,6 +238,7 @@ public class UI {
 			if (!players.contains(player)) {
 				player.setAlive(false);
 				player.setPlayerNumber(i += 1);
+				player.setCharacter(character);
 				players.add(player);
 			}
 		}

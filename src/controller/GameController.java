@@ -146,8 +146,10 @@ public class GameController {
 				// correctly, the game is over and they win
 				// Otherwise that player is removed from the game
 				if (makeAccusation(currentPlayer)) {
+					currentPlayer.setIsCurrentPlayer(false);
 					isGameOver = true;
 				} else {
+					currentPlayer.setIsCurrentPlayer(false);
 					currentPlayer.setAlive(false);
 				}
 			} else if (choice == 4) {
@@ -378,6 +380,8 @@ public class GameController {
 
 		playerRoom.addPlayerToAvailableTile(suggestion.getPlayer());
 		playerRoom.addWeaponToAvailableTile(suggestion.getWeapon());
+		
+		suggestion.getPlayer().setIsCurrentPlayer(false);
 
 		// loops through all the players to see if any have a matching card to
 		// the player's suggestion
