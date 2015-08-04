@@ -2,6 +2,8 @@ package controller;
 
 import model.*;
 
+import java.util.ArrayList;
+
 /**
  * Class to handle the movement of a player throughout the board
  *
@@ -38,14 +40,27 @@ public class MovementController {
      * @return Is the move valid?
      */
     public boolean isValidMove(Move move, Player player, int roll) {
-        if (isValidDistance(move, player, roll)) {
-            if (!isTileOccupied(move)) {
-                return pathSearch(move, TILES[player.getxPos()][player.getyPos()], roll);
+        if (player.isInRoom()) {
+            Room room = player.getRoom();
+            ArrayList<Tile> exits = room.getDoors();
+            for (Tile exit : exits) {
+                if (isValidDistance(move, exit, roll)) {
+                    if (!isTileOccupied(move)) {
+                        if(pathSearch(move, exit, roll)) return true;
+                    }
+                }
+            }
+            return false;
+        } else {
+            if (isValidDistance(move, TILES[player.getxPos()][player.getyPos()], roll)) {
+                if (!isTileOccupied(move)) {
+                    return pathSearch(move, TILES[player.getxPos()][player.getyPos()], roll);
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }
-        } else {
-            return false;
         }
     }
 
@@ -64,14 +79,14 @@ public class MovementController {
      * Checks whether it is possible for a {@link Tile} to be reached with a given roll
      *
      * @param move Move the player is trying to make
-     * @param player Player that is trying to make the move
+     * @param playerTile Player that is trying to make the move
      * @param roll Roll that the player has made
      *
      * @return Is the coordinate within a valid distance.
      */
-    private boolean isValidDistance(Move move, Player player, int roll) {
-        int changeX = Math.abs(move.getX() - player.getxPos());
-        int changeY = Math.abs(move.getY() - player.getyPos());
+    private boolean isValidDistance(Move move, Tile playerTile, int roll) {
+        int changeX = Math.abs(move.getX() - playerTile.getX());
+        int changeY = Math.abs(move.getY() - playerTile.getY());
 
         if ((changeX + changeY) <= roll) {
             return true;

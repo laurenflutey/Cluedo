@@ -143,6 +143,10 @@ public class Player extends Character {
 		this.room = room;
 	}
 
+	public boolean isInRoom() {
+		return this.room != null;
+	}
+
 	public boolean containsCardWithName(String name) {
 		for (Card card : cards) {
 			if (card.getName().equals(name)) {
