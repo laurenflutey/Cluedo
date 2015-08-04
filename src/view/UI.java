@@ -108,11 +108,18 @@ public class UI {
 		Move move = null;
 		int x, y;
 
+		// Continually loops until the player enters a valid move
 		while (move == null) {
 			if (reader.hasNext()) {
 				String character = reader.next();
+
+				// If the player entered a single character matching the single character regex
 				if (Pattern.matches(singleCharRegex, character)) {
+
+					// convert the players character to a valid int representing a x position on the board
 					x = parseCharacterToInt(character);
+
+					// Then parse the users y position on the board
 					if (reader.hasNextInt()) {
 						y = reader.nextInt();
 						move = new Move(x, y);
