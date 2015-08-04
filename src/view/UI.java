@@ -2,9 +2,12 @@ package view;
 
 import model.*;
 import model.Character;
+import model.Room;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 /**
@@ -199,16 +202,56 @@ public class UI {
 		}
 	}
 
-	public Suggestion getSuggestion(List<Player> players, List<Weapon> weapons, Player currentPlayer) {
+	public Suggestion getSuggestion(List<Character> players, List<Weapon> weapons, Player currentPlayer) {
 
 		Character suggestedCharacter = null;
 		Weapon suggestedWeapon = null;
 		Room suggestedRoom = currentPlayer.getRoom();
 
+		System.out.println("Which character would you like to suggest: ");
+
+		for (int i = 0; i < players.size(); i++) {
+			System.out.println((i + 1) + ": " + players.get(i).getName());
+		}
+
+		boolean found = false;
+		while (!found) {
+			if (reader.hasNextInt()) {
+				suggestedCharacter = players.get(reader.nextInt() - 1);
+				found = true;
+			}
+		}
+
+		System.out.println("Which weapon would you like to suggest: ");
+
+		for (int i = 0; i < weapons.size(); i++) {
+			System.out.println((i + 1) + ": " + weapons.get(i).getName());
+		}
+
+		found = false;
+		while (!found) {
+
+			if (reader.hasNextInt()) {
+				suggestedWeapon = weapons.get(reader.nextInt() - 1);
+				found = true;
+			}
+		}
+
+		return new Suggestion(suggestedCharacter, suggestedWeapon, suggestedRoom);
+
+	}
+
+	public Suggestion getAccusation(List<Character> players, List<Weapon> weapons, Map<String, Room> rooms,
+			Player currentPlayer) {
+
+		Character suggestedCharacter = null;
+		Weapon suggestedWeapon = null;
+		Room suggestedRoom = null;
+
 		System.out.println("Which character would you like to accuse: ");
 
 		for (int i = 0; i < players.size(); i++) {
-			System.out.println((i+1) + ": " + players.get(i).getName());
+			System.out.println((i + 1) + ": " + players.get(i).getName());
 		}
 
 		boolean found = false;
@@ -222,7 +265,7 @@ public class UI {
 		System.out.println("Which weapon would you like to accuse: ");
 
 		for (int i = 0; i < weapons.size(); i++) {
-			System.out.println((i+1) + ": " + weapons.get(i).getName());
+			System.out.println((i + 1) + ": " + weapons.get(i).getName());
 		}
 
 		found = false;
@@ -230,6 +273,30 @@ public class UI {
 
 			if (reader.hasNextInt()) {
 				suggestedWeapon = weapons.get(reader.nextInt() - 1);
+				found = true;
+			}
+		}
+
+		System.out.println("Which room would you like to accuse: ");
+
+		for (int i = 0; i < rooms.size(); i++) {
+			for (Entry<String, Room> room : rooms.entrySet()) {
+				if (room.getValue().getRoomNumber() == i + 1) {
+					System.out.println(room.getValue().getRoomNumber() + ": " + room.getKey());
+				}
+			}
+		}
+
+		found = false;
+		while (!found) {
+
+			if (reader.hasNextInt()) {
+				int index = reader.nextInt();
+				for (Entry<String, Room> room : rooms.entrySet()) {
+					if (room.getValue().getRoomNumber() == index) {
+						suggestedRoom = room.getValue();
+					}
+				}
 				found = true;
 			}
 		}

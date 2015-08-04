@@ -3,8 +3,13 @@ package controller;
 import model.*;
 import view.UI;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -78,6 +83,7 @@ public class GameController {
 		isGameOver = false;
 		chooseSolutionCards();
 		dealCards();
+		distributeWeapons();
 		// Board.parseBoard("Board.txt", ENTITIES);
 		doGame();
 	}
@@ -110,9 +116,15 @@ public class GameController {
 
 			if (choice == 1) {
 				doMove(currentPlayer);
-			}
+			} else if (choice == 3) {
 
-			else if (choice == 4) {
+				if (makeAccusation(currentPlayer)) {
+					isGameOver = true;
+				} else {
+					currentPlayer.setAlive(false);
+				}
+
+			} else if (choice == 4) {
 				makeSuggestion(currentPlayer);
 			}
 
@@ -251,9 +263,26 @@ public class GameController {
 
 	}
 
+	private void distributeWeapons() {
+
+		List<Weapon> remainingWeapons = new ArrayList<Weapon>();
+		remainingWeapons.addAll(ENTITIES.getWeapons());
+
+		List<Map.Entry<String, Room>> list = new ArrayList<Map.Entry<String, Room>>(ENTITIES.getRooms().entrySet());
+		Collections.shuffle(list);
+		for (Entry<String, Room> room : list) {
+			if (remainingWeapons.isEmpty())
+				break;
+			// room.
+			room.getValue().addWeaponToAvailableTile(remainingWeapons.get(0));
+			remainingWeapons.remove(0);
+		}
+
+	}
+
 	private void makeSuggestion(Player player) {
 
-		Suggestion suggestion = UI.getSuggestion(ENTITIES.getPlayers(), ENTITIES.getWeapons(), player);
+		Suggestion suggestion = UI.getSuggestion(ENTITIES.getFinalCharacters(), ENTITIES.getWeapons(), player);
 
 		int count = 0;
 		int index = player.getPlayerNumber();
@@ -276,4 +305,34 @@ public class GameController {
 		}
 
 	}
+
+	private boolean makeAccusation(Player player) {
+
+		for (Card card : ENTITIES.getWinningCards()) {
+			System.out.println(card.getName());
+		}
+
+		Suggestion suggestion = UI.getAccusation(ENTITIES.getFinalCharacters(), ENTITIES.getWeapons(),
+				ENTITIES.getRooms(), player);
+
+		for (Card card : ENTITIES.getWinningCards()) {
+			if (card.getType().equals("Weapon")) {
+				if (!card.getName().equals(suggestion.getWeapon().getName())) {
+					return false;
+				}
+			} else if (card.getType().equals("Player")) {
+				if (!card.getName().equals(suggestion.getCharacter().getName())) {
+					return false;
+				}
+			} else if (card.getType().equals("Room")) {
+				if (!card.getName().equals(suggestion.getRoom().getName())) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+
+	}
+
 }
