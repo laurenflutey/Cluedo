@@ -2,13 +2,13 @@ package view;
 
 import model.*;
 import model.Character;
-import model.Room;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 /**
  * MVC View class for interacting with the players in the Cluedo game.
@@ -29,6 +29,8 @@ public class UI {
 	 * Input scanner used to handle all inputted information from the players
 	 */
 	private Scanner reader = new Scanner(System.in);
+
+	private String singleCharRegex = "[a-zA-Z]";
 
 	/**
 	 * Constructor for the UI Class
@@ -97,25 +99,62 @@ public class UI {
 	 * @return Returns the players move
 	 */
 	public Move getPlayerMove(Player player, int roll) {
-		System.out.println(player.getName() + ", you rolled a " + roll + ". You're currently at x: " + player.getxPos()
-				+ " y: " + player.getyPos());
+		System.out.println(player.getName() + ", you rolled a " + roll + ". You're currently at x: "
+				+ parseIntToCharacter(player.getxPos()) + " y: " + player.getyPos());
 
-		System.out.println("\nPlease enter the x:y coordinate for your move (e.g 10 12)");
+		System.out.println("\nPlease enter the x:y coordinate for your move (e.g F 12)");
 
 		Move move = null;
 		int x, y;
 
+		// Continually loops until the player enters a valid move
 		while (move == null) {
-			if (reader.hasNextInt()) {
-				x = reader.nextInt();
-				if (reader.hasNextInt()) {
-					y = reader.nextInt();
-					move = new Move(x, y);
+			if (reader.hasNext()) {
+				String character = reader.next();
+
+				// If the player entered a single character matching the single
+				// character regex
+				if (Pattern.matches(singleCharRegex, character)) {
+
+					// convert the players character to a valid int representing
+					// a x position on the board
+					x = parseCharacterToInt(character);
+
+					// Then parse the users y position on the board
+					if (reader.hasNextInt()) {
+						y = reader.nextInt();
+						move = new Move(x, y);
+					}
 				}
 			}
 		}
 
 		return move;
+	}
+
+	/**
+	 * Method to parse the integer value from a char
+	 *
+	 * @param character
+	 *            String representing a single char
+	 *
+	 * @return int value representing the a-z grid value of the board
+	 */
+	private int parseCharacterToInt(String character) {
+		character = character.toLowerCase();
+		return (int) character.charAt(0) - 97;
+	}
+
+	/**
+	 * Parses the int x position back to a char to be displayed to the user
+	 *
+	 * @param xPosition
+	 *            X position of the player on the board
+	 *
+	 * @return character value representing the players position on the board
+	 */
+	private char parseIntToCharacter(int xPosition) {
+		return java.lang.Character.toUpperCase((char) (xPosition + 97));
 	}
 
 	/**
@@ -490,11 +529,17 @@ public class UI {
 			System.out.println();
 	}
 
-	public void doEndGame(Player currentPlayer) {
-		System.out.println("Congratulations " + currentPlayer.getName() + ", you accused correctly");
+	/**
+	 * Method to handle the end game display
+	 *
+	 * @param winningPlayer
+	 *            The Player who won the game
+	 */
+	public void doEndGame(Player winningPlayer) {
+		System.out.println("Congratulations " + winningPlayer.getName() + ", you accused correctly");
 		System.out.println("You guessed : ");
-		System.out.println("\t" + currentPlayer.getAccusation().getPlayer().getName());
-		System.out.println("\t" + currentPlayer.getAccusation().getRoom().getName());
-		System.out.println("\t" + currentPlayer.getAccusation().getWeapon().getName());
+		System.out.println("\t" + winningPlayer.getAccusation().getPlayer().getName());
+		System.out.println("\t" + winningPlayer.getAccusation().getRoom().getName());
+		System.out.println("\t" + winningPlayer.getAccusation().getWeapon().getName());
 	}
 }
