@@ -254,7 +254,6 @@ public class GameController {
 	private void makeSuggestion(Player player) {
 
 		Suggestion suggestion = UI.getSuggestion(ENTITIES.getPlayers(), ENTITIES.getWeapons(), player);
-		player.getSuggestions().add(suggestion);
 
 		int count = 0;
 		int index = player.getPlayerNumber();
@@ -263,15 +262,17 @@ public class GameController {
 			Player nextPlayer = ENTITIES.getPlayer((index + count) % playerCount);
 
 			if (nextPlayer.getCards().contains(suggestion.getCharacter())) {
-
+				player.getSuggestions().add(new Card(suggestion.getCharacter().getName(), "Character"));
+				found = true;
 			} else if (nextPlayer.getCards().contains(suggestion.getRoom())) {
-
+				player.getSuggestions().add(new Card(suggestion.getRoom().getName(), "Room"));
+				found = true;
 			} else if (nextPlayer.getCards().contains(suggestion.getWeapon())) {
-
+				player.getSuggestions().add(new Card(suggestion.getCharacter().getName(), "Weapon"));
+				found = true;
 			} else {
 				count++;
 			}
-
 		}
 
 	}
