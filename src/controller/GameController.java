@@ -31,9 +31,11 @@ public class GameController {
 	private final Board BOARD;
 
 	/**
-	 * Movement controller used to handle all of the players movement throughout the board.
+	 * Movement controller used to handle all of the players movement throughout
+	 * the board.
 	 *
-	 * Movement is controlled by a recursive brute force(maybe greedy?) algorithm
+	 * Movement is controlled by a recursive brute force(maybe greedy?)
+	 * algorithm
 	 */
 	private final MovementController MOVEMENT_CONTROLLER;
 
@@ -105,22 +107,29 @@ public class GameController {
 				doMove(currentPlayer);
 			}
 
+			else if (choice == 4) {
+				makeSuggestion(currentPlayer);
+			}
 
-			//playerTurn++; //TODO set to never increment player for testing purposes
+			// playerTurn++; //TODO set to never increment player for testing
+			// purposes
 		}
 	}
 
 	/**
-	 * Method to handle the choice when the player wants to move around the board.
+	 * Method to handle the choice when the player wants to move around the
+	 * board.
 	 *
-	 * Rolls the dice for the player and then delegates to {@link UI} to get the move coordinates
+	 * Rolls the dice for the player and then delegates to {@link UI} to get the
+	 * move coordinates
 	 *
-	 * @param currentPlayer The player trying to make the move
+	 * @param currentPlayer
+	 *            The player trying to make the move
 	 */
 	private void doMove(Player currentPlayer) {
 		int roll = rollDice();
 
-		//TODO GAME LOGIC
+		// TODO GAME LOGIC
 		System.out.println("x: " + currentPlayer.getxPos() + " y: " + currentPlayer.getyPos());
 		System.out.println("currentPlayerNumber = " + currentPlayer.getPlayerNumber());
 		System.out.println("roll = " + roll);
@@ -130,7 +139,7 @@ public class GameController {
 
 		while (!validTurn) {
 			proposedMove = UI.getPlayerMove(currentPlayer);
-			if(MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll)) {
+			if (MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll)) {
 				tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(null);
 				currentPlayer.setxPos(proposedMove.getX());
 				currentPlayer.setyPos(proposedMove.getY());
@@ -147,10 +156,11 @@ public class GameController {
 	}
 
 	/**
-	 * Method to delegate the option select to the {@link UI} class, and gets the player's proposed move for their
-	 * turn.
+	 * Method to delegate the option select to the {@link UI} class, and gets
+	 * the player's proposed move for their turn.
 	 *
-	 * @param currentPlayer Player to select the move
+	 * @param currentPlayer
+	 *            Player to select the move
 	 *
 	 * @return int representing the players choice for their move
 	 */
@@ -240,6 +250,24 @@ public class GameController {
 
 		Suggestion suggestion = UI.getSuggestion(ENTITIES.getPlayers(), ENTITIES.getWeapons(), player);
 		player.getSuggestions().add(suggestion);
+
+		int count = 0;
+		int index = player.getPlayerNumber();
+		boolean found = false;
+		while (count < playerCount && !found) {
+			Player nextPlayer = ENTITIES.getPlayer((index + count) % playerCount);
+
+			if (nextPlayer.getCards().contains(suggestion.getCharacter())) {
+
+			} else if (nextPlayer.getCards().contains(suggestion.getRoom())) {
+
+			} else if (nextPlayer.getCards().contains(suggestion.getWeapon())) {
+
+			} else {
+				count++;
+			}
+
+		}
 
 	}
 }
