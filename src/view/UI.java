@@ -541,4 +541,28 @@ public class UI {
 		System.out.println("\t" + winningPlayer.getAccusation().getRoom().getName());
 		System.out.println("\t" + winningPlayer.getAccusation().getWeapon().getName());
 	}
+
+	/**
+	 * Confirms with the user if they want to take the secret passage to the room or not.
+	 *
+	 * @param currentPlayer The player going between secret rooms
+	 *
+	 * @return Does the Player want to go to the connection room or not?
+	 */
+	public boolean doSecretPassageConfirm(Player currentPlayer) {
+		System.out.println(currentPlayer.getName() + ", take secret passage to "
+				+ currentPlayer.getRoom().getConnectingRoom().getName() + ": y/n?");
+
+		// Continually loop until the user either selects y or n
+		while (true) {
+			if (reader.hasNext()) {
+				char ch = reader.next().charAt(0);
+				if (ch == 'y' || ch == 'Y') {
+					return true;
+				} else if (ch == 'n' || ch == 'N') {
+					return false;
+				}
+			}
+		}
+	}
 }
