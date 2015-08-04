@@ -4,6 +4,8 @@ import model.*;
 import view.UI;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -265,10 +267,12 @@ public class GameController {
 
 		List<Weapon> remainingWeapons = new ArrayList<Weapon>();
 		remainingWeapons.addAll(ENTITIES.getWeapons());
-		
+
+		Collections.shuffle(Arrays.asList(ENTITIES.getRooms()));
 		for (Entry<String, Room> room : ENTITIES.getRooms().entrySet()) {
-			if(remainingWeapons.isEmpty()) break;
-			//room.
+			if (remainingWeapons.isEmpty())
+				break;
+			// room.
 			room.getValue().addWeaponToAvailableTile(remainingWeapons.get(0));
 			remainingWeapons.remove(0);
 		}
