@@ -276,4 +276,8 @@ public class GameController {
 		}
 
 	}
+	
+	private void makeAccusation(Player player){
+		
+	}
 }
