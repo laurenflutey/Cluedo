@@ -146,10 +146,8 @@ public class GameController {
 				// correctly, the game is over and they win
 				// Otherwise that player is removed from the game
 				if (makeAccusation(currentPlayer)) {
-					currentPlayer.setIsCurrentPlayer(false);
 					isGameOver = true;
 				} else {
-					currentPlayer.setIsCurrentPlayer(false);
 					currentPlayer.setAlive(false);
 				}
 			} else if (choice == 4) {
@@ -162,6 +160,7 @@ public class GameController {
 			// player virtually clockwise will take
 			// their turn.
 			playerTurn++;
+			currentPlayer.setIsCurrentPlayer(false);
 		}
 
 		// The game is now over and the current player is the winner. Do endGame
