@@ -279,40 +279,47 @@ public class GameController {
 
 	}
 
-	private void makeSuggestion(Player player) {
+	/**
+	 * Method to handle the logic for a {@link Suggestion}. A player may make a suggest when they're in a room,
+	 * and if their proposed suggestion contains invalid cards, players around the board will reveal that their
+	 * suggestion was incorrect.
+	 *
+	 * @param suggestingPlayer The player making the suggestion
+	 */
+	private void makeSuggestion(Player suggestingPlayer) {
 
-		Suggestion suggestion = UI.getSuggestion(ENTITIES.getFinalCharacters(), ENTITIES.getWeapons(), player);
+		Suggestion suggestion = UI.getSuggestion(ENTITIES.getFinalCharacters(), ENTITIES.getWeapons(), suggestingPlayer);
 
 		int count = 0;
-		int index = player.getPlayerNumber();
+		int index = suggestingPlayer.getPlayerNumber();
 		boolean found = false;
+
+		// loops through all the players to see if any have a matching card to the player's suggestion
 		while (count < playerCount && !found) {
 			Player nextPlayer = ENTITIES.getPlayer((index + count) % playerCount);
 
+			// Checks for matching characters, then rooms and finally weapons, this is not worth randomising
 			if (nextPlayer.containsCardWithName(suggestion.getCharacter().getName())) {
-				player.getSuggestions().add(new Card(suggestion.getCharacter().getName(), "Character"));
+				suggestingPlayer.getSuggestions().add(new Card(suggestion.getCharacter().getName(), "Character"));
 				found = true;
 			} else if (nextPlayer.containsCardWithName(suggestion.getRoom().getName())) {
-				player.getSuggestions().add(new Card(suggestion.getRoom().getName(), "Room"));
+				suggestingPlayer.getSuggestions().add(new Card(suggestion.getRoom().getName(), "Room"));
 				found = true;
 			} else if (nextPlayer.containsCardWithName(suggestion.getWeapon().getName())) {
-				player.getSuggestions().add(new Card(suggestion.getCharacter().getName(), "Weapon"));
+				suggestingPlayer.getSuggestions().add(new Card(suggestion.getCharacter().getName(), "Weapon"));
 				found = true;
 			} else {
 				count++;
 			}
 		}
-
 	}
 
 	private boolean makeAccusation(Player player) {
 
-		for (Card card : ENTITIES.getWinningCards()) {
-			System.out.println(card.getName());
-		}
+		UI.doClearOutput();
 
 		Suggestion suggestion = UI.getAccusation(ENTITIES.getFinalCharacters(), ENTITIES.getWeapons(),
-				ENTITIES.getRooms(), player);
+				ENTITIES.getRooms());
 
 		for (Card card : ENTITIES.getWinningCards()) {
 			if (card.getType().equals("Weapon")) {

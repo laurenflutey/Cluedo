@@ -81,8 +81,8 @@ public class Player extends Character {
 	 */
 	public Player(String name, char ch, int xOrigin, int yOrigin) {
 		super(name, ch, xOrigin, yOrigin);
-		this.cards = new HashSet<Card>();
-		this.successfulSuggestions = new ArrayList<Card>();
+		this.cards = new HashSet<>();
+		this.successfulSuggestions = new ArrayList<>();
 	}
 
 	public Character getCharacter() {
@@ -139,6 +139,7 @@ public class Player extends Character {
 	public List<Card> getSuggestions() {
 		return successfulSuggestions;
 	}
+
 
 	/**
 	 * @return the room

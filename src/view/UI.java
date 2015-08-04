@@ -210,53 +210,60 @@ public class UI {
 		}
 	}
 
-	public Suggestion getSuggestion(List<Character> players, List<Weapon> weapons, Player currentPlayer) {
-
+	/**
+	 * Method to handle when a player wants to make a suggestion. The method gets the suggested character and
+	 * the suggested weapon. It then create a {@link Suggestion} object which is stored in the {@link Player}.
+	 *
+	 * @param characters List of characters in the game
+	 * @param weapons List of weapons in the game
+	 * @param currentPlayer The current player making the suggestion
+	 *
+	 * @return A Suggest that the player has picked
+	 */
+	public Suggestion getSuggestion(List<Character> characters, List<Weapon> weapons, Player currentPlayer) {
+		// Set the character and weapon to null initially, but assign the room to the current room
 		Character suggestedCharacter = null;
 		Weapon suggestedWeapon = null;
 		Room suggestedRoom = currentPlayer.getRoom();
 
+		// Displays the list of available characters that the user can select as a suggestion
 		System.out.println("Which character would you like to suggest: ");
-
-		for (int i = 0; i < players.size(); i++) {
-			System.out.println((i + 1) + ": " + players.get(i).getName());
+		for (int i = 0; i < characters.size(); i++) {
+			System.out.println((i + 1) + ": " + characters.get(i).getName());
 		}
 
-		boolean found = false;
-		while (!found) {
+		// loop until the user selects a valid character to suggest
+		while (suggestedCharacter == null) {
 			if (reader.hasNextInt()) {
-				suggestedCharacter = players.get(reader.nextInt() - 1);
-				found = true;
+				suggestedCharacter = characters.get(reader.nextInt() - 1);
 			}
 		}
 
+		// Displays the list of available weapons that the user can select as a suggestion
 		System.out.println("Which weapon would you like to suggest: ");
-
 		for (int i = 0; i < weapons.size(); i++) {
 			System.out.println((i + 1) + ": " + weapons.get(i).getName());
 		}
 
-		found = false;
-		while (!found) {
-
+		// loop until the user selects a valid weapon to suggest
+		while (suggestedWeapon == null) {
 			if (reader.hasNextInt()) {
 				suggestedWeapon = weapons.get(reader.nextInt() - 1);
-				found = true;
 			}
 		}
 
+		// The suggestion is then return and stored in the Player
 		return new Suggestion(suggestedCharacter, suggestedWeapon, suggestedRoom);
 
 	}
 
-	public Suggestion getAccusation(List<Character> players, List<Weapon> weapons, Map<String, Room> rooms,
-			Player currentPlayer) {
+	public Suggestion getAccusation(List<Character> players, List<Weapon> weapons, Map<String, Room> rooms) {
 
 		Character suggestedCharacter = null;
 		Weapon suggestedWeapon = null;
 		Room suggestedRoom = null;
 
-		System.out.println("Which character would you like to accuse: ");
+		System.out.println("\nWhich character would you like to accuse: ");
 
 		for (int i = 0; i < players.size(); i++) {
 			System.out.println((i + 1) + ": " + players.get(i).getName());
