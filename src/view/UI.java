@@ -224,24 +224,24 @@ public class UI {
 	 *
 	 * @return A Suggest that the player has picked
 	 */
-	public Suggestion getSuggestion(List<Character> characters, List<Weapon> weapons, Player currentPlayer) {
+	public Suggestion getSuggestion(List<Player> players, List<Weapon> weapons, Player currentPlayer) {
 		// Set the character and weapon to null initially, but assign the room
 		// to the current room
-		Character suggestedCharacter = null;
+		Player suggestedPlayer = null;
 		Weapon suggestedWeapon = null;
 		Room suggestedRoom = currentPlayer.getRoom();
 
 		// Displays the list of available characters that the user can select as
 		// a suggestion
-		System.out.println("Which character would you like to suggest: ");
-		for (int i = 0; i < characters.size(); i++) {
-			System.out.println((i + 1) + ": " + characters.get(i).getName());
+		System.out.println("Which player would you like to suggest: ");
+		for (int i = 0; i < players.size(); i++) {
+			System.out.println((i + 1) + ": " + players.get(i).getName());
 		}
 
 		// loop until the user selects a valid character to suggest
-		while (suggestedCharacter == null) {
+		while (suggestedPlayer == null) {
 			if (reader.hasNextInt()) {
-				suggestedCharacter = characters.get(reader.nextInt() - 1);
+				suggestedPlayer = players.get(reader.nextInt() - 1);
 			}
 		}
 
@@ -260,7 +260,7 @@ public class UI {
 		}
 
 		// The suggestion is then return and stored in the Player
-		return new Suggestion(suggestedCharacter, suggestedWeapon, suggestedRoom);
+		return new Suggestion(suggestedPlayer, suggestedWeapon, suggestedRoom);
 
 	}
 
@@ -279,9 +279,9 @@ public class UI {
 	 * @return Returns the proposed accusation in the form of a Suggestion
 	 *         object
 	 */
-	public Suggestion getAccusation(List<Character> players, List<Weapon> weapons, Map<String, Room> rooms) {
+	public Suggestion getAccusation(List<Player> players, List<Weapon> weapons, Map<String, Room> rooms) {
 		// Sets the suggestion components to null initially
-		Character suggestedCharacter = null;
+		Player suggestedPlayer = null;
 		Weapon suggestedWeapon = null;
 		Room suggestedRoom = null;
 
@@ -295,7 +295,7 @@ public class UI {
 		boolean found = false;
 		while (!found) {
 			if (reader.hasNextInt()) {
-				suggestedCharacter = players.get(reader.nextInt() - 1);
+				suggestedPlayer = players.get(reader.nextInt() - 1);
 				found = true;
 			}
 		}
@@ -342,7 +342,7 @@ public class UI {
 
 		// Finally returns the accusation back to the game controller, where it
 		// will be parsed to be valid or not.
-		return new Suggestion(suggestedCharacter, suggestedWeapon, suggestedRoom);
+		return new Suggestion(suggestedPlayer, suggestedWeapon, suggestedRoom);
 
 	}
 
@@ -467,7 +467,7 @@ public class UI {
 	public void doEndGame(Player currentPlayer) {
 		System.out.println("Congratulations " + currentPlayer.getName() + ", you accused correctly");
 		System.out.println("You guessed : ");
-		System.out.println("\t" + currentPlayer.getAccusation().getCharacter().getName());
+		System.out.println("\t" + currentPlayer.getAccusation().getPlayer().getName());
 		System.out.println("\t" + currentPlayer.getAccusation().getRoom().getName());
 		System.out.println("\t" + currentPlayer.getAccusation().getWeapon().getName());
 	}

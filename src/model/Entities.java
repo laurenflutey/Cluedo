@@ -44,7 +44,7 @@ public class Entities {
 
 	private List<Player> players;
 
-	private List<Character> finalCharacters;
+	private List<Player> finalPlayers;
 
 	private Set<Card> winningCards;
 
@@ -57,7 +57,7 @@ public class Entities {
 	private void init() {
 
 		characters = new ArrayList<Character>();
-		finalCharacters = new ArrayList<Character>();
+		finalPlayers = new ArrayList<Player>();
 		weapons = new ArrayList<Weapon>();
 		rooms = new HashMap<String, Room>();
 		cards = new ArrayList<Card>();
@@ -70,8 +70,6 @@ public class Entities {
 		characters.add(new Character("Colonel Mustard", 'm', 0, 18));
 		characters.add(new Character("Mrs White", 'w', 9, 0));
 		characters.add(new Character("Reverend Green", 'g', 14, 0));
-
-		finalCharacters.addAll(characters);
 
 		weapons.add(new Weapon("Candlestick", '!'));
 		weapons.add(new Weapon("Dagger", '%'));
@@ -196,16 +194,16 @@ public class Entities {
 	/**
 	 * @return the finalCharacters
 	 */
-	public List<Character> getFinalCharacters() {
-		return finalCharacters;
+	public List<Player> getFinalPlayers() {
+		return finalPlayers;
 	}
 
 	/**
 	 * @param finalCharacters
 	 *            the finalCharacters to set
 	 */
-	public void setFinalCharacters(List<Character> finalCharacters) {
-		this.finalCharacters = finalCharacters;
+	public void setFinalPlayers(List<Player> finalPlayers) {
+		this.finalPlayers = finalPlayers;
 	}
 
 	public Player getPlayerFromCharacter(Character character) {
