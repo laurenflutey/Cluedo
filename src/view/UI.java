@@ -269,7 +269,7 @@ public class UI {
 	 * gets the suggested character and the suggested weapon. It then create a
 	 * {@link Suggestion} object which is stored in the {@link Player}.
 	 *
-	 * @param characters
+	 * @param players
 	 *            List of characters in the game
 	 * @param weapons
 	 *            List of weapons in the game
