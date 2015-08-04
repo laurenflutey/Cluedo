@@ -91,16 +91,21 @@ public class GameController {
 
 		int playerTurn = 0;
 		while (!isGameOver) {
-			BOARD.printBoard();
 
 			Player currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
 			currentPlayer.setIsCurrentPlayer(true);
+
+			BOARD.printBoard();
 
 			System.out.println(currentPlayer.getName() + ", what would you like to do?");
 
 			int choice = -1;
 			while (choice == -1) {
 				choice = displayOptions(currentPlayer);
+				if (choice == 2) {
+					UI.doDisplayInformation(currentPlayer);
+					choice = -1;
+				}
 			}
 
 			if (choice == 1) {
