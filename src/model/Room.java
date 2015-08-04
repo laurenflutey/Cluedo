@@ -23,6 +23,7 @@ public class Room {
 		this.roomNumber = number;
 		this.doors = new ArrayList<Tile>();
 		this.tiles = new ArrayList<Tile>();
+		this.ID = ID;
 	}
 
 	/**
