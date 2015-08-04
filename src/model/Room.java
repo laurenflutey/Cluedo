@@ -13,11 +13,12 @@ public class Room {
 	private String name;
 	private ArrayList<Tile> tiles;
 	private Room connectingRoom;
-	
+
 	private ArrayList<Tile> doors;
 
 	public Room(String name) {
 		this.name = name;
+		this.doors = new ArrayList<Tile>();
 		this.tiles = new ArrayList<Tile>();
 	}
 
@@ -58,7 +59,8 @@ public class Room {
 	}
 
 	/**
-	 * @param doors the doors to set
+	 * @param doors
+	 *            the doors to set
 	 */
 	public void setDoors(ArrayList<Tile> doors) {
 		this.doors = doors;
