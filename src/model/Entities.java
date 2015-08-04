@@ -44,6 +44,8 @@ public class Entities {
 
 	private List<Player> players;
 
+	private List<Character> finalCharacters;
+
 	private Set<Card> winningCards;
 
 	private Board board;
@@ -54,7 +56,8 @@ public class Entities {
 
 	private void init() {
 
-		characters = new ArrayList<>();
+		characters = new ArrayList<Character>();
+		finalCharacters = new ArrayList<Character>();
 		weapons = new ArrayList<Weapon>();
 		rooms = new HashMap<String, Room>();
 		cards = new ArrayList<Card>();
@@ -62,16 +65,13 @@ public class Entities {
 		winningCards = new HashSet<Card>();
 
 		characters.add(new Character("Mrs Peacock", 'p', 23, 6));
-		
 		characters.add(new Character("Proffesor Plum", 'r', 23, 20));
-		
 		characters.add(new Character("Miss Scarlet", 's', 7, 25));
-		
 		characters.add(new Character("Colonel Mustard", 'm', 0, 18));
-		
 		characters.add(new Character("Mrs White", 'w', 9, 0));
-		
 		characters.add(new Character("Reverend Green", 'g', 14, 0));
+
+		finalCharacters.addAll(characters);
 
 		weapons.add(new Weapon("Candlestick"));
 		weapons.add(new Weapon("Dagger"));
@@ -80,16 +80,16 @@ public class Entities {
 		weapons.add(new Weapon("Rope"));
 		weapons.add(new Weapon("Spanner"));
 
-		Room kitchen = new Room("Kitchen");
-		Room study = new Room("Study");
-		Room lounge = new Room("Lounge");
-		Room conservatory = new Room("Conservatory");
-		Room ballRoom = new Room("Ball Room");
-		Room billiardRoom = new Room("Billiard Room");
-		Room library = new Room("Library");
-		Room hall = new Room("Hall");
-		Room diningRoom = new Room("Dining Room");
-		Room pool = new Room("Pool");
+		Room kitchen = new Room("Kitchen", 1);
+		Room study = new Room("Study", 2);
+		Room lounge = new Room("Lounge", 3);
+		Room conservatory = new Room("Conservatory", 4);
+		Room ballRoom = new Room("Ball Room", 5);
+		Room billiardRoom = new Room("Billiard Room", 6);
+		Room library = new Room("Library", 7);
+		Room hall = new Room("Hall", 8);
+		Room diningRoom = new Room("Dining Room", 9);
+		Room pool = new Room("Pool", 10);
 
 		kitchen.setConnectingRoom(study);
 		study.setConnectingRoom(kitchen);
@@ -139,7 +139,8 @@ public class Entities {
 	/**
 	 * Getter
 	 *
-	 * @param index index of player to get from players list
+	 * @param index
+	 *            index of player to get from players list
 	 *
 	 * @return {@link Player}
 	 */
@@ -190,4 +191,20 @@ public class Entities {
 	public Set<Card> getWinningCards() {
 		return winningCards;
 	}
+
+	/**
+	 * @return the finalCharacters
+	 */
+	public List<Character> getFinalCharacters() {
+		return finalCharacters;
+	}
+
+	/**
+	 * @param finalCharacters
+	 *            the finalCharacters to set
+	 */
+	public void setFinalCharacters(List<Character> finalCharacters) {
+		this.finalCharacters = finalCharacters;
+	}
+
 }
