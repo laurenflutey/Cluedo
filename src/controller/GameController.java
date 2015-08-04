@@ -73,12 +73,18 @@ public class GameController {
 	public void initGame() {
 		// Delegates player count parsing to UI class
 		playerCount = UI.getPlayerCount();
+
+		// Initialises all the players and sets the game state
 		initPlayers();
 		isGameOver = false;
+
+		/* Creates a final game solution, deals the cards to the players,
+		   and distributes the weapons throughout the board */
 		chooseSolutionCards();
 		dealCards();
 		distributeWeapons();
-		// Board.parseBoard("Board.txt", ENTITIES);
+
+		// Begin the game loop
 		doGame();
 	}
 
@@ -88,44 +94,60 @@ public class GameController {
 	 * Continuously performs the games logic until the game is ended
 	 */
 	private void doGame() {
-
+		// assign player turn to 0, so that the player 1 goes first
 		int playerTurn = 0;
 		Player currentPlayer = null;
+
+		// Begin game loop and continue until the game state changes
 		while (!isGameOver) {
 
+			// Gets the current player and sets that player as the current player so can be coloured on board
 			currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
 			currentPlayer.setIsCurrentPlayer(true);
 
+			// Print the board, displaying players as red colour, and the current player as green
 			BOARD.printBoard();
 
+			// Begin the parsing of a players choice for their turn
 			System.out.println(currentPlayer.getName() + ", what would you like to do?\n");
-
 			int choice = -1;
+
+			// Continually loop until a player chooses a valid option for their turn
 			while (choice == -1) {
+				// Delegate to the UI to parse the int for the players choice
 				choice = displayOptions(currentPlayer);
+
+				// case where the player chooses to simply display their set of cards, and current information.
+				// This shouldn't end the players turn and so once complete, just sets the state back to -1 to continue
+				// the loop.
 				if (choice == 2) {
 					UI.doDisplayInformation(currentPlayer);
 					choice = -1;
 				}
 			}
 
+			// Player chooses to perform a move for their turn
 			if (choice == 1) {
 				doMove(currentPlayer);
 			} else if (choice == 3) {
-
+				// Player attempts to make an accusation. If they guess correctly, the game is over and they win
+				// Otherwise that player is removed from the game
 				if (makeAccusation(currentPlayer)) {
 					isGameOver = true;
 				} else {
 					currentPlayer.setAlive(false);
 				}
-
 			} else if (choice == 4) {
+				// Case where the player has chosen to make a suggestion, and therefore must be in a room to do so.
 				makeSuggestion(currentPlayer);
 			}
 
+			// Increment the playerTurn so that on the next loop through, the player virtually clockwise will take
+			// their turn.
 			playerTurn++;
 		}
 
+		// The game is now over and the current player is the winner. Do endGame method
 		endGame(currentPlayer);
 	}
 
