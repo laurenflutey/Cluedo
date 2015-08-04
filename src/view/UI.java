@@ -218,6 +218,8 @@ public class UI {
 				found = true;
 			}
 		}
+		
+		System.out.println("Which weapon would you like to accuse: ");
 
 		for (int i = 1; i <= weapons.size(); i++) {
 			System.out.println(i + weapons.get(i).getName());

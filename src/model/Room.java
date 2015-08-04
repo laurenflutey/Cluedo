@@ -13,6 +13,8 @@ public class Room {
 	private String name;
 	private ArrayList<Tile> tiles;
 	private Room connectingRoom;
+	
+	private ArrayList<Tile> doors;
 
 	public Room(String name) {
 		this.name = name;
@@ -46,6 +48,20 @@ public class Room {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	/**
+	 * @return the doors
+	 */
+	public ArrayList<Tile> getDoors() {
+		return doors;
+	}
+
+	/**
+	 * @param doors the doors to set
+	 */
+	public void setDoors(ArrayList<Tile> doors) {
+		this.doors = doors;
 	}
 
 }
