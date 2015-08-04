@@ -218,7 +218,7 @@ public class UI {
 				found = true;
 			}
 		}
-		
+
 		System.out.println("Which weapon would you like to accuse: ");
 
 		for (int i = 1; i <= weapons.size(); i++) {
@@ -238,12 +238,14 @@ public class UI {
 
 	}
 
-
 	/**
-	 * Method that displays the current options to the player and gets their choice for their turn
+	 * Method that displays the current options to the player and gets their
+	 * choice for their turn
 	 *
-	 * @param currentPlayer The player making the move
-	 * @param BOARD board that the player is playing on
+	 * @param currentPlayer
+	 *            The player making the move
+	 * @param BOARD
+	 *            board that the player is playing on
 	 *
 	 * @return returns the player's choice for their turn
 	 */
@@ -252,7 +254,8 @@ public class UI {
 		while (true) {
 			int choice;
 
-			// the range of valid choice depends on whether a player is in a room or not.
+			// the range of valid choice depends on whether a player is in a
+			// room or not.
 			int range = 3;
 
 			// display options to the user
@@ -266,12 +269,13 @@ public class UI {
 			Tile currentTile = BOARD.getTiles()[currentPlayer.getxPos()][currentPlayer.getyPos()];
 			if (currentTile.isRoomTile()) {
 				System.out.println("4: Make an suggestion");
-				// increments the range of valid choices so that a user can now select 4
+				// increments the range of valid choices so that a user can now
+				// select 4
 				range++;
 				if (currentTile.getRoom().getConnectingRoom() != null) {
 					range++;
-					System.out.println("5: Take secret passage to connecting room: " +
-							currentTile.getRoom().getConnectingRoom().getName());
+					System.out.println("5: Take secret passage to connecting room: "
+							+ currentTile.getRoom().getConnectingRoom().getName());
 				}
 			}
 
@@ -279,7 +283,8 @@ public class UI {
 			if (reader.hasNextInt()) {
 				choice = reader.nextInt();
 
-				// Check to see if the input falls within a valid range and then return it
+				// Check to see if the input falls within a valid range and then
+				// return it
 				if (choice <= range && choice > 0) {
 					return choice;
 				}
@@ -290,11 +295,18 @@ public class UI {
 	/**
 	 * Displays all the cards in the players hand
 	 *
-	 * @param currentPlayer Player to display their cards
+	 * @param currentPlayer
+	 *            Player to display their cards
 	 */
 	public void doDisplayInformation(Player currentPlayer) {
 		System.out.println("\nCurrent Cards\n-----------------\n");
 		for (Card c : currentPlayer.getCards()) {
+			System.out.println(c.getName());
+		}
+		System.out.println("\n");
+
+		System.out.println("\nCorrectly Suggested Cards\n-----------------\n");
+		for (Card c : currentPlayer.getSuggestions()) {
 			System.out.println(c.getName());
 		}
 		System.out.println("\n");
