@@ -89,10 +89,11 @@ public class GameController {
 
 		int playerTurn = 0;
 		while (!isGameOver) {
-			BOARD.printBoard();
 
 			Player currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
 			currentPlayer.setIsCurrentPlayer(true);
+
+			BOARD.printBoard();
 
 			System.out.println(currentPlayer.getName() + ", what would you like to do?");
 
