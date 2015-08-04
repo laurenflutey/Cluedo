@@ -98,7 +98,7 @@ public class GameController {
 
 			BOARD.printBoard();
 
-			System.out.println(currentPlayer.getName() + ", what would you like to do?");
+			System.out.println(currentPlayer.getName() + ", what would you like to do?\n");
 
 			int choice = -1;
 			while (choice == -1) {
@@ -140,22 +140,20 @@ public class GameController {
 	 * Rolls the dice for the player and then delegates to {@link UI} to get the
 	 * move coordinates
 	 *
-	 * @param currentPlayer
-	 *            The player trying to make the move
+	 * @param currentPlayer The player trying to make the move
 	 */
 	private void doMove(Player currentPlayer) {
-		int roll = 30;
-
-		// TODO GAME LOGIC
-		System.out.println("x: " + currentPlayer.getxPos() + " y: " + currentPlayer.getyPos());
-		System.out.println("currentPlayerNumber = " + currentPlayer.getPlayerNumber());
-		System.out.println("roll = " + roll);
+		int roll = rollDice();
 		Move proposedMove;
+
+		UI.doClearOutput();
+
+		BOARD.printBoard();
 
 		boolean validTurn = false;
 
 		while (!validTurn) {
-			proposedMove = UI.getPlayerMove(currentPlayer);
+			proposedMove = UI.getPlayerMove(currentPlayer, roll);
 			if (MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll)) {
 				tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(null);
 				currentPlayer.setxPos(proposedMove.getX());
@@ -164,6 +162,7 @@ public class GameController {
 				currentTile.setPlayer(currentPlayer);
 				currentPlayer.setRoom(currentTile.getRoom());
 				validTurn = true;
+				UI.doClearOutput();
 			} else {
 				System.out.println("Please enter a valid coordinate");
 			}

@@ -64,6 +64,10 @@ public class Player extends Character {
 	 */
 	private boolean isCurrentPlayer = false;
 
+	/**
+	 * Holds the state of the player. If a player makes an accusation that isn't correct, the will be removed from
+	 * the game and considered as isAlive = false;
+	 */
 	private boolean isAlive = true;
 
 	/**

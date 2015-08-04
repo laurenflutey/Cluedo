@@ -96,9 +96,11 @@ public class UI {
 	 *            Player making the move
 	 * @return Returns the players move
 	 */
-	public Move getPlayerMove(Player player) {
-		System.out.println("It's your turn now " + player.getName());
-		System.out.println("Please enter the x:y coordinate for your move (e.g 10 12)");
+	public Move getPlayerMove(Player player, int roll) {
+		System.out.println(player.getName() + ", you rolled a " + roll + ". You're currently at x: " + player.getxPos()
+				+ " y: " + player.getyPos());
+
+		System.out.println("\nPlease enter the x:y coordinate for your move (e.g 10 12)");
 
 		Move move = null;
 		int x, y;
@@ -129,6 +131,8 @@ public class UI {
 	 */
 	public List<Player> getPlayers(List<Character> characters, int playerCount) {
 
+		doClearOutput();
+
 		// List of player objects created
 		List<Player> players = new ArrayList<>();
 
@@ -137,7 +141,9 @@ public class UI {
 		 * for each player
 		 */
 		for (int i = 0; i < playerCount; i++) {
-			System.out.println("Player " + (i + 1) + ", please select a character:");
+
+			System.out.println("\nPlayer " + (i + 1) + ", please select a character:\n" +
+					"------------------------------------");
 
 			// Displays the list of all remaining characters that can be chosen
 			for (int j = 0; j < characters.size(); j++) {
@@ -176,6 +182,8 @@ public class UI {
 					characters.remove(choice - 1);
 
 					found = true;
+
+					doClearOutput();
 				}
 			}
 		}
@@ -366,6 +374,9 @@ public class UI {
 	 *            Player to display their cards
 	 */
 	public void doDisplayInformation(Player currentPlayer) {
+
+		doClearOutput();
+
 		System.out.println("\nCurrent Cards\n-----------------\n");
 		for (Card c : currentPlayer.getCards()) {
 			System.out.println(c.getName());
@@ -377,6 +388,14 @@ public class UI {
 			System.out.println(c.getName());
 		}
 		System.out.println("\n");
+	}
+
+	/**
+	 * Simple method that simulates the output of the console being cleared by pushing the previous content
+	 * way up by printing 50 new lines
+	 */
+	public void doClearOutput() {
+		for (int i = 0; i < 50; ++i) System.out.println();
 	}
 
 	public void doEndGame(Player currentPlayer) {
