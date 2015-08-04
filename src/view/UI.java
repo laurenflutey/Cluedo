@@ -208,7 +208,7 @@ public class UI {
 		System.out.println("Which character would you like to accuse: ");
 
 		for (int i = 0; i < players.size(); i++) {
-			System.out.println((i+1) + players.get(i).getName());
+			System.out.println((i+1) + ": " + players.get(i).getName());
 		}
 
 		boolean found = false;
@@ -222,7 +222,7 @@ public class UI {
 		System.out.println("Which weapon would you like to accuse: ");
 
 		for (int i = 0; i < weapons.size(); i++) {
-			System.out.println((i+1) + weapons.get(i).getName());
+			System.out.println((i+1) + ": " + weapons.get(i).getName());
 		}
 
 		found = false;

@@ -261,13 +261,13 @@ public class GameController {
 		while (count < playerCount && !found) {
 			Player nextPlayer = ENTITIES.getPlayer((index + count) % playerCount);
 
-			if (nextPlayer.getCards().contains(suggestion.getCharacter())) {
+			if (nextPlayer.containsCardWithName(suggestion.getCharacter().getName())) {
 				player.getSuggestions().add(new Card(suggestion.getCharacter().getName(), "Character"));
 				found = true;
-			} else if (nextPlayer.getCards().contains(suggestion.getRoom())) {
+			} else if (nextPlayer.containsCardWithName(suggestion.getRoom().getName())) {
 				player.getSuggestions().add(new Card(suggestion.getRoom().getName(), "Room"));
 				found = true;
-			} else if (nextPlayer.getCards().contains(suggestion.getWeapon())) {
+			} else if (nextPlayer.containsCardWithName(suggestion.getWeapon().getName())) {
 				player.getSuggestions().add(new Card(suggestion.getCharacter().getName(), "Weapon"));
 				found = true;
 			} else {
