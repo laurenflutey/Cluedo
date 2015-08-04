@@ -122,6 +122,11 @@ public class GameController {
 				// Delegate to the UI to parse the int for the players choice
 				choice = displayOptions(currentPlayer);
 
+				if (choice == -10) {
+					UI.displayKeys(ENTITIES);
+					choice = -1;
+				}
+
 				// case where the player chooses to simply display their set of
 				// cards, and current information.
 				// This shouldn't end the players turn and so once complete,

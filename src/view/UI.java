@@ -369,6 +369,7 @@ public class UI {
 			// display options to the user
 			System.out.println("Select a option using the number beside it.");
 			System.out.println("-----------------------------\n");
+			System.out.println("#: Enter '#' to display the key for the board");
 			System.out.println("1: Roll dice and make a move.");
 			System.out.println("2: Look at your collected information.");
 			System.out.println("3: Make an accusation");
@@ -397,6 +398,14 @@ public class UI {
 					return choice;
 				}
 			}
+
+			// Parse the special case where the user enters a #
+			if (reader.hasNext()) {
+				char ch = reader.next().charAt(0);
+				if (ch == '#') {
+					return -10;
+				}
+			}
 		}
 	}
 
@@ -406,7 +415,7 @@ public class UI {
 	 * @param entities
 	 *            all the entities on the board to be displayed
 	 */
-	private void displayKeys(Entities entities) {
+	public void displayKeys(Entities entities) {
 
 		System.out.println("Key displayer: ");
 		System.out.println("---------------");
@@ -429,6 +438,8 @@ public class UI {
 		for (Entry<String, Room> room : entities.getRooms().entrySet()) {
 			System.out.println(room.getValue().getID() + " = " + room.getValue().getName());
 		}
+
+		System.out.println("\n");
 
 	}
 
