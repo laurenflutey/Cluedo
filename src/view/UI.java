@@ -400,6 +400,12 @@ public class UI {
 		}
 	}
 
+	/**
+	 * Displays all the keys on the baord
+	 * 
+	 * @param entities
+	 *            all the entities on the board to be displayed
+	 */
 	private void displayKeys(Entities entities) {
 
 		System.out.println("Key displayer: ");
