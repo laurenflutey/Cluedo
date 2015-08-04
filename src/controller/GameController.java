@@ -3,13 +3,8 @@ package controller;
 import model.*;
 import view.UI;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * MVC Controller class to handle the logic of the Cluedo game.
