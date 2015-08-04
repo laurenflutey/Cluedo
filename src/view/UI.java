@@ -257,18 +257,29 @@ public class UI {
 
 	}
 
+	/**
+	 * Delegate method to handle the parsing of a players proposed accusation. If a player incorrectly makes an
+	 * accusation, they're removed from the game.
+	 *
+	 * @param players List of characters in the game
+	 * @param weapons List of weapons in the game
+	 * @param rooms List of rooms in the game
+	 *
+	 * @return Returns the proposed accusation in the form of a Suggestion object
+	 */
 	public Suggestion getAccusation(List<Character> players, List<Weapon> weapons, Map<String, Room> rooms) {
-
+		// Sets the suggestion components to null initially
 		Character suggestedCharacter = null;
 		Weapon suggestedWeapon = null;
 		Room suggestedRoom = null;
 
+		// Display the list of characters that the user can accuse
 		System.out.println("\nWhich character would you like to accuse: ");
-
 		for (int i = 0; i < players.size(); i++) {
 			System.out.println((i + 1) + ": " + players.get(i).getName());
 		}
 
+		// continually loops until the user selects a valid choice
 		boolean found = false;
 		while (!found) {
 			if (reader.hasNextInt()) {
@@ -277,23 +288,23 @@ public class UI {
 			}
 		}
 
+		// Display the list of weapons that the user can use as the accused murder weapon
 		System.out.println("Which weapon would you like to accuse: ");
-
 		for (int i = 0; i < weapons.size(); i++) {
 			System.out.println((i + 1) + ": " + weapons.get(i).getName());
 		}
 
+		// Continually loops until a valid choice is chosen
 		found = false;
 		while (!found) {
-
 			if (reader.hasNextInt()) {
 				suggestedWeapon = weapons.get(reader.nextInt() - 1);
 				found = true;
 			}
 		}
 
+		// Displays all the rooms that the player can accuse as the murder room
 		System.out.println("Which room would you like to accuse: ");
-
 		for (int i = 0; i < rooms.size(); i++) {
 			for (Entry<String, Room> room : rooms.entrySet()) {
 				if (room.getValue().getRoomNumber() == i + 1) {
@@ -302,9 +313,9 @@ public class UI {
 			}
 		}
 
+		// Continually loops until the user selects a valid room
 		found = false;
 		while (!found) {
-
 			if (reader.hasNextInt()) {
 				int index = reader.nextInt();
 				for (Entry<String, Room> room : rooms.entrySet()) {
@@ -316,6 +327,7 @@ public class UI {
 			}
 		}
 
+		// Finally returns the accusation back to the game controller, where it will be parsed to be valid or not.
 		return new Suggestion(suggestedCharacter, suggestedWeapon, suggestedRoom);
 
 	}
