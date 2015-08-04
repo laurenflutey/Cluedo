@@ -96,9 +96,11 @@ public class UI {
 	 *            Player making the move
 	 * @return Returns the players move
 	 */
-	public Move getPlayerMove(Player player) {
-		System.out.println("It's your turn now " + player.getName());
-		System.out.println("Please enter the x:y coordinate for your move (e.g 10 12)");
+	public Move getPlayerMove(Player player, int roll) {
+		System.out.println(player.getName() + ", you rolled a " + roll + ". You're currently at x: " + player.getxPos()
+				+ " y: " + player.getyPos());
+
+		System.out.println("\nPlease enter the x:y coordinate for your move (e.g 10 12)");
 
 		Move move = null;
 		int x, y;
@@ -129,6 +131,8 @@ public class UI {
 	 */
 	public List<Player> getPlayers(List<Character> characters, int playerCount) {
 
+		doClearOutput();
+
 		// List of player objects created
 		List<Player> players = new ArrayList<>();
 
@@ -137,7 +141,9 @@ public class UI {
 		 * for each player
 		 */
 		for (int i = 0; i < playerCount; i++) {
-			System.out.println("Player " + (i + 1) + ", please select a character:");
+
+			System.out.println("\nPlayer " + (i + 1) + ", please select a character:\n" +
+					"------------------------------------");
 
 			// Displays the list of all remaining characters that can be chosen
 			for (int j = 0; j < characters.size(); j++) {
@@ -176,6 +182,8 @@ public class UI {
 					characters.remove(choice - 1);
 
 					found = true;
+
+					doClearOutput();
 				}
 			}
 		}
@@ -202,58 +210,76 @@ public class UI {
 		}
 	}
 
-	public Suggestion getSuggestion(List<Character> players, List<Weapon> weapons, Player currentPlayer) {
-
+	/**
+	 * Method to handle when a player wants to make a suggestion. The method gets the suggested character and
+	 * the suggested weapon. It then create a {@link Suggestion} object which is stored in the {@link Player}.
+	 *
+	 * @param characters List of characters in the game
+	 * @param weapons List of weapons in the game
+	 * @param currentPlayer The current player making the suggestion
+	 *
+	 * @return A Suggest that the player has picked
+	 */
+	public Suggestion getSuggestion(List<Character> characters, List<Weapon> weapons, Player currentPlayer) {
+		// Set the character and weapon to null initially, but assign the room to the current room
 		Character suggestedCharacter = null;
 		Weapon suggestedWeapon = null;
 		Room suggestedRoom = currentPlayer.getRoom();
 
+		// Displays the list of available characters that the user can select as a suggestion
 		System.out.println("Which character would you like to suggest: ");
-
-		for (int i = 0; i < players.size(); i++) {
-			System.out.println((i + 1) + ": " + players.get(i).getName());
+		for (int i = 0; i < characters.size(); i++) {
+			System.out.println((i + 1) + ": " + characters.get(i).getName());
 		}
 
-		boolean found = false;
-		while (!found) {
+		// loop until the user selects a valid character to suggest
+		while (suggestedCharacter == null) {
 			if (reader.hasNextInt()) {
-				suggestedCharacter = players.get(reader.nextInt() - 1);
-				found = true;
+				suggestedCharacter = characters.get(reader.nextInt() - 1);
 			}
 		}
 
+		// Displays the list of available weapons that the user can select as a suggestion
 		System.out.println("Which weapon would you like to suggest: ");
-
 		for (int i = 0; i < weapons.size(); i++) {
 			System.out.println((i + 1) + ": " + weapons.get(i).getName());
 		}
 
-		found = false;
-		while (!found) {
-
+		// loop until the user selects a valid weapon to suggest
+		while (suggestedWeapon == null) {
 			if (reader.hasNextInt()) {
 				suggestedWeapon = weapons.get(reader.nextInt() - 1);
-				found = true;
 			}
 		}
 
+		// The suggestion is then return and stored in the Player
 		return new Suggestion(suggestedCharacter, suggestedWeapon, suggestedRoom);
 
 	}
 
-	public Suggestion getAccusation(List<Character> players, List<Weapon> weapons, Map<String, Room> rooms,
-			Player currentPlayer) {
-
+	/**
+	 * Delegate method to handle the parsing of a players proposed accusation. If a player incorrectly makes an
+	 * accusation, they're removed from the game.
+	 *
+	 * @param players List of characters in the game
+	 * @param weapons List of weapons in the game
+	 * @param rooms List of rooms in the game
+	 *
+	 * @return Returns the proposed accusation in the form of a Suggestion object
+	 */
+	public Suggestion getAccusation(List<Character> players, List<Weapon> weapons, Map<String, Room> rooms) {
+		// Sets the suggestion components to null initially
 		Character suggestedCharacter = null;
 		Weapon suggestedWeapon = null;
 		Room suggestedRoom = null;
 
-		System.out.println("Which character would you like to accuse: ");
-
+		// Display the list of characters that the user can accuse
+		System.out.println("\nWhich character would you like to accuse: ");
 		for (int i = 0; i < players.size(); i++) {
 			System.out.println((i + 1) + ": " + players.get(i).getName());
 		}
 
+		// continually loops until the user selects a valid choice
 		boolean found = false;
 		while (!found) {
 			if (reader.hasNextInt()) {
@@ -262,23 +288,23 @@ public class UI {
 			}
 		}
 
+		// Display the list of weapons that the user can use as the accused murder weapon
 		System.out.println("Which weapon would you like to accuse: ");
-
 		for (int i = 0; i < weapons.size(); i++) {
 			System.out.println((i + 1) + ": " + weapons.get(i).getName());
 		}
 
+		// Continually loops until a valid choice is chosen
 		found = false;
 		while (!found) {
-
 			if (reader.hasNextInt()) {
 				suggestedWeapon = weapons.get(reader.nextInt() - 1);
 				found = true;
 			}
 		}
 
+		// Displays all the rooms that the player can accuse as the murder room
 		System.out.println("Which room would you like to accuse: ");
-
 		for (int i = 0; i < rooms.size(); i++) {
 			for (Entry<String, Room> room : rooms.entrySet()) {
 				if (room.getValue().getRoomNumber() == i + 1) {
@@ -287,9 +313,9 @@ public class UI {
 			}
 		}
 
+		// Continually loops until the user selects a valid room
 		found = false;
 		while (!found) {
-
 			if (reader.hasNextInt()) {
 				int index = reader.nextInt();
 				for (Entry<String, Room> room : rooms.entrySet()) {
@@ -301,6 +327,7 @@ public class UI {
 			}
 		}
 
+		// Finally returns the accusation back to the game controller, where it will be parsed to be valid or not.
 		return new Suggestion(suggestedCharacter, suggestedWeapon, suggestedRoom);
 
 	}
@@ -366,6 +393,9 @@ public class UI {
 	 *            Player to display their cards
 	 */
 	public void doDisplayInformation(Player currentPlayer) {
+
+		doClearOutput();
+
 		System.out.println("\nCurrent Cards\n-----------------\n");
 		for (Card c : currentPlayer.getCards()) {
 			System.out.println(c.getName());
@@ -377,5 +407,21 @@ public class UI {
 			System.out.println(c.getName());
 		}
 		System.out.println("\n");
+	}
+
+	/**
+	 * Simple method that simulates the output of the console being cleared by pushing the previous content
+	 * way up by printing 50 new lines
+	 */
+	public void doClearOutput() {
+		for (int i = 0; i < 50; ++i) System.out.println();
+	}
+
+	public void doEndGame(Player currentPlayer) {
+		System.out.println("Congratulations " + currentPlayer.getName() + ", you accused correctly");
+		System.out.println("You guessed : ");
+		System.out.println("\t" + currentPlayer.getAccusation().getCharacter().getName());
+		System.out.println("\t" + currentPlayer.getAccusation().getRoom().getName());
+		System.out.println("\t" + currentPlayer.getAccusation().getWeapon().getName());
 	}
 }

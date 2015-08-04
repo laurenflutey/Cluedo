@@ -51,6 +51,12 @@ public class Player extends Character {
 	private List<Card> successfulSuggestions;
 
 	/**
+	 * Suggestion that the player made, which can be considered as an accusation, as the player may only made one
+	 * accusation per game.
+	 */
+	private Suggestion accusation;
+
+	/**
 	 * Boolean to hold whether this is the current player or not and is used in
 	 * the {@link controller.GameController} to perform game logic
 	 *
@@ -58,6 +64,10 @@ public class Player extends Character {
 	 */
 	private boolean isCurrentPlayer = false;
 
+	/**
+	 * Holds the state of the player. If a player makes an accusation that isn't correct, the will be removed from
+	 * the game and considered as isAlive = false;
+	 */
 	private boolean isAlive = true;
 
 	/**
@@ -71,8 +81,8 @@ public class Player extends Character {
 	 */
 	public Player(String name, char ch, int xOrigin, int yOrigin) {
 		super(name, ch, xOrigin, yOrigin);
-		this.cards = new HashSet<Card>();
-		this.successfulSuggestions = new ArrayList<Card>();
+		this.cards = new HashSet<>();
+		this.successfulSuggestions = new ArrayList<>();
 	}
 
 	public Character getCharacter() {
@@ -130,6 +140,7 @@ public class Player extends Character {
 		return successfulSuggestions;
 	}
 
+
 	/**
 	 * @return the room
 	 */
@@ -171,5 +182,13 @@ public class Player extends Character {
 	 */
 	public void setAlive(boolean isAlive) {
 		this.isAlive = isAlive;
+	}
+
+	public Suggestion getAccusation() {
+		return accusation;
+	}
+
+	public void setAccusation(Suggestion accusation) {
+		this.accusation = accusation;
 	}
 }

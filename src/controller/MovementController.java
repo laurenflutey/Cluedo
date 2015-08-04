@@ -72,7 +72,10 @@ public class MovementController {
      * @return Is the tile occupied by a player or not
      */
     private boolean isTileOccupied(Move target) {
-        return TILES[target.getX()][target.getY()].isOccupied();
+        if (target.getX() < 24 && target.getX() > 0 && target.getY() < 25 && target.getY() > 0) {
+            return TILES[target.getX()][target.getY()].isOccupied();
+        }
+        return false;
     }
 
     /**

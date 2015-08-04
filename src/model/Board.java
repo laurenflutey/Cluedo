@@ -194,11 +194,10 @@ public class Board {
 				}
 
 			}
-			System.out.println(y + 1);
+			System.out.println(" " + (y + 1));
 
 		}
-		System.out.println();
-		System.out.println("A B C D E F G H I J K L M N O P Q R S T U V W X ");
+		System.out.println("\nA B C D E F G H I J K L M N O P Q R S T U V W X \n");
 
 	}
 
