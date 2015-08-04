@@ -73,12 +73,12 @@ public class Entities {
 
 		finalCharacters.addAll(characters);
 
-		weapons.add(new Weapon("Candlestick"));
-		weapons.add(new Weapon("Dagger"));
-		weapons.add(new Weapon("Lead Pipe"));
-		weapons.add(new Weapon("Revolver"));
-		weapons.add(new Weapon("Rope"));
-		weapons.add(new Weapon("Spanner"));
+		weapons.add(new Weapon("Candlestick", '!'));
+		weapons.add(new Weapon("Dagger", '%'));
+		weapons.add(new Weapon("Lead Pipe", '|'));
+		weapons.add(new Weapon("Revolver", '&'));
+		weapons.add(new Weapon("Rope", '#'));
+		weapons.add(new Weapon("Spanner", '*'));
 
 		Room kitchen = new Room("Kitchen", 1);
 		Room study = new Room("Study", 2);
@@ -132,6 +132,7 @@ public class Entities {
 		cards.add(new Card("Dining Room", "Room"));
 
 		Collections.shuffle(cards);
+		Collections.shuffle(weapons);
 
 		board = new Board(24, 26, rooms);
 	}
