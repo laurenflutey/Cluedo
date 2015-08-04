@@ -178,7 +178,7 @@ public class GameController {
 	 */
 	private void doMove(Player currentPlayer) {
 		// Gets the players roll for their turn
-		int roll = rollDice();
+		int roll = 6;
 		Move proposedMove;
 
 		// Clears the console output and then re-displays the board in its
@@ -335,7 +335,9 @@ public class GameController {
 	 * available tiles
 	 */
 	private void distributeWeapons() {
-		List<Weapon> remainingWeapons = ENTITIES.getWeapons();
+		List<Weapon> remainingWeapons = new ArrayList<Weapon>();
+
+		remainingWeapons.addAll(ENTITIES.getWeapons());
 
 		List<Map.Entry<String, Room>> list = new ArrayList<>(ENTITIES.getRooms().entrySet());
 		Collections.shuffle(list);
@@ -363,9 +365,13 @@ public class GameController {
 		Suggestion suggestion = UI.getSuggestion(ENTITIES.getFinalCharacters(), ENTITIES.getWeapons(),
 				suggestingPlayer);
 
+		Room playerRoom = suggestingPlayer.getRoom();
 		int count = 0;
 		int index = suggestingPlayer.getPlayerNumber();
 		boolean found = false;
+
+		playerRoom.addPlayerToAvailableTile(ENTITIES.getPlayerFromCharacter(suggestion.getCharacter()));
+		playerRoom.addWeaponToAvailableTile(suggestion.getWeapon());
 
 		// loops through all the players to see if any have a matching card to
 		// the player's suggestion

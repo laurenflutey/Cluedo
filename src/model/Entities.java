@@ -208,4 +208,14 @@ public class Entities {
 		this.finalCharacters = finalCharacters;
 	}
 
+	public Player getPlayerFromCharacter(Character character) {
+		for (Player player : players) {
+			if (player.getCharacter().getName().equals(character.getName())) {
+				return player;
+			}
+		}
+
+		return null;
+	}
+
 }

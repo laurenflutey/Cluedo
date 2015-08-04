@@ -86,15 +86,22 @@ public class Room {
 
 	public void addWeaponToAvailableTile(Weapon weapon) {
 		for (Tile tile : tiles) {
-			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile()) {
+			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile() && !tile.isOccupied()) {
 				tile.setWeapon(weapon);
 				break;
 			}
 		}
 	}
 
-	public void addCharacterToAvailableTile(Character character) {
-
+	public void addPlayerToAvailableTile(Player player) {
+		for (Tile tile : tiles) {
+			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile() && !tile.isOccupied()) {
+				tile.setPlayer(player);
+				player.setxPos(tile.getX());
+				player.setyPos(tile.getY());
+				break;
+			}
+		}
 	}
 
 	public char getID() {
