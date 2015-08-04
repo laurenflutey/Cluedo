@@ -136,11 +136,13 @@ public class UI {
 		// List of player objects created
 		List<Player> players = new ArrayList<>();
 
+		int i;
+
 		/*
 		 * Loops through playerCount number of times to create Player Objects
 		 * for each player
 		 */
-		for (int i = 0; i < playerCount; i++) {
+		for (i = 0; i < playerCount; i++) {
 
 			System.out.println(
 					"\nPlayer " + (i + 1) + ", please select a character:\n" + "------------------------------------");
@@ -185,6 +187,19 @@ public class UI {
 
 					doClearOutput();
 				}
+			}
+
+		}
+
+		// add inactive players
+		for (int j = 0; j < characters.size(); j++) {
+			Character character = characters.get(j);
+			Player player = new Player(character.getName(), character.getCh(), character.getxPos(),
+					character.getyPos());
+			if (!players.contains(player)) {
+				player.setAlive(false);
+				player.setPlayerNumber(i += 1);
+				players.add(player);
 			}
 		}
 
