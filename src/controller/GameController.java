@@ -165,31 +165,47 @@ public class GameController {
 	 * @param currentPlayer The player trying to make the move
 	 */
 	private void doMove(Player currentPlayer) {
+		// Gets the players roll for their turn
 		int roll = rollDice();
 		Move proposedMove;
 
+		// Clears the console output and then re-displays the board in its current state
 		UI.doClearOutput();
-
 		BOARD.printBoard();
 
+		// Loops until the user proposes a valid turn to make
 		boolean validTurn = false;
-
 		while (!validTurn) {
+			// Delegate to the UI to parse the players proposed move
 			proposedMove = UI.getPlayerMove(currentPlayer, roll);
+
+			// If the proposed move returns a valid path when passed through the MovementController,
+			// performing the pathing algorithm, then the players current position is updated
+			// and the corresponding tiles are also updated
+
 			if (MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll)) {
+				// Disassociate old tile with player
 				tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(null);
+
+				// update xy position
 				currentPlayer.setxPos(proposedMove.getX());
 				currentPlayer.setyPos(proposedMove.getY());
 				Tile currentTile = tiles[currentPlayer.getxPos()][currentPlayer.getyPos()];
+
+				// Associate new tile with the player and update if the player is in a room or not
 				currentTile.setPlayer(currentPlayer);
 				currentPlayer.setRoom(currentTile.getRoom());
 				validTurn = true;
+
+				// finally clear the output
 				UI.doClearOutput();
 			} else {
 				System.out.println("Please enter a valid coordinate");
 			}
 		}
 
+		// finally disassociate the player with being the current player, so that the player is no longer printed as
+		// green when the board is printed, and is instead printed as red.
 		currentPlayer.setIsCurrentPlayer(false);
 	}
 
