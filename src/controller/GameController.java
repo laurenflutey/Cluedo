@@ -258,34 +258,43 @@ public class GameController {
 		}
 	}
 
+	/**
+	 * Method that randomly creates a solution to the game. A solution consists of three {@link Card}. A {@link Weapon},
+	 * a {@link Room} and a {@link model.Character}.
+	 */
 	private void chooseSolutionCards() {
 		boolean room = false;
 		boolean character = false;
 		boolean weapon = false;
+
+		// Randomly select cards from the collection of cards until we have a valid solution
 		for (Card card : ENTITIES.getCards()) {
-			if (!room && card.getType() == "Room") {
+			if (!room && card.getType().equals("Room")) {
 				ENTITIES.getWinningCards().add(card);
 				room = true;
-			} else if (!character && card.getType() == "Character") {
+			} else if (!character && card.getType().equals("Character")) {
 				ENTITIES.getWinningCards().add(card);
 				character = true;
-			} else if (!weapon && card.getType() == "Weapon") {
+			} else if (!weapon && card.getType().equals("Weapon")) {
 				ENTITIES.getWinningCards().add(card);
 				weapon = true;
 			}
 		}
 
+		// remove the solution cards from the collection of cards, so that they're not dealt to players
 		ENTITIES.getCards().removeAll(ENTITIES.getWinningCards());
 
 	}
 
+	/**
+	 * Method to deal the cards to the players in the game.
+	 */
 	private void dealCards() {
 
 		int size = ENTITIES.getCards().size();
-
 		for (Player player : ENTITIES.getPlayers()) {
 			int count = 0;
-			Set<Card> cardsDealt = new HashSet<Card>();
+			Set<Card> cardsDealt = new HashSet<>();
 			for (Card card : ENTITIES.getCards()) {
 				if (count >= size / playerCount) {
 					break;
@@ -295,26 +304,26 @@ public class GameController {
 				count++;
 
 			}
+
+			// removes dealt cards
 			ENTITIES.getCards().removeAll(cardsDealt);
 		}
-
 	}
 
+	/**
+	 * Randomly distributes the weapons throughout the board to a list of available tiles
+	 */
 	private void distributeWeapons() {
+		List<Weapon> remainingWeapons = ENTITIES.getWeapons();
 
-		List<Weapon> remainingWeapons = new ArrayList<Weapon>();
-		remainingWeapons.addAll(ENTITIES.getWeapons());
-
-		List<Map.Entry<String, Room>> list = new ArrayList<Map.Entry<String, Room>>(ENTITIES.getRooms().entrySet());
+		List<Map.Entry<String, Room>> list = new ArrayList<>(ENTITIES.getRooms().entrySet());
 		Collections.shuffle(list);
 		for (Entry<String, Room> room : list) {
 			if (remainingWeapons.isEmpty())
 				break;
-			// room.
 			room.getValue().addWeaponToAvailableTile(remainingWeapons.get(0));
 			remainingWeapons.remove(0);
 		}
-
 	}
 
 	/**
@@ -352,33 +361,55 @@ public class GameController {
 		}
 	}
 
-	private boolean makeAccusation(Player player) {
+	/**
+	 * Method to handle the logic of when a player makes an accusation. Delegates the parsing of the accusation to the
+	 * {@link UI} class, and then checks if the players accusation was correct or not.
+	 *
+	 * If the player guessed correctly, the game ends and they're the winner. However if they failed to guess correctly,
+	 * they're removed from the game.
+	 *
+	 * @param accusingPlayer The player making the accusation
+	 *
+	 * @return The result of their accusation
+	 */
+	private boolean makeAccusation(Player accusingPlayer) {
 
+		// first we want to clear the text output
 		UI.doClearOutput();
+
+		// Delegate to the UI to parse the players accusation.
+		// The accusation comes in the form of a Suggestion, but they're essentially the same thing.
+		// The only difference is the way they're treated.
 
 		Suggestion suggestion = UI.getAccusation(ENTITIES.getFinalCharacters(), ENTITIES.getWeapons(),
 				ENTITIES.getRooms());
 
+		// Now iterate through the collection of entities to check if the players accusation was valid or not
 		for (Card card : ENTITIES.getWinningCards()) {
-			if (card.getType().equals("Weapon")) {
-				if (!card.getName().equals(suggestion.getWeapon().getName())) {
-					return false;
-				}
-			} else if (card.getType().equals("Player")) {
-				if (!card.getName().equals(suggestion.getCharacter().getName())) {
-					return false;
-				}
-			} else if (card.getType().equals("Room")) {
-				if (!card.getName().equals(suggestion.getRoom().getName())) {
-					return false;
-				}
+			// Used a switch statement, as these are just distinct switch cases... why the heck not?
+			switch (card.getType()) {
+				case "Weapon":
+					if (!card.getName().equals(suggestion.getWeapon().getName())) {
+						return false;
+					}
+					break;
+				case "Player":
+					if (!card.getName().equals(suggestion.getCharacter().getName())) {
+						return false;
+					}
+					break;
+				case "Room":
+					if (!card.getName().equals(suggestion.getRoom().getName())) {
+						return false;
+					}
+					break;
 			}
 		}
 
-		player.setAccusation(suggestion);
+		// Sets the accusation to be stored in the Player object. This is used if the player is the winner
+		// and their accusation needs to be displayed to the UI
+		accusingPlayer.setAccusation(suggestion);
 
 		return true;
-
 	}
-
 }
