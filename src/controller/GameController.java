@@ -264,6 +264,7 @@ public class GameController {
 		// to hold it
 		List<Player> players = UI.getPlayers(ENTITIES.getCharacters(), playerCount);
 		ENTITIES.setPlayers(players);
+		ENTITIES.setFinalPlayers(players);
 
 		// Gets the list of tiles from the Entities class to set player
 		// locations to tile
@@ -367,7 +368,7 @@ public class GameController {
 	 */
 	private void makeSuggestion(Player suggestingPlayer) {
 
-		Suggestion suggestion = UI.getSuggestion(ENTITIES.getFinalCharacters(), ENTITIES.getWeapons(),
+		Suggestion suggestion = UI.getSuggestion(ENTITIES.getFinalPlayers(), ENTITIES.getWeapons(),
 				suggestingPlayer);
 
 		Room playerRoom = suggestingPlayer.getRoom();
@@ -375,7 +376,7 @@ public class GameController {
 		int index = suggestingPlayer.getPlayerNumber();
 		boolean found = false;
 
-		playerRoom.addPlayerToAvailableTile(ENTITIES.getPlayerFromCharacter(suggestion.getCharacter()));
+		playerRoom.addPlayerToAvailableTile(suggestion.getPlayer());
 		playerRoom.addWeaponToAvailableTile(suggestion.getWeapon());
 
 		// loops through all the players to see if any have a matching card to
@@ -385,14 +386,14 @@ public class GameController {
 
 			// Checks for matching characters, then rooms and finally weapons,
 			// this is not worth randomising
-			if (nextPlayer.containsCardWithName(suggestion.getCharacter().getName())) {
-				suggestingPlayer.getSuggestions().add(new Card(suggestion.getCharacter().getName(), "Character"));
+			if (nextPlayer.containsCardWithName(suggestion.getPlayer().getName())) {
+				suggestingPlayer.getSuggestions().add(new Card(suggestion.getPlayer().getName(), "Character"));
 				found = true;
 			} else if (nextPlayer.containsCardWithName(suggestion.getRoom().getName())) {
 				suggestingPlayer.getSuggestions().add(new Card(suggestion.getRoom().getName(), "Room"));
 				found = true;
 			} else if (nextPlayer.containsCardWithName(suggestion.getWeapon().getName())) {
-				suggestingPlayer.getSuggestions().add(new Card(suggestion.getCharacter().getName(), "Weapon"));
+				suggestingPlayer.getSuggestions().add(new Card(suggestion.getPlayer().getName(), "Weapon"));
 				found = true;
 			} else {
 				count++;
@@ -423,7 +424,7 @@ public class GameController {
 		// essentially the same thing.
 		// The only difference is the way they're treated.
 
-		Suggestion suggestion = UI.getAccusation(ENTITIES.getFinalCharacters(), ENTITIES.getWeapons(),
+		Suggestion suggestion = UI.getAccusation(ENTITIES.getFinalPlayers(), ENTITIES.getWeapons(),
 				ENTITIES.getRooms());
 
 		// Now iterate through the collection of entities to check if the
@@ -438,7 +439,7 @@ public class GameController {
 				}
 				break;
 			case "Player":
-				if (!card.getName().equals(suggestion.getCharacter().getName())) {
+				if (!card.getName().equals(suggestion.getPlayer().getName())) {
 					return false;
 				}
 				break;
