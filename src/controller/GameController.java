@@ -132,7 +132,7 @@ public class GameController {
 	 *            The player trying to make the move
 	 */
 	private void doMove(Player currentPlayer) {
-		int roll = 15;
+		int roll = 5;
 
 		// TODO GAME LOGIC
 		System.out.println("x: " + currentPlayer.getxPos() + " y: " + currentPlayer.getyPos());

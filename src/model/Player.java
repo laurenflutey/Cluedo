@@ -137,4 +137,8 @@ public class Player extends Character {
 	public void setRoom(Room room) {
 		this.room = room;
 	}
+
+	public boolean isInRoom() {
+		return this.room != null;
+	}
 }
