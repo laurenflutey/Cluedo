@@ -4,6 +4,7 @@ public class Tile {
 	private char name;
 	private Room room;
 	private boolean isWallTile;
+	private boolean isDoor;
 	private int x, y;
 
 	private Player player;
@@ -12,6 +13,15 @@ public class Tile {
 		this.x = x;
 		this.y = y;
 		this.room = room;
+		this.isWallTile = isWallTile;
+		this.name = name;
+	}
+	
+	public Tile(int x, int y, Room room, boolean isWallTile, boolean isDoor, char name) {
+		this.x = x;
+		this.y = y;
+		this.room = room;
+		this.isDoor = isDoor;
 		this.isWallTile = isWallTile;
 		this.name = name;
 	}
@@ -75,6 +85,13 @@ public class Tile {
 
 	public boolean isRoomTile() {
 		return room != null;
+	}
+
+	/**
+	 * @return the isDoor
+	 */
+	public boolean isDoor() {
+		return isDoor;
 	}
 
 }

@@ -1,22 +1,61 @@
 package model;
 
+import controller.GameController;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /**
- * Created by Marcel on 3/08/15.
+ * Class to represent a Player within the game. The player extends a
+ * {@link Character} and stores all x/y coordinate information in the character
+ * super class.
+ *
+ * @author Marcel
+ * @author Reuben
  */
 public class Player extends Character {
 
+	/**
+	 * Character associated with the Player. This is chosen by the user when the
+	 * game is starting using {@link view.UI#getPlayers(List, int)}
+	 */
 	private Character character;
+
+	/**
+	 * Holds information of the players location and whether they're in a room
+	 * or not. This affects the players ability to make suggestions or use
+	 * secret passages to other rooms.
+	 */
 	private Room room;
+
+	/**
+	 * Collection of Cards that the player current has in their hand. A card
+	 * represents either a {@link Weapon}, {@link Room} or {@link Character} and
+	 * allows the user to make a guess at the correct solution to the murder.
+	 */
 	private Set<Card> cards;
+
+	/**
+	 * Player number which is used to display the player on the board, with
+	 * their corresponding number
+	 *
+	 * @see Board#printBoard()
+	 */
 	private int playerNumber;
 
-	private List<Suggestion> suggestions;
+	/**
+	 * A collection of suggestions that the player has made whilst in a room
+	 */
+	private List<Card> successfulSuggestions;
 
+	/**
+	 * Boolean to hold whether this is the current player or not and is used in
+	 * the {@link controller.GameController} to perform game logic
+	 *
+	 * @see GameController#doGame()
+	 */
 	private boolean isCurrentPlayer = false;
 
 	/**
@@ -31,7 +70,7 @@ public class Player extends Character {
 	public Player(String name, char ch, int xOrigin, int yOrigin) {
 		super(name, ch, xOrigin, yOrigin);
 		this.cards = new HashSet<Card>();
-		this.suggestions = new ArrayList<Suggestion>();
+		this.successfulSuggestions = new ArrayList<Card>();
 	}
 
 	public Character getCharacter() {
@@ -85,8 +124,8 @@ public class Player extends Character {
 	/**
 	 * @return the suggestions
 	 */
-	public List<Suggestion> getSuggestions() {
-		return suggestions;
+	public List<Card> getSuggestions() {
+		return successfulSuggestions;
 	}
 
 	/**
@@ -97,9 +136,23 @@ public class Player extends Character {
 	}
 
 	/**
-	 * @param room the room to set
+	 * @param room
+	 *            the room to set
 	 */
 	public void setRoom(Room room) {
 		this.room = room;
+	}
+
+	public boolean isInRoom() {
+		return this.room != null;
+	}
+
+	public boolean containsCardWithName(String name) {
+		for (Card card : cards) {
+			if (card.getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
