@@ -58,6 +58,8 @@ public class Player extends Character {
 	 */
 	private boolean isCurrentPlayer = false;
 
+	private boolean isAlive = true;
+
 	/**
 	 * Constructor for Character class
 	 *
@@ -143,6 +145,10 @@ public class Player extends Character {
 		this.room = room;
 	}
 
+	public boolean isInRoom() {
+		return this.room != null;
+	}
+
 	public boolean containsCardWithName(String name) {
 		for (Card card : cards) {
 			if (card.getName().equals(name)) {
@@ -150,5 +156,20 @@ public class Player extends Character {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * @return the isAlive
+	 */
+	public boolean isAlive() {
+		return isAlive;
+	}
+
+	/**
+	 * @param isAlive
+	 *            the isAlive to set
+	 */
+	public void setAlive(boolean isAlive) {
+		this.isAlive = isAlive;
 	}
 }

@@ -110,9 +110,15 @@ public class GameController {
 
 			if (choice == 1) {
 				doMove(currentPlayer);
-			}
+			} else if (choice == 3) {
 
-			else if (choice == 4) {
+				if (makeAccusation(currentPlayer)) {
+					isGameOver = true;
+				} else {
+					currentPlayer.setAlive(false);
+				}
+
+			} else if (choice == 4) {
 				makeSuggestion(currentPlayer);
 			}
 
@@ -132,7 +138,7 @@ public class GameController {
 	 *            The player trying to make the move
 	 */
 	private void doMove(Player currentPlayer) {
-		int roll = 15;
+		int roll = 5;
 
 		// TODO GAME LOGIC
 		System.out.println("x: " + currentPlayer.getxPos() + " y: " + currentPlayer.getyPos());
@@ -253,7 +259,7 @@ public class GameController {
 
 	private void makeSuggestion(Player player) {
 
-		Suggestion suggestion = UI.getSuggestion(ENTITIES.getPlayers(), ENTITIES.getWeapons(), player);
+		Suggestion suggestion = UI.getSuggestion(ENTITIES.getFinalCharacters(), ENTITIES.getWeapons(), player);
 
 		int count = 0;
 		int index = player.getPlayerNumber();
@@ -276,8 +282,34 @@ public class GameController {
 		}
 
 	}
-	
-	private void makeAccusation(Player player){
-		
+
+	private boolean makeAccusation(Player player) {
+
+		for (Card card : ENTITIES.getWinningCards()) {
+			System.out.println(card.getName());
+		}
+
+		Suggestion suggestion = UI.getAccusation(ENTITIES.getFinalCharacters(), ENTITIES.getWeapons(), ENTITIES.getRooms(),
+				player);
+
+		for (Card card : ENTITIES.getWinningCards()) {
+			if (card.getType().equals("Weapon")) {
+				if (!card.getName().equals(suggestion.getWeapon().getName())) {
+					return false;
+				}
+			} else if (card.getType().equals("Player")) {
+				if (!card.getName().equals(suggestion.getCharacter().getName())) {
+					return false;
+				}
+			} else if (card.getType().equals("Room")) {
+				if (!card.getName().equals(suggestion.getRoom().getName())) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+
 	}
+
 }
