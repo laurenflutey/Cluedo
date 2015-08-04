@@ -1,8 +1,7 @@
 package view;
 
+import model.*;
 import model.Character;
-import model.Move;
-import model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,10 +54,10 @@ public class UI {
 			if (isValidInteger(input)) {
 				break;
 			}
-            // Checks if number input is integer and between 3 - 6
-            if (isValidInteger(input, 3, 6)) {
-                break;
-            }
+			// Checks if number input is integer and between 3 - 6
+			if (isValidInteger(input, 3, 6)) {
+				break;
+			}
 
 			System.out.println("Please enter a valid integer between 3 - 6");
 		}
@@ -87,36 +86,41 @@ public class UI {
 	}
 
 	/**
-	 * Gets the proposed move from the player in the form of an x y {@link Move} object
+	 * Gets the proposed move from the player in the form of an x y {@link Move}
+	 * object
 	 *
-	 * @param player Player making the move
+	 * @param player
+	 *            Player making the move
 	 * @return Returns the players move
 	 */
-    public Move getPlayerMove(Player player) {
-        System.out.println("It's your turn now " + player.getName());
-        System.out.println("Please enter the x:y coordinate for your move (e.g 10 12)");
+	public Move getPlayerMove(Player player) {
+		System.out.println("It's your turn now " + player.getName());
+		System.out.println("Please enter the x:y coordinate for your move (e.g 10 12)");
 
-        Move move = null;
-        int x, y;
+		Move move = null;
+		int x, y;
 
-        while (move == null) {
-            if (reader.hasNextInt()) {
-                x = reader.nextInt();
-                if (reader.hasNextInt()) {
-                    y = reader.nextInt();
-                    move = new Move(x, y);
-                }
-            }
-        }
+		while (move == null) {
+			if (reader.hasNextInt()) {
+				x = reader.nextInt();
+				if (reader.hasNextInt()) {
+					y = reader.nextInt();
+					move = new Move(x, y);
+				}
+			}
+		}
 
-        return move;
-    }
+		return move;
+	}
 
 	/**
-	 * Method to handle the creation of the list of {@link Player}. Allows a player to choose a unique character
+	 * Method to handle the creation of the list of {@link Player}. Allows a
+	 * player to choose a unique character
 	 *
-	 * @param characters List of {@link Character} available to choose
-	 * @param playerCount Number of players in the game
+	 * @param characters
+	 *            List of {@link Character} available to choose
+	 * @param playerCount
+	 *            Number of players in the game
 	 *
 	 * @return List of player objects
 	 */
@@ -125,13 +129,16 @@ public class UI {
 		// List of player objects created
 		List<Player> players = new ArrayList<>();
 
-		/* Loops through playerCount number of times to create Player Objects for each player */
+		/*
+		 * Loops through playerCount number of times to create Player Objects
+		 * for each player
+		 */
 		for (int i = 0; i < playerCount; i++) {
-			System.out.println("Player " + (i+1) + ", please select a character:");
+			System.out.println("Player " + (i + 1) + ", please select a character:");
 
 			// Displays the list of all remaining characters that can be chosen
 			for (int j = 0; j < characters.size(); j++) {
-				System.out.println((j+1) + ": " + characters.get(j).getName());
+				System.out.println((j + 1) + ": " + characters.get(j).getName());
 			}
 
 			boolean found = false;
@@ -145,21 +152,24 @@ public class UI {
 					choice = reader.nextInt();
 				}
 
-				// Checks that the choice falls within the bounds of the remaining list
+				// Checks that the choice falls within the bounds of the
+				// remaining list
 				if (choice <= characters.size() && choice > 0) {
 					// Gets the players chosen character
 					Character character = characters.get(choice - 1);
 
-					//Creates a new player object, sets it associated character and adds to the players list
-					Player player = new Player(character.getName(), character.getCh(),
-							character.getxPos(), character.getyPos());
+					// Creates a new player object, sets it associated character
+					// and adds to the players list
+					Player player = new Player(character.getName(), character.getCh(), character.getxPos(),
+							character.getyPos());
 
 					player.setCharacter(character);
 					// sets the player number to print to the board
 					player.setPlayerNumber(i + 1);
 					players.add(player);
 
-					// finally removes the Character from the list of available characters
+					// finally removes the Character from the list of available
+					// characters
 					characters.remove(choice - 1);
 
 					found = true;
@@ -170,22 +180,135 @@ public class UI {
 		return players;
 	}
 
-    /**
-     * Helper method for {@link #getPlayerCount()}. Checks the validity of a users input to see
-     * if it is first a valid integer and then if it is between 3 - 6.
-     *
-     * @param input input from user via System.In
-     *
-     * @return The result of the validity check
-     */
-    private boolean isValidInteger(String input, int min, int max) {
-        try {
-            int valid = Integer.parseInt(input);
-            return valid >= min && valid <= max;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
+	/**
+	 * Helper method for {@link #getPlayerCount()}. Checks the validity of a
+	 * users input to see if it is first a valid integer and then if it is
+	 * between 3 - 6.
+	 *
+	 * @param input
+	 *            input from user via System.In
+	 *
+	 * @return The result of the validity check
+	 */
+	private boolean isValidInteger(String input, int min, int max) {
+		try {
+			int valid = Integer.parseInt(input);
+			return valid >= min && valid <= max;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
 
+	public Suggestion getSuggestion(List<Player> players, List<Weapon> weapons, Player currentPlayer) {
 
+		Character suggestedCharacter = null;
+		Weapon suggestedWeapon = null;
+		Room suggestedRoom = currentPlayer.getRoom();
+
+		System.out.println("Which character would you like to accuse: ");
+
+		for (int i = 0; i < players.size(); i++) {
+			System.out.println((i+1) + ": " + players.get(i).getName());
+		}
+
+		boolean found = false;
+		while (!found) {
+			if (reader.hasNextInt()) {
+				suggestedCharacter = players.get(reader.nextInt() - 1);
+				found = true;
+			}
+		}
+
+		System.out.println("Which weapon would you like to accuse: ");
+
+		for (int i = 0; i < weapons.size(); i++) {
+			System.out.println((i+1) + ": " + weapons.get(i).getName());
+		}
+
+		found = false;
+		while (!found) {
+
+			if (reader.hasNextInt()) {
+				suggestedWeapon = weapons.get(reader.nextInt() - 1);
+				found = true;
+			}
+		}
+
+		return new Suggestion(suggestedCharacter, suggestedWeapon, suggestedRoom);
+
+	}
+
+	/**
+	 * Method that displays the current options to the player and gets their
+	 * choice for their turn
+	 *
+	 * @param currentPlayer
+	 *            The player making the move
+	 * @param BOARD
+	 *            board that the player is playing on
+	 *
+	 * @return returns the player's choice for their turn
+	 */
+	public int getTurnOptions(Player currentPlayer, final Board BOARD) {
+		// loop until choice is found
+		while (true) {
+			int choice;
+
+			// the range of valid choice depends on whether a player is in a
+			// room or not.
+			int range = 3;
+
+			// display options to the user
+			System.out.println("Select a option using the number beside it.");
+			System.out.println("-----------------------------\n");
+			System.out.println("1: Roll dice and make a move.");
+			System.out.println("2: Look at your collected information.");
+			System.out.println("3: Make an accusation");
+
+			// Checks if the player is currently in a room or not
+			Tile currentTile = BOARD.getTiles()[currentPlayer.getxPos()][currentPlayer.getyPos()];
+			if (currentTile.isRoomTile()) {
+				System.out.println("4: Make an suggestion");
+				// increments the range of valid choices so that a user can now
+				// select 4
+				range++;
+				if (currentTile.getRoom().getConnectingRoom() != null) {
+					range++;
+					System.out.println("5: Take secret passage to connecting room: "
+							+ currentTile.getRoom().getConnectingRoom().getName());
+				}
+			}
+
+			// parse the users input
+			if (reader.hasNextInt()) {
+				choice = reader.nextInt();
+
+				// Check to see if the input falls within a valid range and then
+				// return it
+				if (choice <= range && choice > 0) {
+					return choice;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Displays all the cards in the players hand
+	 *
+	 * @param currentPlayer
+	 *            Player to display their cards
+	 */
+	public void doDisplayInformation(Player currentPlayer) {
+		System.out.println("\nCurrent Cards\n-----------------\n");
+		for (Card c : currentPlayer.getCards()) {
+			System.out.println(c.getName());
+		}
+		System.out.println("\n");
+
+		System.out.println("\nCorrectly Suggested Cards\n-----------------\n");
+		for (Card c : currentPlayer.getSuggestions()) {
+			System.out.println(c.getName());
+		}
+		System.out.println("\n");
+	}
 }

@@ -25,10 +25,23 @@ public class GameController {
 	 */
 	private final Entities ENTITIES;
 
+	/**
+	 * Board that the game is played on
+	 */
 	private final Board BOARD;
 
+	/**
+	 * Movement controller used to handle all of the players movement throughout
+	 * the board.
+	 *
+	 * Movement is controlled by a recursive brute force(maybe greedy?)
+	 * algorithm
+	 */
 	private final MovementController MOVEMENT_CONTROLLER;
 
+	/**
+	 * 2D array of Tile objects, representing the board
+	 */
 	private Tile[][] tiles;
 
 	/**
@@ -63,7 +76,9 @@ public class GameController {
 		playerCount = UI.getPlayerCount();
 		initPlayers();
 		isGameOver = false;
-		//Board.parseBoard("Board.txt", ENTITIES);
+		chooseSolutionCards();
+		dealCards();
+		// Board.parseBoard("Board.txt", ENTITIES);
 		doGame();
 	}
 
@@ -76,37 +91,86 @@ public class GameController {
 
 		int playerTurn = 0;
 		while (!isGameOver) {
-			BOARD.printBoard();
-			
-			int roll = 3; // TODO HARDCODED 10 for testing
+
 			Player currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
 			currentPlayer.setIsCurrentPlayer(true);
+
 			BOARD.printBoard();
-			//TODO GAME LOGIC
-			System.out.println("x: " + currentPlayer.getxPos() + " y: " + currentPlayer.getyPos());
-			System.out.println("currentPlayerNumber = " + currentPlayer.getPlayerNumber());
-			System.out.println("roll = " + roll);
-			Move proposedMove;
 
-			boolean validTurn = false;
+			System.out.println(currentPlayer.getName() + ", what would you like to do?");
 
-			while (!validTurn) {
-				proposedMove = UI.getPlayerMove(currentPlayer);
-				if(MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll)) {
-					tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(null);
-					currentPlayer.setxPos(proposedMove.getX());
-					currentPlayer.setyPos(proposedMove.getY());
-					tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(currentPlayer);
-					validTurn = true;
-				} else {
-					System.out.println("Please enter a valid coordinate");
+			int choice = -1;
+			while (choice == -1) {
+				choice = displayOptions(currentPlayer);
+				if (choice == 2) {
+					UI.doDisplayInformation(currentPlayer);
+					choice = -1;
 				}
 			}
 
-			currentPlayer.setIsCurrentPlayer(false);
+			if (choice == 1) {
+				doMove(currentPlayer);
+			}
 
-			playerTurn++;
+			else if (choice == 4) {
+				makeSuggestion(currentPlayer);
+			}
+
+			// playerTurn++; //TODO set to never increment player for testing
+			// purposes
 		}
+	}
+
+	/**
+	 * Method to handle the choice when the player wants to move around the
+	 * board.
+	 *
+	 * Rolls the dice for the player and then delegates to {@link UI} to get the
+	 * move coordinates
+	 *
+	 * @param currentPlayer
+	 *            The player trying to make the move
+	 */
+	private void doMove(Player currentPlayer) {
+		int roll = 15;
+
+		// TODO GAME LOGIC
+		System.out.println("x: " + currentPlayer.getxPos() + " y: " + currentPlayer.getyPos());
+		System.out.println("currentPlayerNumber = " + currentPlayer.getPlayerNumber());
+		System.out.println("roll = " + roll);
+		Move proposedMove;
+
+		boolean validTurn = false;
+
+		while (!validTurn) {
+			proposedMove = UI.getPlayerMove(currentPlayer);
+			if (MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll)) {
+				tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(null);
+				currentPlayer.setxPos(proposedMove.getX());
+				currentPlayer.setyPos(proposedMove.getY());
+				Tile currentTile = tiles[currentPlayer.getxPos()][currentPlayer.getyPos()];
+				currentTile.setPlayer(currentPlayer);
+				currentPlayer.setRoom(currentTile.getRoom());
+				validTurn = true;
+			} else {
+				System.out.println("Please enter a valid coordinate");
+			}
+		}
+
+		currentPlayer.setIsCurrentPlayer(false);
+	}
+
+	/**
+	 * Method to delegate the option select to the {@link UI} class, and gets
+	 * the player's proposed move for their turn.
+	 *
+	 * @param currentPlayer
+	 *            Player to select the move
+	 *
+	 * @return int representing the players choice for their move
+	 */
+	private int displayOptions(Player currentPlayer) {
+		return UI.getTurnOptions(currentPlayer, BOARD);
 	}
 
 	/**
@@ -121,14 +185,17 @@ public class GameController {
 	/**
 	 * Delegates the creation of a Player list to the {@link UI} class
 	 *
-	 * The UI class returns a list of players and that is then stored in the {@link Entities} class
+	 * The UI class returns a list of players and that is then stored in the
+	 * {@link Entities} class
 	 */
 	private void initPlayers() {
-		// Gets a list of player objects from the UI class and sets the entities to hold it
+		// Gets a list of player objects from the UI class and sets the entities
+		// to hold it
 		List<Player> players = UI.getPlayers(ENTITIES.getCharacters(), playerCount);
 		ENTITIES.setPlayers(players);
 
-		// Gets the list of tiles from the Entities class to set player locations to tile
+		// Gets the list of tiles from the Entities class to set player
+		// locations to tile
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {
 				for (Player p : players) {
@@ -156,7 +223,7 @@ public class GameController {
 			} else if (!weapon && card.getType() == "Weapon") {
 				ENTITIES.getWinningCards().add(card);
 				weapon = true;
-			} 
+			}
 		}
 
 		ENTITIES.getCards().removeAll(ENTITIES.getWinningCards());
@@ -182,5 +249,35 @@ public class GameController {
 			ENTITIES.getCards().removeAll(cardsDealt);
 		}
 
+	}
+
+	private void makeSuggestion(Player player) {
+
+		Suggestion suggestion = UI.getSuggestion(ENTITIES.getPlayers(), ENTITIES.getWeapons(), player);
+
+		int count = 0;
+		int index = player.getPlayerNumber();
+		boolean found = false;
+		while (count < playerCount && !found) {
+			Player nextPlayer = ENTITIES.getPlayer((index + count) % playerCount);
+
+			if (nextPlayer.containsCardWithName(suggestion.getCharacter().getName())) {
+				player.getSuggestions().add(new Card(suggestion.getCharacter().getName(), "Character"));
+				found = true;
+			} else if (nextPlayer.containsCardWithName(suggestion.getRoom().getName())) {
+				player.getSuggestions().add(new Card(suggestion.getRoom().getName(), "Room"));
+				found = true;
+			} else if (nextPlayer.containsCardWithName(suggestion.getWeapon().getName())) {
+				player.getSuggestions().add(new Card(suggestion.getCharacter().getName(), "Weapon"));
+				found = true;
+			} else {
+				count++;
+			}
+		}
+
+	}
+	
+	private void makeAccusation(Player player){
+		
 	}
 }
