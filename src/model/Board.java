@@ -187,6 +187,8 @@ public class Board {
 					} else {
 						System.out.print("\u001B[31m" + tiles[x][y].getPlayer().getPlayerNumber() + "\u001B[0m" + " ");
 					}
+				} else if (tiles[x][y].getWeapon() != null) {
+					System.out.println("\u001B[33m" + tiles[x][y].getPlayer().getPlayerNumber() + "\u001B[0m" + " ");
 				} else {
 					System.out.printf(tiles[x][y].getName() + " ");
 				}
