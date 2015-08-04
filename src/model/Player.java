@@ -8,8 +8,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Class to represent a Player within the game. The player extends a {@link Character} and stores all x/y coordinate
- * information in the character super class.
+ * Class to represent a Player within the game. The player extends a
+ * {@link Character} and stores all x/y coordinate information in the character
+ * super class.
  *
  * @author Marcel
  * @author Reuben
@@ -17,25 +18,28 @@ import java.util.Set;
 public class Player extends Character {
 
 	/**
-	 * Character associated with the Player. This is chosen by the user when
-	 * the game is starting using {@link view.UI#getPlayers(List, int)}
+	 * Character associated with the Player. This is chosen by the user when the
+	 * game is starting using {@link view.UI#getPlayers(List, int)}
 	 */
 	private Character character;
 
 	/**
-	 * Holds information of the players location and whether they're in a room or not. This affects the players
-	 * ability to make suggestions or use secret passages to other rooms.
+	 * Holds information of the players location and whether they're in a room
+	 * or not. This affects the players ability to make suggestions or use
+	 * secret passages to other rooms.
 	 */
 	private Room room;
 
 	/**
-	 * Collection of Cards that the player current has in their hand. A card represents either a {@link Weapon},
-	 * {@link Room} or {@link Character} and allows the user to make a guess at the correct solution to the murder.
+	 * Collection of Cards that the player current has in their hand. A card
+	 * represents either a {@link Weapon}, {@link Room} or {@link Character} and
+	 * allows the user to make a guess at the correct solution to the murder.
 	 */
 	private Set<Card> cards;
 
 	/**
-	 * Player number which is used to display the player on the board, with their corresponding number
+	 * Player number which is used to display the player on the board, with
+	 * their corresponding number
 	 *
 	 * @see Board#printBoard()
 	 */
@@ -47,8 +51,8 @@ public class Player extends Character {
 	private List<Card> successfulSuggestions;
 
 	/**
-	 * Boolean to hold whether this is the current player or not and is used in the {@link controller.GameController}
-	 * to perform game logic
+	 * Boolean to hold whether this is the current player or not and is used in
+	 * the {@link controller.GameController} to perform game logic
 	 *
 	 * @see GameController#doGame()
 	 */
@@ -132,9 +136,19 @@ public class Player extends Character {
 	}
 
 	/**
-	 * @param room the room to set
+	 * @param room
+	 *            the room to set
 	 */
 	public void setRoom(Room room) {
 		this.room = room;
+	}
+
+	public boolean containsCardWithName(String name) {
+		for (Card card : cards) {
+			if (card.getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
