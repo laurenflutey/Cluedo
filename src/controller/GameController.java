@@ -154,11 +154,15 @@ public class GameController {
 				// Case where the player has chosen to make a suggestion, and
 				// therefore must be in a room to do so.
 				makeSuggestion(currentPlayer);
+			} else if (choice == 5) {
+				// Case where the player is in a room that has a secret passage
+				doSecretPassage(currentPlayer);
 			}
 
 			// Increment the playerTurn so that on the next loop through, the
 			// player virtually clockwise will take
 			// their turn.
+			
 			playerTurn++;
 			currentPlayer.setIsCurrentPlayer(false);
 		}
@@ -166,6 +170,44 @@ public class GameController {
 		// The game is now over and the current player is the winner. Do endGame
 		// method
 		endGame(currentPlayer);
+	}
+
+	/**
+	 * Method to handle the secret passage movement in the game, just puts a player in the first available place
+	 * in the room if they has chosen to move
+	 *
+	 * @param currentPlayer The player moving to the room
+	 */
+	private void doSecretPassage(Player currentPlayer) {
+		if(UI.doSecretPassageConfirm(currentPlayer)) {
+
+			// Gets the current room, and the connection room and assigns it to the player
+			Room current = currentPlayer.getRoom();
+			Room connectingRoom = current.getConnectingRoom();
+
+			ArrayList<Tile> connectingRoomTiles = connectingRoom.getTiles();
+			Collections.shuffle(connectingRoomTiles);
+
+			for (Tile t : connectingRoomTiles) {
+				if (t.isRoomTile() && !t.isWallTile() && !t.isOccupied()) {
+
+					// Disassociate old tile with player
+					tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(null);
+
+					// update xy position
+					currentPlayer.setxPos(t.getX());
+					currentPlayer.setyPos(t.getY());
+					Tile currentTile = tiles[currentPlayer.getxPos()][currentPlayer.getyPos()];
+
+					// Associate new tile with the player and update if the player
+					// is in a room or not
+					currentTile.setPlayer(currentPlayer);
+					currentPlayer.setRoom(connectingRoom);
+
+					break;
+				}
+			}
+		}
 	}
 
 	private void endGame(Player currentPlayer) {
