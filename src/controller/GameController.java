@@ -144,7 +144,11 @@ public class GameController {
 				BOARD.printBoard();
 
 				// Begin the parsing of a players choice for their turn
-				System.out.println(currentPlayer.getName() + ", what would you like to do?\n");
+				if (IS_GAME_COLOURED) {
+					System.out.println("\u001B[32m" + currentPlayer.getName() + "\u001B[0m" + ", what would you like to do?\n");
+				} else {
+					System.out.println(currentPlayer.getName() + ", what would you like to do?\n");
+				}
 				int choice = -1;
 
 				// Continually loop until a player chooses a valid option for their
@@ -196,7 +200,7 @@ public class GameController {
 
 				currentPlayer.setIsCurrentPlayer(false);
 			}
-			playerTurn++;
+			//playerTurn++;
 		}
 
 		if (!everyoneLost) {
