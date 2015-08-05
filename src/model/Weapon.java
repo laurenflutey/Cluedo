@@ -22,6 +22,11 @@ public class Weapon {
 		this.id = id;
 	}
 
+	/**
+	 * Getter
+	 *
+	 * @return The name of the Weapon
+	 */
 	public String getName() {
 		return name;
 	}
