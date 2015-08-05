@@ -15,9 +15,11 @@ import java.util.Map.Entry;
 public class GameController {
 
 	/**
-	 * boolean value representing whether the game should be coloured or not. This is set in the
-	 * {@link GameController#initGame()} method, and asks the user if they want the game to be coloured,
-	 * and it they choose to colour the game, will test to see if the colouring is working correctly for them.
+	 * boolean value representing whether the game should be coloured or not.
+	 * This is set in the {@link GameController#initGame()} method, and asks the
+	 * user if they want the game to be coloured, and it they choose to colour
+	 * the game, will test to see if the colouring is working correctly for
+	 * them.
 	 */
 	public static boolean IS_GAME_COLOURED;
 
@@ -102,8 +104,9 @@ public class GameController {
 	}
 
 	/**
-	 * Method that delegates to the {@link UI} to see if the user wants to use colouring in the game and
-	 * if they do, tests to see if the colouring is working for them
+	 * Method that delegates to the {@link UI} to see if the user wants to use
+	 * colouring in the game and if they do, tests to see if the colouring is
+	 * working for them
 	 */
 	private void initGameOptions() {
 		GameController.IS_GAME_COLOURED = UI.doInitialGameSetup();
@@ -182,7 +185,6 @@ public class GameController {
 			// player virtually clockwise will take
 			// their turn.
 
-			
 			playerTurn++;
 			currentPlayer.setIsCurrentPlayer(false);
 
@@ -194,15 +196,18 @@ public class GameController {
 	}
 
 	/**
-	 * Method to handle the secret passage movement in the game, just puts a player in the first available place
-	 * in the room if they has chosen to move
+	 * Method to handle the secret passage movement in the game, just puts a
+	 * player in the first available place in the room if they has chosen to
+	 * move
 	 *
-	 * @param currentPlayer The player moving to the room
+	 * @param currentPlayer
+	 *            The player moving to the room
 	 */
 	private void doSecretPassage(Player currentPlayer) {
-		if(UI.doSecretPassageConfirm(currentPlayer)) {
+		if (UI.doSecretPassageConfirm(currentPlayer)) {
 
-			// Gets the current room, and the connection room and assigns it to the player
+			// Gets the current room, and the connection room and assigns it to
+			// the player
 			Room current = currentPlayer.getRoom();
 			Room connectingRoom = current.getConnectingRoom();
 
@@ -216,36 +221,40 @@ public class GameController {
 	/**
 	 * Method to randomly assign a {@link Player} to a room
 	 *
-	 * @param player Player being randomly placed in the room
-	 * @param assignedRoom Room that the player is being randomly assigned to
-	 * @param assignedRoomTiles A collection of shuffled tiles for the randomly assigned room
+	 * @param player
+	 *            Player being randomly placed in the room
+	 * @param assignedRoom
+	 *            Room that the player is being randomly assigned to
+	 * @param assignedRoomTiles
+	 *            A collection of shuffled tiles for the randomly assigned room
 	 */
 	private void randomAssignToRoom(Player player, Room assignedRoom, ArrayList<Tile> assignedRoomTiles) {
 		for (Tile t : assignedRoomTiles) {
-            if (t.isRoomTile() && !t.isWallTile() && !t.isOccupied()) {
+			if (t.isRoomTile() && !t.isWallTile() && !t.isOccupied()) {
 
-                // Disassociate old tile with player
-                tiles[player.getxPos()][player.getyPos()].setPlayer(null);
+				// Disassociate old tile with player
+				tiles[player.getxPos()][player.getyPos()].setPlayer(null);
 
-                // update xy position
-                player.setxPos(t.getX());
-                player.setyPos(t.getY());
-                Tile currentTile = tiles[player.getxPos()][player.getyPos()];
+				// update xy position
+				player.setxPos(t.getX());
+				player.setyPos(t.getY());
+				Tile currentTile = tiles[player.getxPos()][player.getyPos()];
 
-                // Associate new tile with the player and update if the player
-                // is in a room or not
-                currentTile.setPlayer(player);
-                player.setRoom(assignedRoom);
+				// Associate new tile with the player and update if the player
+				// is in a room or not
+				currentTile.setPlayer(player);
+				player.setRoom(assignedRoom);
 
-                break;
-            }
-        }
+				break;
+			}
+		}
 	}
 
 	/**
 	 * Delegate method to pass the call to end the game to the {@link UI}
 	 *
-	 * @param winningPlayer The Player that has won the game
+	 * @param winningPlayer
+	 *            The Player that has won the game
 	 */
 	private void endGame(Player winningPlayer) {
 		UI.doEndGame(winningPlayer);
@@ -448,17 +457,17 @@ public class GameController {
 	 */
 	private void makeSuggestion(Player suggestingPlayer) {
 
-		Suggestion suggestion = UI.getSuggestion(ENTITIES.getFinalPlayers(), ENTITIES.getWeapons(),
-				suggestingPlayer);
+		Suggestion suggestion = UI.getSuggestion(ENTITIES.getFinalPlayers(), ENTITIES.getWeapons(), suggestingPlayer);
 
 		Room playerRoom = suggestingPlayer.getRoom();
 		int count = 0;
 		int index = suggestingPlayer.getPlayerNumber();
 		boolean found = false;
 
-		playerRoom.addPlayerToAvailableTile(suggestion.getPlayer());
-		playerRoom.addWeaponToAvailableTile(suggestion.getWeapon());
-		
+		playerRoom.addPlayerToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getPlayer());
+
+		playerRoom.addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getWeapon());
+
 		suggestion.getPlayer().setIsCurrentPlayer(false);
 
 		// loops through all the players to see if any have a matching card to

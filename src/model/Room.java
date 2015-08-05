@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class representing a room in the Cluedo game.
@@ -86,6 +87,7 @@ public class Room {
 	}
 
 	public void addWeaponToAvailableTile(Weapon weapon) {
+		
 		for (Tile tile : tiles) {
 			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile() && !tile.isOccupied()) {
 				tile.setWeapon(weapon);
@@ -95,6 +97,9 @@ public class Room {
 	}
 
 	public void addPlayerToAvailableTile(Player player) {
+		
+		
+		
 		for (Tile tile : tiles) {
 			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile() && !tile.isOccupied()) {
 				tile.setPlayer(player);
