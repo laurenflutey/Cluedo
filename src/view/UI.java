@@ -325,6 +325,8 @@ public class UI {
 			}
 		}
 
+		doClearOutput();
+
 		// The suggestion is then return and stored in the Player
 		return new Suggestion(suggestedPlayer, suggestedWeapon, suggestedRoom);
 
@@ -476,6 +478,7 @@ public class UI {
 	 * @param entities all the entities on the board to be displayed
 	 */
 	public void displayKeys(Entities entities) {
+		doClearOutput();
 
 		System.out.println("Board Key: ");
 		System.out.println("---------------");
