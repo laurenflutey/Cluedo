@@ -207,7 +207,7 @@ public class GameController {
 
 				currentPlayer.setIsCurrentPlayer(false);
 			}
-			playerTurn++;
+			//playerTurn++;
 		}
 
 		if (!everyoneLost) {
