@@ -212,9 +212,6 @@ public class GameController {
 			Room current = currentPlayer.getRoom();
 			Room connectingRoom = current.getConnectingRoom();
 
-			ArrayList<Tile> connectingRoomTiles = connectingRoom.getTiles();
-			Collections.shuffle(connectingRoomTiles);
-
 			randomAssignToRoom(currentPlayer, connectingRoom);
 		}
 	}
