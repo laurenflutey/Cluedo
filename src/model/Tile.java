@@ -1,5 +1,15 @@
 package model;
 
+/**
+ * Class to represent a tile on the board. A Tile is parsed by the {@link Board#parseBoard(String)} method
+ *
+ * A tile can have a number of properties including if it is a room or wall tile, or if it is a door to a room.
+ *
+ * It can also have a {@link Player} or {@link Weapon} associated with it.
+ *
+ * @author Marcel
+ * @author Reuben
+ */
 public class Tile {
 	private char name;
 	private Room room;
@@ -70,7 +80,7 @@ public class Tile {
 	 * @return Is there a player currently on this tile
 	 */
 	public boolean isOccupied() {
-		return player != null && weapon != null;
+		return player != null || weapon != null;
 	}
 
 	/**
