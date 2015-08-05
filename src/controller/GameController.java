@@ -126,8 +126,8 @@ public class GameController {
 		// Begin game loop and continue until the game state changes
 		while (!isGameOver) {
 
-			//checks that everyone isn't dead
-			if(!checkForAlivePlayers()) {
+			// checks that everyone isn't dead
+			if (!checkForAlivePlayers()) {
 				isGameOver = true;
 				everyoneLost = true;
 				break;
@@ -145,16 +145,19 @@ public class GameController {
 
 				// Begin the parsing of a players choice for their turn
 				if (IS_GAME_COLOURED) {
-					System.out.println("\u001B[32m" + currentPlayer.getName() + "\u001B[0m" + ", what would you like to do?\n");
+					System.out.println(
+							"\u001B[32m" + currentPlayer.getName() + "\u001B[0m" + ", what would you like to do?\n");
 				} else {
 					System.out.println(currentPlayer.getName() + ", what would you like to do?\n");
 				}
 				int choice = -1;
 
-				// Continually loop until a player chooses a valid option for their
+				// Continually loop until a player chooses a valid option for
+				// their
 				// turn
 				while (choice == -1) {
-					// Delegate to the UI to parse the int for the players choice
+					// Delegate to the UI to parse the int for the players
+					// choice
 					choice = displayOptions(currentPlayer);
 
 					if (choice == -10) {
@@ -162,7 +165,8 @@ public class GameController {
 						choice = -1;
 					}
 
-					// case where the player chooses to simply display their set of
+					// case where the player chooses to simply display their set
+					// of
 					// cards, and current information.
 					// This shouldn't end the players turn and so once complete,
 					// just sets the state back to -1 to continue
@@ -186,25 +190,29 @@ public class GameController {
 						currentPlayer.setAlive(false);
 					}
 				} else if (choice == 4) {
-					// Case where the player has chosen to make a suggestion, and
+					// Case where the player has chosen to make a suggestion,
+					// and
 					// therefore must be in a room to do so.
 					makeSuggestion(currentPlayer);
 				} else if (choice == 5) {
-					// Case where the player is in a room that has a secret passage
+					// Case where the player is in a room that has a secret
+					// passage
 					doSecretPassage(currentPlayer);
 				}
 
-				// Increment the playerTurn so that on the next loop through, the
+				// Increment the playerTurn so that on the next loop through,
+				// the
 				// player virtually clockwise will take
 				// their turn.
 
 				currentPlayer.setIsCurrentPlayer(false);
 			}
-			//playerTurn++;
+			// playerTurn++;
 		}
 
 		if (!everyoneLost) {
-			// The game is now over and the current player is the winner. Do endGame
+			// The game is now over and the current player is the winner. Do
+			// endGame
 			// method
 			endGame(currentPlayer);
 		} else {
@@ -220,7 +228,8 @@ public class GameController {
 	 */
 	private boolean checkForAlivePlayers() {
 		for (Player p : ENTITIES.getPlayers()) {
-			if (p.isAlive()) return true;
+			if (p.isAlive())
+				return true;
 		}
 		return false;
 	}
@@ -496,10 +505,6 @@ public class GameController {
 		int index = suggestingPlayer.getPlayerNumber();
 		boolean found = false;
 
-		playerRoom.addPlayerToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getPlayer(), false);
-
-		playerRoom.addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getWeapon(), false);
-
 		suggestion.getPlayer().setIsCurrentPlayer(false);
 
 		// loops through all the players to see if any have a matching card to
@@ -511,13 +516,15 @@ public class GameController {
 			// this is not worth randomising
 			if (nextPlayer.containsCardWithName(suggestion.getPlayer().getName())) {
 				suggestingPlayer.getSuggestions().add(new Card(suggestion.getPlayer().getName(), "Character"));
+				playerRoom.addPlayerToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getPlayer(), false);
 				found = true;
 			} else if (nextPlayer.containsCardWithName(suggestion.getRoom().getName())) {
 				suggestingPlayer.getSuggestions().add(new Card(suggestion.getRoom().getName(), "Room"));
 				found = true;
 			} else if (nextPlayer.containsCardWithName(suggestion.getWeapon().getName())) {
-				suggestingPlayer.getSuggestions().add(new Card(suggestion.getPlayer().getName(), "Weapon"));
+				suggestingPlayer.getSuggestions().add(new Card(suggestion.getWeapon().getName(), "Weapon"));
 				found = true;
+				playerRoom.addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getWeapon(), false);
 			} else {
 				count++;
 			}
