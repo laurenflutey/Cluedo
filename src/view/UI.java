@@ -101,8 +101,8 @@ public class UI {
 	 */
 	public Move getPlayerMove(Player player, int roll) {
 		System.out.println(player.getName() + ", you rolled a " + roll + ". You're currently at x: "
-				+ parseIntToCharacter(player.getxPos()) + " y: "
-				+ (player.getyPos() + 1));
+				+ parseIntToCharacter(player.getXPos()) + " y: "
+				+ (player.getYPos() + 1));
 		System.out.println("\nPlease enter the x:y coordinate for your move (e.g F 12)");
 
 		Move move = null;
@@ -212,8 +212,8 @@ public class UI {
 
 					// Creates a new player object, sets it associated character
 					// and adds to the players list
-					Player player = new Player(character.getName(), character.getCh(), character.getxPos(),
-							character.getyPos());
+					Player player = new Player(character.getName(), character.getCh(), character.getXPos(),
+							character.getYPos());
 
 					player.setCharacter(character);
 					// sets the player number to print to the board
@@ -235,8 +235,8 @@ public class UI {
 		// add inactive players
 		for (Character character : characters) {
 			// Gets the character and creates a new player
-			Player player = new Player(character.getName(), character.getCh(), character.getxPos(),
-					character.getyPos());
+			Player player = new Player(character.getName(), character.getCh(), character.getXPos(),
+					character.getYPos());
 
 			// check to see if that player is contained in the list of players
 			// and if it isn't, set it to be not alive, give it a number, assign it
@@ -427,7 +427,7 @@ public class UI {
 			System.out.println("3: Make an accusation");
 
 			// Checks if the player is currently in a room or not
-			Tile currentTile = BOARD.getTiles()[currentPlayer.getxPos()][currentPlayer.getyPos()];
+			Tile currentTile = BOARD.getTiles()[currentPlayer.getXPos()][currentPlayer.getYPos()];
 			if (currentTile.isRoomTile()) {
 				System.out.println("4: Make an suggestion");
 				// increments the range of valid choices so that a user can now

@@ -171,7 +171,7 @@ public class Board {
 
 	public void printPlayerLocations(Entities entities) {
 		for (Player player : entities.getPlayers()) {
-			System.out.println("x: " + player.getxPos() + " y: " + player.getyPos());
+			System.out.println("x: " + player.getXPos() + " y: " + player.getYPos());
 		}
 	}
 

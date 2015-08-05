@@ -104,8 +104,8 @@ public class Room {
 		for (Tile tile : tiles) {
 			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile() && !tile.isOccupied()) {
 				tile.setPlayer(player);
-				player.setxPos(tile.getX());
-				player.setyPos(tile.getY());
+				player.setXPos(tile.getX());
+				player.setYPos(tile.getY());
 				player.setRoom(tile.getRoom());
 				break;
 			}

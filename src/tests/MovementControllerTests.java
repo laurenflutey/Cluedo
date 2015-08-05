@@ -326,7 +326,7 @@ public class MovementControllerTests {
      */
     private Player setupPlayer(Player player) {
 
-        Tile t = entities.getBoard().getTiles()[player.getxPos()][player.getyPos()];
+        Tile t = entities.getBoard().getTiles()[player.getXPos()][player.getYPos()];
         t.setPlayer(player);
         assertTrue(t.isOccupied());
 
@@ -337,7 +337,7 @@ public class MovementControllerTests {
 
         player.setPlayerNumber(1);
 
-        player.setCharacter(new Character("test", 't', player.getxPos(), player.getyPos()));
+        player.setCharacter(new Character("test", 't', player.getXPos(), player.getYPos()));
 
         return player;
     }

@@ -270,12 +270,12 @@ public class GameController {
 			if (t.isRoomTile() && !t.isWallTile() && !t.isOccupied()) {
 
 				// Disassociate old tile with player
-				tiles[player.getxPos()][player.getyPos()].setPlayer(null);
+				tiles[player.getXPos()][player.getYPos()].setPlayer(null);
 
 				// update xy position
-				player.setxPos(t.getX());
-				player.setyPos(t.getY());
-				Tile currentTile = tiles[player.getxPos()][player.getyPos()];
+				player.setXPos(t.getX());
+				player.setYPos(t.getY());
+				Tile currentTile = tiles[player.getXPos()][player.getYPos()];
 
 				// Associate new tile with the player and update if the player
 				// is in a room or not
@@ -335,12 +335,12 @@ public class GameController {
 
 			if (MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll)) {
 				// Disassociate old tile with player
-				tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(null);
+				tiles[currentPlayer.getXPos()][currentPlayer.getYPos()].setPlayer(null);
 
 				// update xy position
-				currentPlayer.setxPos(proposedMove.getX());
-				currentPlayer.setyPos(proposedMove.getY());
-				Tile currentTile = tiles[currentPlayer.getxPos()][currentPlayer.getyPos()];
+				currentPlayer.setXPos(proposedMove.getX());
+				currentPlayer.setYPos(proposedMove.getY());
+				Tile currentTile = tiles[currentPlayer.getXPos()][currentPlayer.getYPos()];
 
 				// Associate new tile with the player and update if the player
 				// is in a room or not
@@ -403,7 +403,7 @@ public class GameController {
 				for (Player p : players) {
 
 					// assigns a player to a tile location
-					if (p.getxPos() == i && p.getyPos() == j) {
+					if (p.getXPos() == i && p.getYPos() == j) {
 						tiles[i][j].setPlayer(p);
 					}
 				}
