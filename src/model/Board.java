@@ -179,11 +179,11 @@ public class Board {
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot find file: " + filename);
 		}
-
 	}
 
 	/**
-	 * prints the board
+	 * Prints the board. The printing works differently depending on if the board is going to print
+	 * colour or just standard white.
 	 */
 	public void printBoard() {
 		for (int y = 0; y < this.height; y++) {
@@ -213,14 +213,17 @@ public class Board {
 				} else {
 					System.out.printf(tiles[x][y].getName() + " ");
 				}
-
 			}
+
+			// print out the 1 - 26 key along the right side of the board
 			if (GameController.IS_GAME_COLOURED) {
 				System.out.println("\u001B[34m" + " " + (y + 1) + "\u001B[0m");
 			} else {
 				System.out.println(" " + (y + 1));
 			}
 		}
+
+		// finally print out the A-Z Key along the bottom of the board
 		if (GameController.IS_GAME_COLOURED){
 			System.out.print("\u001B[34m" + "\nA B C D E F G H I J K L M N O P Q R S T U V W X \n" + "\u001B[0m" + "\n\n\n");
 		} else {
