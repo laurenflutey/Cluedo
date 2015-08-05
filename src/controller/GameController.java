@@ -15,6 +15,13 @@ import java.util.Map.Entry;
 public class GameController {
 
 	/**
+	 * boolean value representing whether the game should be coloured or not. This is set in the
+	 * {@link GameController#initGame()} method, and asks the user if they want the game to be coloured,
+	 * and it they choose to colour the game, will test to see if the colouring is working correctly for them.
+	 */
+	public static boolean IS_GAME_COLOURED;
+
+	/**
 	 * UI Class used to interact with the players in the game
 	 */
 	private final UI UI;
@@ -62,6 +69,7 @@ public class GameController {
 
 		/* Assign board to movement controller */
 		this.MOVEMENT_CONTROLLER = new MovementController(BOARD);
+
 	}
 
 	/**
@@ -73,6 +81,9 @@ public class GameController {
 	public void initGame() {
 		// Delegates player count parsing to UI class
 		playerCount = UI.getPlayerCount();
+
+		// Delegate to the UI to check if the user wants to use colouring or not
+		initGameOptions();
 
 		// Initialises all the players and sets the game state
 		initPlayers();
@@ -88,6 +99,14 @@ public class GameController {
 
 		// Begin the game loop
 		doGame();
+	}
+
+	/**
+	 * Method that delegates to the {@link UI} to see if the user wants to use colouring in the game and
+	 * if they do, tests to see if the colouring is working for them
+	 */
+	private void initGameOptions() {
+		GameController.IS_GAME_COLOURED = UI.doInitialGameSetup();
 	}
 
 	/**
@@ -154,12 +173,17 @@ public class GameController {
 				// Case where the player has chosen to make a suggestion, and
 				// therefore must be in a room to do so.
 				makeSuggestion(currentPlayer);
+			} else if (choice == 5) {
+				// Case where the player is in a room that has a secret passage
+				doSecretPassage(currentPlayer);
 			}
 
 			// Increment the playerTurn so that on the next loop through, the
 			// player virtually clockwise will take
 			// their turn.
-			playerTurn++;
+
+
+			//playerTurn++; //TODO commented out at the moment to make only one player take turns for debug
 		}
 
 		// The game is now over and the current player is the winner. Do endGame
@@ -167,8 +191,62 @@ public class GameController {
 		endGame(currentPlayer);
 	}
 
-	private void endGame(Player currentPlayer) {
-		UI.doEndGame(currentPlayer);
+	/**
+	 * Method to handle the secret passage movement in the game, just puts a player in the first available place
+	 * in the room if they has chosen to move
+	 *
+	 * @param currentPlayer The player moving to the room
+	 */
+	private void doSecretPassage(Player currentPlayer) {
+		if(UI.doSecretPassageConfirm(currentPlayer)) {
+
+			// Gets the current room, and the connection room and assigns it to the player
+			Room current = currentPlayer.getRoom();
+			Room connectingRoom = current.getConnectingRoom();
+
+			ArrayList<Tile> connectingRoomTiles = connectingRoom.getTiles();
+			Collections.shuffle(connectingRoomTiles);
+
+			randomAssignToRoom(currentPlayer, connectingRoom, connectingRoomTiles);
+		}
+	}
+
+	/**
+	 * Method to randomly assign a {@link Player} to a room
+	 *
+	 * @param player Player being randomly placed in the room
+	 * @param assignedRoom Room that the player is being randomly assigned to
+	 * @param assignedRoomTiles A collection of shuffled tiles for the randomly assigned room
+	 */
+	private void randomAssignToRoom(Player player, Room assignedRoom, ArrayList<Tile> assignedRoomTiles) {
+		for (Tile t : assignedRoomTiles) {
+            if (t.isRoomTile() && !t.isWallTile() && !t.isOccupied()) {
+
+                // Disassociate old tile with player
+                tiles[player.getxPos()][player.getyPos()].setPlayer(null);
+
+                // update xy position
+                player.setxPos(t.getX());
+                player.setyPos(t.getY());
+                Tile currentTile = tiles[player.getxPos()][player.getyPos()];
+
+                // Associate new tile with the player and update if the player
+                // is in a room or not
+                currentTile.setPlayer(player);
+                player.setRoom(assignedRoom);
+
+                break;
+            }
+        }
+	}
+
+	/**
+	 * Delegate method to pass the call to end the game to the {@link UI}
+	 *
+	 * @param winningPlayer The Player that has won the game
+	 */
+	private void endGame(Player winningPlayer) {
+		UI.doEndGame(winningPlayer);
 	}
 
 	/**
