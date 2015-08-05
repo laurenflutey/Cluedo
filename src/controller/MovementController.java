@@ -73,9 +73,10 @@ public class MovementController {
      */
     private boolean isTileOccupied(Move target) {
         if (target.getX() < 24 && target.getX() > 0 && target.getY() < 25 && target.getY() > 0) {
-            return TILES[target.getX()][target.getY()].isOccupied();
+            Tile t = TILES[target.getX()][target.getY()];
+            return t.isOccupied() || t.isBoundary();
         }
-        return false;
+        return true;
     }
 
     /**
