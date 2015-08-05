@@ -313,7 +313,7 @@ public class GameController {
 	 */
 	private void doMove(Player currentPlayer) {
 		// Gets the players roll for their turn
-		int roll = 6;
+		int roll = rollDice();
 		Move proposedMove;
 
 		// Clears the console output and then re-displays the board in its
@@ -379,7 +379,7 @@ public class GameController {
 	 *
 	 * @return integer 1 - 6
 	 */
-	private int rollDice() {
+	public int rollDice() {
 		return (int) (Math.random() * 6 + 1);
 	}
 
@@ -590,14 +590,5 @@ public class GameController {
 		accusingPlayer.setAccusation(suggestion);
 
 		return true;
-	}
-
-	/**
-	 * Getter method for the {@link MovementController}. This is primarily used for testing the pathing algorithm.
-	 *
-	 * @return MovementController
-	 */
-	public MovementController getMOVEMENT_CONTROLLER() {
-		return MOVEMENT_CONTROLLER;
 	}
 }
