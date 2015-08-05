@@ -215,7 +215,7 @@ public class GameController {
 			ArrayList<Tile> connectingRoomTiles = connectingRoom.getTiles();
 			Collections.shuffle(connectingRoomTiles);
 
-			randomAssignToRoom(currentPlayer, connectingRoom, connectingRoomTiles);
+			randomAssignToRoom(currentPlayer, connectingRoom);
 		}
 	}
 
@@ -226,11 +226,12 @@ public class GameController {
 	 *            Player being randomly placed in the room
 	 * @param assignedRoom
 	 *            Room that the player is being randomly assigned to
-	 * @param assignedRoomTiles
-	 *            A collection of shuffled tiles for the randomly assigned room
 	 */
-	private void randomAssignToRoom(Player player, Room assignedRoom, ArrayList<Tile> assignedRoomTiles) {
-		for (Tile t : assignedRoomTiles) {
+	private void randomAssignToRoom(Player player, Room assignedRoom) {
+		ArrayList<Tile> connectingRoomTiles = assignedRoom.getTiles();
+		Collections.shuffle(connectingRoomTiles);
+
+		for (Tile t : connectingRoomTiles) {
 			if (t.isRoomTile() && !t.isWallTile() && !t.isOccupied()) {
 
 				// Disassociate old tile with player

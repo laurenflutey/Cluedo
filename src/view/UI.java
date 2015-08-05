@@ -123,7 +123,7 @@ public class UI {
 
 					// Then parse the users y position on the board
 					if (reader.hasNextInt()) {
-						y = reader.nextInt();
+						y = reader.nextInt() - 1;
 						move = new Move(x, y);
 					}
 				}
