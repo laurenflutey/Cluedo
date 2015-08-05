@@ -92,10 +92,7 @@ public class MovementController {
         int changeX = Math.abs(move.getX() - playerTile.getX());
         int changeY = Math.abs(move.getY() - playerTile.getY());
 
-        if ((changeX + changeY) <= roll) {
-            return true;
-        }
-        return false;
+        return (changeX + changeY) <= roll;
     }
 
     /**
