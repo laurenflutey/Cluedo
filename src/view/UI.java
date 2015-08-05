@@ -4,6 +4,7 @@ import controller.GameController;
 import model.*;
 import model.Character;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -552,8 +553,7 @@ public class UI {
 	/**
 	 * Method to handle the end game display
 	 *
-	 * @param winningPlayer
-	 *            The Player who won the game
+	 * @param winningPlayer The Player who won the game
 	 */
 	public void doEndGame(Player winningPlayer) {
 		System.out.println("Congratulations " + winningPlayer.getName() + ", you accused correctly");
@@ -561,6 +561,15 @@ public class UI {
 		System.out.println("\t" + winningPlayer.getAccusation().getPlayer().getName());
 		System.out.println("\t" + winningPlayer.getAccusation().getRoom().getName());
 		System.out.println("\t" + winningPlayer.getAccusation().getWeapon().getName());
+	}
+
+	/**
+	 * Method to handle the sad case when no one has managed to correctly guess the murder, and have all died.
+	 */
+	public void doEndGame() {
+		doClearOutput();
+		System.out.println("Looks like no one has won the game");
+		System.out.println("Better luck next time...");
 	}
 
 	/**
@@ -643,5 +652,29 @@ public class UI {
 		System.out.println("Was the text coloured: Y/N");
 
 		return parseYesNoInput();
+	}
+
+	/**
+	 * Method to handle when the player loses the game
+	 */
+	public void doLose() {
+		if (GameController.IS_GAME_COLOURED){
+			System.out.println("\u001B[31m" + "You have accused incorrectly, and have therefore lost...." + "\u001B[0m");
+			System.out.println("\u001B[31m" + "Press any key to continue the game...." + "\u001B[0m");
+		} else {
+			System.out.println("You have accused incorrectly, and have therefore lost....");
+			System.out.println("Press enter to continue the game....");
+		}
+		pressAnyKeyToContinue();
+		doClearOutput();
+	}
+
+	/**
+	 * Method to wait for key press from user before it continues.
+	 */
+	private void pressAnyKeyToContinue() {
+		try {
+			System.in.read();
+		} catch (IOException ignored) {}
 	}
 }

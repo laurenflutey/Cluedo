@@ -58,6 +58,7 @@ public class GameController {
 	 */
 	private int playerCount;
 	private boolean isGameOver;
+	private boolean everyoneLost = false;
 
 	/**
 	 * Constructor for the {@link GameController} class
@@ -125,6 +126,13 @@ public class GameController {
 		// Begin game loop and continue until the game state changes
 		while (!isGameOver) {
 
+			//checks that everyone isn't dead
+			if(!checkForAlivePlayers()) {
+				isGameOver = true;
+				everyoneLost = true;
+				break;
+			}
+
 			// Gets the current player and sets that player as the current
 			// player so can be coloured on board
 			currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
@@ -191,9 +199,26 @@ public class GameController {
 			playerTurn++;
 		}
 
-		// The game is now over and the current player is the winner. Do endGame
-		// method
-		endGame(currentPlayer);
+		if (!everyoneLost) {
+			// The game is now over and the current player is the winner. Do endGame
+			// method
+			endGame(currentPlayer);
+		} else {
+			// case where no one has won the game...
+			endGame();
+		}
+	}
+
+	/**
+	 * Method to check if there are still players alive in the game
+	 *
+	 * @return is anyone still here???...
+	 */
+	private boolean checkForAlivePlayers() {
+		for (Player p : ENTITIES.getPlayers()) {
+			if (p.isAlive()) return true;
+		}
+		return false;
 	}
 
 	/**
@@ -257,6 +282,10 @@ public class GameController {
 	 */
 	private void endGame(Player winningPlayer) {
 		UI.doEndGame(winningPlayer);
+	}
+
+	private void endGame() {
+		UI.doEndGame();
 	}
 
 	/**
@@ -525,19 +554,19 @@ public class GameController {
 			switch (card.getType()) {
 			case "Weapon":
 				if (!card.getName().equals(suggestion.getWeapon().getName())) {
-					System.out.println("You guessed the Weapon incorrectly... You lose");
+					UI.doLose();
 					return false;
 				}
 				break;
 			case "Player":
 				if (!card.getName().equals(suggestion.getPlayer().getName())) {
-					System.out.println("You guessed the Player incorrectly... You lose");
+					UI.doLose();
 					return false;
 				}
 				break;
 			case "Room":
 				if (!card.getName().equals(suggestion.getRoom().getName())) {
-					System.out.println("You guessed the Room incorrectly... You lose");
+					UI.doLose();
 					return false;
 				}
 				break;
