@@ -584,4 +584,13 @@ public class GameController {
 
 		return true;
 	}
+
+	/**
+	 * Getter method for the {@link MovementController}. This is primarily used for testing the pathing algorithm.
+	 *
+	 * @return MovementController
+	 */
+	public MovementController getMOVEMENT_CONTROLLER() {
+		return MOVEMENT_CONTROLLER;
+	}
 }

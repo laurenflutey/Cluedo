@@ -113,7 +113,9 @@ public class MovementController {
         }
 
         // cause where the pathing algorithm has actually found a valid path
-        if (target.getX() == currentTile.getX() && target.getY() == currentTile.getY()) return true;
+        if (target.getX() == currentTile.getX() && target.getY() == currentTile.getY()) {
+            return true;
+        }
 
         // if the remaining number of steps has been reached but a valid path was not found
         if (remaining == 0) return false;
