@@ -77,7 +77,7 @@ public class Tile {
 	 * @return Is there a player currently on this tile
 	 */
 	public boolean isOccupied() {
-		return player != null && weapon != null;
+		return player != null || weapon != null;
 	}
 
 	/**
