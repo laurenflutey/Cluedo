@@ -22,11 +22,20 @@ import java.util.regex.Pattern;
 public class UI {
 
 	/**
-	 * Initial messaged displayed to players of the Cluedo game
+	 * Initial messaged displayed to players of the Cluedo game. <3 Ascii Art.
 	 */
 	private String initMessage = "Welcome to Cluedo.\n" + "--------------------------------\n"
 			+ "| A simple text based Java game.\n" + "| Created by: \n|\tReuben Puketapu\n|\tMarcel van Workum.\n"
-			+ "--------------------------------\n\n";
+			+ "--------------------------------\n\n" +
+			" _______  _                 _______  ______   _______ \n" +
+			"(  ____ \\( \\      |\\     /|(  ____ \\(  __  \\ (  ___  )\n" +
+			"| (    \\/| (      | )   ( || (    \\/| (  \\  )| (   ) |\n" +
+			"| |      | |      | |   | || (__    | |   ) || |   | |\n" +
+			"| |      | |      | |   | ||  __)   | |   | || |   | |\n" +
+			"| |      | |      | |   | || (      | |   ) || |   | |\n" +
+			"| (____/\\| (____/\\| (___) || (____/\\| (__/  )| (___) |\n" +
+			"(_______/(_______/(_______)(_______/(______/ (_______)\n" +
+			"                                                      ";
 
 	/**
 	 * Input scanner used to handle all inputted information from the players
@@ -565,6 +574,16 @@ public class UI {
 		System.out.println("\t" + winningPlayer.getAccusation().getPlayer().getName());
 		System.out.println("\t" + winningPlayer.getAccusation().getRoom().getName());
 		System.out.println("\t" + winningPlayer.getAccusation().getWeapon().getName());
+
+		System.out.println("          _______                      _______  _        _ \n" +
+				"|\\     /|(  ___  )|\\     /|  |\\     /|(  ___  )( (    /|( )\n" +
+				"( \\   / )| (   ) || )   ( |  | )   ( || (   ) ||  \\  ( || |\n" +
+				" \\ (_) / | |   | || |   | |  | | _ | || |   | ||   \\ | || |\n" +
+				"  \\   /  | |   | || |   | |  | |( )| || |   | || (\\ \\) || |\n" +
+				"   ) (   | |   | || |   | |  | || || || |   | || | \\   |(_)\n" +
+				"   | |   | (___) || (___) |  | () () || (___) || )  \\  | _ \n" +
+				"   \\_/   (_______)(_______)  (_______)(_______)|/    )_)(_)\n" +
+				"                                                           ");
 	}
 
 	/**
@@ -574,6 +593,16 @@ public class UI {
 		doClearOutput();
 		System.out.println("Looks like no one has won the game");
 		System.out.println("Better luck next time...");
+
+		System.out.println("          _______             _        _______  _______  _______ \n" +
+				"|\\     /|(  ___  )|\\     /|  ( \\      (  ___  )(  ____ \\(  ____ \\\n" +
+				"( \\   / )| (   ) || )   ( |  | (      | (   ) || (    \\/| (    \\/\n" +
+				" \\ (_) / | |   | || |   | |  | |      | |   | || (_____ | (__    \n" +
+				"  \\   /  | |   | || |   | |  | |      | |   | |(_____  )|  __)   \n" +
+				"   ) (   | |   | || |   | |  | |      | |   | |      ) || (      \n" +
+				"   | |   | (___) || (___) |  | (____/\\| (___) |/\\____) || (____/\\\n" +
+				"   \\_/   (_______)(_______)  (_______/(_______)\\_______)(_______/\n" +
+				"                                                                 ");
 	}
 
 	/**
