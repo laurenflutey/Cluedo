@@ -142,6 +142,7 @@ public class Room {
 				tile.setPlayer(player);
 				player.setxPos(tile.getX());
 				player.setyPos(tile.getY());
+				player.setRoom(tile.getRoom());
 				break;
 			}
 		}
