@@ -527,16 +527,19 @@ public class GameController {
 			switch (card.getType()) {
 			case "Weapon":
 				if (!card.getName().equals(suggestion.getWeapon().getName())) {
+					System.out.println("You guessed the Weapon incorrectly... You lose");
 					return false;
 				}
 				break;
 			case "Player":
 				if (!card.getName().equals(suggestion.getPlayer().getName())) {
+					System.out.println("You guessed the Player incorrectly... You lose");
 					return false;
 				}
 				break;
 			case "Room":
 				if (!card.getName().equals(suggestion.getRoom().getName())) {
+					System.out.println("You guessed the Room incorrectly... You lose");
 					return false;
 				}
 				break;
