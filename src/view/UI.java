@@ -1,5 +1,6 @@
 package view;
 
+import controller.GameController;
 import model.*;
 import model.Character;
 
@@ -239,6 +240,7 @@ public class UI {
 			if (!players.contains(player)) {
 				player.setAlive(false);
 				player.setPlayerNumber(i += 1);
+				player.setCharacter(character);
 				players.add(player);
 			}
 		}
@@ -477,15 +479,27 @@ public class UI {
 		System.out.println("Weapons: \n");
 		System.out.println("---------------");
 		for (Weapon weapon : entities.getWeapons()) {
-			System.out.println("\u001B[33m" + weapon.getId() + " = " + weapon.getName() + "\u001B[0m");
+			if (GameController.IS_GAME_COLOURED) {
+				System.out.println("\u001B[33m" + weapon.getId() + " = " + weapon.getName() + "\u001B[0m");
+			} else {
+				System.out.println(weapon.getId() + " = " + weapon.getName());
+			}
 		}
 		System.out.println("\nCharacters: ");
 		System.out.println("---------------\n");
 		for (Player player : entities.getPlayers()) {
 			if (player.isCurrentPlayer()) {
-				System.out.println("\u001B[32m" + player.getPlayerNumber() + " = " + player.getName() + "\u001B[0m");
+				if (GameController.IS_GAME_COLOURED) {
+					System.out.println("\u001B[32m" + player.getPlayerNumber() + " = " + player.getName() + "\u001B[0m");
+				} else {
+					System.out.println(player.getPlayerNumber() + " = " + player.getName());
+				}
 			} else {
-				System.out.println("\u001B[31m" + player.getPlayerNumber() + " = " + player.getName() + "\u001B[0m");
+				if (GameController.IS_GAME_COLOURED) {
+					System.out.println("\u001B[31m" + player.getPlayerNumber() + " = " + player.getName() + "\u001B[0m");
+				} else {
+					System.out.println(player.getPlayerNumber() + " = " + player.getName());
+				}
 			}
 		}
 		System.out.println("\nRooms: ");
