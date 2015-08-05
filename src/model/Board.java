@@ -19,18 +19,22 @@ public class Board {
 	private int height;
 	private int width;
 
+	/**
+	 * Collection of tiles that make up the board
+	 */
 	private Tile[][] tiles;
 
+	/**
+	 * Rooms that are on the board
+	 */
 	private Map<String, Room> rooms;
 
 	/**
 	 * Constructs the board setting the height, width and creating the data
 	 * structures. The board is then parsed for the Cluedo game.
 	 *
-	 * @param width
-	 *            width of game board
-	 * @param height
-	 *            height of game board
+	 * @param width width of game board
+	 * @param height height of game board
 	 */
 	public Board(int width, int height, Map<String, Room> rooms) {
 		this.width = width;
@@ -43,10 +47,21 @@ public class Board {
 	/**
 	 * simple parser for the file
 	 * 
-	 * @param filename
-	 * @throws FileNotFoundException
+	 * @param filename name of the board file (Should be Board.txt)
+	 * @throws FileNotFoundException This shouldn't happen
 	 */
 	private void parseBoard(String filename) {
+		// If you're reading this comment, you are about to witness some ugly parsing. This code makes me cry at night.
+		// I AM SORRY
+		/*
+					 _____  ___________________   __
+					/  ___||  _  | ___ \ ___ \ \ / /
+					\ `--. | | | | |_/ / |_/ /\ V /
+					 `--. \| | | |    /|    /  \ /
+					/\__/ /\ \_/ / |\ \| |\ \  | |
+					\____/  \___/\_| \_\_| \_| \_/
+
+		 */
 
 		try {
 			Scanner s = new Scanner(new File(filename));
@@ -54,7 +69,6 @@ public class Board {
 			while (s.hasNextLine()) {
 				String line = s.nextLine();
 				for (int x = 0; x < line.length(); x++) {
-
 					if (line.charAt(x) == '@') {
 						tiles[x][y] = new BoundaryTile(x, y, null, false);
 					} else if (line.charAt(x) == '-') {
@@ -159,24 +173,17 @@ public class Board {
 						tiles[x][y] = new Tile(x, y, null, false, ' ');
 					}
 				}
-
 				y++;
 			}
 			s.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot find file: " + filename);
 		}
-
-	}
-
-	public void printPlayerLocations(Entities entities) {
-		for (Player player : entities.getPlayers()) {
-			System.out.println("x: " + player.getxPos() + " y: " + player.getyPos());
-		}
 	}
 
 	/**
-	 * prints the board
+	 * Prints the board. The printing works differently depending on if the board is going to print
+	 * colour or just standard white.
 	 */
 	public void printBoard() {
 		for (int y = 0; y < this.height; y++) {
@@ -206,14 +213,17 @@ public class Board {
 				} else {
 					System.out.printf(tiles[x][y].getName() + " ");
 				}
-
 			}
+
+			// print out the 1 - 26 key along the right side of the board
 			if (GameController.IS_GAME_COLOURED) {
 				System.out.println("\u001B[34m" + " " + (y + 1) + "\u001B[0m");
 			} else {
 				System.out.println(" " + (y + 1));
 			}
 		}
+
+		// finally print out the A-Z Key along the bottom of the board
 		if (GameController.IS_GAME_COLOURED){
 			System.out.print("\u001B[34m" + "\nA B C D E F G H I J K L M N O P Q R S T U V W X \n" + "\u001B[0m" + "\n\n\n");
 		} else {
@@ -221,6 +231,11 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Get tiles.
+	 *
+	 * @return the tile [ ] [ ]
+     */
 	public Tile[][] getTiles() {
 		return tiles;
 	}

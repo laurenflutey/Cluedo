@@ -2,14 +2,13 @@ package model;
 
 import controller.GameController;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /**
  * Class to represent a Player within the game. The player extends a
- * {@link Character} and stores all x/y coordinate information in the character
+ * {@link java.lang.Character} and stores all x/y coordinate information in the character
  * super class.
  *
  * @author Marcel
@@ -74,11 +73,10 @@ public class Player extends Character {
 	/**
 	 * Constructor for Character class
 	 *
-	 * @param name
-	 *            the name of the Character
-	 * @param ch
-	 * @param xOrigin
-	 * @param yOrigin
+	 * @param name the name of the Character
+	 * @param ch Character representing the player
+	 * @param xOrigin x position of the player
+	 * @param yOrigin y position of the player
 	 */
 	public Player(String name, char ch, int xOrigin, int yOrigin) {
 		super(name, ch, xOrigin, yOrigin);
@@ -86,10 +84,19 @@ public class Player extends Character {
 		this.successfulSuggestions = new HashSet<>();
 	}
 
+	/**
+	 * Gets character.
+	 *
+	 * @return the character
+     */
 	public Character getCharacter() {
 		return character;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getName() {
 		return character.getName();
 	}
@@ -101,6 +108,11 @@ public class Player extends Character {
 		return cards;
 	}
 
+	/**
+	 * Sets the character associated with the player
+	 *
+	 * @param character Character to associate
+	 */
 	public void setCharacter(Character character) {
 		this.character = character;
 	}
@@ -120,18 +132,22 @@ public class Player extends Character {
 		this.playerNumber = playerNumber;
 	}
 
+	/**
+	 * Is current player.
+	 *
+	 * @return the boolean
+     */
 	public boolean isCurrentPlayer() {
 		return isCurrentPlayer;
 	}
 
+	/**
+	 * Sets is current player.
+	 *
+	 * @param isCurrentPlayer the is current player
+     */
 	public void setIsCurrentPlayer(boolean isCurrentPlayer) {
 		this.isCurrentPlayer = isCurrentPlayer;
-	}
-
-	public void printCards() {
-		for (Card card : cards) {
-			System.out.println(card.getName());
-		}
 	}
 
 	/**
@@ -156,10 +172,21 @@ public class Player extends Character {
 		this.room = room;
 	}
 
+	/**
+	 * Is in room.
+	 *
+	 * @return the boolean
+     */
 	public boolean isInRoom() {
 		return this.room != null;
 	}
 
+	/**
+	 * Contains card with name.
+	 *
+	 * @param name the name
+	 * @return the boolean
+     */
 	public boolean containsCardWithName(String name) {
 		for (Card card : cards) {
 			if (card.getName().equals(name)) {
@@ -184,10 +211,20 @@ public class Player extends Character {
 		this.isAlive = isAlive;
 	}
 
+	/**
+	 * Gets accusation.
+	 *
+	 * @return the accusation
+     */
 	public Suggestion getAccusation() {
 		return accusation;
 	}
 
+	/**
+	 * Sets accusation.
+	 *
+	 * @param accusation the accusation
+     */
 	public void setAccusation(Suggestion accusation) {
 		this.accusation = accusation;
 	}

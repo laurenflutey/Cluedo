@@ -52,9 +52,9 @@ public class MovementController {
             }
             return false;
         } else {
-            if (isValidDistance(move, TILES[player.getxPos()][player.getyPos()], roll)) {
+            if (isValidDistance(move, TILES[player.getXPos()][player.getYPos()], roll)) {
                 if (!isTileOccupied(move)) {
-                    return pathSearch(move, TILES[player.getxPos()][player.getyPos()], roll);
+                    return pathSearch(move, TILES[player.getXPos()][player.getYPos()], roll);
                 } else {
                     return false;
                 }

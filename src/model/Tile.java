@@ -11,18 +11,29 @@ package model;
  * @author Reuben
  */
 public class Tile {
+
 	private char name;
 	private Room room;
 	private boolean isWallTile;
 	private boolean isDoor;
 	private int x, y;
-	
-	protected boolean isBoundary;
-
 	private Player player;
-
 	private Weapon weapon;
 
+	/**
+	 * Protected so that is accessible from the {@link BoundaryTile}
+	 */
+	protected boolean isBoundary;
+
+	/**
+	 * Constructor
+	 *
+	 * @param x x position of the tile
+	 * @param y y position of the tile
+	 * @param room The room the tile is associated with
+	 * @param isWallTile Is the tile a wall
+	 * @param name The name of the tile?
+	 */
 	public Tile(int x, int y, Room room, boolean isWallTile, char name) {
 		this.x = x;
 		this.y = y;
@@ -32,6 +43,16 @@ public class Tile {
 		this.isBoundary = false;
 	}
 
+	/**
+	 * Alternate constructor
+	 *
+	 * @param x x position of the tile
+	 * @param y y position of the tile
+	 * @param room The room the tile is associated with
+	 * @param isWallTile Is the tile a wall
+	 * @param isDoor Is the tile a door
+	 * @param name The name of the tile?
+	 */
 	public Tile(int x, int y, Room room, boolean isWallTile, boolean isDoor, char name) {
 		this.x = x;
 		this.y = y;
@@ -41,21 +62,38 @@ public class Tile {
 		this.name = name;
 	}
 
+	/**
+	 * Gets x.
+	 *
+	 * @return the x
+     */
 	public int getX() {
 		return x;
 	}
 
+	/**
+	 * Gets y.
+	 *
+	 * @return the y
+     */
 	public int getY() {
 		return y;
 	}
 
 	/**
+	 * Gets name.
+	 *
 	 * @return the name
-	 */
+     */
 	public char getName() {
 		return name;
 	}
 
+	/**
+	 * Sets name.
+	 *
+	 * @param name the name
+     */
 	public void setName(char name) {
 		this.name = name;
 	}
@@ -98,6 +136,11 @@ public class Tile {
 		return isWallTile;
 	}
 
+	/**
+	 * Is room tile.
+	 *
+	 * @return the boolean
+     */
 	public boolean isRoomTile() {
 		return room != null;
 	}

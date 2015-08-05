@@ -9,19 +9,15 @@ package model;
 public class Character {
 
 	private String name;
-
 	private char ch;
-
 	private int xPos;
 	private int yPos;
-
 	private boolean isUsed;
 
 	/**
 	 * Constructor for Character class
 	 * 
-	 * @param name
-	 *            the name of the Character
+	 * @param name the name of the Character
 	 */
 	public Character(String name, char ch, int xOrigin, int yOrigin) {
 		this.name = name;
@@ -30,28 +26,56 @@ public class Character {
 		this.yPos = yOrigin;
 	}
 
-
-
-	public int getxPos() {
+	/**
+	 * Gets x pos.
+	 *
+	 * @return the x pos
+     */
+	public int getXPos() {
 		return xPos;
 	}
 
-	public void setxPos(int xPos) {
+	/**
+	 * Sets x pos.
+	 *
+	 * @param xPos the x pos
+     */
+	public void setXPos(int xPos) {
 		this.xPos = xPos;
 	}
 
-	public int getyPos() {
+	/**
+	 * Gets y pos.
+	 *
+	 * @return the y pos
+     */
+	public int getYPos() {
 		return yPos;
 	}
 
-	public void setyPos(int yPos) {
+	/**
+	 * Sets y pos.
+	 *
+	 * @param yPos the y pos
+     */
+	public void setYPos(int yPos) {
 		this.yPos = yPos;
 	}
 
+	/**
+	 * Gets name.
+	 *
+	 * @return the name
+     */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Gets ch.
+	 *
+	 * @return the ch
+     */
 	public char getCh() {
 		return ch;
 	}
@@ -64,8 +88,7 @@ public class Character {
 	}
 
 	/**
-	 * @param isUsed
-	 *            the isUsed to set
+	 * @param isUsed the isUsed to set
 	 */
 	public void setUsed(boolean isUsed) {
 		this.isUsed = isUsed;

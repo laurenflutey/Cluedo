@@ -11,8 +11,7 @@ public class Main {
 	/**
 	 * Main method calls the creation of a new Game Controller
 	 *
-	 * @param args
-	 *            redundant
+	 * @param args redundant
 	 */
 	public static void main(String[] args) {
 		new GameController().initGame();

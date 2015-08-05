@@ -207,7 +207,7 @@ public class GameController {
 
 				currentPlayer.setIsCurrentPlayer(false);
 			}
-			//playerTurn++;
+			playerTurn++;
 		}
 
 		if (!everyoneLost) {
@@ -270,12 +270,12 @@ public class GameController {
 			if (t.isRoomTile() && !t.isWallTile() && !t.isOccupied()) {
 
 				// Disassociate old tile with player
-				tiles[player.getxPos()][player.getyPos()].setPlayer(null);
+				tiles[player.getXPos()][player.getYPos()].setPlayer(null);
 
 				// update xy position
-				player.setxPos(t.getX());
-				player.setyPos(t.getY());
-				Tile currentTile = tiles[player.getxPos()][player.getyPos()];
+				player.setXPos(t.getX());
+				player.setYPos(t.getY());
+				Tile currentTile = tiles[player.getXPos()][player.getYPos()];
 
 				// Associate new tile with the player and update if the player
 				// is in a room or not
@@ -313,7 +313,7 @@ public class GameController {
 	 */
 	private void doMove(Player currentPlayer) {
 		// Gets the players roll for their turn
-		int roll = 6;
+		int roll = rollDice();
 		Move proposedMove;
 
 		// Clears the console output and then re-displays the board in its
@@ -335,12 +335,12 @@ public class GameController {
 
 			if (MOVEMENT_CONTROLLER.isValidMove(proposedMove, currentPlayer, roll)) {
 				// Disassociate old tile with player
-				tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(null);
+				tiles[currentPlayer.getXPos()][currentPlayer.getYPos()].setPlayer(null);
 
 				// update xy position
-				currentPlayer.setxPos(proposedMove.getX());
-				currentPlayer.setyPos(proposedMove.getY());
-				Tile currentTile = tiles[currentPlayer.getxPos()][currentPlayer.getyPos()];
+				currentPlayer.setXPos(proposedMove.getX());
+				currentPlayer.setYPos(proposedMove.getY());
+				Tile currentTile = tiles[currentPlayer.getXPos()][currentPlayer.getYPos()];
 
 				// Associate new tile with the player and update if the player
 				// is in a room or not
@@ -379,7 +379,7 @@ public class GameController {
 	 *
 	 * @return integer 1 - 6
 	 */
-	private int rollDice() {
+	public int rollDice() {
 		return (int) (Math.random() * 6 + 1);
 	}
 
@@ -403,7 +403,7 @@ public class GameController {
 				for (Player p : players) {
 
 					// assigns a player to a tile location
-					if (p.getxPos() == i && p.getyPos() == j) {
+					if (p.getXPos() == i && p.getYPos() == j) {
 						tiles[i][j].setPlayer(p);
 					}
 				}
@@ -481,7 +481,7 @@ public class GameController {
 			if (remainingWeapons.isEmpty())
 				break;
 			if (!room.getKey().equals("Pool")) {
-				room.getValue().addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), remainingWeapons.get(0), true);
+				room.getValue().addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), remainingWeapons.get(0));
 				remainingWeapons.remove(0);
 			}
 		}
@@ -516,7 +516,7 @@ public class GameController {
 			// this is not worth randomising
 			if (nextPlayer.containsCardWithName(suggestion.getPlayer().getName())) {
 				suggestingPlayer.getSuggestions().add(new Card(suggestion.getPlayer().getName(), "Character"));
-				playerRoom.addPlayerToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getPlayer(), false);
+				playerRoom.addPlayerToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getPlayer());
 				found = true;
 			} else if (nextPlayer.containsCardWithName(suggestion.getRoom().getName())) {
 				suggestingPlayer.getSuggestions().add(new Card(suggestion.getRoom().getName(), "Room"));
@@ -524,7 +524,7 @@ public class GameController {
 			} else if (nextPlayer.containsCardWithName(suggestion.getWeapon().getName())) {
 				suggestingPlayer.getSuggestions().add(new Card(suggestion.getWeapon().getName(), "Weapon"));
 				found = true;
-				playerRoom.addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getWeapon(), false);
+				playerRoom.addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getWeapon());
 			} else {
 				count++;
 			}
@@ -590,14 +590,5 @@ public class GameController {
 		accusingPlayer.setAccusation(suggestion);
 
 		return true;
-	}
-
-	/**
-	 * Getter method for the {@link MovementController}. This is primarily used for testing the pathing algorithm.
-	 *
-	 * @return MovementController
-	 */
-	public MovementController getMOVEMENT_CONTROLLER() {
-		return MOVEMENT_CONTROLLER;
 	}
 }

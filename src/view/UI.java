@@ -13,7 +13,8 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
- * MVC View class for interacting with the players in the Cluedo game.
+ * MVC View class for interacting with the players in the Cluedo game. The UI acts as a TextClient and receives
+ * its commands from the {@link GameController}
  *
  * @author Marcel van Workum
  * @author Reuben Puketapu
@@ -21,11 +22,20 @@ import java.util.regex.Pattern;
 public class UI {
 
 	/**
-	 * Initial messaged displayed to players of the Cluedo game
+	 * Initial messaged displayed to players of the Cluedo game. <3 Ascii Art.
 	 */
 	private String initMessage = "Welcome to Cluedo.\n" + "--------------------------------\n"
 			+ "| A simple text based Java game.\n" + "| Created by: \n|\tReuben Puketapu\n|\tMarcel van Workum.\n"
-			+ "--------------------------------\n\n";
+			+ "--------------------------------\n\n" +
+			" _______  _                 _______  ______   _______ \n" +
+			"(  ____ \\( \\      |\\     /|(  ____ \\(  __  \\ (  ___  )\n" +
+			"| (    \\/| (      | )   ( || (    \\/| (  \\  )| (   ) |\n" +
+			"| |      | |      | |   | || (__    | |   ) || |   | |\n" +
+			"| |      | |      | |   | ||  __)   | |   | || |   | |\n" +
+			"| |      | |      | |   | || (      | |   ) || |   | |\n" +
+			"| (____/\\| (____/\\| (___) || (____/\\| (__/  )| (___) |\n" +
+			"(_______/(_______/(_______)(_______/(______/ (_______)\n" +
+			"                                                      ";
 
 	/**
 	 * Input scanner used to handle all inputted information from the players
@@ -78,8 +88,7 @@ public class UI {
 	 * users input to see if it is first a valid integer and then if it is
 	 * between 3 - 6.
 	 *
-	 * @param input
-	 *            input from user via System.In
+	 * @param input input from user via System.In
 	 *
 	 * @return The result of the validity check
 	 */
@@ -96,14 +105,13 @@ public class UI {
 	 * Gets the proposed move from the player in the form of an x y {@link Move}
 	 * object
 	 *
-	 * @param player
-	 *            Player making the move
+	 * @param player Player making the move
 	 * @return Returns the players move
 	 */
 	public Move getPlayerMove(Player player, int roll) {
 		System.out.println(player.getName() + ", you rolled a " + roll + ". You're currently at x: "
-				+ parseIntToCharacter(player.getxPos()) + " y: "
-				+ (player.getyPos() + 1));
+				+ parseIntToCharacter(player.getXPos()) + " y: "
+				+ (player.getYPos() + 1));
 		System.out.println("\nPlease enter the x:y coordinate for your move (e.g F 12)");
 
 		Move move = null;
@@ -137,8 +145,7 @@ public class UI {
 	/**
 	 * Method to parse the integer value from a char
 	 *
-	 * @param character
-	 *            String representing a single char
+	 * @param character String representing a single char
 	 *
 	 * @return int value representing the a-z grid value of the board
 	 */
@@ -163,10 +170,8 @@ public class UI {
 	 * Method to handle the creation of the list of {@link Player}. Allows a
 	 * player to choose a unique character
 	 *
-	 * @param characters
-	 *            List of {@link Character} available to choose
-	 * @param playerCount
-	 *            Number of players in the game
+	 * @param characters List of {@link Character} available to choose
+	 * @param playerCount Number of players in the game
 	 *
 	 * @return List of player objects
 	 */
@@ -216,8 +221,8 @@ public class UI {
 
 					// Creates a new player object, sets it associated character
 					// and adds to the players list
-					Player player = new Player(character.getName(), character.getCh(), character.getxPos(),
-							character.getyPos());
+					Player player = new Player(character.getName(), character.getCh(), character.getXPos(),
+							character.getYPos());
 
 					player.setCharacter(character);
 					// sets the player number to print to the board
@@ -237,10 +242,14 @@ public class UI {
 		}
 
 		// add inactive players
-		for (int j = 0; j < characters.size(); j++) {
-			Character character = characters.get(j);
-			Player player = new Player(character.getName(), character.getCh(), character.getxPos(),
-					character.getyPos());
+		for (Character character : characters) {
+			// Gets the character and creates a new player
+			Player player = new Player(character.getName(), character.getCh(), character.getXPos(),
+					character.getYPos());
+
+			// check to see if that player is contained in the list of players
+			// and if it isn't, set it to be not alive, give it a number, assign it
+			// a character and add it to the list of players
 			if (!players.contains(player)) {
 				player.setAlive(false);
 				player.setPlayerNumber(i += 1);
@@ -257,8 +266,7 @@ public class UI {
 	 * users input to see if it is first a valid integer and then if it is
 	 * between 3 - 6.
 	 *
-	 * @param input
-	 *            input from user via System.In
+	 * @param input input from user via System.In
 	 *
 	 * @return The result of the validity check
 	 */
@@ -276,12 +284,9 @@ public class UI {
 	 * gets the suggested character and the suggested weapon. It then create a
 	 * {@link Suggestion} object which is stored in the {@link Player}.
 	 *
-	 * @param players
-	 *            List of characters in the game
-	 * @param weapons
-	 *            List of weapons in the game
-	 * @param currentPlayer
-	 *            The current player making the suggestion
+	 * @param players List of characters in the game
+	 * @param weapons List of weapons in the game
+	 * @param currentPlayer The current player making the suggestion
 	 *
 	 * @return A Suggest that the player has picked
 	 */
@@ -330,12 +335,9 @@ public class UI {
 	 * If a player incorrectly makes an accusation, they're removed from the
 	 * game.
 	 *
-	 * @param players
-	 *            List of characters in the game
-	 * @param weapons
-	 *            List of weapons in the game
-	 * @param rooms
-	 *            List of rooms in the game
+	 * @param players List of characters in the game
+	 * @param weapons List of weapons in the game
+	 * @param rooms List of rooms in the game
 	 *
 	 * @return Returns the proposed accusation in the form of a Suggestion
 	 *         object
@@ -411,10 +413,8 @@ public class UI {
 	 * Method that displays the current options to the player and gets their
 	 * choice for their turn
 	 *
-	 * @param currentPlayer
-	 *            The player making the move
-	 * @param BOARD
-	 *            board that the player is playing on
+	 * @param currentPlayer The player making the move
+	 * @param BOARD board that the player is playing on
 	 *
 	 * @return returns the player's choice for their turn
 	 */
@@ -436,7 +436,7 @@ public class UI {
 			System.out.println("3: Make an accusation");
 
 			// Checks if the player is currently in a room or not
-			Tile currentTile = BOARD.getTiles()[currentPlayer.getxPos()][currentPlayer.getyPos()];
+			Tile currentTile = BOARD.getTiles()[currentPlayer.getXPos()][currentPlayer.getYPos()];
 			if (currentTile.isRoomTile()) {
 				System.out.println("4: Make an suggestion");
 				// increments the range of valid choices so that a user can now
@@ -471,43 +471,56 @@ public class UI {
 	}
 
 	/**
-	 * Displays all the keys on the baord
+	 * Method to display the key for the board, which allows the player to see what each symbol is.
 	 * 
-	 * @param entities
-	 *            all the entities on the board to be displayed
+	 * @param entities all the entities on the board to be displayed
 	 */
 	public void displayKeys(Entities entities) {
 
-		System.out.println("Key displayer: ");
+		System.out.println("Board Key: ");
 		System.out.println("---------------");
+
+		// Prints out the key for the weapons
 		System.out.println("Weapons: \n");
 		System.out.println("---------------");
+
 		for (Weapon weapon : entities.getWeapons()) {
+			// if the game is running in coloured mode, print the weapons as yellow
 			if (GameController.IS_GAME_COLOURED) {
 				System.out.println("\u001B[33m" + weapon.getId() + " = " + weapon.getName() + "\u001B[0m");
 			} else {
+				// else just print them as standard white
 				System.out.println(weapon.getId() + " = " + weapon.getName());
 			}
 		}
+
+		// prints out the key for the characters
 		System.out.println("\nCharacters: ");
 		System.out.println("---------------\n");
 		for (Player player : entities.getPlayers()) {
 			if (player.isCurrentPlayer()) {
+
+				// if the game is running in coloured mode, print the currentPlayer as green
 				if (GameController.IS_GAME_COLOURED) {
 					System.out
 							.println("\u001B[32m" + player.getPlayerNumber() + " = " + player.getName() + "\u001B[0m");
 				} else {
+					// else print as standard white
 					System.out.println(player.getPlayerNumber() + " = " + player.getName());
 				}
 			} else {
+				// if the game is running in coloured mode, print the player as red
 				if (GameController.IS_GAME_COLOURED) {
 					System.out
 							.println("\u001B[31m" + player.getPlayerNumber() + " = " + player.getName() + "\u001B[0m");
 				} else {
+					// standard white
 					System.out.println(player.getPlayerNumber() + " = " + player.getName());
 				}
 			}
 		}
+
+		// prints out the key for all the rooms
 		System.out.println("\nRooms: ");
 		System.out.println("---------------\n");
 		for (Entry<String, Room> room : entities.getRooms().entrySet()) {
@@ -515,25 +528,25 @@ public class UI {
 		}
 
 		System.out.println("\n");
-
 	}
 
 	/**
 	 * Displays all the cards in the players hand
 	 *
-	 * @param currentPlayer
-	 *            Player to display their cards
+	 * @param currentPlayer Player to display their cards
 	 */
 	public void doDisplayInformation(Player currentPlayer) {
-
+		// first clear the input
 		doClearOutput();
 
+		// display all the current cards
 		System.out.println("\nCurrent Cards\n-----------------\n");
 		for (Card c : currentPlayer.getCards()) {
 			System.out.println(c.getName());
 		}
 		System.out.println("\n");
 
+		// display all the players correctly suggested cards
 		System.out.println("\nCorrectly Suggested Cards\n-----------------\n");
 		for (Card c : currentPlayer.getSuggestions()) {
 			System.out.println(c.getName());
@@ -561,6 +574,16 @@ public class UI {
 		System.out.println("\t" + winningPlayer.getAccusation().getPlayer().getName());
 		System.out.println("\t" + winningPlayer.getAccusation().getRoom().getName());
 		System.out.println("\t" + winningPlayer.getAccusation().getWeapon().getName());
+
+		System.out.println("          _______                      _______  _        _ \n" +
+				"|\\     /|(  ___  )|\\     /|  |\\     /|(  ___  )( (    /|( )\n" +
+				"( \\   / )| (   ) || )   ( |  | )   ( || (   ) ||  \\  ( || |\n" +
+				" \\ (_) / | |   | || |   | |  | | _ | || |   | ||   \\ | || |\n" +
+				"  \\   /  | |   | || |   | |  | |( )| || |   | || (\\ \\) || |\n" +
+				"   ) (   | |   | || |   | |  | || || || |   | || | \\   |(_)\n" +
+				"   | |   | (___) || (___) |  | () () || (___) || )  \\  | _ \n" +
+				"   \\_/   (_______)(_______)  (_______)(_______)|/    )_)(_)\n" +
+				"                                                           ");
 	}
 
 	/**
@@ -570,6 +593,16 @@ public class UI {
 		doClearOutput();
 		System.out.println("Looks like no one has won the game");
 		System.out.println("Better luck next time...");
+
+		System.out.println("          _______             _        _______  _______  _______ \n" +
+				"|\\     /|(  ___  )|\\     /|  ( \\      (  ___  )(  ____ \\(  ____ \\\n" +
+				"( \\   / )| (   ) || )   ( |  | (      | (   ) || (    \\/| (    \\/\n" +
+				" \\ (_) / | |   | || |   | |  | |      | |   | || (_____ | (__    \n" +
+				"  \\   /  | |   | || |   | |  | |      | |   | |(_____  )|  __)   \n" +
+				"   ) (   | |   | || |   | |  | |      | |   | |      ) || (      \n" +
+				"   | |   | (___) || (___) |  | (____/\\| (___) |/\\____) || (____/\\\n" +
+				"   \\_/   (_______)(_______)  (_______/(_______)\\_______)(_______/\n" +
+				"                                                                 ");
 	}
 
 	/**
@@ -639,8 +672,7 @@ public class UI {
 
 		System.out.println("--------------------------------------------");
 
-		System.out
-				.println("\n\nOkay, let's test if you can actually see the colour, and its not going to break things.");
+		System.out.println("\n\nOkay, let's test if you can actually see the colour, and its not going to break things.");
 		System.out.print("\u001B[31m" + "This text should be coloured\n" + "\u001B[0m");
 		System.out.print("\u001B[32m" + "This text should be coloured\n" + "\u001B[0m");
 		System.out.print("\u001B[33m" + "This text should be coloured\n" + "\u001B[0m");
