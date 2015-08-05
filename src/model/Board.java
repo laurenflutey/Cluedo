@@ -1,5 +1,7 @@
 package model;
 
+import controller.GameController;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Map;
@@ -183,22 +185,40 @@ public class Board {
 					System.out.print("█ ");
 				} else if (tiles[x][y].getPlayer() != null) {
 					if (tiles[x][y].getPlayer().isCurrentPlayer()) {
-						System.out.print("\u001B[32m" + tiles[x][y].getPlayer().getPlayerNumber() + "\u001B[0m" + " ");
+						if (GameController.IS_GAME_COLOURED) {
+							System.out.print("\u001B[32m" + tiles[x][y].getPlayer().getPlayerNumber() + "\u001B[0m" + " ");
+						} else {
+							System.out.print(tiles[x][y].getPlayer().getPlayerNumber() + " ");
+						}
 					} else {
-						System.out.print("\u001B[31m" + tiles[x][y].getPlayer().getPlayerNumber() + "\u001B[0m" + " ");
+						if (GameController.IS_GAME_COLOURED) {
+							System.out.print("\u001B[31m" + tiles[x][y].getPlayer().getPlayerNumber() + "\u001B[0m" + " ");
+						} else {
+							System.out.print(tiles[x][y].getPlayer().getPlayerNumber() + " ");
+						}
 					}
 				} else if (tiles[x][y].getWeapon() != null) {
-					System.out.print("\u001B[33m" + tiles[x][y].getWeapon().getId() + "\u001B[0m" + " ");
+					if (GameController.IS_GAME_COLOURED) {
+						System.out.print("\u001B[33m" + tiles[x][y].getWeapon().getId() + "\u001B[0m" + " ");
+					} else {
+						System.out.print(tiles[x][y].getWeapon().getId() + " ");
+					}
 				} else {
 					System.out.printf(tiles[x][y].getName() + " ");
 				}
 
 			}
-			System.out.println(" " + (y + 1));
-
+			if (GameController.IS_GAME_COLOURED) {
+				System.out.println("\u001B[34m" + " " + (y + 1) + "\u001B[0m");
+			} else {
+				System.out.println(" " + (y + 1));
+			}
 		}
-		System.out.println("\nA B C D E F G H I J K L M N O P Q R S T U V W X \n");
-
+		if (GameController.IS_GAME_COLOURED){
+			System.out.print("\u001B[34m" + "\nA B C D E F G H I J K L M N O P Q R S T U V W X \n" + "\u001B[0m" + "\n\n\n");
+		} else {
+			System.out.print("\nA B C D E F G H I J K L M N O P Q R S T U V W X \n\n\n");
+		}
 	}
 
 	public Tile[][] getTiles() {

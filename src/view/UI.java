@@ -1,5 +1,6 @@
 package view;
 
+import controller.GameController;
 import model.*;
 import model.Character;
 
@@ -99,9 +100,8 @@ public class UI {
 	 * @return Returns the players move
 	 */
 	public Move getPlayerMove(Player player, int roll) {
-		System.out.println(player.getName() + ", you rolled a " + roll + ". You're currently at x: "
-				+ parseIntToCharacter(player.getxPos()) + " y: " + player.getyPos());
-
+		System.out.println(player.getName() + ", you rolled a " + roll + ". You're currently at x: " + " y: "
+				+ player.getyPos() + 1);
 		System.out.println("\nPlease enter the x:y coordinate for your move (e.g F 12)");
 
 		Move move = null;
@@ -171,6 +171,10 @@ public class UI {
 	public List<Player> getPlayers(List<Character> characters, int playerCount) {
 
 		doClearOutput();
+
+		System.out.println("----------------------------------");
+		System.out.println("Okay, lets create the players now.");
+		System.out.println("-----------------------------------\n\n");
 
 		// List of player objects created
 		List<Player> players = new ArrayList<>();
@@ -477,15 +481,29 @@ public class UI {
 		System.out.println("Weapons: \n");
 		System.out.println("---------------");
 		for (Weapon weapon : entities.getWeapons()) {
-			System.out.println("\u001B[33m" + weapon.getId() + " = " + weapon.getName() + "\u001B[0m");
+			if (GameController.IS_GAME_COLOURED) {
+				System.out.println("\u001B[33m" + weapon.getId() + " = " + weapon.getName() + "\u001B[0m");
+			} else {
+				System.out.println(weapon.getId() + " = " + weapon.getName());
+			}
 		}
 		System.out.println("\nCharacters: ");
 		System.out.println("---------------\n");
 		for (Player player : entities.getPlayers()) {
 			if (player.isCurrentPlayer()) {
-				System.out.println("\u001B[32m" + player.getPlayerNumber() + " = " + player.getName() + "\u001B[0m");
+				if (GameController.IS_GAME_COLOURED) {
+					System.out
+							.println("\u001B[32m" + player.getPlayerNumber() + " = " + player.getName() + "\u001B[0m");
+				} else {
+					System.out.println(player.getPlayerNumber() + " = " + player.getName());
+				}
 			} else {
-				System.out.println("\u001B[31m" + player.getPlayerNumber() + " = " + player.getName() + "\u001B[0m");
+				if (GameController.IS_GAME_COLOURED) {
+					System.out
+							.println("\u001B[31m" + player.getPlayerNumber() + " = " + player.getName() + "\u001B[0m");
+				} else {
+					System.out.println(player.getPlayerNumber() + " = " + player.getName());
+				}
 			}
 		}
 		System.out.println("\nRooms: ");
@@ -545,16 +563,27 @@ public class UI {
 	}
 
 	/**
-	 * Confirms with the user if they want to take the secret passage to the room or not.
+	 * Confirms with the user if they want to take the secret passage to the
+	 * room or not.
 	 *
-	 * @param currentPlayer The player going between secret rooms
+	 * @param currentPlayer
+	 *            The player going between secret rooms
 	 *
 	 * @return Does the Player want to go to the connection room or not?
 	 */
 	public boolean doSecretPassageConfirm(Player currentPlayer) {
 		System.out.println(currentPlayer.getName() + ", take secret passage to "
 				+ currentPlayer.getRoom().getConnectingRoom().getName() + ": y/n?");
+		return parseYesNoInput();
 
+	}
+
+	/**
+	 * Method that parses a y/n answer from the user
+	 *
+	 * @return returns true if the user entered y || Y
+	 */
+	private boolean parseYesNoInput() {
 		// Continually loop until the user either selects y or n
 		while (true) {
 			if (reader.hasNext()) {
@@ -566,5 +595,52 @@ public class UI {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Method to parse the initial game setup options from the user
+	 *
+	 * This is only checking if the user wants to do colouring of the board or
+	 * not
+	 *
+	 * @return Do they want colour?
+	 */
+	public boolean doInitialGameSetup() {
+		System.out.println("--------------------------------------------");
+		System.out.println("\nWould you like to colour your Cluedo game?\n");
+		System.out.println("--------------------------------------------\n\n");
+		System.out.println("Note that this doesn't work everywhere.\nIf it doesn't work for you,\ntry running"
+				+ "the game as a jar from the console,\nnot in an IDE.");
+		System.out.println("\nWould you like to try colours: Y/N");
+		boolean answer = parseYesNoInput();
+
+		// If the user sees colour and wants colour, we will give them colour
+		return answer && doTestColour();
+	}
+
+	/**
+	 * Method to test the colouring of the text, if the user doesn't see the
+	 * coloured text, they should hopefully say so and enter N, otherwise the
+	 * game will break.
+	 *
+	 * @return Does the user see coloured text?
+	 */
+	private boolean doTestColour() {
+
+		System.out.println("--------------------------------------------");
+
+		System.out
+				.println("\n\nOkay, let's test if you can actually see the colour, and its not going to break things.");
+		System.out.print("\u001B[31m" + "This text should be coloured\n" + "\u001B[0m");
+		System.out.print("\u001B[32m" + "This text should be coloured\n" + "\u001B[0m");
+		System.out.print("\u001B[33m" + "This text should be coloured\n" + "\u001B[0m");
+		System.out.print("\u001B[34m" + "This text should be coloured\n" + "\u001B[0m");
+		System.out.print("\u001B[35m" + "This text should be coloured\n" + "\u001B[0m");
+		System.out.print("\u001B[36m" + "This text should be coloured\n" + "\u001B[0m");
+		System.out.print("\u001B[30m" + "This text should be coloured\n" + "\u001B[0m");
+
+		System.out.println("Was the text coloured: Y/N");
+
+		return parseYesNoInput();
 	}
 }
