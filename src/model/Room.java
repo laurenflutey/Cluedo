@@ -86,12 +86,14 @@ public class Room {
 		this.roomNumber = roomNumber;
 	}
 
-	public void addWeaponToAvailableTile(Tile[][] allTiles, Weapon weapon) {
+	public void addWeaponToAvailableTile(Tile[][] allTiles, Weapon weapon, boolean init) {
 
-		for (Tile[] tileCollection : allTiles) {
-			for (Tile tile : tileCollection) {
-				if (tile.getWeapon().equals(weapon)) {
-					tile.setWeapon(null);
+		if (!init) {
+			for (Tile[] tileCollection : allTiles) {
+				for (Tile tile : tileCollection) {
+					if (tile.getWeapon().equals(weapon)) {
+						tile.setWeapon(null);
+					}
 				}
 			}
 		}
@@ -104,12 +106,14 @@ public class Room {
 		}
 	}
 
-	public void addPlayerToAvailableTile(Tile[][] allTiles, Player player) {
+	public void addPlayerToAvailableTile(Tile[][] allTiles, Player player, boolean init) {
 
-		for (Tile[] tileCollection : allTiles) {
-			for (Tile tile : tileCollection) {
-				if (tile.getPlayer().equals(player)) {
-					tile.setPlayer(null);
+		if (!init) {
+			for (Tile[] tileCollection : allTiles) {
+				for (Tile tile : tileCollection) {
+					if (tile.getPlayer().equals(player)) {
+						tile.setPlayer(null);
+					}
 				}
 			}
 		}

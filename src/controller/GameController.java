@@ -441,7 +441,7 @@ public class GameController {
 			if (remainingWeapons.isEmpty())
 				break;
 			if (!room.getKey().equals("Pool")) {
-				room.getValue().addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), remainingWeapons.get(0));
+				room.getValue().addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), remainingWeapons.get(0), true);
 				remainingWeapons.remove(0);
 			}
 		}
@@ -465,9 +465,9 @@ public class GameController {
 		int index = suggestingPlayer.getPlayerNumber();
 		boolean found = false;
 
-		playerRoom.addPlayerToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getPlayer());
+		playerRoom.addPlayerToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getPlayer(), false);
 
-		playerRoom.addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getWeapon());
+		playerRoom.addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getWeapon(), false);
 
 		suggestion.getPlayer().setIsCurrentPlayer(false);
 
