@@ -7,6 +7,7 @@ package model;
  * @author Reuben
  */
 public class BoundaryTile extends Tile {
+	
 
 	/**
 	 * Constructor
@@ -18,6 +19,7 @@ public class BoundaryTile extends Tile {
 	 */
 	public BoundaryTile(int x, int y, Room room, boolean isWallTile) {
 		super(x, y, room, isWallTile, '0');
+		super.isBoundary = true;
 	}
 
 }

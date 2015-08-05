@@ -16,6 +16,8 @@ public class Tile {
 	private boolean isWallTile;
 	private boolean isDoor;
 	private int x, y;
+	
+	protected boolean isBoundary;
 
 	private Player player;
 
@@ -27,6 +29,7 @@ public class Tile {
 		this.room = room;
 		this.isWallTile = isWallTile;
 		this.name = name;
+		this.isBoundary = false;
 	}
 
 	public Tile(int x, int y, Room room, boolean isWallTile, boolean isDoor, char name) {
@@ -120,5 +123,13 @@ public class Tile {
 	public void setWeapon(Weapon weapon) {
 		this.weapon = weapon;
 	}
+
+	/**
+	 * @return the isBoundary
+	 */
+	public boolean isBoundary() {
+		return isBoundary;
+	}
+
 
 }

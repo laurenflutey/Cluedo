@@ -48,11 +48,11 @@ public class Player extends Character {
 	/**
 	 * A collection of suggestions that the player has made whilst in a room
 	 */
-	private List<Card> successfulSuggestions;
+	private Set<Card> successfulSuggestions;
 
 	/**
-	 * Suggestion that the player made, which can be considered as an accusation, as the player may only made one
-	 * accusation per game.
+	 * Suggestion that the player made, which can be considered as an
+	 * accusation, as the player may only made one accusation per game.
 	 */
 	private Suggestion accusation;
 
@@ -65,8 +65,9 @@ public class Player extends Character {
 	private boolean isCurrentPlayer = false;
 
 	/**
-	 * Holds the state of the player. If a player makes an accusation that isn't correct, the will be removed from
-	 * the game and considered as isAlive = false;
+	 * Holds the state of the player. If a player makes an accusation that isn't
+	 * correct, the will be removed from the game and considered as isAlive =
+	 * false;
 	 */
 	private boolean isAlive = true;
 
@@ -82,7 +83,7 @@ public class Player extends Character {
 	public Player(String name, char ch, int xOrigin, int yOrigin) {
 		super(name, ch, xOrigin, yOrigin);
 		this.cards = new HashSet<>();
-		this.successfulSuggestions = new ArrayList<>();
+		this.successfulSuggestions = new HashSet<>();
 	}
 
 	public Character getCharacter() {
@@ -136,10 +137,9 @@ public class Player extends Character {
 	/**
 	 * @return the suggestions
 	 */
-	public List<Card> getSuggestions() {
+	public Set<Card> getSuggestions() {
 		return successfulSuggestions;
 	}
-
 
 	/**
 	 * @return the room

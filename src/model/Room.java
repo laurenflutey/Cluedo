@@ -88,9 +88,18 @@ public class Room {
 
 	public void addWeaponToAvailableTile(Tile[][] allTiles, Weapon weapon, boolean init) {
 
-		if (!init) {
-			for (Tile[] tileCollection : allTiles) {
-				for (Tile tile : tileCollection) {
+		for (Tile tile : tiles) {
+
+			if (tile.getWeapon() != null) {
+				if (tile.getWeapon().equals(weapon)) {
+					return;
+				}
+			}
+		}
+
+		for (Tile[] tileCollection : allTiles) {
+			for (Tile tile : tileCollection) {
+				if (tile.getWeapon() != null) {
 					if (tile.getWeapon().equals(weapon)) {
 						tile.setWeapon(null);
 					}
@@ -99,6 +108,7 @@ public class Room {
 		}
 
 		for (Tile tile : tiles) {
+
 			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile() && !tile.isOccupied()) {
 				tile.setWeapon(weapon);
 				break;
@@ -108,21 +118,31 @@ public class Room {
 
 	public void addPlayerToAvailableTile(Tile[][] allTiles, Player player, boolean init) {
 
-		if (!init) {
-			for (Tile[] tileCollection : allTiles) {
-				for (Tile tile : tileCollection) {
+		for (Tile tile : tiles) {
+
+			if (tile.getPlayer() != null) {
+				if (tile.getPlayer().equals(player)) {
+					return;
+				}
+			}
+		}
+		for (Tile[] tileCollection : allTiles) {
+			for (Tile tile : tileCollection) {
+				if (tile.getPlayer() != null) {
 					if (tile.getPlayer().equals(player)) {
 						tile.setPlayer(null);
 					}
 				}
+
 			}
 		}
-
 		for (Tile tile : tiles) {
+
 			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile() && !tile.isOccupied()) {
 				tile.setPlayer(player);
 				player.setxPos(tile.getX());
 				player.setyPos(tile.getY());
+				player.setRoom(tile.getRoom());
 				break;
 			}
 		}
