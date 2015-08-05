@@ -207,6 +207,118 @@ public class MovementControllerTests {
         assertFalse(movementController.isValidMove(move, player, roll));
     }
 
+    @Test
+    public void testMovementIntoMiddleRoomFail2() {
+        Move move = new Move(13, 16);
+        int roll = 3;
+
+        Player player = setupPlayer(new Player("Test", 't', 11, 16));
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+        entities.setPlayers(players);
+
+        assertFalse(movementController.isValidMove(move, player, roll));
+    }
+
+    @Test
+    public void testMovementMoveOntoPlayer1() {
+        Move move = new Move(8, 10);
+        int roll = 5;
+
+        Player player1 = setupPlayer(new Player("Test", 't', 9, 10));
+        Player player2 = setupPlayer(new Player("Test", 't', 8, 10));
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        entities.setPlayers(players);
+
+        assertFalse(movementController.isValidMove(move, player1, roll));
+    }
+
+    @Test
+    public void testMovementMoveOntoPlayer2() {
+        Move move = new Move(7, 11);
+        int roll = 5;
+
+        Player player1 = setupPlayer(new Player("Test", 't', 9, 10));
+        Player player2 = setupPlayer(new Player("Test", 't', 7, 11));
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        entities.setPlayers(players);
+
+        assertFalse(movementController.isValidMove(move, player1, roll));
+    }
+
+    @Test
+    public void testMovementMoveOntoPlayer3() {
+        Move move = new Move(8, 12);
+        int roll = 5;
+
+        Player player1 = setupPlayer(new Player("Test", 't', 9, 10));
+        Player player2 = setupPlayer(new Player("Test", 't', 8, 12));
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        entities.setPlayers(players);
+
+        assertFalse(movementController.isValidMove(move, player1, roll));
+    }
+
+    @Test
+    public void testMovementMoveOntoWeapon1() {
+        Move move = new Move(8, 12);
+        int roll = 5;
+
+        Player player1 = setupPlayer(new Player("Test", 't', 9, 10));
+
+        setupWeapon(move);
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        entities.setPlayers(players);
+
+        assertFalse(movementController.isValidMove(move, player1, roll));
+    }
+
+    @Test
+    public void testMovementMoveOntoWeapon2() {
+        Move move = new Move(10, 10);
+        int roll = 5;
+
+        Player player1 = setupPlayer(new Player("Test", 't', 9, 10));
+
+        setupWeapon(move);
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        entities.setPlayers(players);
+
+        assertFalse(movementController.isValidMove(move, player1, roll));
+    }
+
+    @Test
+    public void testMovementMoveOntoWeapon3() {
+        Move move = new Move(12, 10);
+        int roll = 5;
+
+        Player player1 = setupPlayer(new Player("Test", 't', 9, 10));
+
+        setupWeapon(move);
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        entities.setPlayers(players);
+
+        assertFalse(movementController.isValidMove(move, player1, roll));
+    }
+
+
+
     /**
      * Helper method to create a player object and associate it with all the needed goodness
      * @param player Player to create
@@ -228,5 +340,14 @@ public class MovementControllerTests {
         player.setCharacter(new Character("test", 't', player.getxPos(), player.getyPos()));
 
         return player;
+    }
+
+    /**
+     * Helper method to create a test weapon on the board
+     * @param move intended move of the player
+     */
+    private void setupWeapon(Move move) {
+        Weapon weapon = new Weapon("TestWeapon", 'W');
+        entities.getBoard().getTiles()[move.getX()][move.getY()].setWeapon(weapon);
     }
 }
