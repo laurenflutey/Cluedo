@@ -87,11 +87,15 @@ public class Room {
 	}
 
 	public void addWeaponToAvailableTile(Tile[][] allTiles, Weapon weapon) {
-		
-		for(Tile[] tileCollection : allTiles){
-			for(Tile tile:)
+
+		for (Tile[] tileCollection : allTiles) {
+			for (Tile tile : tileCollection) {
+				if (tile.getWeapon().equals(weapon)) {
+					tile.setWeapon(null);
+				}
+			}
 		}
-		
+
 		for (Tile tile : tiles) {
 			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile() && !tile.isOccupied()) {
 				tile.setWeapon(weapon);
@@ -101,9 +105,15 @@ public class Room {
 	}
 
 	public void addPlayerToAvailableTile(Tile[][] allTiles, Player player) {
-		
-		
-		
+
+		for (Tile[] tileCollection : allTiles) {
+			for (Tile tile : tileCollection) {
+				if (tile.getPlayer().equals(player)) {
+					tile.setPlayer(null);
+				}
+			}
+		}
+
 		for (Tile tile : tiles) {
 			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile() && !tile.isOccupied()) {
 				tile.setPlayer(player);
