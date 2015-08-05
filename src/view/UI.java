@@ -102,7 +102,7 @@ public class UI {
 	public Move getPlayerMove(Player player, int roll) {
 		System.out.println(player.getName() + ", you rolled a " + roll + ". You're currently at x: "
 				+ parseIntToCharacter(player.getxPos()) + " y: "
-				+ player.getyPos() + 1);
+				+ (player.getyPos() + 1));
 		System.out.println("\nPlease enter the x:y coordinate for your move (e.g F 12)");
 
 		Move move = null;
