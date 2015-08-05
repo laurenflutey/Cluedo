@@ -11,6 +11,12 @@ public class Weapon {
 	private String name;
 	private char id;
 
+	/**
+	 * Constructor
+	 *
+	 * @param name name of the weapon
+	 * @param id character representing the weapon on the board
+	 */
 	public Weapon(String name, char id) {
 		this.name = name;
 		this.id = id;
