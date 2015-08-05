@@ -128,66 +128,67 @@ public class GameController {
 			// Gets the current player and sets that player as the current
 			// player so can be coloured on board
 			currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
-			currentPlayer.setIsCurrentPlayer(true);
+			if (currentPlayer.isAlive()) {
+				currentPlayer.setIsCurrentPlayer(true);
 
-			// Print the board, displaying players as red colour, and the
-			// current player as green
-			BOARD.printBoard();
+				// Print the board, displaying players as red colour, and the
+				// current player as green
+				BOARD.printBoard();
 
-			// Begin the parsing of a players choice for their turn
-			System.out.println(currentPlayer.getName() + ", what would you like to do?\n");
-			int choice = -1;
+				// Begin the parsing of a players choice for their turn
+				System.out.println(currentPlayer.getName() + ", what would you like to do?\n");
+				int choice = -1;
 
-			// Continually loop until a player chooses a valid option for their
-			// turn
-			while (choice == -1) {
-				// Delegate to the UI to parse the int for the players choice
-				choice = displayOptions(currentPlayer);
+				// Continually loop until a player chooses a valid option for their
+				// turn
+				while (choice == -1) {
+					// Delegate to the UI to parse the int for the players choice
+					choice = displayOptions(currentPlayer);
 
-				if (choice == -10) {
-					UI.displayKeys(ENTITIES);
-					choice = -1;
+					if (choice == -10) {
+						UI.displayKeys(ENTITIES);
+						choice = -1;
+					}
+
+					// case where the player chooses to simply display their set of
+					// cards, and current information.
+					// This shouldn't end the players turn and so once complete,
+					// just sets the state back to -1 to continue
+					// the loop.
+					if (choice == 2) {
+						UI.doDisplayInformation(currentPlayer);
+						choice = -1;
+					}
 				}
 
-				// case where the player chooses to simply display their set of
-				// cards, and current information.
-				// This shouldn't end the players turn and so once complete,
-				// just sets the state back to -1 to continue
-				// the loop.
-				if (choice == 2) {
-					UI.doDisplayInformation(currentPlayer);
-					choice = -1;
+				// Player chooses to perform a move for their turn
+				if (choice == 1) {
+					doMove(currentPlayer);
+				} else if (choice == 3) {
+					// Player attempts to make an accusation. If they guess
+					// correctly, the game is over and they win
+					// Otherwise that player is removed from the game
+					if (makeAccusation(currentPlayer)) {
+						isGameOver = true;
+					} else {
+						currentPlayer.setAlive(false);
+					}
+				} else if (choice == 4) {
+					// Case where the player has chosen to make a suggestion, and
+					// therefore must be in a room to do so.
+					makeSuggestion(currentPlayer);
+				} else if (choice == 5) {
+					// Case where the player is in a room that has a secret passage
+					doSecretPassage(currentPlayer);
 				}
+
+				// Increment the playerTurn so that on the next loop through, the
+				// player virtually clockwise will take
+				// their turn.
+
+				currentPlayer.setIsCurrentPlayer(false);
 			}
-
-			// Player chooses to perform a move for their turn
-			if (choice == 1) {
-				doMove(currentPlayer);
-			} else if (choice == 3) {
-				// Player attempts to make an accusation. If they guess
-				// correctly, the game is over and they win
-				// Otherwise that player is removed from the game
-				if (makeAccusation(currentPlayer)) {
-					isGameOver = true;
-				} else {
-					currentPlayer.setAlive(false);
-				}
-			} else if (choice == 4) {
-				// Case where the player has chosen to make a suggestion, and
-				// therefore must be in a room to do so.
-				makeSuggestion(currentPlayer);
-			} else if (choice == 5) {
-				// Case where the player is in a room that has a secret passage
-				doSecretPassage(currentPlayer);
-			}
-
-			// Increment the playerTurn so that on the next loop through, the
-			// player virtually clockwise will take
-			// their turn.
-
 			playerTurn++;
-			currentPlayer.setIsCurrentPlayer(false);
-
 		}
 
 		// The game is now over and the current player is the winner. Do endGame
