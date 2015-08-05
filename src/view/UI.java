@@ -169,6 +169,10 @@ public class UI {
 
 		doClearOutput();
 
+		System.out.println("----------------------------------");
+		System.out.println("Okay, lets create the players now.");
+		System.out.println("-----------------------------------\n\n");
+
 		// List of player objects created
 		List<Player> players = new ArrayList<>();
 
@@ -552,7 +556,17 @@ public class UI {
 	public boolean doSecretPassageConfirm(Player currentPlayer) {
 		System.out.println(currentPlayer.getName() + ", take secret passage to "
 				+ currentPlayer.getRoom().getConnectingRoom().getName() + ": y/n?");
+		return parseYesNoInput();
 
+
+	}
+
+	/**
+	 * Method that parses a y/n answer from the user
+	 *
+	 * @return returns true if the user entered y || Y
+	 */
+	private boolean parseYesNoInput() {
 		// Continually loop until the user either selects y or n
 		while (true) {
 			if (reader.hasNext()) {
@@ -564,5 +578,49 @@ public class UI {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Method to parse the initial game setup options from the user
+	 *
+	 * This is only checking if the user wants to do colouring of the board or not
+	 *
+	 * @return Do they want colour?
+	 */
+	public boolean doInitialGameSetup() {
+		System.out.println("--------------------------------------------");
+		System.out.println("\nWould you like to colour your Cluedo game?\n");
+		System.out.println("--------------------------------------------\n\n");
+		System.out.println("Note that this doesn't work everywhere.\nIf it doesn't work for you,\ntry running" +
+				"the game as a jar from the console,\nnot in an IDE.");
+		System.out.println("\nWould you like to try colours: Y/N");
+		boolean answer = parseYesNoInput();
+
+		// If the user sees colour and wants colour, we will give them colour
+		return answer && doTestColour();
+	}
+
+	/**
+	 * Method to test the colouring of the text, if the user doesn't see the coloured text, they should hopefully
+	 * say so and enter N, otherwise the game will break.
+	 *
+	 * @return Does the user see coloured text?
+	 */
+	private boolean doTestColour() {
+
+		System.out.println("--------------------------------------------");
+
+		System.out.println("\n\nOkay, let's test if you can actually see the colour, and its not going to break things.");
+		System.out.print("\u001B[31m" + "This text should be coloured\n" + "\u001B[0m");
+		System.out.print("\u001B[32m" + "This text should be coloured\n" + "\u001B[0m");
+		System.out.print("\u001B[33m" + "This text should be coloured\n" + "\u001B[0m");
+		System.out.print("\u001B[34m" + "This text should be coloured\n" + "\u001B[0m");
+		System.out.print("\u001B[35m" + "This text should be coloured\n" + "\u001B[0m");
+		System.out.print("\u001B[36m" + "This text should be coloured\n" + "\u001B[0m");
+		System.out.print("\u001B[30m" + "This text should be coloured\n" + "\u001B[0m");
+
+		System.out.println("Was the text coloured: Y/N");
+
+		return parseYesNoInput();
 	}
 }

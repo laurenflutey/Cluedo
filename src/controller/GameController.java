@@ -15,6 +15,13 @@ import java.util.Map.Entry;
 public class GameController {
 
 	/**
+	 * boolean value representing whether the game should be coloured or not. This is set in the
+	 * {@link GameController#initGame()} method, and asks the user if they want the game to be coloured,
+	 * and it they choose to colour the game, will test to see if the colouring is working correctly for them.
+	 */
+	public static boolean IS_GAME_COLOURED;
+
+	/**
 	 * UI Class used to interact with the players in the game
 	 */
 	private final UI UI;
@@ -62,6 +69,7 @@ public class GameController {
 
 		/* Assign board to movement controller */
 		this.MOVEMENT_CONTROLLER = new MovementController(BOARD);
+
 	}
 
 	/**
@@ -73,6 +81,9 @@ public class GameController {
 	public void initGame() {
 		// Delegates player count parsing to UI class
 		playerCount = UI.getPlayerCount();
+
+		// Delegate to the UI to check if the user wants to use colouring or not
+		initGameOptions();
 
 		// Initialises all the players and sets the game state
 		initPlayers();
@@ -88,6 +99,14 @@ public class GameController {
 
 		// Begin the game loop
 		doGame();
+	}
+
+	/**
+	 * Method that delegates to the {@link UI} to see if the user wants to use colouring in the game and
+	 * if they do, tests to see if the colouring is working for them
+	 */
+	private void initGameOptions() {
+		GameController.IS_GAME_COLOURED = UI.doInitialGameSetup();
 	}
 
 	/**
