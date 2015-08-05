@@ -1,30 +1,115 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Class representing a room in the Cluedo game.
+ * Class representing a room in the Cluedo game. A room may have a connecting room which a player can take as a
+ * shortcut to that room. The room also has a list of tiles and a list of doors in that room. The list of doors is
+ * used for the pathing algorithm, and so a player can leave the room from any door.
  *
  * @author Marcel van Workum
  * @author Reuben Puketapu
  */
 public class Room {
 
-	private String name;
 	private ArrayList<Tile> tiles;
+	private ArrayList<Tile> doors;
 	private Room connectingRoom;
+
+	private String name;
 	private int roomNumber;
 	private char ID;
 
-	private ArrayList<Tile> doors;
-
+	/**
+	 * Constructor
+	 *
+	 * @param name Name of the room
+	 * @param number Number of the room
+	 * @param ID ID of the room
+	 */
 	public Room(String name, int number, char ID) {
 		this.name = name;
 		this.roomNumber = number;
-		this.doors = new ArrayList<Tile>();
-		this.tiles = new ArrayList<Tile>();
+		this.doors = new ArrayList<>();
+		this.tiles = new ArrayList<>();
 		this.ID = ID;
+	}
+
+	/**
+	 * Method to assign a weapon to a room, by iterating through all the tiles in the room and
+	 * assigning the weapon to a empty tile.
+	 *
+	 * @param allTiles Tiles in the room
+	 * @param weapon Weapon to assign
+	 */
+	public void addWeaponToAvailableTile(Tile[][] allTiles, Weapon weapon) {
+		// Checks if the weapon is already on the same tile
+		for (Tile tile : tiles) {
+			if (tile.getWeapon() != null) {
+				if (tile.getWeapon().equals(weapon)) {
+					return;
+				}
+			}
+		}
+
+		// Removes any instance of the weapon on the board
+		for (Tile[] tileCollection : allTiles) {
+			for (Tile tile : tileCollection) {
+				if (tile.getWeapon() != null) {
+					if (tile.getWeapon().equals(weapon)) {
+						tile.setWeapon(null);
+					}
+				}
+			}
+		}
+
+		// Adds the tile to an available tile in the room
+		for (Tile tile : tiles) {
+			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile() && !tile.isOccupied()) {
+				tile.setWeapon(weapon);
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Method to assign a Player to a room, by iterating through all the tiles in the room and
+	 * assigning the player to a empty tile.
+	 *
+	 * @param allTiles All the tiles on the board
+	 * @param player Player to be assigned
+	 */
+	public void addPlayerToAvailableTile(Tile[][] allTiles, Player player) {
+		// Checks if the weapon is already on the same tile
+		for (Tile tile : tiles) {
+			if (tile.getPlayer() != null) {
+				if (tile.getPlayer().equals(player)) {
+					return;
+				}
+			}
+		}
+
+		// Removes any instance of the weapon on the board
+		for (Tile[] tileCollection : allTiles) {
+			for (Tile tile : tileCollection) {
+				if (tile.getPlayer() != null) {
+					if (tile.getPlayer().equals(player)) {
+						tile.setPlayer(null);
+					}
+				}
+			}
+		}
+
+		// Adds the tile to an available tile in the room
+		for (Tile tile : tiles) {
+			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile() && !tile.isOccupied()) {
+				tile.setPlayer(player);
+				player.setxPos(tile.getX());
+				player.setyPos(tile.getY());
+				player.setRoom(tile.getRoom());
+				break;
+			}
+		}
 	}
 
 	/**
@@ -42,8 +127,7 @@ public class Room {
 	}
 
 	/**
-	 * @param connectingRoom
-	 *            the connectingRoom to se
+	 * @param connectingRoom the connectingRoom to se
 	 */
 	public void setConnectingRoom(Room connectingRoom) {
 		this.connectingRoom = connectingRoom;
@@ -64,14 +148,6 @@ public class Room {
 	}
 
 	/**
-	 * @param doors
-	 *            the doors to set
-	 */
-	public void setDoors(ArrayList<Tile> doors) {
-		this.doors = doors;
-	}
-
-	/**
 	 * @return the roomNumber
 	 */
 	public int getRoomNumber() {
@@ -79,75 +155,10 @@ public class Room {
 	}
 
 	/**
-	 * @param roomNumber
-	 *            the roomNumber to set
+	 * Getter
+	 *
+	 * @return The ID of the Room
 	 */
-	public void setRoomNumber(int roomNumber) {
-		this.roomNumber = roomNumber;
-	}
-
-	public void addWeaponToAvailableTile(Tile[][] allTiles, Weapon weapon, boolean init) {
-
-		for (Tile tile : tiles) {
-
-			if (tile.getWeapon() != null) {
-				if (tile.getWeapon().equals(weapon)) {
-					return;
-				}
-			}
-		}
-
-		for (Tile[] tileCollection : allTiles) {
-			for (Tile tile : tileCollection) {
-				if (tile.getWeapon() != null) {
-					if (tile.getWeapon().equals(weapon)) {
-						tile.setWeapon(null);
-					}
-				}
-			}
-		}
-
-		for (Tile tile : tiles) {
-
-			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile() && !tile.isOccupied()) {
-				tile.setWeapon(weapon);
-				break;
-			}
-		}
-	}
-
-	public void addPlayerToAvailableTile(Tile[][] allTiles, Player player, boolean init) {
-
-		for (Tile tile : tiles) {
-
-			if (tile.getPlayer() != null) {
-				if (tile.getPlayer().equals(player)) {
-					return;
-				}
-			}
-		}
-		for (Tile[] tileCollection : allTiles) {
-			for (Tile tile : tileCollection) {
-				if (tile.getPlayer() != null) {
-					if (tile.getPlayer().equals(player)) {
-						tile.setPlayer(null);
-					}
-				}
-
-			}
-		}
-		for (Tile tile : tiles) {
-
-			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile() && !tile.isOccupied()) {
-				tile.setPlayer(player);
-				player.setxPos(tile.getX());
-				player.setyPos(tile.getY());
-				player.setRoom(tile.getRoom());
-				break;
-			}
-		}
-	}
-
 	public char getID() {
 		return ID;
 	}

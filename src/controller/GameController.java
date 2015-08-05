@@ -481,7 +481,7 @@ public class GameController {
 			if (remainingWeapons.isEmpty())
 				break;
 			if (!room.getKey().equals("Pool")) {
-				room.getValue().addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), remainingWeapons.get(0), true);
+				room.getValue().addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), remainingWeapons.get(0));
 				remainingWeapons.remove(0);
 			}
 		}
@@ -516,7 +516,7 @@ public class GameController {
 			// this is not worth randomising
 			if (nextPlayer.containsCardWithName(suggestion.getPlayer().getName())) {
 				suggestingPlayer.getSuggestions().add(new Card(suggestion.getPlayer().getName(), "Character"));
-				playerRoom.addPlayerToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getPlayer(), false);
+				playerRoom.addPlayerToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getPlayer());
 				found = true;
 			} else if (nextPlayer.containsCardWithName(suggestion.getRoom().getName())) {
 				suggestingPlayer.getSuggestions().add(new Card(suggestion.getRoom().getName(), "Room"));
@@ -524,7 +524,7 @@ public class GameController {
 			} else if (nextPlayer.containsCardWithName(suggestion.getWeapon().getName())) {
 				suggestingPlayer.getSuggestions().add(new Card(suggestion.getWeapon().getName(), "Weapon"));
 				found = true;
-				playerRoom.addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getWeapon(), false);
+				playerRoom.addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getWeapon());
 			} else {
 				count++;
 			}
