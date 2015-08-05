@@ -188,30 +188,46 @@ public class GameController {
 			ArrayList<Tile> connectingRoomTiles = connectingRoom.getTiles();
 			Collections.shuffle(connectingRoomTiles);
 
-			for (Tile t : connectingRoomTiles) {
-				if (t.isRoomTile() && !t.isWallTile() && !t.isOccupied()) {
-
-					// Disassociate old tile with player
-					tiles[currentPlayer.getxPos()][currentPlayer.getyPos()].setPlayer(null);
-
-					// update xy position
-					currentPlayer.setxPos(t.getX());
-					currentPlayer.setyPos(t.getY());
-					Tile currentTile = tiles[currentPlayer.getxPos()][currentPlayer.getyPos()];
-
-					// Associate new tile with the player and update if the player
-					// is in a room or not
-					currentTile.setPlayer(currentPlayer);
-					currentPlayer.setRoom(connectingRoom);
-
-					break;
-				}
-			}
+			randomAssignToRoom(currentPlayer, connectingRoom, connectingRoomTiles);
 		}
 	}
 
-	private void endGame(Player currentPlayer) {
-		UI.doEndGame(currentPlayer);
+	/**
+	 * Method to randomly assign a {@link Player} to a room
+	 *
+	 * @param player Player being randomly placed in the room
+	 * @param assignedRoom Room that the player is being randomly assigned to
+	 * @param assignedRoomTiles A collection of shuffled tiles for the randomly assigned room
+	 */
+	private void randomAssignToRoom(Player player, Room assignedRoom, ArrayList<Tile> assignedRoomTiles) {
+		for (Tile t : assignedRoomTiles) {
+            if (t.isRoomTile() && !t.isWallTile() && !t.isOccupied()) {
+
+                // Disassociate old tile with player
+                tiles[player.getxPos()][player.getyPos()].setPlayer(null);
+
+                // update xy position
+                player.setxPos(t.getX());
+                player.setyPos(t.getY());
+                Tile currentTile = tiles[player.getxPos()][player.getyPos()];
+
+                // Associate new tile with the player and update if the player
+                // is in a room or not
+                currentTile.setPlayer(player);
+                player.setRoom(assignedRoom);
+
+                break;
+            }
+        }
+	}
+
+	/**
+	 * Delegate method to pass the call to end the game to the {@link UI}
+	 *
+	 * @param winningPlayer The Player that has won the game
+	 */
+	private void endGame(Player winningPlayer) {
+		UI.doEndGame(winningPlayer);
 	}
 
 	/**
