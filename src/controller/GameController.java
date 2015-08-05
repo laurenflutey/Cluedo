@@ -183,7 +183,7 @@ public class GameController {
 			// their turn.
 
 
-			//playerTurn++; //TODO commented out at the moment to make only one player take turns for debug
+			playerTurn++;
 		}
 
 		// The game is now over and the current player is the winner. Do endGame
