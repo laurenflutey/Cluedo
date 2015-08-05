@@ -440,7 +440,7 @@ public class GameController {
 			if (remainingWeapons.isEmpty())
 				break;
 			if (!room.getKey().equals("Pool")) {
-				room.getValue().addWeaponToAvailableTile(remainingWeapons.get(0));
+				room.getValue().addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), remainingWeapons.get(0));
 				remainingWeapons.remove(0);
 			}
 		}

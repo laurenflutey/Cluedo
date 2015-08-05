@@ -86,7 +86,11 @@ public class Room {
 		this.roomNumber = roomNumber;
 	}
 
-	public void addWeaponToAvailableTile(Weapon weapon) {
+	public void addWeaponToAvailableTile(Tile[][] allTiles, Weapon weapon) {
+		
+		for(Tile[] tileCollection : allTiles){
+			for(Tile tile:)
+		}
 		
 		for (Tile tile : tiles) {
 			if (!tile.isDoor() && !tile.isWallTile() && tile.isRoomTile() && !tile.isOccupied()) {
@@ -96,7 +100,7 @@ public class Room {
 		}
 	}
 
-	public void addPlayerToAvailableTile(Player player) {
+	public void addPlayerToAvailableTile(Tile[][] allTiles, Player player) {
 		
 		
 		
