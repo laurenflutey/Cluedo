@@ -98,7 +98,11 @@ public class Player extends Character {
 	 * @return
 	 */
 	public String getName() {
-		return character.getName();
+		if (character != null) {
+			return character.getName();
+		} else {
+			return "Error";
+		}
 	}
 
 	/**
