@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import view.UI;
+import view.gui.GameFrame;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -47,6 +48,9 @@ public class GameController {
 	 */
 	private final MovementController MOVEMENT_CONTROLLER;
 
+
+	private final GameFrame display;
+
 	/**
 	 * 2D array of Tile objects, representing the board
 	 */
@@ -67,6 +71,8 @@ public class GameController {
 		this.UI = new UI();
 		this.ENTITIES = new Entities();
 		this.BOARD = ENTITIES.getBoard();
+
+		display = new GameFrame(BOARD);
 
 		tiles = ENTITIES.getBoard().getTiles();
 
@@ -99,6 +105,8 @@ public class GameController {
 		chooseSolutionCards();
 		dealCards();
 		distributeWeapons();
+
+		display.repaint();
 
 		// Begin the game loop
 		doGame();
@@ -208,6 +216,9 @@ public class GameController {
 				currentPlayer.setIsCurrentPlayer(false);
 			}
 			playerTurn++;
+
+			// Redisplay the graphics
+			display.repaint();
 		}
 
 		if (!everyoneLost) {
