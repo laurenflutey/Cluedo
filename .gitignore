@@ -109,3 +109,4 @@ crashlytics-build.properties
 # pdf ignore
 
 *.pdf
+src/META-INF
