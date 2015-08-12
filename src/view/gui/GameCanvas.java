@@ -6,7 +6,11 @@ import model.Tile;
 import java.awt.*;
 
 /**
- * Created by Marcel on 12/08/15.
+ * Game canvas, which is embedded in the JFrame of the {@link GameFrame}. The canvas is used to draw the current
+ * state of the game board for the player to interact with.
+ *
+ * @author Marcel
+ * @author Reuben
  */
 public class GameCanvas extends Canvas {
 
@@ -19,7 +23,7 @@ public class GameCanvas extends Canvas {
     @Override
     public void paint(Graphics g) {
         Tile[][] tiles = board.getTiles();
-        for (int i = 0; i < 24; i++) {
+        for (int i = 0; i < 25; i++) {
             for (int j = 0; j < 26; j++) {
 
                 if (tiles[i][j].isOccupied()) {

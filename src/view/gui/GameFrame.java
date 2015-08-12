@@ -11,18 +11,18 @@ import java.awt.*;
  */
 public class GameFrame extends JFrame {
 
-    private final JPanel contentPane;
-    private final JMenuBar menuBar;
-    private final JMenu fileMenu;
-    private final JMenuItem selectBoardItem;
-    private final JMenuItem exitItem;
-    private final JMenu gameSettingsMenu;
-    private final JMenuItem guiModeItem;
-    private final JMenuItem textBasedModeItem;
-    private final JMenuItem toggleTextColouringItem;
-    private final JPanel informationPanel;
-    private final JPanel playerHandPanel;
-    private final JPanel minimapPanel;
+    private JPanel contentPane;
+    private JMenuBar menuBar;
+    private JMenu fileMenu;
+    private JMenuItem selectBoardItem;
+    private JMenuItem exitItem;
+    private JMenu gameSettingsMenu;
+    private JMenuItem guiModeItem;
+    private JMenuItem textBasedModeItem;
+    private JMenuItem toggleTextColouringItem;
+    private JPanel informationPanel;
+    private JPanel playerHandPanel;
+    private JPanel minimapPanel;
 
     private final GameCanvas canvas;
     private final Dimension gameDimensions;
@@ -51,6 +51,73 @@ public class GameFrame extends JFrame {
         setTitle("Cluedo");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        initMenu();
+
+        initContentPane();
+
+        initCanvas();
+
+        initInformationPanel();
+
+        initPlayerHandPanel();
+
+        initMinimapPanel();
+
+        setLocationRelativeTo(null);
+        setVisible(true);
+        requestFocus();
+    }
+
+    private void initMinimapPanel() {
+        minimapPanel = new JPanel();
+        minimapPanel.setBackground(Color.RED.darker());
+        GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+        gbc_panel_1.fill = GridBagConstraints.BOTH;
+        gbc_panel_1.gridx = 2;
+        gbc_panel_1.gridy = 2;
+        contentPane.add(minimapPanel, gbc_panel_1);
+    }
+
+    private void initPlayerHandPanel() {
+        playerHandPanel = new JPanel();
+        playerHandPanel.setBackground(Color.GREEN.darker().darker().darker());
+        GridBagConstraints gbc_panel3 = new GridBagConstraints();
+        gbc_panel3.fill = GridBagConstraints.BOTH;
+        gbc_panel3.gridx = 1;
+        gbc_panel3.gridy = 2;
+        contentPane.add(playerHandPanel, gbc_panel3);
+        playerHandPanel.setLayout(new GridLayout(1, 0, 0, 0));
+    }
+
+    private void initInformationPanel() {
+        informationPanel = new JPanel();
+        informationPanel.setBackground(Color.BLUE.darker());
+        GridBagConstraints gbc_panel2 = new GridBagConstraints();
+        gbc_panel2.fill = GridBagConstraints.BOTH;
+        gbc_panel2.gridx = 2;
+        gbc_panel2.gridy = 1;
+        contentPane.add(informationPanel, gbc_panel2);
+    }
+
+    private void initCanvas() {
+        GridBagConstraints gbc_panel = new GridBagConstraints();
+        gbc_panel.fill = GridBagConstraints.BOTH;
+        gbc_panel.gridx = 1;
+        gbc_panel.gridy = 1;
+        contentPane.add(canvas, gbc_panel);
+    }
+
+    private void initContentPane() {
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        GridBagLayout gbl_contentPane = new GridBagLayout();
+        gbl_contentPane.columnWidths = new int[]{5, 400, 200, 10};
+        gbl_contentPane.rowHeights = new int[]{30, 416, 100, 30};
+        contentPane.setLayout(gbl_contentPane);
+    }
+
+    private void initMenu() {
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
 
@@ -76,61 +143,12 @@ public class GameFrame extends JFrame {
 
         toggleTextColouringItem = new JMenuItem("Toggle Text Colouring");
         gameSettingsMenu.add(toggleTextColouringItem);
-
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
-        GridBagLayout gbl_contentPane = new GridBagLayout();
-        gbl_contentPane.columnWidths = new int[]{5, 400, 200, 10};
-        gbl_contentPane.rowHeights = new int[]{30, 416, 100, 30};
-        contentPane.setLayout(gbl_contentPane);
-
-        GridBagConstraints gbc_panel = new GridBagConstraints();
-        gbc_panel.insets = new Insets(0, 0, 5, 5);
-        gbc_panel.fill = GridBagConstraints.BOTH;
-        gbc_panel.gridx = 1;
-        gbc_panel.gridy = 1;
-        contentPane.add(canvas, gbc_panel);
-
-
-        canvas.repaint(); //TODO
-
-        informationPanel = new JPanel();
-        informationPanel.setBackground(Color.BLUE.darker());
-        GridBagConstraints gbc_panel2 = new GridBagConstraints();
-        gbc_panel2.insets = new Insets(0, 0, 5, 0);
-        gbc_panel2.fill = GridBagConstraints.BOTH;
-        gbc_panel2.gridx = 2;
-        gbc_panel2.gridy = 1;
-        contentPane.add(informationPanel, gbc_panel2);
-
-        playerHandPanel = new JPanel();
-        playerHandPanel.setBackground(Color.GREEN.darker().darker().darker());
-        GridBagConstraints gbc_panel3 = new GridBagConstraints();
-        gbc_panel3.insets = new Insets(0, 0, 0, 5);
-        gbc_panel3.fill = GridBagConstraints.BOTH;
-        gbc_panel3.gridx = 1;
-        gbc_panel3.gridy = 2;
-        contentPane.add(playerHandPanel, gbc_panel3);
-        playerHandPanel.setLayout(new GridLayout(1, 0, 0, 0));
-
-        minimapPanel = new JPanel();
-        minimapPanel.setBackground(Color.RED.darker());
-        GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-        gbc_panel_1.fill = GridBagConstraints.BOTH;
-        gbc_panel_1.gridx = 2;
-        gbc_panel_1.gridy = 2;
-        contentPane.add(minimapPanel, gbc_panel_1);
-
-
-        setLocationRelativeTo(null);
-        setVisible(true);
-        requestFocus();
     }
 
     @Override
     public void paint(Graphics g) {
         canvas.repaint();
         contentPane.repaint();
+        menuBar.repaint();
     }
 }

@@ -93,7 +93,7 @@ public class Entities {
 		Collections.shuffle(weapons);
 
 		// finally create the game board
-		board = new Board(24, 26, rooms);
+		board = new Board(25, 26, rooms);
 	}
 
 	/**
