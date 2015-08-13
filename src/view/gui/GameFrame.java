@@ -5,11 +5,16 @@ import model.Board;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Marcel on 12/08/15.
  */
 public class GameFrame extends JFrame {
+
+    private int width = 615;
+    private int height = 576;
 
     private JPanel contentPane;
     private JMenuBar menuBar;
@@ -43,7 +48,7 @@ public class GameFrame extends JFrame {
 
         canvas = new GameCanvas(gameBoard);
 
-        gameDimensions = new Dimension(615, 576);
+        gameDimensions = new Dimension(width, height);
         setSize(gameDimensions);
         setMinimumSize(gameDimensions);
 
@@ -64,8 +69,8 @@ public class GameFrame extends JFrame {
         initMinimapPanel();
 
         setLocationRelativeTo(null);
-        setVisible(true);
         requestFocus();
+        setVisible(true);
     }
 
     private void initMinimapPanel() {
@@ -112,7 +117,7 @@ public class GameFrame extends JFrame {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         GridBagLayout gbl_contentPane = new GridBagLayout();
-        gbl_contentPane.columnWidths = new int[]{5, 400, 200, 10};
+        gbl_contentPane.columnWidths = new int[]{5, 400, 205, 5};
         gbl_contentPane.rowHeights = new int[]{30, 416, 100, 30};
         contentPane.setLayout(gbl_contentPane);
     }
@@ -130,6 +135,14 @@ public class GameFrame extends JFrame {
         fileMenu.add(selectBoardItem);
 
         exitItem = new JMenuItem("Exit");
+        exitItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                System.out.println("Good bye.");
+                System.exit(0);
+            }
+        });
         fileMenu.add(exitItem);
 
         gameSettingsMenu = new JMenu("Game Settings");
