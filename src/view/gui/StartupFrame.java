@@ -1,33 +1,11 @@
 package view.gui;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.Enumeration;
-
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.WindowConstants;
-import javax.swing.border.EmptyBorder;
-
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import model.Board;
 
 public class StartupFrame extends JFrame {
 
@@ -70,7 +48,7 @@ public class StartupFrame extends JFrame {
 
 		// player combo box
 		String[] options = { "3", "4", "5", "6" };
-		JComboBox cb = new JComboBox(options);
+		final JComboBox<String> cb = new JComboBox<>(options);
 		cb.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -109,7 +87,7 @@ public class StartupFrame extends JFrame {
 
 	private void askPlayers() {
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(0, 0, 500, 500);
 		panel = new JPanel();
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -140,7 +118,7 @@ public class StartupFrame extends JFrame {
 		gbc_lblSelectYourToken.gridy = 3;
 		panel.add(lblSelectYourToken, gbc_lblSelectYourToken);
 
-		ButtonGroup bg = new ButtonGroup();
+		final ButtonGroup bg = new ButtonGroup();
 
 		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Miss Scarlett");
 		GridBagConstraints gbc_rdbtnNewRadioButton_1 = new GridBagConstraints();

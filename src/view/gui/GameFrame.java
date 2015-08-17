@@ -3,7 +3,6 @@ package view.gui;
 import model.Board;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,8 +12,9 @@ import java.awt.event.ActionListener;
  */
 public class GameFrame extends JFrame {
 
-    private int width = 615;
-    private int height = 576;
+    private ButtonPanel buttonPanel;
+    private int width = 1280;
+    private int height = 720;
 
     private JPanel contentPane;
     private JMenuBar menuBar;
@@ -26,15 +26,13 @@ public class GameFrame extends JFrame {
     private JMenuItem textBasedModeItem;
     private JMenuItem toggleTextColouringItem;
     private JPanel informationPanel;
-    private JPanel playerHandPanel;
-    private JPanel minimapPanel;
 
     private final GameCanvas canvas;
     private final Dimension gameDimensions;
 
     private final Board gameBoard;
 
-    public GameFrame(Board gameBoard){
+    public GameFrame(final Board gameBoard){
 
         this.gameBoard = gameBoard;
 
@@ -62,46 +60,24 @@ public class GameFrame extends JFrame {
 
         initCanvas();
 
-        initInformationPanel();
+        this.informationPanel = new InformationPanel(contentPane);
 
-        initPlayerHandPanel();
+        this.buttonPanel = new ButtonPanel(contentPane);
 
-        initMinimapPanel();
 
         setLocationRelativeTo(null);
         requestFocus();
         setVisible(true);
     }
 
-    private void initMinimapPanel() {
-        minimapPanel = new JPanel();
-        minimapPanel.setBackground(Color.RED.darker());
-        GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-        gbc_panel_1.fill = GridBagConstraints.BOTH;
-        gbc_panel_1.gridx = 2;
-        gbc_panel_1.gridy = 2;
-        contentPane.add(minimapPanel, gbc_panel_1);
-    }
-
-    private void initPlayerHandPanel() {
-        playerHandPanel = new JPanel();
-        playerHandPanel.setBackground(Color.GREEN.darker().darker().darker());
-        GridBagConstraints gbc_panel3 = new GridBagConstraints();
-        gbc_panel3.fill = GridBagConstraints.BOTH;
-        gbc_panel3.gridx = 1;
-        gbc_panel3.gridy = 2;
-        contentPane.add(playerHandPanel, gbc_panel3);
-        playerHandPanel.setLayout(new GridLayout(1, 0, 0, 0));
-    }
-
-    private void initInformationPanel() {
-        informationPanel = new JPanel();
-        informationPanel.setBackground(Color.BLUE.darker());
-        GridBagConstraints gbc_panel2 = new GridBagConstraints();
-        gbc_panel2.fill = GridBagConstraints.BOTH;
-        gbc_panel2.gridx = 2;
-        gbc_panel2.gridy = 1;
-        contentPane.add(informationPanel, gbc_panel2);
+    private void initContentPane() {
+        contentPane = new JPanel();
+        //contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        GridBagLayout gbl_contentPane = new GridBagLayout();
+        gbl_contentPane.columnWidths = new int[]{5, 768, 502, 5};
+        gbl_contentPane.rowHeights = new int[]{30, 540, 100, 50};
+        contentPane.setLayout(gbl_contentPane);
     }
 
     private void initCanvas() {
@@ -109,17 +85,8 @@ public class GameFrame extends JFrame {
         gbc_panel.fill = GridBagConstraints.BOTH;
         gbc_panel.gridx = 1;
         gbc_panel.gridy = 1;
+        gbc_panel.gridheight = 2;
         contentPane.add(canvas, gbc_panel);
-    }
-
-    private void initContentPane() {
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
-        GridBagLayout gbl_contentPane = new GridBagLayout();
-        gbl_contentPane.columnWidths = new int[]{5, 400, 205, 5};
-        gbl_contentPane.rowHeights = new int[]{30, 416, 100, 30};
-        contentPane.setLayout(gbl_contentPane);
     }
 
     private void initMenu() {
@@ -160,7 +127,7 @@ public class GameFrame extends JFrame {
 
     @Override
     public void paint(Graphics g) {
-        canvas.repaint();
+        //canvas.repaint();
         contentPane.repaint();
         menuBar.repaint();
     }
