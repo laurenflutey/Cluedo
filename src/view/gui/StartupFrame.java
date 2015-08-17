@@ -1,11 +1,15 @@
 package view.gui;
 
+import model.Player;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 public class StartupFrame extends JFrame {
 
@@ -15,6 +19,8 @@ public class StartupFrame extends JFrame {
 	private Dimension gameDimensions;
 	private JPanel panel;
 	private JTextField txtName;
+	private static List<Player> gamePlayers = new ArrayList<Player>();
+	private int count;
 
 	public StartupFrame(int width, int height) {
 		this.width = width;
@@ -26,7 +32,7 @@ public class StartupFrame extends JFrame {
 		setSize(gameDimensions);
 		setMinimumSize(gameDimensions);
 
-		initPanel();
+		getPlayerCount();
 
 		setTitle("Cluedo");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -39,7 +45,7 @@ public class StartupFrame extends JFrame {
 
 	}
 
-	private void initPanel() {
+	private int getPlayerCount() {
 		// image
 		ImageIcon image = new ImageIcon("images/Cluedo.png");
 		JLabel imageLabel = new JLabel();
@@ -72,7 +78,7 @@ public class StartupFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(players);
-				askPlayers();
+				getPlayers();
 			}
 		});
 
@@ -83,9 +89,11 @@ public class StartupFrame extends JFrame {
 		panel.add(cb);
 		panel.add(label);
 
+		return players;
+
 	}
 
-	private void askPlayers() {
+	private List<Player> getPlayers() {
 
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(0, 0, 500, 500);
@@ -94,6 +102,13 @@ public class StartupFrame extends JFrame {
 		setContentPane(panel);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		panel.setLayout(gbl_contentPane);
+
+		final JLabel lblPlayer = new JLabel("Player: " + (count + 1));
+		GridBagConstraints gbc_lblPlayer = new GridBagConstraints();
+		gbc_lblPlayer.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPlayer.gridx = 0;
+		gbc_lblPlayer.gridy = 0;
+		panel.add(lblPlayer, gbc_lblPlayer);
 
 		JLabel lblPleaseEnterYour = new JLabel("Please enter your name");
 		GridBagConstraints gbc_lblPleaseEnterYour = new GridBagConstraints();
@@ -120,7 +135,7 @@ public class StartupFrame extends JFrame {
 
 		final ButtonGroup bg = new ButtonGroup();
 
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Miss Scarlett");
+		final JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Miss Scarlett");
 		GridBagConstraints gbc_rdbtnNewRadioButton_1 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton_1.anchor = GridBagConstraints.WEST;
 		gbc_rdbtnNewRadioButton_1.insets = new Insets(0, 0, 5, 0);
@@ -128,7 +143,7 @@ public class StartupFrame extends JFrame {
 		gbc_rdbtnNewRadioButton_1.gridy = 3;
 		panel.add(rdbtnNewRadioButton_1, gbc_rdbtnNewRadioButton_1);
 
-		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("Mrs Peacock");
+		final JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("Mrs Peacock");
 		GridBagConstraints gbc_rdbtnNewRadioButton_2 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton_2.anchor = GridBagConstraints.WEST;
 		gbc_rdbtnNewRadioButton_2.insets = new Insets(0, 0, 5, 0);
@@ -136,7 +151,7 @@ public class StartupFrame extends JFrame {
 		gbc_rdbtnNewRadioButton_2.gridy = 4;
 		panel.add(rdbtnNewRadioButton_2, gbc_rdbtnNewRadioButton_2);
 
-		JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("Mrs White");
+		final JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("Mrs White");
 		GridBagConstraints gbc_rdbtnNewRadioButton_3 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton_3.anchor = GridBagConstraints.WEST;
 		gbc_rdbtnNewRadioButton_3.insets = new Insets(0, 0, 5, 0);
@@ -144,7 +159,7 @@ public class StartupFrame extends JFrame {
 		gbc_rdbtnNewRadioButton_3.gridy = 5;
 		panel.add(rdbtnNewRadioButton_3, gbc_rdbtnNewRadioButton_3);
 
-		JRadioButton rdbtnNewRadioButton_4 = new JRadioButton("Colonel Mustard");
+		final JRadioButton rdbtnNewRadioButton_4 = new JRadioButton("Colonel Mustard");
 		GridBagConstraints gbc_rdbtnNewRadioButton_4 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton_4.anchor = GridBagConstraints.WEST;
 		gbc_rdbtnNewRadioButton_4.insets = new Insets(0, 0, 5, 0);
@@ -153,7 +168,7 @@ public class StartupFrame extends JFrame {
 		panel.add(rdbtnNewRadioButton_4, gbc_rdbtnNewRadioButton_4);
 		bg.add(rdbtnNewRadioButton_4);
 
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("Reverend Green");
+		final JRadioButton rdbtnNewRadioButton = new JRadioButton("Reverend Green");
 		GridBagConstraints gbc_rdbtnNewRadioButton = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton.anchor = GridBagConstraints.WEST;
 		gbc_rdbtnNewRadioButton.insets = new Insets(0, 0, 5, 0);
@@ -161,14 +176,13 @@ public class StartupFrame extends JFrame {
 		gbc_rdbtnNewRadioButton.gridy = 7;
 		panel.add(rdbtnNewRadioButton, gbc_rdbtnNewRadioButton);
 
-		JRadioButton rdbtnNewRadioButton_5 = new JRadioButton("Professor Plum");
+		final JRadioButton rdbtnNewRadioButton_5 = new JRadioButton("Professor Plum");
 		GridBagConstraints gbc_rdbtnNewRadioButton_5 = new GridBagConstraints();
 		gbc_rdbtnNewRadioButton_5.anchor = GridBagConstraints.WEST;
 		gbc_rdbtnNewRadioButton_5.insets = new Insets(0, 0, 5, 0);
 		gbc_rdbtnNewRadioButton_5.gridx = 4;
 		gbc_rdbtnNewRadioButton_5.gridy = 8;
 		panel.add(rdbtnNewRadioButton_5, gbc_rdbtnNewRadioButton_5);
-		rdbtnNewRadioButton_5.setSelected(true);
 
 		bg.add(rdbtnNewRadioButton);
 		bg.add(rdbtnNewRadioButton_1);
@@ -176,10 +190,20 @@ public class StartupFrame extends JFrame {
 		bg.add(rdbtnNewRadioButton_3);
 		bg.add(rdbtnNewRadioButton_5);
 
-		JButton btnSubmit = new JButton("Submit");
+		final JButton btnSubmit = new JButton("Submit");
 		GridBagConstraints gbc_btnSubmit = new GridBagConstraints();
+		gbc_btnSubmit.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSubmit.gridx = 4;
 		gbc_btnSubmit.gridy = 10;
+
+		final JButton btnNext = new JButton("Next");
+		GridBagConstraints gbc_btnNext = new GridBagConstraints();
+		gbc_btnNext.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNext.gridx = 5;
+		gbc_btnNext.gridy = 10;
+		btnNext.setEnabled(false);
+		panel.add(btnNext, gbc_btnNext);
+
 		btnSubmit.addActionListener(new ActionListener() {
 
 			@Override
@@ -189,9 +213,30 @@ public class StartupFrame extends JFrame {
 					AbstractButton button = buttons.nextElement();
 
 					if (button.isSelected()) {
+						// TODO find XY POSITION AND CHAR
+						gamePlayers.add(new Player(txtName.getText(), button.getText(), 'n', 0, 0));
+						button.setEnabled(false);
 						System.out.println(button.getText());
+						count++;
+						lblPlayer.setText("Player: " + (count + 1));
+
 					}
+
+					if (count == players) {
+						btnSubmit.setEnabled(false);
+						txtName.setEnabled(false);
+						lblPlayer.setText("Player: " + (count));
+						rdbtnNewRadioButton.setEnabled(false);
+						rdbtnNewRadioButton_1.setEnabled(false);
+						rdbtnNewRadioButton_2.setEnabled(false);
+						rdbtnNewRadioButton_3.setEnabled(false);
+						rdbtnNewRadioButton_4.setEnabled(false);
+						rdbtnNewRadioButton_5.setEnabled(false);
+						btnNext.setEnabled(true);
+					}
+
 				}
+
 				System.out.println(txtName.getText());
 
 			}
@@ -203,6 +248,8 @@ public class StartupFrame extends JFrame {
 		requestFocus();
 		setVisible(true);
 
+		return gamePlayers;
+
 	}
 
 	private void askPlayer() {
@@ -212,6 +259,11 @@ public class StartupFrame extends JFrame {
 
 	public static void main(String[] args) {
 		new StartupFrame(500, 500);
+
+		for (Player p : gamePlayers) {
+			System.out.println(p.getName());
+		}
+
 	}
 
 }
