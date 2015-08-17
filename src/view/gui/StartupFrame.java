@@ -8,7 +8,9 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
@@ -28,6 +30,7 @@ import javax.swing.border.EmptyBorder;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import model.Board;
+import model.Player;
 
 public class StartupFrame extends JFrame {
 
@@ -37,6 +40,8 @@ public class StartupFrame extends JFrame {
 	private Dimension gameDimensions;
 	private JPanel panel;
 	private JTextField txtName;
+	private static List<Player> gamePlayers = new ArrayList<Player>();
+	private int count;
 
 	public StartupFrame(int width, int height) {
 		this.width = width;
@@ -48,7 +53,7 @@ public class StartupFrame extends JFrame {
 		setSize(gameDimensions);
 		setMinimumSize(gameDimensions);
 
-		initPanel();
+		getPlayerCount();
 
 		setTitle("Cluedo");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -61,7 +66,7 @@ public class StartupFrame extends JFrame {
 
 	}
 
-	private void initPanel() {
+	private int getPlayerCount() {
 		// image
 		ImageIcon image = new ImageIcon("images/Cluedo.png");
 		JLabel imageLabel = new JLabel();
@@ -94,7 +99,7 @@ public class StartupFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(players);
-				askPlayers();
+				getPlayers();
 			}
 		});
 
@@ -105,9 +110,11 @@ public class StartupFrame extends JFrame {
 		panel.add(cb);
 		panel.add(label);
 
+		return players;
+
 	}
 
-	private void askPlayers() {
+	private List<Player> getPlayers() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 500, 500);
@@ -116,6 +123,13 @@ public class StartupFrame extends JFrame {
 		setContentPane(panel);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		panel.setLayout(gbl_contentPane);
+
+		JLabel lblPlayer = new JLabel("Player: " + (count + 1));
+		GridBagConstraints gbc_lblPlayer = new GridBagConstraints();
+		gbc_lblPlayer.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPlayer.gridx = 0;
+		gbc_lblPlayer.gridy = 0;
+		panel.add(lblPlayer, gbc_lblPlayer);
 
 		JLabel lblPleaseEnterYour = new JLabel("Please enter your name");
 		GridBagConstraints gbc_lblPleaseEnterYour = new GridBagConstraints();
@@ -190,7 +204,6 @@ public class StartupFrame extends JFrame {
 		gbc_rdbtnNewRadioButton_5.gridx = 4;
 		gbc_rdbtnNewRadioButton_5.gridy = 8;
 		panel.add(rdbtnNewRadioButton_5, gbc_rdbtnNewRadioButton_5);
-		rdbtnNewRadioButton_5.setSelected(true);
 
 		bg.add(rdbtnNewRadioButton);
 		bg.add(rdbtnNewRadioButton_1);
@@ -200,8 +213,18 @@ public class StartupFrame extends JFrame {
 
 		JButton btnSubmit = new JButton("Submit");
 		GridBagConstraints gbc_btnSubmit = new GridBagConstraints();
+		gbc_btnSubmit.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSubmit.gridx = 4;
 		gbc_btnSubmit.gridy = 10;
+
+		JButton btnNext = new JButton("Next");
+		GridBagConstraints gbc_btnNext = new GridBagConstraints();
+		gbc_btnNext.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNext.gridx = 5;
+		gbc_btnNext.gridy = 10;
+		btnNext.setEnabled(false);
+		panel.add(btnNext, gbc_btnNext);
+
 		btnSubmit.addActionListener(new ActionListener() {
 
 			@Override
@@ -211,9 +234,30 @@ public class StartupFrame extends JFrame {
 					AbstractButton button = buttons.nextElement();
 
 					if (button.isSelected()) {
+						// TODO find XY POSITION AND CHAR
+						gamePlayers.add(new Player(txtName.getText(), button.getText(), 'n', 0, 0));
+						button.setEnabled(false);
 						System.out.println(button.getText());
+						count++;
+						lblPlayer.setText("Player: " + (count + 1));
+
 					}
+
+					if (count == players) {
+						btnSubmit.setEnabled(false);
+						txtName.setEnabled(false);
+						lblPlayer.setText("Player: " + (count));
+						rdbtnNewRadioButton.setEnabled(false);
+						rdbtnNewRadioButton_1.setEnabled(false);
+						rdbtnNewRadioButton_2.setEnabled(false);
+						rdbtnNewRadioButton_3.setEnabled(false);
+						rdbtnNewRadioButton_4.setEnabled(false);
+						rdbtnNewRadioButton_5.setEnabled(false);
+						btnNext.setEnabled(true);
+					}
+
 				}
+
 				System.out.println(txtName.getText());
 
 			}
@@ -225,6 +269,8 @@ public class StartupFrame extends JFrame {
 		requestFocus();
 		setVisible(true);
 
+		return gamePlayers;
+
 	}
 
 	private void askPlayer() {
@@ -234,6 +280,11 @@ public class StartupFrame extends JFrame {
 
 	public static void main(String[] args) {
 		new StartupFrame(500, 500);
+
+		for (Player p : gamePlayers) {
+			System.out.println(p.getName());
+		}
+
 	}
 
 }
