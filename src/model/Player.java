@@ -1,6 +1,7 @@
 package model;
 
 import controller.GameController;
+import view.gui.textui.UI;
 
 import java.util.HashSet;
 import java.util.List;
@@ -20,7 +21,7 @@ public class Player extends Character {
 
 	/**
 	 * Character associated with the Player. This is chosen by the user when the
-	 * game is starting using {@link view.UI#getPlayers(List, int)}
+	 * game is starting using {@link UI#getPlayers(List, int)}
 	 */
 	private Character character;
 

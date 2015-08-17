@@ -1,7 +1,7 @@
 package controller;
 
 import model.*;
-import view.UI;
+import view.gui.textui.UI;
 
 import java.util.*;
 import java.util.Map.Entry;

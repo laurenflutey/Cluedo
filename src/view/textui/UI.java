@@ -1,4 +1,4 @@
-package view;
+package view.textui;
 
 import controller.GameController;
 import model.*;
