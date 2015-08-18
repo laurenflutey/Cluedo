@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import controller.GameController;
+import controller.GuiGameController;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -215,7 +216,8 @@ public class StartupFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new GameController(gamePlayers).initGame();
+				dispose();
+				new GuiGameController();
 			}
 		});
 

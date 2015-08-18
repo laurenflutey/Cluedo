@@ -12,122 +12,123 @@ import java.awt.event.ActionListener;
  */
 public class GameFrame extends JFrame {
 
-	private ButtonPanel buttonPanel;
-	private int width = 1280;
-	private int height = 720;
+    private ButtonPanel buttonPanel;
+    private int width = 1280;
+    private int height = 720;
 
-	private JPanel contentPane;
-	private JMenuBar menuBar;
-	private JMenu fileMenu;
-	private JMenuItem selectBoardItem;
-	private JMenuItem exitItem;
-	private JMenu gameSettingsMenu;
-	private JMenuItem guiModeItem;
-	private JMenuItem textBasedModeItem;
-	private JMenuItem toggleTextColouringItem;
-	private JPanel informationPanel;
+    private JPanel contentPane;
+    private JMenuBar menuBar;
+    private JMenu fileMenu;
+    private JMenuItem selectBoardItem;
+    private JMenuItem exitItem;
+    private JMenu gameSettingsMenu;
+    private JMenuItem guiModeItem;
+    private JMenuItem textBasedModeItem;
+    private JMenuItem toggleTextColouringItem;
+    private JPanel informationPanel;
 
-	private final GameCanvas canvas;
-	private final Dimension gameDimensions;
+    private final GameCanvas canvas;
+    private final Dimension gameDimensions;
 
-	private final Board gameBoard;
+    private final Board gameBoard;
 
-	public GameFrame(final Board gameBoard) {
+    public GameFrame(final Board gameBoard){
 
-		this.gameBoard = gameBoard;
+        this.gameBoard = gameBoard;
 
-		// Sets the window style to the systems default look and feel
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException
-				| InstantiationException e) {
-			e.printStackTrace(); // TODO display something meaningful
-			System.out.println("Look and feel failed");
-		}
+        // Sets the window style to the systems default look and feel
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException e) {
+            e.printStackTrace(); //TODO display something meaningful
+            System.out.println("Look and feel failed");
+        }
 
-		canvas = new GameCanvas(gameBoard);
+        canvas = new GameCanvas(gameBoard);
 
-		gameDimensions = new Dimension(width, height);
-		setSize(gameDimensions);
-		setMinimumSize(gameDimensions);
+        gameDimensions = new Dimension(width, height);
+        setSize(gameDimensions);
+        setMinimumSize(gameDimensions);
 
-		setTitle("Cluedo");
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-		initMenu();
+        setTitle("Cluedo");
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-		initContentPane();
+        initMenu();
 
-		initCanvas();
+        initContentPane();
 
-		this.informationPanel = new InformationPanel(contentPane);
+        initCanvas();
 
-		this.buttonPanel = new ButtonPanel(contentPane);
+        this.informationPanel = new InformationPanel(contentPane);
 
-		setLocationRelativeTo(null);
-		requestFocus();
-		setVisible(true);
-	}
+        this.buttonPanel = new ButtonPanel(contentPane);
 
-	private void initContentPane() {
-		contentPane = new JPanel();
-		// contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[] { 5, 768, 502, 5 };
-		gbl_contentPane.rowHeights = new int[] { 30, 540, 100, 50 };
-		contentPane.setLayout(gbl_contentPane);
-	}
 
-	private void initCanvas() {
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 1;
-		gbc_panel.gridy = 1;
-		gbc_panel.gridheight = 2;
-		contentPane.add(canvas, gbc_panel);
-	}
+        setLocationRelativeTo(null);
+        requestFocus();
+        setVisible(true);
+    }
 
-	private void initMenu() {
-		menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
+    private void initContentPane() {
+        contentPane = new JPanel();
+        //contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        GridBagLayout gbl_contentPane = new GridBagLayout();
+        gbl_contentPane.columnWidths = new int[]{5, 768, 502, 5};
+        gbl_contentPane.rowHeights = new int[]{30, 540, 100, 50};
+        contentPane.setLayout(gbl_contentPane);
+    }
 
-		menuBar.setBorderPainted(false);
+    private void initCanvas() {
+        GridBagConstraints gbc_panel = new GridBagConstraints();
+        gbc_panel.fill = GridBagConstraints.BOTH;
+        gbc_panel.gridx = 1;
+        gbc_panel.gridy = 1;
+        gbc_panel.gridheight = 2;
+        contentPane.add(canvas, gbc_panel);
+    }
 
-		fileMenu = new JMenu("File");
-		menuBar.add(fileMenu);
+    private void initMenu() {
+        menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
 
-		selectBoardItem = new JMenuItem("Select Board");
-		fileMenu.add(selectBoardItem);
+        menuBar.setBorderPainted(false);
 
-		exitItem = new JMenuItem("Exit");
-		exitItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-				System.out.println("Good bye.");
-				System.exit(0);
-			}
-		});
-		fileMenu.add(exitItem);
+        fileMenu = new JMenu("File");
+        menuBar.add(fileMenu);
 
-		gameSettingsMenu = new JMenu("Game Settings");
-		menuBar.add(gameSettingsMenu);
+        selectBoardItem = new JMenuItem("Select Board");
+        fileMenu.add(selectBoardItem);
 
-		guiModeItem = new JMenuItem("GUI Mode");
-		gameSettingsMenu.add(guiModeItem);
+        exitItem = new JMenuItem("Exit");
+        exitItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                System.out.println("Good bye.");
+                System.exit(0);
+            }
+        });
+        fileMenu.add(exitItem);
 
-		textBasedModeItem = new JMenuItem("Text-Base Mode");
-		gameSettingsMenu.add(textBasedModeItem);
+        gameSettingsMenu = new JMenu("Game Settings");
+        menuBar.add(gameSettingsMenu);
 
-		toggleTextColouringItem = new JMenuItem("Toggle Text Colouring");
-		gameSettingsMenu.add(toggleTextColouringItem);
-	}
+        guiModeItem = new JMenuItem("GUI Mode");
+        gameSettingsMenu.add(guiModeItem);
 
-	@Override
-	public void paint(Graphics g) {
-		// canvas.repaint();
-		contentPane.repaint();
-		menuBar.repaint();
-	}
+        textBasedModeItem = new JMenuItem("Text-Base Mode");
+        gameSettingsMenu.add(textBasedModeItem);
+
+        toggleTextColouringItem = new JMenuItem("Toggle Text Colouring");
+        gameSettingsMenu.add(toggleTextColouringItem);
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        //canvas.repaint();
+        contentPane.repaint();
+        menuBar.repaint();
+    }
 }
