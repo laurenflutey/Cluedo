@@ -1,12 +1,10 @@
 package view.gui;
 
+import controller.GameController;
 import model.Player;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
-import controller.GameController;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -64,12 +62,12 @@ public class StartupFrame extends JFrame {
 		String[] options = { "3", "4", "5", "6" };
 		JComboBox cb = new JComboBox(options);
 
-		cb.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				players = cb.getSelectedIndex() + 3;
-			}
-		});
+//		cb.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				players = cb.getSelectedIndex() + 3;
+//			}
+//		});
 		cb.setBounds(200, 110, 60, 60);
 
 		// label

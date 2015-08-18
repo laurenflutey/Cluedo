@@ -4,16 +4,23 @@ import model.Board;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 
 /**
  * Created by Marcel on 12/08/15.
  */
-public class GameFrame extends JFrame {
+public class GameFrame extends JFrame implements Runnable{
 
     private final InformationPanel informationPanel;
+    private final Screen screen;
     private ButtonPanel buttonPanel;
     private int width = 1280;
     private int height = 720;
+
+    private BufferedImage image = new BufferedImage(768, 640, BufferedImage.TYPE_INT_RGB);
+    private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 
     private JPanel contentPane;
     private JMenuBar menuBar;
@@ -22,6 +29,10 @@ public class GameFrame extends JFrame {
     private final Dimension gameDimensions;
 
     private final Board gameBoard;
+
+    private boolean running = true;
+    private Thread gameThread;
+
 
     public GameFrame(final Board gameBoard){
 
@@ -59,8 +70,17 @@ public class GameFrame extends JFrame {
 
         setLocationRelativeTo(null);
         requestFocus();
+
+        
+        screen = new Screen(width, height);
         setVisible(true);
+        start();
+
+
+
     }
+
+
 
     private void initContentPane() {
         contentPane = new JPanel();
@@ -77,5 +97,64 @@ public class GameFrame extends JFrame {
         //canvas.repaint();
         contentPane.repaint();
         menuBar.repaint();
+    }
+
+    public synchronized void start() {
+        running = true;
+        gameThread = new Thread(this, "Game");
+        gameThread.start();
+    }
+
+    @Override
+    public void run() {
+        long lastTime = System.nanoTime();
+        long timer = System.currentTimeMillis();
+        final double ns = 1000000000.0 / 60.0;
+        double delta = 0;
+        int frames = 0;
+        int updates = 0;
+        while (running) {
+            long now = System.nanoTime();
+            delta += (now-lastTime) / ns;
+            lastTime = now;
+            while (delta >= 1) {
+                tick();
+                updates++;
+                delta--;
+            }
+            render();
+            frames++;
+
+//            if (System.currentTimeMillis() - timer > 1000) {
+//                timer += 1000;
+//                setTitle("Cluedo" + "  |  " + updates + " ups, " + frames + " fps");
+//                updates = 0;
+//                frames = 0;
+//            }
+        }
+    }
+
+    private void tick() {
+
+    }
+
+    public void render() {
+        BufferStrategy bs = canvas.getBufferStrategy();
+        if (bs == null) {
+            canvas.createBufferStrategy(3);
+            return;
+        }
+
+        canvas.clear();
+        canvas.render(0, 0);
+
+        System.arraycopy(canvas.pixels, 0, pixels, 0, pixels.length);
+
+        Graphics g = bs.getDrawGraphics();
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        g.dispose();
+        bs.show();
     }
 }
