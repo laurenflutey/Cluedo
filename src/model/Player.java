@@ -1,6 +1,7 @@
 package model;
 
 import controller.GameController;
+import view.textui.UI;
 
 import java.util.HashSet;
 import java.util.List;
@@ -8,17 +9,19 @@ import java.util.Set;
 
 /**
  * Class to represent a Player within the game. The player extends a
- * {@link java.lang.Character} and stores all x/y coordinate information in the character
- * super class.
+ * {@link java.lang.Character} and stores all x/y coordinate information in the
+ * character super class.
  *
  * @author Marcel
  * @author Reuben
  */
 public class Player extends Character {
 
+	private String playerName;
+
 	/**
 	 * Character associated with the Player. This is chosen by the user when the
-	 * game is starting using {@link view.UI#getPlayers(List, int)}
+	 * game is starting using {@link UI#getPlayers(List, int)}
 	 */
 	private Character character;
 
@@ -71,12 +74,35 @@ public class Player extends Character {
 	private boolean isAlive = true;
 
 	/**
-	 * Constructor for Character class
+	 * Constructor for Player class
 	 *
-	 * @param name the name of the Character
-	 * @param ch Character representing the player
-	 * @param xOrigin x position of the player
-	 * @param yOrigin y position of the player
+	 * @param name
+	 *            the name of the Character
+	 * @param ch
+	 *            Character representing the player
+	 * @param xOrigin
+	 *            x position of the player
+	 * @param yOrigin
+	 *            y position of the player
+	 */
+	public Player(String playerName, String name, char ch, int xOrigin, int yOrigin) {
+		super(name, ch, xOrigin, yOrigin);
+		this.playerName = playerName;
+		this.cards = new HashSet<>();
+		this.successfulSuggestions = new HashSet<>();
+	}
+
+	/**
+	 * Constructor used by the text based game client
+	 *
+	 * @param name
+	 *            Name of player
+	 * @param ch
+	 *            Players token
+	 * @param xOrigin
+	 *            x origin
+	 * @param yOrigin
+	 *            y origin
 	 */
 	public Player(String name, char ch, int xOrigin, int yOrigin) {
 		super(name, ch, xOrigin, yOrigin);
@@ -88,7 +114,7 @@ public class Player extends Character {
 	 * Gets character.
 	 *
 	 * @return the character
-     */
+	 */
 	public Character getCharacter() {
 		return character;
 	}
@@ -115,7 +141,8 @@ public class Player extends Character {
 	/**
 	 * Sets the character associated with the player
 	 *
-	 * @param character Character to associate
+	 * @param character
+	 *            Character to associate
 	 */
 	public void setCharacter(Character character) {
 		this.character = character;
@@ -140,7 +167,7 @@ public class Player extends Character {
 	 * Is current player.
 	 *
 	 * @return the boolean
-     */
+	 */
 	public boolean isCurrentPlayer() {
 		return isCurrentPlayer;
 	}
@@ -148,8 +175,9 @@ public class Player extends Character {
 	/**
 	 * Sets is current player.
 	 *
-	 * @param isCurrentPlayer the is current player
-     */
+	 * @param isCurrentPlayer
+	 *            the is current player
+	 */
 	public void setIsCurrentPlayer(boolean isCurrentPlayer) {
 		this.isCurrentPlayer = isCurrentPlayer;
 	}
@@ -180,7 +208,7 @@ public class Player extends Character {
 	 * Is in room.
 	 *
 	 * @return the boolean
-     */
+	 */
 	public boolean isInRoom() {
 		return this.room != null;
 	}
@@ -188,9 +216,10 @@ public class Player extends Character {
 	/**
 	 * Contains card with name.
 	 *
-	 * @param name the name
+	 * @param name
+	 *            the name
 	 * @return the boolean
-     */
+	 */
 	public boolean containsCardWithName(String name) {
 		for (Card card : cards) {
 			if (card.getName().equals(name)) {
@@ -216,10 +245,17 @@ public class Player extends Character {
 	}
 
 	/**
+	 * @return the playerName
+	 */
+	public String getPlayerName() {
+		return playerName;
+	}
+
+	/**
 	 * Gets accusation.
 	 *
 	 * @return the accusation
-     */
+	 */
 	public Suggestion getAccusation() {
 		return accusation;
 	}
@@ -227,8 +263,9 @@ public class Player extends Character {
 	/**
 	 * Sets accusation.
 	 *
-	 * @param accusation the accusation
-     */
+	 * @param accusation
+	 *            the accusation
+	 */
 	public void setAccusation(Suggestion accusation) {
 		this.accusation = accusation;
 	}

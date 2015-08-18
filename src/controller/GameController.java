@@ -1,7 +1,7 @@
 package controller;
 
 import model.*;
-import view.UI;
+import view.textui.UI;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -73,6 +73,19 @@ public class GameController {
 		/* Assign board to movement controller */
 		this.MOVEMENT_CONTROLLER = new MovementController(BOARD);
 
+	}
+
+	public GameController(List<Player> gamePlayers) {
+		this.UI = new UI();
+		this.ENTITIES = new Entities();
+		this.ENTITIES.setFinalPlayers(gamePlayers);
+		this.ENTITIES.setPlayers(gamePlayers);
+		this.BOARD = ENTITIES.getBoard();
+
+		tiles = ENTITIES.getBoard().getTiles();
+
+		/* Assign board to movement controller */
+		this.MOVEMENT_CONTROLLER = new MovementController(BOARD);
 	}
 
 	/**
@@ -165,7 +178,7 @@ public class GameController {
 						choice = -1;
 					}
 
-					// case where the player chooses to simply display their set
+					// case where the player chooses to simply DISPLAY their set
 					// of
 					// cards, and current information.
 					// This shouldn't end the players turn and so once complete,

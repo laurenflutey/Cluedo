@@ -225,9 +225,9 @@ public class Board {
 
 		// finally print out the A-Z Key along the bottom of the board
 		if (GameController.IS_GAME_COLOURED){
-			System.out.print("\u001B[34m" + "\nA B C D E F G H I J K L M N O P Q R S T U V W X \n" + "\u001B[0m" + "\n\n\n");
+			System.out.print("\u001B[34m" + "\nA B C D E F G H I J K L M N O P Q R S T U V W X Y \n" + "\u001B[0m" + "\n\n\n");
 		} else {
-			System.out.print("\nA B C D E F G H I J K L M N O P Q R S T U V W X \n\n\n");
+			System.out.print("\nA B C D E F G H I J K L M N O P Q R S T U V W X Y\n\n\n");
 		}
 	}
 
