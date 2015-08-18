@@ -54,8 +54,8 @@ public class GuiGameController {
      *
      * @param gamePlayers list of players in the game
      */
-    public GuiGameController(List<Player> gamePlayers) {
-        ENTITIES = new Entities();
+    public GuiGameController(List<Player> gamePlayers, Entities entities) {
+        ENTITIES = entities;
         ENTITIES.setFinalPlayers(gamePlayers);
         ENTITIES.setPlayers(gamePlayers);
         BOARD = ENTITIES.getBoard();
