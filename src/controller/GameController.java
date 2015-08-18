@@ -1,7 +1,7 @@
 package controller;
 
 import model.*;
-import view.UI;
+import view.textui.UI;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -73,19 +73,6 @@ public class GameController {
 		/* Assign board to movement controller */
 		this.MOVEMENT_CONTROLLER = new MovementController(BOARD);
 
-	}
-
-	public GameController(List<Player> gamePlayers) {
-		this.UI = new UI();
-		this.ENTITIES = new Entities();
-		this.ENTITIES.setFinalPlayers(gamePlayers);
-		this.ENTITIES.setPlayers(gamePlayers);
-		this.BOARD = ENTITIES.getBoard();
-
-		tiles = ENTITIES.getBoard().getTiles();
-
-		/* Assign board to movement controller */
-		this.MOVEMENT_CONTROLLER = new MovementController(BOARD);
 	}
 
 	/**
@@ -270,10 +257,8 @@ public class GameController {
 	/**
 	 * Method to randomly assign a {@link Player} to a room
 	 *
-	 * @param player
-	 *            Player being randomly placed in the room
-	 * @param assignedRoom
-	 *            Room that the player is being randomly assigned to
+	 * @param player Player being randomly placed in the room
+	 * @param assignedRoom Room that the player is being randomly assigned to
 	 */
 	private void randomAssignToRoom(Player player, Room assignedRoom) {
 		ArrayList<Tile> connectingRoomTiles = assignedRoom.getTiles();

@@ -1,10 +1,10 @@
 package view.gui;
 
+import controller.GuiGameController;
 import model.Player;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
 import controller.GameController;
 import controller.GuiGameController;
 
@@ -15,10 +15,13 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+/**
+ *
+ */
 public class StartupFrame extends JFrame {
 
 	/**
-	 * 
+	 * Randomly generated UID
 	 */
 	private static final long serialVersionUID = -5354647840440829401L;
 
@@ -277,15 +280,4 @@ public class StartupFrame extends JFrame {
 		setVisible(true);
 
 	}
-
-	private void askPlayer() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static void main(String[] args) {
-		new StartupFrame(500, 500);
-
-	}
-
 }

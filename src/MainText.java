@@ -1,15 +1,15 @@
 import controller.GameController;
 
 /**
- * Main class used to called main method which creates the Cluedo game.
+ * MainText class used to called main method which creates the Cluedo game.
  *
  * @author Marcel van Workum
  * @author Reuben Puketapu
  */
-public class Main {
+public class MainText {
 
 	/**
-	 * Main method calls the creation of a new Game Controller
+	 * MainText method calls the creation of a new Game Controller
 	 *
 	 * @param args redundant
 	 */
