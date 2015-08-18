@@ -2,6 +2,7 @@ package view.gui;
 
 import controller.GameController;
 import controller.GuiGameController;
+import model.Entities;
 import model.Player;
 
 import javax.swing.*;
@@ -31,12 +32,13 @@ public class StartupFrame extends JFrame {
 	private JPanel panel;
 	private JTextField txtName;
 	private static List<Player> gamePlayers = new ArrayList<Player>();
-	private GameController controller;
+	private Entities entities;
 
 	public StartupFrame(int width, int height) {
 		this.width = width;
 		this.height = height;
 		this.panel = new JPanel();
+		this.entities = new Entities();
 		setContentPane(panel);
 
 		gameDimensions = new Dimension(width, height);
@@ -219,12 +221,14 @@ public class StartupFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				new GuiGameController(gamePlayers);
+
+				new GuiGameController(gamePlayers, entities);
 			}
 		});
 
 		panel.add(btnNext, gbc_btnNext);
 
+		// create actions for each submit push
 		btnSubmit.addActionListener(new ActionListener() {
 
 			@Override
@@ -236,21 +240,26 @@ public class StartupFrame extends JFrame {
 					if (button.isSelected()) {
 						// TODO find XY POSITION AND CHAR
 						if (!txtName.getText().equals("")) {
-							gamePlayers.add(new Player(txtName.getText(), button.getText(), 'n', 0, 0));
+							// find the character in the model that represents
+							// that player
+							model.Character ch = entities.getCharacter(button.getText());
+							gamePlayers.add(new Player(txtName.getText(), button.getText(), ch.getCh(), ch.getXPos(),
+									ch.getYPos()));
+							// reset the text field and disable the radio button
+							// they clicked
 							button.setEnabled(false);
 							bg.clearSelection();
-							System.out.println(button.getText());
-							count++;
 							lblPlayer.setText("Player: " + (count + 1));
 							txtName.setSelectionStart(0);
 							System.out.println(txtName.getText());
 							txtName.setText("");
 							txtName.requestFocus();
 							txtName.setSelectionStart(0);
+							count++;
 						}
-
 					}
-
+					// players have reached the max number specified
+					// disable all the radio buttons
 					if (count == players) {
 						btnSubmit.setEnabled(false);
 						txtName.setEnabled(false);
@@ -263,16 +272,16 @@ public class StartupFrame extends JFrame {
 						rdbtnNewRadioButton_5.setEnabled(false);
 						btnNext.setEnabled(true);
 					}
-
 				}
 
 			}
 		});
+
 		panel.add(btnSubmit, gbc_btnSubmit);
 
 		txtName.requestFocus();
 		txtName.setSelectionStart(0);
-
+		// finalise the display
 		setLocationRelativeTo(null);
 		setResizable(false);
 		requestFocus();

@@ -46,7 +46,8 @@ public class Entities {
 	private List<Card> cards = new ArrayList<>();
 
 	/**
-	 * List of players in the game. A player is associated with a {@link Character}
+	 * List of players in the game. A player is associated with a
+	 * {@link Character}
 	 */
 	private List<Player> players = new ArrayList<>();
 
@@ -133,7 +134,8 @@ public class Entities {
 	/**
 	 * Init method
 	 *
-	 * Creates the rooms, sets the connected rooms and then stores the rooms in the collection of rooms
+	 * Creates the rooms, sets the connected rooms and then stores the rooms in
+	 * the collection of rooms
 	 */
 	private void initRooms() {
 		// Create rooms
@@ -189,7 +191,7 @@ public class Entities {
 	private void initCharacters() {
 		characters.add(new Character("Mrs Peacock", 'p', 23, 6));
 		characters.add(new Character("Proffesor Plum", 'r', 23, 20));
-		characters.add(new Character("Miss Scarlet", 's', 7, 25));
+		characters.add(new Character("Miss Scarlett", 's', 7, 25));
 		characters.add(new Character("Colonel Mustard", 'm', 0, 18));
 		characters.add(new Character("Mrs White", 'w', 9, 0));
 		characters.add(new Character("Reverend Green", 'g', 14, 0));
@@ -211,7 +213,7 @@ public class Entities {
 	 * Gets characters.
 	 *
 	 * @return the characters
-     */
+	 */
 	public List<Character> getCharacters() {
 		return characters;
 	}
@@ -220,7 +222,7 @@ public class Entities {
 	 * Gets weapons.
 	 *
 	 * @return the weapons
-     */
+	 */
 	public List<Weapon> getWeapons() {
 		return weapons;
 	}
@@ -229,7 +231,7 @@ public class Entities {
 	 * Gets rooms.
 	 *
 	 * @return the rooms
-     */
+	 */
 	public Map<String, Room> getRooms() {
 		return rooms;
 	}
@@ -238,7 +240,7 @@ public class Entities {
 	 * Gets cards.
 	 *
 	 * @return the cards
-     */
+	 */
 	public List<Card> getCards() {
 		return cards;
 	}
@@ -247,7 +249,7 @@ public class Entities {
 	 * Gets players.
 	 *
 	 * @return the players
-     */
+	 */
 	public List<Player> getPlayers() {
 		return players;
 	}
@@ -255,8 +257,9 @@ public class Entities {
 	/**
 	 * Sets players.
 	 *
-	 * @param players the players
-     */
+	 * @param players
+	 *            the players
+	 */
 	public void setPlayers(List<Player> players) {
 		this.players = players;
 	}
@@ -285,11 +288,20 @@ public class Entities {
 	}
 
 	/**
-	 * @param finalPlayers List of final Players in the game
+	 * @param finalPlayers
+	 *            List of final Players in the game
 	 */
 	public void setFinalPlayers(List<Player> finalPlayers) {
 		this.finalPlayers = finalPlayers;
 	}
 
+	public Character getCharacter(String name) {
+		for (Character c : characters) {
+			if (c.getName().equals(name)) {
+				return c;
+			}
+		}
+		return null;
+	}
 
 }
