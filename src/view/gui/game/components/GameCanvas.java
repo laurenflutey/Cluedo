@@ -1,7 +1,8 @@
-package view.gui.game;
+package view.gui.game.components;
 
 import model.Board;
 import model.Tile;
+import view.gui.game.GameFrame;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,10 @@
 package view.gui.game;
 
 import model.Board;
+import view.gui.game.components.ButtonPanel;
+import view.gui.game.components.GameCanvas;
+import view.gui.game.components.GameMenu;
+import view.gui.game.components.InformationPanel;
 
 import javax.swing.*;
 import java.awt.*;
