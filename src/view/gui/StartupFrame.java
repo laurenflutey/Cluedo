@@ -1,5 +1,6 @@
 package view.gui;
 
+import controller.GameController;
 import controller.GuiGameController;
 import model.Player;
 
@@ -30,6 +31,7 @@ public class StartupFrame extends JFrame {
 	private JPanel panel;
 	private JTextField txtName;
 	private static List<Player> gamePlayers = new ArrayList<Player>();
+	private GameController controller;
 
 	public StartupFrame(int width, int height) {
 		this.width = width;
@@ -63,14 +65,15 @@ public class StartupFrame extends JFrame {
 
 		// player combo box
 		String[] options = { "3", "4", "5", "6" };
-		JComboBox<String> cb = new JComboBox<>(options);
 
-//		cb.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				players = cb.getSelectedIndex() + 3;
-//			}
-//		});
+		final JComboBox cb = new JComboBox(options);
+
+		cb.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				players = cb.getSelectedIndex() + 3;
+			}
+		});
 		cb.setBounds(200, 110, 60, 60);
 
 		// label
