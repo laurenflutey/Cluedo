@@ -1,6 +1,6 @@
 package view.gui;
 
-import controller.GameController;
+import controller.GuiGameController;
 import model.Player;
 
 import javax.swing.*;
@@ -12,10 +12,13 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+/**
+ *
+ */
 public class StartupFrame extends JFrame {
 
 	/**
-	 * 
+	 * Randomly generated UID
 	 */
 	private static final long serialVersionUID = -5354647840440829401L;
 
@@ -60,7 +63,7 @@ public class StartupFrame extends JFrame {
 
 		// player combo box
 		String[] options = { "3", "4", "5", "6" };
-		JComboBox cb = new JComboBox(options);
+		JComboBox<String> cb = new JComboBox<>(options);
 
 //		cb.addActionListener(new ActionListener() {
 //			@Override
@@ -212,7 +215,8 @@ public class StartupFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new GameController(gamePlayers).initGame();
+				dispose();
+				new GuiGameController(gamePlayers);
 			}
 		});
 
@@ -272,15 +276,4 @@ public class StartupFrame extends JFrame {
 		setVisible(true);
 
 	}
-
-	private void askPlayer() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static void main(String[] args) {
-		new StartupFrame(500, 500);
-
-	}
-
 }

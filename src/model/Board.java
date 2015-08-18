@@ -240,4 +240,21 @@ public class Board {
 		return tiles;
 	}
 
+	/**
+	 * Gets height.
+	 *
+	 * @return the height
+     */
+	public int getHeight() {
+		return height;
+	}
+
+	/**
+	 * Gets width.
+	 *
+	 * @return the width
+     */
+	public int getWidth() {
+		return width;
+	}
 }

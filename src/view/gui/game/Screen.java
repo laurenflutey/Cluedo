@@ -1,47 +1,62 @@
 package view.gui.game;
 
-import java.util.Random;
+import model.Board;
+import model.Player;
+import model.Tile;
 
 /**
- * Screen
+ * Represents a screen that a PLAYER can see from a specific point in the game BOARD.
+ *
+ * This allows only a small amount of the gameboard to be displayed
  */
 public class Screen {
 
+    private final Player PLAYER;
+    private final Board BOARD;
+    private final Tile[][] TILES;
+    private Tile[][] screenTiles;
     private int width, height;
-    public int[] pixels;
 
-    public final int MAP_SIZE = 64;
-    public final int MAP_SIZE_MASK = MAP_SIZE - 1;
+    private int boardWidth;
+    private int boardHeight;
 
-    public int[] tiles = new int[MAP_SIZE * MAP_SIZE];
+    public Screen(int width, int height, Player player, Board board) {
+        BOARD = board;
+        TILES = BOARD.getTiles();
+        PLAYER = player;
 
-    private Random random = new Random();
-
-    public Screen(int width, int height) {
         this.width = width;
         this.height = height;
 
-        pixels = new int[width * height];
+        boardWidth = BOARD.getWidth();
+        boardHeight = BOARD.getHeight();
 
-        for (int i = 0; i < MAP_SIZE * MAP_SIZE; i++) {
-            tiles[i] = random.nextInt(0xffffff);
-        }
+        screenTiles = new Tile[width][height];
     }
 
-    public void render(int xOffset, int yOffset) {
-        for (int y = 0; y < height; y++) {
-            int yy = y + yOffset;
-            for (int x = 0; x < width; x++) {
-                int xx = x + xOffset;
-                int tileIndex = ((xx >> 4) & MAP_SIZE_MASK) + ((yy >> 4) & 63) * MAP_SIZE_MASK;
-                pixels[x + y * width] = random.nextInt();
+    private void updateScreen() {
+        boolean leftFill = false;
+        boolean rightFill = false;
+        boolean topFill = false;
+        boolean bottomFill = false;
+
+        //TODO make these ternaries
+        if (PLAYER.getXPos() - (width/2) > 0) leftFill = true;
+        if (PLAYER.getXPos() + (width/2) < boardWidth) rightFill = true;
+
+        if (PLAYER.getYPos() - (height/2) > 0) topFill = true;
+        if (PLAYER.getYPos() + (height/2) < boardHeight) bottomFill = true;
+
+        if (leftFill && rightFill && topFill && bottomFill) {
+            int tileX = 0;
+            int tileY = 0;
+            for (int x = PLAYER.getXPos() - (width/2); x < PLAYER.getXPos() + (width/2); x++) {
+                for (int y = PLAYER.getYPos() - (height/2); y < PLAYER.getYPos() + (height/2); y++) {
+                    screenTiles[tileX][tileY] = TILES[x][y];
+                    tileY++;
+                }
+                tileX++;
             }
-        }
-    }
-
-    public void clear() {
-        for (int i = 0; i < pixels.length; i++) {
-            pixels[i] = 0;
         }
     }
 }
