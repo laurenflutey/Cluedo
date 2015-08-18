@@ -15,7 +15,7 @@ public class StartupFrame extends JFrame {
 
 	private int height;
 	private int width;
-	private int players;
+	private int players = 3;
 	private Dimension gameDimensions;
 	private JPanel panel;
 	private JTextField txtName;
@@ -54,7 +54,8 @@ public class StartupFrame extends JFrame {
 
 		// player combo box
 		String[] options = { "3", "4", "5", "6" };
-		final JComboBox<String> cb = new JComboBox<>(options);
+		JComboBox cb = new JComboBox(options);
+
 		cb.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -118,7 +119,7 @@ public class StartupFrame extends JFrame {
 		panel.add(lblPleaseEnterYour, gbc_lblPleaseEnterYour);
 
 		txtName = new JTextField();
-		txtName.setText("Name");
+		txtName.setText("");
 		GridBagConstraints gbc_txtName = new GridBagConstraints();
 		gbc_txtName.insets = new Insets(0, 0, 5, 0);
 		gbc_txtName.gridx = 4;
@@ -214,11 +215,19 @@ public class StartupFrame extends JFrame {
 
 					if (button.isSelected()) {
 						// TODO find XY POSITION AND CHAR
-						gamePlayers.add(new Player(txtName.getText(), button.getText(), 'n', 0, 0));
-						button.setEnabled(false);
-						System.out.println(button.getText());
-						count++;
-						lblPlayer.setText("Player: " + (count + 1));
+						if (!txtName.getText().equals("")) {
+							gamePlayers.add(new Player(txtName.getText(), button.getText(), 'n', 0, 0));
+							button.setEnabled(false);
+							bg.clearSelection();
+							System.out.println(button.getText());
+							count++;
+							lblPlayer.setText("Player: " + (count + 1));
+							txtName.setSelectionStart(0);
+							System.out.println(txtName.getText());
+							txtName.setText("");
+							txtName.requestFocus();
+							txtName.setSelectionStart(0);
+						}
 
 					}
 
@@ -237,11 +246,12 @@ public class StartupFrame extends JFrame {
 
 				}
 
-				System.out.println(txtName.getText());
-
 			}
 		});
 		panel.add(btnSubmit, gbc_btnSubmit);
+
+		txtName.requestFocus();
+		txtName.setSelectionStart(0);
 
 		// setLocationRelativeTo(null);
 		setResizable(false);
@@ -259,10 +269,6 @@ public class StartupFrame extends JFrame {
 
 	public static void main(String[] args) {
 		new StartupFrame(500, 500);
-
-		for (Player p : gamePlayers) {
-			System.out.println(p.getName());
-		}
 
 	}
 
