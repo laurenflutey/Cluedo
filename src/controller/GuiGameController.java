@@ -3,7 +3,7 @@ package controller;
 import model.Board;
 import model.Entities;
 import model.Tile;
-import view.gui.GameFrame;
+import view.gui.game.GameFrame;
 
 /**
  * Created by Marcel on 17/08/15.
