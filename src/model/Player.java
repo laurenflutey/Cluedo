@@ -75,10 +75,14 @@ public class Player extends Character {
 	/**
 	 * Constructor for Player class
 	 *
-	 * @param name the name of the Character
-	 * @param ch Character representing the player
-	 * @param xOrigin x position of the player
-	 * @param yOrigin y position of the player
+	 * @param name
+	 *            the name of the Character
+	 * @param ch
+	 *            Character representing the player
+	 * @param xOrigin
+	 *            x position of the player
+	 * @param yOrigin
+	 *            y position of the player
 	 */
 	public Player(String playerName, String name, char ch, int xOrigin, int yOrigin) {
 		super(name, ch, xOrigin, yOrigin);
@@ -90,10 +94,14 @@ public class Player extends Character {
 	/**
 	 * Constructor used by the text based game client
 	 *
-	 * @param name Name of player
-	 * @param ch Players token
-	 * @param xOrigin x origin
-	 * @param yOrigin y origin
+	 * @param name
+	 *            Name of player
+	 * @param ch
+	 *            Players token
+	 * @param xOrigin
+	 *            x origin
+	 * @param yOrigin
+	 *            y origin
 	 */
 	public Player(String name, char ch, int xOrigin, int yOrigin) {
 		super(name, ch, xOrigin, yOrigin);
@@ -233,6 +241,13 @@ public class Player extends Character {
 	 */
 	public void setAlive(boolean isAlive) {
 		this.isAlive = isAlive;
+	}
+
+	/**
+	 * @return the playerName
+	 */
+	public String getPlayerName() {
+		return playerName;
 	}
 
 	/**

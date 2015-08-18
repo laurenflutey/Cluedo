@@ -75,6 +75,19 @@ public class GameController {
 
 	}
 
+	public GameController(List<Player> gamePlayers) {
+		this.UI = new UI();
+		this.ENTITIES = new Entities();
+		this.ENTITIES.setFinalPlayers(gamePlayers);
+		this.ENTITIES.setPlayers(gamePlayers);
+		this.BOARD = ENTITIES.getBoard();
+
+		tiles = ENTITIES.getBoard().getTiles();
+
+		/* Assign board to movement controller */
+		this.MOVEMENT_CONTROLLER = new MovementController(BOARD);
+	}
+
 	/**
 	 * Performs all of the initialisation of the game.
 	 *

@@ -4,6 +4,9 @@ import model.Player;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import controller.GameController;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,14 +16,19 @@ import java.util.List;
 
 public class StartupFrame extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5354647840440829401L;
+
 	private int height;
 	private int width;
 	private int players = 3;
+	private int count;
 	private Dimension gameDimensions;
 	private JPanel panel;
 	private JTextField txtName;
 	private static List<Player> gamePlayers = new ArrayList<Player>();
-	private int count;
 
 	public StartupFrame(int width, int height) {
 		this.width = width;
@@ -38,7 +46,7 @@ public class StartupFrame extends JFrame {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		setLayout(null);
-		// setLocationRelativeTo(null);
+		setLocationRelativeTo(null);
 		setResizable(false);
 		requestFocus();
 		setVisible(true);
@@ -78,7 +86,6 @@ public class StartupFrame extends JFrame {
 		submit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(players);
 				getPlayers();
 			}
 		});
@@ -94,7 +101,7 @@ public class StartupFrame extends JFrame {
 
 	}
 
-	private List<Player> getPlayers() {
+	private void getPlayers() {
 
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(0, 0, 500, 500);
@@ -203,6 +210,14 @@ public class StartupFrame extends JFrame {
 		gbc_btnNext.gridx = 5;
 		gbc_btnNext.gridy = 10;
 		btnNext.setEnabled(false);
+		btnNext.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new GameController(gamePlayers).initGame();
+			}
+		});
+
 		panel.add(btnNext, gbc_btnNext);
 
 		btnSubmit.addActionListener(new ActionListener() {
@@ -253,12 +268,10 @@ public class StartupFrame extends JFrame {
 		txtName.requestFocus();
 		txtName.setSelectionStart(0);
 
-		// setLocationRelativeTo(null);
+		setLocationRelativeTo(null);
 		setResizable(false);
 		requestFocus();
 		setVisible(true);
-
-		return gamePlayers;
 
 	}
 
