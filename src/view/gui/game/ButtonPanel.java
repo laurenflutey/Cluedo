@@ -2,11 +2,10 @@ package view.gui.game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 
 /**
- * Created by Marcel on 17/08/15.
+ * JPanel that contains all of the user action buttons. The JPanel will dynamically change what buttons are displayed
+ * based on the moves that a player can make.
  */
 public class ButtonPanel extends JPanel {
 
@@ -18,21 +17,9 @@ public class ButtonPanel extends JPanel {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.fill = GridBagConstraints.BOTH;
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 3;
 
         parent.add(this, gridBagConstraints);
-
-        addMouseMotionListener(new MouseMotionListener() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                System.out.println("Hello");
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                System.out.println("Hello");
-            }
-        });
     }
 }

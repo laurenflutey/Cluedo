@@ -95,8 +95,8 @@ public class GameFrame extends JFrame implements Runnable{
         //contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[]{5, 768, 502, 5};
-        gridBagLayout.rowHeights = new int[]{30, 540, 100, 50};
+        gridBagLayout.columnWidths = new int[]{5, 768, 20, 482, 5};
+        gridBagLayout.rowHeights = new int[]{30, 520, 20, 100, 50};
         contentPane.setLayout(gridBagLayout);
     }
 

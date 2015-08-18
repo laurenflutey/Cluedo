@@ -58,7 +58,7 @@ public class GameCanvas extends Canvas{
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 1;
         constraints.gridy = 1;
-        constraints.gridheight = 2;
+        constraints.gridheight = 3;
 
         // add canvas to parent panel
         contentPane.add(this, constraints);
