@@ -1,6 +1,6 @@
 package view.gui.game.components;
 
-import model.Board;
+import controller.GuiGameController;
 import model.Tile;
 import view.gui.game.GameFrame;
 
@@ -32,9 +32,8 @@ public class GameCanvas extends Canvas{
      */
     private final int TILE_SIZE = 32;
 
-    // Contents of the board
-    private final Board BOARD;
     private final Tile[][] tiles;
+    private final GuiGameController GUIGAMECONTROLLER;
 
     // An array of pixels representing the game canvas
     private int[] pixels;
@@ -46,13 +45,12 @@ public class GameCanvas extends Canvas{
      * Constructor
      *
      * Creates the GameCanvas and assigns it to it position on the parent grid bag layout
-     *
-     * @param board Board
+     *  @param guiGameController Board
      * @param contentPane Parent panel
      */
-    public GameCanvas(Board board, JPanel contentPane) {
-        BOARD = board;
-        tiles = board.getTiles();
+    public GameCanvas(final GuiGameController guiGameController, JPanel contentPane) {
+        GUIGAMECONTROLLER = guiGameController;
+        tiles = GUIGAMECONTROLLER.getEntities().getBoard().getTiles();
 
         // Set up grid bag constraints
         GridBagConstraints constraints = new GridBagConstraints();
@@ -101,6 +99,35 @@ public class GameCanvas extends Canvas{
                     pixels[x + y * width] = Color.CYAN.getRGB();
                 } else {
                     pixels[x + y * width] = random.nextInt();
+                }
+            }
+        }
+    }
+
+    /**
+     * Alternate render method that off sets the render area by a specified amount
+     *
+     * @param xOffSet x offset value
+     * @param yOffSet y offset value
+     */
+    public void render(int xOffSet, int yOffSet) {
+        for (int y = 0; y < height; y++) {
+            int yy = y + yOffSet;
+            if (yy < 0 || yy >= height) continue;
+            for (int x = 0; x < width; x++) {
+                int xx = x + xOffSet;
+                if (xx < 0 || xx >= width) continue;
+
+                if ((tiles[y / TILE_SIZE][x / TILE_SIZE].isOccupied())) {
+                    pixels[xx + yy * width] = Color.RED.getRGB();
+                } else if (tiles[y / TILE_SIZE][x / TILE_SIZE].isWallTile()) {
+                    pixels[xx + yy * width] = Color.BLUE.getRGB();
+                } else if (tiles[y / TILE_SIZE][x / TILE_SIZE].isBoundary()) {
+                    pixels[xx + yy * width] = Color.GREEN.getRGB();
+                } else if (tiles[y / TILE_SIZE][x / TILE_SIZE].isBoundary()) {
+                    pixels[xx + yy * width] = Color.CYAN.getRGB();
+                } else {
+                    pixels[xx + yy * width] = random.nextInt();
                 }
             }
         }

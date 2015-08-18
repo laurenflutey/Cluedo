@@ -1,6 +1,6 @@
 package view.gui.game;
 
-import model.Board;
+import controller.GuiGameController;
 import view.gui.game.components.ButtonPanel;
 import view.gui.game.components.GameCanvas;
 import view.gui.game.components.GameMenu;
@@ -49,9 +49,9 @@ public class GameFrame extends JFrame implements Runnable{
      *
      * Tries to follow the window styling of the OS
      *
-     * @param gameBoard Game board passed into the constructor
+     * @param guiGameController Game Frame knows about the GuiGameController
      */
-    public GameFrame(final Board gameBoard){
+    public GameFrame(GuiGameController guiGameController){
         // Sets the window style to the systems default look and feel
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -79,7 +79,7 @@ public class GameFrame extends JFrame implements Runnable{
         buttonPanel = new ButtonPanel(contentPane);
 
         // Create the game canvas
-        canvas = new GameCanvas(gameBoard, contentPane);
+        canvas = new GameCanvas(guiGameController, contentPane);
 
         // Position the window in the middle of the screen and request focus
         setLocationRelativeTo(null);
@@ -208,10 +208,10 @@ public class GameFrame extends JFrame implements Runnable{
 
         //TODO I don't think this is needed
         // Clears the canvas by setting pixels to 0
-        //canvas.clear();
+        canvas.clear();
 
         // Delegates to the canvas to handle it's own rendering
-        canvas.render();
+        canvas.render(64, 64);
 
         // Copies the contents of the canvas pixels to the local pixel array
         System.arraycopy(canvas.getPixels(), 0, pixels, 0, pixels.length);
