@@ -1,7 +1,7 @@
 package model;
 
 import controller.GameController;
-import view.gui.textui.UI;
+import view.textui.UI;
 
 import java.util.HashSet;
 import java.util.List;
