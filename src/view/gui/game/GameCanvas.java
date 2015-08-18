@@ -26,6 +26,11 @@ public class GameCanvas extends Canvas{
      */
     public static int height = 640;
 
+    /**
+     * Size of a single tile in the game
+     */
+    private final int TILE_SIZE = 32;
+
     // Contents of the board
     private final Board BOARD;
     private final Tile[][] tiles;
@@ -85,7 +90,17 @@ public class GameCanvas extends Canvas{
     public void render() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                pixels[x + y * width] = random.nextInt();
+                if ((tiles[y / TILE_SIZE][x / TILE_SIZE].isOccupied())) {
+                    pixels[x + y * width] = Color.RED.getRGB();
+                } else if (tiles[y / TILE_SIZE][x / TILE_SIZE].isWallTile()) {
+                    pixels[x + y * width] = Color.BLUE.getRGB();
+                } else if (tiles[y / TILE_SIZE][x / TILE_SIZE].isBoundary()) {
+                    pixels[x + y * width] = Color.BLACK.getRGB();
+                } else if (tiles[y / TILE_SIZE][x / TILE_SIZE].isBoundary()) {
+                    pixels[x + y * width] = Color.CYAN.getRGB();
+                } else {
+                    pixels[x + y * width] = random.nextInt();
+                }
             }
         }
     }
