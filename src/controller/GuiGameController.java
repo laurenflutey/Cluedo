@@ -47,6 +47,8 @@ public class GuiGameController {
     private boolean isGameOver;
     private boolean everyoneLost = false;
 
+    private Player currentPlayer; // TODO set the current player somewhere
+
     /**
      * Constructor
      *
@@ -303,5 +305,7 @@ public class GuiGameController {
         new GuiGameController();
     }
 
-
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
 }

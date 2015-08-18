@@ -6,6 +6,8 @@ import view.gui.game.GameFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Random;
 
 /**
@@ -30,7 +32,7 @@ public class GameCanvas extends Canvas{
     /**
      * Size of a single tile in the game
      */
-    private final int TILE_SIZE = 32;
+    private final int TILE_SIZE = 64;
 
     private final Tile[][] tiles;
     private final GuiGameController GUIGAMECONTROLLER;
@@ -62,6 +64,34 @@ public class GameCanvas extends Canvas{
         // add canvas to parent panel
         contentPane.add(this, constraints);
 
+        addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                System.out.println("e.getX() = " + e.getX());
+                System.out.println("e.getY() = " + e.getY());
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
         // init pixel array, 1D over 2D for access speed
         pixels = new int[width * height];
     }
@@ -87,15 +117,15 @@ public class GameCanvas extends Canvas{
      * Render method which updates the contents of the canvas
      */
     public void render() {
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if ((tiles[y / TILE_SIZE][x / TILE_SIZE].isOccupied())) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if ((tiles[x / TILE_SIZE][y / TILE_SIZE].isOccupied())) {
                     pixels[x + y * width] = Color.RED.getRGB();
-                } else if (tiles[y / TILE_SIZE][x / TILE_SIZE].isWallTile()) {
+                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isWallTile()) {
                     pixels[x + y * width] = Color.BLUE.getRGB();
-                } else if (tiles[y / TILE_SIZE][x / TILE_SIZE].isBoundary()) {
-                    pixels[x + y * width] = Color.BLACK.getRGB();
-                } else if (tiles[y / TILE_SIZE][x / TILE_SIZE].isBoundary()) {
+                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isBoundary()) {
+                    pixels[x + y * width] = Color.GREEN.getRGB();
+                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isBoundary()) {
                     pixels[x + y * width] = Color.CYAN.getRGB();
                 } else {
                     pixels[x + y * width] = random.nextInt();
