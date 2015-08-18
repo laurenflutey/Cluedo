@@ -1,6 +1,6 @@
 package view.gui;
 
-import controller.GameController;
+import controller.GuiGameController;
 import model.Player;
 
 import javax.swing.*;
@@ -212,7 +212,7 @@ public class StartupFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new GameController(gamePlayers).initGame();
+				new GuiGameController(gamePlayers);
 			}
 		});
 
