@@ -16,51 +16,73 @@ import java.util.Random;
  */
 public class GameCanvas extends Canvas{
 
-    private static final int CANVAS_SIZE = 320;
+    /**
+     * Static dimension representing width of the GameCanvas
+     */
+    public static int width = 768;
+
+    /**
+     * Static dimension representing height of the GameCanvas
+     */
+    public static int height = 640;
+
+    // Contents of the board
     private final Board BOARD;
+    private final Tile[][] tiles;
+
+    // An array of pixels representing the game canvas
+    private int[] pixels;
+
+    //TODO Remove
     private final Random random = new Random();
-    private Tile[][] tiles;
-    private int width = 768;
-    private int height = 640;
 
-    private boolean running;
-
-
-    private Thread gameThread;
-    private Screen screen;
-    public int[] pixels;
-
-
+    /**
+     * Constructor
+     *
+     * Creates the GameCanvas and assigns it to it position on the parent grid bag layout
+     *
+     * @param board Board
+     * @param contentPane Parent panel
+     */
     public GameCanvas(Board board, JPanel contentPane) {
-        this.BOARD = board;
+        BOARD = board;
         tiles = board.getTiles();
 
+        // Set up grid bag constraints
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        constraints.gridheight = 2;
 
-        GridBagConstraints gbc_panel = new GridBagConstraints();
-        gbc_panel.fill = GridBagConstraints.BOTH;
-        gbc_panel.gridx = 1;
-        gbc_panel.gridy = 1;
-        gbc_panel.gridheight = 2;
-        contentPane.add(this, gbc_panel);
+        // add canvas to parent panel
+        contentPane.add(this, constraints);
 
-        screen = new Screen(width, height);
-
+        // init pixel array, 1D over 2D for access speed
         pixels = new int[width * height];
-
     }
 
+    /**
+     * Method to update the contents of the canvas
+     */
     public void tick() {
         //TODO Create image raster and convert to buffered image
         //TODO aim for 60 fps, and about 120 ticks a second
     }
 
+    /**
+     * Clears the canvas
+     */
     public void clear() {
         for (int i = 0; i < pixels.length; i++) {
             pixels[i] = 0;
         }
     }
 
-    public void render(int xOffset, int yOffset) {
+    /**
+     * Render method which updates the contents of the canvas
+     */
+    public void render() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 pixels[x + y * width] = random.nextInt();
@@ -68,32 +90,12 @@ public class GameCanvas extends Canvas{
         }
     }
 
-//    @Override
-//    public void paint(Graphics g) {
-//        for (int i = 0; i < 12; i++) {
-//            for (int j = 0; j < 12; j++) {
-//                if (tiles[i][j].isOccupied()) {
-//                    for (int x = 0; x < 32; x++) {
-//                        for (int y = 0; y < 32; y++) {
-//                        }
-//                    }
-//                } else if (tiles[i][j].isWallTile()) {
-//                    for (int x = 0; x < 32; x++) {
-//                        for (int y = 0; y < 32; y++) {
-//                        }
-//                    }
-//                } else if (tiles[i][j].isBoundary()){
-//                    for (int x = 0; x < 32; x++) {
-//                        for (int y = 0; y < 32; y++) {
-//                        }
-//                    }
-//                } else {
-//                    for (int x = 0; x < 32; x++) {
-//                        for (int y = 0; y < 32; y++) {
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
+    /**
+     * Getter
+     *
+     * @return Int array of pixels in canvas
+     */
+    public int[] getPixels() {
+        return pixels;
+    }
 }
