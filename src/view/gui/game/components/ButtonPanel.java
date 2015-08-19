@@ -92,9 +92,9 @@ public class ButtonPanel extends JPanel {
 		suggButton.setEnabled(toggle);
 	}
 
-	public void setAccuse(boolean b) {
-		accuButton.setEnabled(b);
-		
+	public void setAccuse(boolean toggle) {
+		accuButton.setEnabled(toggle);
+
 	}
 
 }
