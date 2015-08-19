@@ -84,8 +84,8 @@ public class GameFrame extends JFrame implements Runnable{
         setJMenuBar(menuBar);
 
         // Initialise the right hand side panels of the game window
-        informationPanel = new InformationPanel(contentPane);
-        buttonPanel = new ButtonPanel(contentPane);
+        informationPanel = new InformationPanel(guiGameController, contentPane);
+        buttonPanel = new ButtonPanel(guiGameController, contentPane);
 
         // Create the game CANVAS
         CANVAS = new GameCanvas(guiGameController, contentPane);
@@ -120,7 +120,6 @@ public class GameFrame extends JFrame implements Runnable{
      */
     @Override
     public void paint(Graphics g) {
-        //CANVAS.repaint();
         contentPane.repaint();
         menuBar.repaint();
     }

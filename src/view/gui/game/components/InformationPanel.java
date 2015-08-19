@@ -1,6 +1,9 @@
 package view.gui.game.components;
 
 import javax.swing.*;
+
+import controller.GuiGameController;
+
 import java.awt.*;
 
 /**
@@ -11,7 +14,7 @@ import java.awt.*;
  */
 public class InformationPanel extends JPanel {
 
-    public InformationPanel(final JPanel contentPane) {
+    public InformationPanel(final GuiGameController guiGameController, final JPanel contentPane) {
         setBackground(Color.BLUE.darker());
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();

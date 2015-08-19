@@ -109,9 +109,7 @@ public class StartupFrame extends JFrame {
 	private void getPlayers() {
 
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(0, 0, 500, 500);
 		panel = new JPanel();
-		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(panel);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		panel.setLayout(gbl_contentPane);
