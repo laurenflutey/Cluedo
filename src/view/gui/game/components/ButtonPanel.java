@@ -73,7 +73,6 @@ public class ButtonPanel extends JPanel {
 		});
 		add(secretButton);
 
-
 		parent.add(this, gridBagConstraints);
 
 	}
