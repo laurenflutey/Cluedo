@@ -93,5 +93,10 @@ public class Character {
 	public void setUsed(boolean isUsed) {
 		this.isUsed = isUsed;
 	}
+	
+	@Override
+	public String toString(){
+		return name;
+	}
 
 }

@@ -37,5 +37,10 @@ public class Weapon {
 	public char getId() {
 		return id;
 	}
+	
+	@Override
+	public String toString(){
+		return name;
+	}
 
 }

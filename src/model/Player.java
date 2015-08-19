@@ -269,4 +269,9 @@ public class Player extends Character {
 	public void setAccusation(Suggestion accusation) {
 		this.accusation = accusation;
 	}
+	
+	@Override
+	public String toString(){
+		return character.getName();
+	}
 }
