@@ -190,7 +190,7 @@ public class Entities {
 	 */
 	private void initCharacters() {
 		characters.add(new Character("Mrs Peacock", 'p', 23, 6));
-		characters.add(new Character("Proffesor Plum", 'r', 23, 20));
+		characters.add(new Character("Professor Plum", 'r', 23, 20));
 		characters.add(new Character("Miss Scarlett", 's', 7, 25));
 		characters.add(new Character("Colonel Mustard", 'm', 0, 18));
 		characters.add(new Character("Mrs White", 'w', 9, 0));

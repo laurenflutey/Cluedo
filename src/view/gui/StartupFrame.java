@@ -221,7 +221,6 @@ public class StartupFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-
 				new GuiGameController(gamePlayers, entities);
 			}
 		});

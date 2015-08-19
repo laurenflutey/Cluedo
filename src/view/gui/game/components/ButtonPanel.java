@@ -4,22 +4,33 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * JPanel that contains all of the user action buttons. The JPanel will dynamically change what buttons are displayed
- * based on the moves that a player can make.
+ * JPanel that contains all of the user action buttons. The JPanel will
+ * dynamically change what buttons are displayed based on the moves that a
+ * player can make.
  */
 public class ButtonPanel extends JPanel {
 
-    private final JPanel parent;
+	private final JPanel parent;
 
-    public ButtonPanel(final JPanel contentPane) {
-        parent = contentPane;
-        setBackground(Color.RED.darker());
+	public ButtonPanel(final JPanel contentPane) {
+		parent = contentPane;
+		setBackground(Color.RED.darker());
 
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.fill = GridBagConstraints.BOTH;
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
+		GridBagConstraints gridBagConstraints = new GridBagConstraints();
+		gridBagConstraints.fill = GridBagConstraints.BOTH;
+		gridBagConstraints.gridx = 3;
+		gridBagConstraints.gridy = 3;
 
-        parent.add(this, gridBagConstraints);
-    }
+		JButton btnNewButton = new JButton("Roll");
+		add(btnNewButton);
+
+		JButton accuNewButton = new JButton("Accuse");
+		add(accuNewButton);
+
+		JButton suggNewButton = new JButton("Suggest");
+		suggNewButton.setEnabled(false);
+		add(suggNewButton);
+
+		parent.add(this, gridBagConstraints);
+	}
 }
