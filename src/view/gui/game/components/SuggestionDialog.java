@@ -13,8 +13,11 @@ import javax.swing.border.EmptyBorder;
 import com.sun.media.sound.ModelAbstractChannelMixer;
 
 import controller.GuiGameController;
+import model.Character;
 import model.Entities;
+import model.Player;
 import model.Room;
+import model.Suggestion;
 import model.Weapon;
 
 import javax.swing.JComboBox;
@@ -23,13 +26,17 @@ import javax.swing.JLabel;
 public class SuggestionDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
+
+	private final JComboBox<Weapon> weapons;
+	private final JComboBox<Player> characters;
+	private final JComboBox<Room> rooms;
 	private final Entities entities;
 	private final GuiGameController gameController;
 
 	/**
 	 * Create the dialog.
 	 */
-	public SuggestionDialog(Entities entities, String type, GuiGameController gameController) {
+	public SuggestionDialog(Entities entities, String type, final GuiGameController gameController) {
 		this.entities = entities;
 		this.gameController = gameController;
 
@@ -43,27 +50,32 @@ public class SuggestionDialog extends JDialog {
 		setVisible(true);
 		setAlwaysOnTop(true);
 
-		final JComboBox<Weapon> weapons = new JComboBox<Weapon>();
+		// weapons combo box
+		weapons = new JComboBox<Weapon>();
 		for (Weapon weapon : entities.getWeapons()) {
 			weapons.addItem(weapon);
 		}
 		weapons.setBounds(115, 85, 201, 27);
+		weapons.setSelectedIndex(0);
 		contentPanel.add(weapons);
 
-		final JComboBox<model.Character> characters = new JComboBox<model.Character>();
-		for (model.Character character : entities.getCharacters()) {
+		// characters combo box
+		characters = new JComboBox<Player>();
+		for (Player character : entities.getPlayers()) {
 			characters.addItem(character);
 		}
-
 		characters.setBounds(115, 139, 201, 27);
+		characters.setSelectedIndex(0);
 		contentPanel.add(characters);
 
-		final JComboBox<Room> rooms = new JComboBox<Room>();
+		// rooms combo box
+		rooms = new JComboBox<Room>();
 		for (Room room : entities.getRooms().values()) {
 			rooms.addItem(room);
 		}
 
 		rooms.setBounds(115, 199, 201, 27);
+		rooms.setSelectedIndex(0);
 		contentPanel.add(rooms);
 
 		JLabel lblPleaseHighlightThe = new JLabel("Please highlight the items you want to " + type);
@@ -89,10 +101,11 @@ public class SuggestionDialog extends JDialog {
 		JButton okButton = new JButton("OK");
 		okButton.setActionCommand("OK");
 		okButton.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// gameController.createSuggestion()
+				Suggestion suggestion = new Suggestion((Player) characters.getSelectedItem(),
+						(Weapon) weapons.getSelectedItem(), (Room) rooms.getSelectedItem());
+				gameController.createSuggestion(suggestion);
 
 			}
 		});
@@ -101,6 +114,14 @@ public class SuggestionDialog extends JDialog {
 
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.setActionCommand("Cancel");
+		cancelButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				
+			}
+		});
 		buttonPane.add(cancelButton);
 
 	}

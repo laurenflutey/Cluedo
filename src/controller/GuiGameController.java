@@ -1,6 +1,7 @@
 package controller;
 
 import model.*;
+import model.Character;
 import view.gui.game.GameFrame;
 import view.gui.game.components.SuggestionDialog;
 import view.textui.UI;
@@ -147,6 +148,23 @@ public class GuiGameController {
 	 *            List of players in the game parsed from the startup frame
 	 */
 	private void initPlayers(List<Player> players) {
+		// initialises inactive players
+		for (Character character : ENTITIES.getCharacters()) {
+			boolean contains = false;
+			for (Player player : players) {
+				if (player.getCharacter().equals(character)) {
+					contains = true;
+				}
+			}
+			if (!contains) {
+				Player player = new Player(character.getName(), character.getCh(), character.getXPos(),
+						character.getYPos());
+				player.setCharacter(character);
+				players.add(player);
+
+				// TODO set player number
+			}
+		}
 		// Gets a list of player objects from the UI class and sets the entities
 		// to hold it
 		ENTITIES.setPlayers(players);
@@ -342,5 +360,10 @@ public class GuiGameController {
 
 	public static void main(String[] args) {
 		new GuiGameController();
+	}
+
+	public void createSuggestion(Suggestion suggestion) {
+		// TODO Auto-generated method stub
+
 	}
 }
