@@ -295,6 +295,12 @@ public class Entities {
 		this.finalPlayers = finalPlayers;
 	}
 
+	/**
+	 * Gets character.
+	 *
+	 * @param name the name
+	 * @return the character
+     */
 	public Character getCharacter(String name) {
 		for (Character c : characters) {
 			if (c.getName().equals(name)) {

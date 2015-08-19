@@ -47,6 +47,8 @@ public class GuiGameController {
     private boolean isGameOver;
     private boolean everyoneLost = false;
 
+    private Player currentPlayer; // TODO set the current player somewhere
+
     /**
      * Constructor
      *
@@ -69,7 +71,7 @@ public class GuiGameController {
         initGame(gamePlayers);
 
         // create the game frame
-        DISPLAY = new GameFrame(BOARD);
+        DISPLAY = new GameFrame(this);
 
         //TODO is this needed?
         //DISPLAY.repaint();
@@ -94,7 +96,7 @@ public class GuiGameController {
 		/* Assign board to movement controller */
         MOVEMENT_CONTROLLER = new MovementController(BOARD);
 
-        DISPLAY = new GameFrame(BOARD);
+        DISPLAY = new GameFrame(this);
     }
 
     /**
@@ -290,7 +292,20 @@ public class GuiGameController {
     //TODO end game all lost
     //TODO gameloop
 
+    /**
+     * Gets entities.
+     *
+     * @return the entities
+     */
+    public Entities getEntities() {
+        return ENTITIES;
+    }
+
     public static void main(String[] args) {
         new GuiGameController();
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 }

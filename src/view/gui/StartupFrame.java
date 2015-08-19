@@ -1,6 +1,5 @@
 package view.gui;
 
-import controller.GameController;
 import controller.GuiGameController;
 import model.Entities;
 import model.Player;
@@ -242,8 +241,10 @@ public class StartupFrame extends JFrame {
 							// find the character in the model that represents
 							// that player
 							model.Character ch = entities.getCharacter(button.getText());
-							gamePlayers.add(new Player(txtName.getText(), button.getText(), ch.getCh(), ch.getXPos(),
-									ch.getYPos()));
+							Player p = new Player(txtName.getText(), button.getText(), ch.getCh(), ch.getXPos(),
+									ch.getYPos());
+							p.setCharacter(ch);
+							gamePlayers.add(p);
 							// reset the text field and disable the radio button
 							// they clicked
 							button.setEnabled(false);
