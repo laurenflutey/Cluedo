@@ -2,6 +2,8 @@ package view.gui.game.components;
 
 import javax.swing.*;
 
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 import controller.GuiGameController;
 
 import java.awt.*;
@@ -17,6 +19,11 @@ public class ButtonPanel extends JPanel {
 
 	private final JPanel parent;
 
+	final private JButton suggButton;
+	final private JButton accuButton;
+	final private JButton rollButton;
+	final private JButton secretButton;
+
 	private final GuiGameController gameController;
 
 	public ButtonPanel(final GuiGameController guiGameController, final JPanel contentPane) {
@@ -28,47 +35,43 @@ public class ButtonPanel extends JPanel {
 		gridBagConstraints.fill = GridBagConstraints.BOTH;
 		gridBagConstraints.gridx = 3;
 		gridBagConstraints.gridy = 3;
-		final JButton rollButton = new JButton("Roll");
+		rollButton = new JButton("Roll");
 		rollButton.setBounds(17, 105, 105, 82);
 		rollButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO add what roll does
-				System.out.println(guiGameController.rollDice());
+				gameController.rollDice();
 			}
 		});
 		add(rollButton);
 
-		JButton accuButton = new JButton("Accuse");
-		accuButton.setBounds(134, 105, 105, 200);
+		accuButton = new JButton("Accuse");
+		// accuButton.setBounds(134, 105, 105, 200);
 		accuButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
+				gameController.accuse();
 			}
 		});
 		add(accuButton);
 
-		JButton suggButton = new JButton("Suggest");
-		suggButton.setBounds(251, 105, 105, 83);
+		suggButton = new JButton("Suggest");
+		// suggButton.setBounds(251, 105, 105, 83);
 		suggButton.setEnabled(false);
 		suggButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
+				gameController.suggest();
 			}
 		});
 		add(suggButton);
 
-		JButton secretButton = new JButton("Secret Room");
-		secretButton.setBounds(368, 105, 105, 82);
+		secretButton = new JButton("Secret Room");
+		// secretButton.setBounds(368, 105, 105, 82);
 		secretButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
+				gameController.moveToSecretRoom();
 			}
 		});
 		add(secretButton);
@@ -76,4 +79,22 @@ public class ButtonPanel extends JPanel {
 		parent.add(this, gridBagConstraints);
 
 	}
+
+	public void setSecretRoom(boolean toggle) {
+		secretButton.setEnabled(toggle);
+	}
+
+	public void setRoll(boolean toggle) {
+		rollButton.setEnabled(toggle);
+	}
+
+	public void setSuggest(boolean toggle) {
+		suggButton.setEnabled(toggle);
+	}
+
+	public void setAccuse(boolean b) {
+		accuButton.setEnabled(b);
+		
+	}
+
 }

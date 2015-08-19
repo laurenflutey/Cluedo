@@ -238,4 +238,19 @@ public class GameFrame extends JFrame implements Runnable{
         g.dispose();
         bs.show();
     }
+
+	/**
+	 * @return the buttonPanel
+	 */
+	public ButtonPanel getButtonPanel() {
+		return buttonPanel;
+	}
+	
+	/**
+	 * @return the informationPanel
+	 */
+	public InformationPanel getInformationPanel() {
+		return informationPanel;
+	}
+
 }
