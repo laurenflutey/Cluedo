@@ -1,11 +1,13 @@
 package view.gui.game.components;
 
-import model.Board;
+import controller.GuiGameController;
 import model.Tile;
 import view.gui.game.GameFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Random;
 
 /**
@@ -30,11 +32,10 @@ public class GameCanvas extends Canvas{
     /**
      * Size of a single tile in the game
      */
-    private final int TILE_SIZE = 32;
+    private final int TILE_SIZE = 64;
 
-    // Contents of the board
-    private final Board BOARD;
     private final Tile[][] tiles;
+    private final GuiGameController GUIGAMECONTROLLER;
 
     // An array of pixels representing the game canvas
     private int[] pixels;
@@ -46,13 +47,12 @@ public class GameCanvas extends Canvas{
      * Constructor
      *
      * Creates the GameCanvas and assigns it to it position on the parent grid bag layout
-     *
-     * @param board Board
+     *  @param guiGameController Board
      * @param contentPane Parent panel
      */
-    public GameCanvas(Board board, JPanel contentPane) {
-        BOARD = board;
-        tiles = board.getTiles();
+    public GameCanvas(final GuiGameController guiGameController, JPanel contentPane) {
+        GUIGAMECONTROLLER = guiGameController;
+        tiles = GUIGAMECONTROLLER.getEntities().getBoard().getTiles();
 
         // Set up grid bag constraints
         GridBagConstraints constraints = new GridBagConstraints();
@@ -63,6 +63,34 @@ public class GameCanvas extends Canvas{
 
         // add canvas to parent panel
         contentPane.add(this, constraints);
+
+        addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                System.out.println("e.getX() = " + e.getX());
+                System.out.println("e.getY() = " + e.getY());
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
         // init pixel array, 1D over 2D for access speed
         pixels = new int[width * height];
@@ -89,18 +117,47 @@ public class GameCanvas extends Canvas{
      * Render method which updates the contents of the canvas
      */
     public void render() {
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if ((tiles[y / TILE_SIZE][x / TILE_SIZE].isOccupied())) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if ((tiles[x / TILE_SIZE][y / TILE_SIZE].isOccupied())) {
                     pixels[x + y * width] = Color.RED.getRGB();
-                } else if (tiles[y / TILE_SIZE][x / TILE_SIZE].isWallTile()) {
+                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isWallTile()) {
                     pixels[x + y * width] = Color.BLUE.getRGB();
-                } else if (tiles[y / TILE_SIZE][x / TILE_SIZE].isBoundary()) {
-                    pixels[x + y * width] = Color.BLACK.getRGB();
-                } else if (tiles[y / TILE_SIZE][x / TILE_SIZE].isBoundary()) {
+                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isBoundary()) {
+                    pixels[x + y * width] = Color.GREEN.getRGB();
+                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isBoundary()) {
                     pixels[x + y * width] = Color.CYAN.getRGB();
                 } else {
                     pixels[x + y * width] = random.nextInt();
+                }
+            }
+        }
+    }
+
+    /**
+     * Alternate render method that off sets the render area by a specified amount
+     *
+     * @param xOffSet x offset value
+     * @param yOffSet y offset value
+     */
+    public void render(int xOffSet, int yOffSet) {
+        for (int y = 0; y < height; y++) {
+            int yy = y + yOffSet;
+            if (yy < 0 || yy >= height) continue;
+            for (int x = 0; x < width; x++) {
+                int xx = x + xOffSet;
+                if (xx < 0 || xx >= width) continue;
+
+                if ((tiles[y / TILE_SIZE][x / TILE_SIZE].isOccupied())) {
+                    pixels[xx + yy * width] = Color.RED.getRGB();
+                } else if (tiles[y / TILE_SIZE][x / TILE_SIZE].isWallTile()) {
+                    pixels[xx + yy * width] = Color.BLUE.getRGB();
+                } else if (tiles[y / TILE_SIZE][x / TILE_SIZE].isBoundary()) {
+                    pixels[xx + yy * width] = Color.GREEN.getRGB();
+                } else if (tiles[y / TILE_SIZE][x / TILE_SIZE].isBoundary()) {
+                    pixels[xx + yy * width] = Color.CYAN.getRGB();
+                } else {
+                    pixels[xx + yy * width] = random.nextInt();
                 }
             }
         }

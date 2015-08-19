@@ -1,6 +1,7 @@
 package view.gui.game;
 
-import model.Board;
+import controller.GuiGameController;
+import model.Player;
 import view.gui.game.components.ButtonPanel;
 import view.gui.game.components.GameCanvas;
 import view.gui.game.components.GameMenu;
@@ -26,10 +27,12 @@ import java.awt.image.DataBufferInt;
 public class GameFrame extends JFrame implements Runnable{
 
     /**
-     * The {@link GameCanvas} acts as the canvas where the actual game is drawn, and is run on a separate thread
+     * The {@link GameCanvas} acts as the CANVAS where the actual game is drawn, and is run on a separate thread
      * so that it can be dynamically updated when a user hovers
      */
-    private final GameCanvas canvas;
+    private final GameCanvas CANVAS;
+
+    private final GuiGameController GUIGAMECONTROLLER;
 
     // Swing Components
     private InformationPanel informationPanel;
@@ -42,6 +45,9 @@ public class GameFrame extends JFrame implements Runnable{
     private int height = 720;
     private Dimension gameDimensions;
 
+    // The current player, ie the player whose turn it is
+    private Player currentPlayer;
+
     /**
      * Constructor
      *
@@ -49,9 +55,12 @@ public class GameFrame extends JFrame implements Runnable{
      *
      * Tries to follow the window styling of the OS
      *
-     * @param gameBoard Game board passed into the constructor
+     * @param guiGameController Game Frame knows about the GuiGameController
      */
-    public GameFrame(final Board gameBoard){
+    public GameFrame(final GuiGameController guiGameController){
+
+        GUIGAMECONTROLLER = guiGameController;
+
         // Sets the window style to the systems default look and feel
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -78,15 +87,15 @@ public class GameFrame extends JFrame implements Runnable{
         informationPanel = new InformationPanel(contentPane);
         buttonPanel = new ButtonPanel(contentPane);
 
-        // Create the game canvas
-        canvas = new GameCanvas(gameBoard, contentPane);
+        // Create the game CANVAS
+        CANVAS = new GameCanvas(guiGameController, contentPane);
 
         // Position the window in the middle of the screen and request focus
         setLocationRelativeTo(null);
         requestFocus();
         setVisible(true);
 
-        // Finally start the canvas thread
+        // Finally start the CANVAS thread
         start();
     }
 
@@ -111,15 +120,15 @@ public class GameFrame extends JFrame implements Runnable{
      */
     @Override
     public void paint(Graphics g) {
-        //canvas.repaint();
+        //CANVAS.repaint();
         contentPane.repaint();
         menuBar.repaint();
     }
 
     /*
-     * This is the game canvas render pipeline. Don't ask why this isn't in the {@link GameCanvas} class.
+     * This is the game CANVAS render pipeline. Don't ask why this isn't in the {@link GameCanvas} class.
      * It should be, it would have been, but for what ever reason the buffer strategy refused to work when in the actual
-     * canvas.
+     * CANVAS.
      *
      * So instead here it is.
      * */
@@ -131,13 +140,19 @@ public class GameFrame extends JFrame implements Runnable{
     private BufferedImage image = new BufferedImage(GameCanvas.width, GameCanvas.height, BufferedImage.TYPE_INT_RGB);
 
     /**
-     * An array of pixels that makes up the game's canvas component. It is a single 1D array, as opposed to a 2D array.
+     * An array of pixels that makes up the game's CANVAS component. It is a single 1D array, as opposed to a 2D array.
      */
     private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 
     // Thread goodies
     private Thread canvasThread;
     private boolean running = true;
+
+    private int canvasWidth = 768;
+    private int canvasHeight = 640;
+
+    private int xOffSet = 0;
+    private int yOffSet = 0;
 
     // Nano second time
     private static final double ns = 1000000000.0 / 60.0;
@@ -153,7 +168,7 @@ public class GameFrame extends JFrame implements Runnable{
 
 
     /**
-     * Handles the run loop of the canvas thread. The loop limits the game to 60 ticks per second
+     * Handles the run loop of the CANVAS thread. The loop limits the game to 60 ticks per second
      */
     @Override
     public void run() {
@@ -164,7 +179,7 @@ public class GameFrame extends JFrame implements Runnable{
         int frames = 0;
         int updates = 0;
 
-        /* canvas loop*/
+        /* CANVAS loop*/
         while (running) {
             long now = System.nanoTime();
             delta += (now-lastTime) / ns;
@@ -179,12 +194,12 @@ public class GameFrame extends JFrame implements Runnable{
             frames++;
 
             // Debug to the console the updates and frames per second
-            if (System.currentTimeMillis() - timer > 1000) {
-                timer += 1000;
-                System.out.println("Cluedo" + "  |  " + updates + " ups, " + frames + " fps");
-                updates = 0;
-                frames = 0;
-            }
+//            if (System.currentTimeMillis() - timer > 1000) {
+//                timer += 1000;
+//                System.out.println("Cluedo" + "  |  " + updates + " ups, " + frames + " fps");
+//                updates = 0;
+//                frames = 0;
+//            }
         }
     }
 
@@ -192,7 +207,8 @@ public class GameFrame extends JFrame implements Runnable{
      * Calls tick to components that need to update
      */
     private void tick() {
-        canvas.tick();
+        currentPlayer = GUIGAMECONTROLLER.getCurrentPlayer();
+        CANVAS.tick();
     }
 
     /**
@@ -200,25 +216,26 @@ public class GameFrame extends JFrame implements Runnable{
      */
     public void render() {
         // Gets the buffer strategy for the frame
-        BufferStrategy bs = canvas.getBufferStrategy();
+        BufferStrategy bs = CANVAS.getBufferStrategy();
         if (bs == null) {
-            canvas.createBufferStrategy(3);
+            CANVAS.createBufferStrategy(3);
             return;
         }
 
         //TODO I don't think this is needed
-        // Clears the canvas by setting pixels to 0
-        //canvas.clear();
+        // Clears the CANVAS by setting pixels to 0
+        CANVAS.clear();
 
-        // Delegates to the canvas to handle it's own rendering
-        canvas.render();
+        // Delegates to the CANVAS to handle it's own rendering
+        //-currentPlayer.getXPos(), -currentPlayer.getYPos()
+        CANVAS.render(xOffSet, yOffSet);
 
-        // Copies the contents of the canvas pixels to the local pixel array
-        System.arraycopy(canvas.getPixels(), 0, pixels, 0, pixels.length);
+        // Copies the contents of the CANVAS pixels to the local pixel array
+        System.arraycopy(CANVAS.getPixels(), 0, pixels, 0, pixels.length);
 
         // Finally lets pull the buffer to the front
         Graphics g = bs.getDrawGraphics();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        g.drawImage(image, 0, 0, canvasWidth, canvasHeight, null);
         g.dispose();
         bs.show();
     }
