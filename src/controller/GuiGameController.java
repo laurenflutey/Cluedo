@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import view.gui.game.GameFrame;
+import view.gui.game.components.SuggestionDialog;
 import view.textui.UI;
 
 import java.util.*;
@@ -326,12 +327,12 @@ public class GuiGameController {
 	}
 
 	public void accuse() {
-		// TODO Auto-generated method stub
+		new SuggestionDialog(ENTITIES, "accuse", this);
 
 	}
 
 	public void suggest() {
-		// TODO Auto-generated method stub
+		new SuggestionDialog(ENTITIES, "suggest", this);
 
 	}
 
