@@ -4,10 +4,13 @@ import controller.GuiGameController;
 import model.Tile;
 import view.gui.game.GameFrame;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -22,17 +25,17 @@ public class GameCanvas extends Canvas{
     /**
      * Static dimension representing width of the GameCanvas
      */
-    public static int width = 768;
+    public static int width = 800;
 
     /**
      * Static dimension representing height of the GameCanvas
      */
-    public static int height = 640;
+    public static int height = 832;
 
     /**
      * Size of a single tile in the game
      */
-    private final int TILE_SIZE = 64;
+    private final int TILE_SIZE = 32;
 
     private final Tile[][] tiles;
     private final GuiGameController GUIGAMECONTROLLER;
@@ -92,6 +95,8 @@ public class GameCanvas extends Canvas{
             }
         });
 
+        load();
+
         // init pixel array, 1D over 2D for access speed
         pixels = new int[width * height];
     }
@@ -149,17 +154,56 @@ public class GameCanvas extends Canvas{
                 if (xx < 0 || xx >= width) continue;
 
                 if ((tiles[x / TILE_SIZE][y / TILE_SIZE].isOccupied())) {
-                    pixels[xx + yy * width] = Color.RED.getRGB();
+
                 } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isWallTile()) {
-                    pixels[xx + yy * width] = Color.BLUE.getRGB();
+                    pixels[xx + yy * width] = wall32Pixels[xx % TILE_SIZE + yy % TILE_SIZE * TILE_SIZE];
                 } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isBoundary()) {
-                    pixels[xx + yy * width] = Color.GREEN.getRGB();
-                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isBoundary()) {
-                    pixels[xx + yy * width] = Color.CYAN.getRGB();
                 } else {
-                    pixels[xx + yy * width] = random.nextInt();
+                    pixels[xx + yy * width] = floor32Pixels[xx % TILE_SIZE + yy % TILE_SIZE * TILE_SIZE];
                 }
             }
+        }
+    }
+
+    /**
+     * Loads the sprite sheet by trying to read a buffered image from a png file
+     * and storing that raster into the pixels array of the sprite sheet.
+     */
+    private void load() {
+        try {
+            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("/tiles/wall-32.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, wall32Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("/tiles/wall-64.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, wall64Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("/tiles/floor-32.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, floor32Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("/tiles/floor-64.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, floor64Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -171,4 +215,9 @@ public class GameCanvas extends Canvas{
     public int[] getPixels() {
         return pixels;
     }
+
+    private static int[] wall32Pixels = new int[1024];
+    private static int[] floor32Pixels = new int[1024];
+    private static int[] wall64Pixels = new int[4096];
+    private static int[] floor64Pixels = new int[4096];
 }
