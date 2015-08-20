@@ -88,15 +88,16 @@ public class GuiGameController {
 	/**
 	 * Delegate method to handle the various initialisation stages of the game
 	 *
-	 * @param gamePlayers
+	 * @param playersList
 	 *            Players in the game
 	 */
-	public void initGame(List<Player> gamePlayers) {
-		
+	public void initGame(ArrayList<String> playersList, ArrayList<String> nameList) {
+
 		DISPLAY = new GameFrame(this);
 		// Sets up the players in the game
-		playerCount = gamePlayers.size();
-		initPlayers(gamePlayers);
+		playerCount = playersList.size();
+		initHumanPlayers(playersList, nameList);
+		initFakePlayers(ENTITIES.getPlayers());
 
 		isGameOver = false;
 
@@ -108,7 +109,7 @@ public class GuiGameController {
 		dealCards();
 		distributeWeapons();
 
-		doGame();
+		//doGame();
 	}
 
 	/**
@@ -258,6 +259,30 @@ public class GuiGameController {
 		return currentPlayer;
 	}
 
+	private void initHumanPlayers(List<String> gamePlayers, List<String> namePlayers) {
+
+		List<Player> endPlayers = new ArrayList<>();
+
+		
+		for(int i = 0; i < gamePlayers.size(); i++){
+			System.out.println(namePlayers.get(i));
+			Character character = ENTITIES.getCharacter(namePlayers.get(i));
+			Player player = new Player(character.getName(), character.getCh(), character.getXPos(), character.getYPos());
+			player.setCharacter(character);
+			player.setXPos(character.getXPos());
+			player.setYPos(character.getYPos());
+			player.setAlive(true);
+			player.setPlayerNumber(playerCount + 1);
+			playerCount++;
+
+			endPlayers.add(player);
+		}
+
+		ENTITIES.getPlayers().addAll(endPlayers);
+		ENTITIES.getFinalPlayers().addAll(endPlayers);
+
+	}
+
 	/**
 	 * Delegates the creation of a Player list to the {@link UI} class
 	 * <p/>
@@ -267,7 +292,7 @@ public class GuiGameController {
 	 * @param players
 	 *            List of players in the game parsed from the startup frame
 	 */
-	private void initPlayers(List<Player> players) {
+	private void initFakePlayers(List<Player> players) {
 		// initialises inactive players
 		for (Character character : ENTITIES.getCharacters()) {
 			boolean contains = false;
@@ -288,8 +313,8 @@ public class GuiGameController {
 		}
 		// Gets a list of player objects from the UI class and sets the entities
 		// to hold it
-		ENTITIES.setPlayers(players);
-		ENTITIES.setFinalPlayers(players);
+		ENTITIES.getPlayers().addAll(players);
+		ENTITIES.getFinalPlayers().addAll(players);
 
 		// Gets the list of tiles from the Entities class to set player
 		// locations to tile

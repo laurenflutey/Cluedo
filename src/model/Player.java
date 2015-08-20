@@ -91,6 +91,7 @@ public class Player extends Character {
 		this.cards = new HashSet<>();
 		this.successfulSuggestions = new HashSet<>();
 	}
+	
 
 	/**
 	 * Constructor used by the text based game client
@@ -274,4 +275,5 @@ public class Player extends Character {
 	public String toString(){
 		return character.getName();
 	}
+	
 }

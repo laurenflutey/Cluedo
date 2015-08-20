@@ -44,7 +44,8 @@ public class StartupFrame extends JFrame {
 	private JPanel panel;
 	private JTextField nameEntryField;
 
-	private ArrayList<Player> playersList = new ArrayList<>();
+	private ArrayList<String> playersList = new ArrayList<>();
+	private ArrayList<String> nameList = new ArrayList<>();
 
 	private JButton startGameButton;
 	private JButton nextPlayerButton;
@@ -227,7 +228,7 @@ public class StartupFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// get rid of startup frame and begin the real game
 				dispose();
-				GUIGAMECONTROLLER.initGame(playersList);
+				GUIGAMECONTROLLER.initGame(playersList, nameList);
 			}
 		});
 
@@ -255,9 +256,12 @@ public class StartupFrame extends JFrame {
 							button.setEnabled(false);
 							characterChoiceOptions.clearSelection();
 							count++;
+							playersList.add(nameEntryField.getText());
+							nameList.add(button.getLabel());
 							playerLabel.setText("Player: " + (count + 1));
 							nameEntryField.setText("");
 							nameEntryField.requestFocusInWindow();
+							
 						}
 					}
 					// players have reached the max number specified
@@ -319,12 +323,4 @@ public class StartupFrame extends JFrame {
 		characterChoiceOptions.add(professorPlumButton);
 	}
 
-	/**
-	 * Getter
-	 *
-	 * @return returns the playerList parsed by the startup frame
-	 */
-	public ArrayList<Player> getPlayersList() {
-		return playersList;
-	}
 }
