@@ -81,7 +81,7 @@ public class GameFrame extends JFrame implements Runnable{
         initContentPane();
 
         // creates the games menu and assigns to the frame
-        menuBar = new GameMenu();
+        menuBar = new GameMenu(this);
         setJMenuBar(menuBar);
 
         // Initialise the right hand side panels of the game window
@@ -240,7 +240,11 @@ public class GameFrame extends JFrame implements Runnable{
         bs.show();
     }
 
-	/**
+    public GameCanvas getCanvas() {
+        return CANVAS;
+    }
+
+    /**
 	 * @return the buttonPanel
 	 */
 	public ButtonPanel getButtonPanel() {

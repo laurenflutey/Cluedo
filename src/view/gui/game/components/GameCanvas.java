@@ -33,9 +33,9 @@ public class GameCanvas extends Canvas{
     public static int height = 832;
 
     /**
-     * Size of a single tile in the game
+     * Size of a single tileSize in the game
      */
-    private final int TILE_SIZE = 32;
+    private int tileSize = 64;
 
     private final Tile[][] tiles;
     private final GuiGameController GUIGAMECONTROLLER;
@@ -124,13 +124,13 @@ public class GameCanvas extends Canvas{
     public void render() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if ((tiles[x / TILE_SIZE][y / TILE_SIZE].isOccupied())) {
+                if ((tiles[x / tileSize][y / tileSize].isOccupied())) {
                     pixels[x + y * width] = Color.RED.getRGB();
-                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isWallTile()) {
+                } else if (tiles[x / tileSize][y / tileSize].isWallTile()) {
                     pixels[x + y * width] = Color.BLUE.getRGB();
-                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isBoundary()) {
+                } else if (tiles[x / tileSize][y / tileSize].isBoundary()) {
                     pixels[x + y * width] = Color.GREEN.getRGB();
-                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isBoundary()) {
+                } else if (tiles[x / tileSize][y / tileSize].isBoundary()) {
                     pixels[x + y * width] = Color.CYAN.getRGB();
                 } else {
                     pixels[x + y * width] = random.nextInt();
@@ -153,20 +153,52 @@ public class GameCanvas extends Canvas{
                 int xx = x + xOffSet;
                 if (xx < 0 || xx >= width) continue;
 
-                 if (tiles[x / TILE_SIZE][y / TILE_SIZE].isWallTile()) {
-                    pixels[xx + yy * width] = wall32Pixels[xx % TILE_SIZE + yy % TILE_SIZE * TILE_SIZE];
-                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isBoundary()) {
-                    pixels[xx + yy * width] = boundary32Pixels[xx % TILE_SIZE + yy % TILE_SIZE * TILE_SIZE];
+                 if (tiles[x / tileSize][y / tileSize].isWallTile()) {
+                     if (tileSize == 32) {
+                         pixels[xx + yy * width] = wall32Pixels[xx % tileSize + yy % tileSize * tileSize];
+                     } else {
+                         pixels[xx + yy * width] = wall64Pixels[xx % tileSize + yy % tileSize * tileSize];
+                     }
+                } else if (tiles[x / tileSize][y / tileSize].isBoundary()) {
+                     if (tileSize == 32) {
+                         pixels[xx + yy * width] = boundary32Pixels[xx % tileSize + yy % tileSize * tileSize];
+                     } else {
+                         pixels[xx + yy * width] = boundary64Pixels[xx % tileSize + yy % tileSize * tileSize];
+                     }
                 } else {
-                    pixels[xx + yy * width] = floor32Pixels[xx % TILE_SIZE + yy % TILE_SIZE * TILE_SIZE];
+                     if (tileSize == 32) {
+                         pixels[xx + yy * width] = floor32Pixels[xx % tileSize + yy % tileSize * tileSize];
+                     } else {
+                         pixels[xx + yy * width] = floor64Pixels[xx % tileSize + yy % tileSize * tileSize];
+                     }
                 }
             }
         }
     }
 
     /**
-     * Loads the sprite sheet by trying to read a buffered image from a png file
-     * and storing that raster into the pixels array of the sprite sheet.
+     * Getter
+     *
+     * @return Int array of pixels in canvas
+     */
+    public int[] getPixels() {
+        return pixels;
+    }
+
+    public void toggleTileSize() {
+        if (tileSize == 32) {
+            tileSize = 64;
+        } else {
+            tileSize = 32;
+        }
+    }
+
+
+    //---------------------------------------------------------------------------------
+
+
+    /**
+     * Loads the sprites from the image resources into their respective pixel array
      */
     private void load() {
         try {
@@ -222,15 +254,6 @@ public class GameCanvas extends Canvas{
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Getter
-     *
-     * @return Int array of pixels in canvas
-     */
-    public int[] getPixels() {
-        return pixels;
     }
 
     private static int[] wall32Pixels = new int[1024];
