@@ -250,37 +250,22 @@ public class StartupFrame extends JFrame {
 					AbstractButton button = buttons.nextElement();
 
 					if (button.isSelected()) {
-						// TODO find XY POSITION AND CHAR
 						if (!nameEntryField.getText().equals("")) {
-							// find the character in the model that represents
-							// that player
 
-							// TODO FIX THIS
-							// model.Character ch =
-							// entities.getCharacter(button.getText());
-							// Player p = new Player(nameEntryField.getText(),
-							// button.getText(), ch.getCh(), ch.getXPos(),
-							// ch.getYPos());
-							// p.setCharacter(ch);
-							// gamePlayers.add(p);
-							// reset the text field and disable the radio button
-							// they clicked
 							button.setEnabled(false);
 							characterChoiceOptions.clearSelection();
 							count++;
 							playerLabel.setText("Player: " + (count + 1));
-							nameEntryField.setSelectionStart(0);
 							nameEntryField.setText("");
-							nameEntryField.requestFocus();
-							nameEntryField.setSelectionStart(0);
+							nameEntryField.requestFocusInWindow();
 						}
 					}
 					// players have reached the max number specified
 					// disable all the radio buttons
+					// and enabled the option to start game
 					if (count == players) {
 						nextPlayerButton.setEnabled(false);
 						nameEntryField.setEnabled(false);
-						playerLabel.setText("Player: " + (count));
 						reverendGreenButton.setEnabled(false);
 						missScarletButton.setEnabled(false);
 						mrsPeacockButton.setEnabled(false);
@@ -303,6 +288,7 @@ public class StartupFrame extends JFrame {
 
 		missScarletButton = new JRadioButton("Miss Scarlett");
 		missScarletButton.setBounds(180, 200, 300, 35);
+		missScarletButton.setSelected(true);
 		panel.add(missScarletButton);
 
 		mrsPeacockButton = new JRadioButton("Mrs Peacock");
