@@ -326,6 +326,7 @@ public class StartupFrame extends JFrame {
                 mrsWhiteButton.setEnabled(false);
                 colonelMustardButton.setEnabled(false);
                 professorPlumButton.setEnabled(false);
+				startGameButton.setEnabled(true);
 				creatingPlayers = false;
 				break;
             }
