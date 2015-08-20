@@ -153,11 +153,10 @@ public class GameCanvas extends Canvas{
                 int xx = x + xOffSet;
                 if (xx < 0 || xx >= width) continue;
 
-                if ((tiles[x / TILE_SIZE][y / TILE_SIZE].isOccupied())) {
-
-                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isWallTile()) {
+                 if (tiles[x / TILE_SIZE][y / TILE_SIZE].isWallTile()) {
                     pixels[xx + yy * width] = wall32Pixels[xx % TILE_SIZE + yy % TILE_SIZE * TILE_SIZE];
                 } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isBoundary()) {
+                    pixels[xx + yy * width] = boundary32Pixels[xx % TILE_SIZE + yy % TILE_SIZE * TILE_SIZE];
                 } else {
                     pixels[xx + yy * width] = floor32Pixels[xx % TILE_SIZE + yy % TILE_SIZE * TILE_SIZE];
                 }
@@ -205,6 +204,24 @@ public class GameCanvas extends Canvas{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        try {
+            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("/tiles/boundary-32.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, boundary32Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("/tiles/boundary-64.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, boundary64Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -220,4 +237,6 @@ public class GameCanvas extends Canvas{
     private static int[] floor32Pixels = new int[1024];
     private static int[] wall64Pixels = new int[4096];
     private static int[] floor64Pixels = new int[4096];
+    private static int[] boundary32Pixels = new int[1024];
+    private static int[] boundary64Pixels = new int[4096];
 }
