@@ -4,10 +4,13 @@ import controller.GuiGameController;
 import model.Tile;
 import view.gui.game.GameFrame;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -22,17 +25,17 @@ public class GameCanvas extends Canvas{
     /**
      * Static dimension representing width of the GameCanvas
      */
-    public static int width = 768;
+    public static int width = 800;
 
     /**
      * Static dimension representing height of the GameCanvas
      */
-    public static int height = 640;
+    public static int height = 832;
 
     /**
-     * Size of a single tile in the game
+     * Size of a single tileSize in the game
      */
-    private final int TILE_SIZE = 64;
+    private int tileSize = 64;
 
     private final Tile[][] tiles;
     private final GuiGameController GUIGAMECONTROLLER;
@@ -92,6 +95,8 @@ public class GameCanvas extends Canvas{
             }
         });
 
+        load();
+
         // init pixel array, 1D over 2D for access speed
         pixels = new int[width * height];
     }
@@ -119,13 +124,13 @@ public class GameCanvas extends Canvas{
     public void render() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if ((tiles[x / TILE_SIZE][y / TILE_SIZE].isOccupied())) {
+                if ((tiles[x / tileSize][y / tileSize].isOccupied())) {
                     pixels[x + y * width] = Color.RED.getRGB();
-                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isWallTile()) {
+                } else if (tiles[x / tileSize][y / tileSize].isWallTile()) {
                     pixels[x + y * width] = Color.BLUE.getRGB();
-                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isBoundary()) {
+                } else if (tiles[x / tileSize][y / tileSize].isBoundary()) {
                     pixels[x + y * width] = Color.GREEN.getRGB();
-                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isBoundary()) {
+                } else if (tiles[x / tileSize][y / tileSize].isBoundary()) {
                     pixels[x + y * width] = Color.CYAN.getRGB();
                 } else {
                     pixels[x + y * width] = random.nextInt();
@@ -148,16 +153,24 @@ public class GameCanvas extends Canvas{
                 int xx = x + xOffSet;
                 if (xx < 0 || xx >= width) continue;
 
-                if ((tiles[x / TILE_SIZE][y / TILE_SIZE].isOccupied())) {
-                    pixels[xx + yy * width] = Color.RED.getRGB();
-                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isWallTile()) {
-                    pixels[xx + yy * width] = Color.BLUE.getRGB();
-                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isBoundary()) {
-                    pixels[xx + yy * width] = Color.GREEN.getRGB();
-                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isBoundary()) {
-                    pixels[xx + yy * width] = Color.CYAN.getRGB();
+                 if (tiles[x / tileSize][y / tileSize].isWallTile()) {
+                     if (tileSize == 32) {
+                         pixels[xx + yy * width] = wall32Pixels[xx % tileSize + yy % tileSize * tileSize];
+                     } else {
+                         pixels[xx + yy * width] = wall64Pixels[xx % tileSize + yy % tileSize * tileSize];
+                     }
+                } else if (tiles[x / tileSize][y / tileSize].isBoundary()) {
+                     if (tileSize == 32) {
+                         pixels[xx + yy * width] = boundary32Pixels[xx % tileSize + yy % tileSize * tileSize];
+                     } else {
+                         pixels[xx + yy * width] = boundary64Pixels[xx % tileSize + yy % tileSize * tileSize];
+                     }
                 } else {
-                    pixels[xx + yy * width] = random.nextInt();
+                     if (tileSize == 32) {
+                         pixels[xx + yy * width] = floor32Pixels[xx % tileSize + yy % tileSize * tileSize];
+                     } else {
+                         pixels[xx + yy * width] = floor64Pixels[xx % tileSize + yy % tileSize * tileSize];
+                     }
                 }
             }
         }
@@ -171,4 +184,82 @@ public class GameCanvas extends Canvas{
     public int[] getPixels() {
         return pixels;
     }
+
+    public void toggleTileSize() {
+        if (tileSize == 32) {
+            tileSize = 64;
+        } else {
+            tileSize = 32;
+        }
+    }
+
+
+    //---------------------------------------------------------------------------------
+
+
+    /**
+     * Loads the sprites from the image resources into their respective pixel array
+     */
+    private void load() {
+        try {
+            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("/tiles/wall-32.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, wall32Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("/tiles/wall-64.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, wall64Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("/tiles/floor-32.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, floor32Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("/tiles/floor-64.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, floor64Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("/tiles/boundary-32.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, boundary32Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("/tiles/boundary-64.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, boundary64Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static int[] wall32Pixels = new int[1024];
+    private static int[] floor32Pixels = new int[1024];
+    private static int[] wall64Pixels = new int[4096];
+    private static int[] floor64Pixels = new int[4096];
+    private static int[] boundary32Pixels = new int[1024];
+    private static int[] boundary64Pixels = new int[4096];
 }

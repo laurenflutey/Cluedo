@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
@@ -47,6 +49,7 @@ public class StartupFrame extends JFrame {
 	private ArrayList<String> playersList = new ArrayList<>();
 	private ArrayList<String> nameList = new ArrayList<>();
 
+	// Swing Components
 	private JButton startGameButton;
 	private JButton nextPlayerButton;
 	private JRadioButton professorPlumButton;
@@ -62,6 +65,10 @@ public class StartupFrame extends JFrame {
 	private JLabel cluedoImage;
 	private JButton submitButton;
 	private JComboBox<String> playerSelectionBox;
+
+	// Shortcut booleans
+	private boolean creatingPlayers = false;
+	private boolean firstPane = true;
 
 	/**
 	 * Constructor for the startup frame
@@ -85,6 +92,8 @@ public class StartupFrame extends JFrame {
 		panel = new JPanel();
 		setContentPane(panel);
 
+		setFocusable(true);
+
 		// Setup of frame
 		setTitle("Welcome to Cluedo");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -95,7 +104,20 @@ public class StartupFrame extends JFrame {
 		// Absolute layout
 		setLayout(null);
 		setResizable(false);
-		requestFocus();
+
+		// Shortcuts for the lazy
+		addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (firstPane) {
+						startPlayerCreation();
+					} else if (creatingPlayers) {
+						performNextPlayerLogic();
+					}
+				}
+			}
+		});
 
 		// Centred
 		setLocationRelativeTo(null);
@@ -148,9 +170,18 @@ public class StartupFrame extends JFrame {
 		submitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				createPlayers();
+				startPlayerCreation();
 			}
 		});
+	}
+
+	/**
+	 * Method to delegate to the player creation
+	 */
+	private void startPlayerCreation() {
+		firstPane = false;
+		creatingPlayers = true;
+		createPlayers();
 	}
 
 	/**
@@ -187,6 +218,14 @@ public class StartupFrame extends JFrame {
 		nameEntryField = new JTextField();
 		nameEntryField.setText("");
 		nameEntryField.setBounds(190, 150, 200, 35);
+		nameEntryField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					performNextPlayerLogic();
+				}
+			}
+		});
 		panel.add(nameEntryField);
 
 		// Lets pull focus to the textfield just to be nice
@@ -227,12 +266,19 @@ public class StartupFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// get rid of startup frame and begin the real game
-				dispose();
-				GUIGAMECONTROLLER.initGame(playersList, nameList);
+				startGame();
 			}
 		});
 
 		panel.add(startGameButton);
+	}
+
+	/**
+	 * Method to start the game
+	 */
+	private void startGame() {
+		dispose();
+		//GUIGAMECONTROLLER.initGame(playersList);
 	}
 
 	/**
@@ -245,43 +291,56 @@ public class StartupFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				for (Enumeration<AbstractButton> buttons = characterChoiceOptions.getElements(); buttons
-						.hasMoreElements();) {
-					AbstractButton button = buttons.nextElement();
-
-					if (button.isSelected()) {
-						if (!nameEntryField.getText().equals("")) {
-
-							button.setEnabled(false);
-							characterChoiceOptions.clearSelection();
-							count++;
-							playersList.add(nameEntryField.getText());
-							nameList.add(button.getLabel());
-							playerLabel.setText("Player: " + (count + 1));
-							nameEntryField.setText("");
-							nameEntryField.requestFocusInWindow();
-							
-						}
-					}
-					// players have reached the max number specified
-					// disable all the radio buttons
-					// and enabled the option to start game
-					if (count == players) {
-						nextPlayerButton.setEnabled(false);
-						nameEntryField.setEnabled(false);
-						reverendGreenButton.setEnabled(false);
-						missScarletButton.setEnabled(false);
-						mrsPeacockButton.setEnabled(false);
-						mrsWhiteButton.setEnabled(false);
-						colonelMustardButton.setEnabled(false);
-						professorPlumButton.setEnabled(false);
-						startGameButton.setEnabled(true);
-					}
-				}
-
+				performNextPlayerLogic();
 			}
 		});
+	}
+
+	/**
+	 * Abstracted this method so that it can be called on a keyListener event as well
+	 */
+	private void performNextPlayerLogic() {
+		for (Enumeration<AbstractButton> buttons = characterChoiceOptions.getElements(); buttons
+                .hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+
+            if (button.isSelected()) {
+                if (!nameEntryField.getText().equals("")) {
+
+                    button.setEnabled(false);
+                    characterChoiceOptions.clearSelection();
+                    count++;
+                    playerLabel.setText("Player: " + (count + 1));
+                    nameEntryField.setText("");
+                    nameEntryField.requestFocusInWindow();
+                }
+            }
+            // players have reached the max number specified
+            // disable all the radio buttons
+            // and enabled the option to start game
+            if (count == players) {
+                playerLabel.setText("Player: " + (count));
+                nextPlayerButton.setEnabled(false);
+                nameEntryField.setEnabled(false);
+                reverendGreenButton.setEnabled(false);
+                missScarletButton.setEnabled(false);
+                mrsPeacockButton.setEnabled(false);
+                mrsWhiteButton.setEnabled(false);
+                colonelMustardButton.setEnabled(false);
+                professorPlumButton.setEnabled(false);
+				startGameButton.setEnabled(true);
+				creatingPlayers = false;
+				break;
+            }
+        }
+		for (Enumeration<AbstractButton> buttons = characterChoiceOptions.getElements(); buttons
+                .hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+            if (button.isEnabled()) {
+                button.setSelected(true);
+                break;
+            }
+        }
 	}
 
 	/**

@@ -41,8 +41,8 @@ public class GameFrame extends JFrame implements Runnable{
     private JMenuBar menuBar;
 
     // Game Dimensions
-    private int width = 1280;
-    private int height = 720;
+    private int width = 1330;
+    private int height = 912;
     private Dimension gameDimensions;
 
     // The current player, ie the player whose turn it is
@@ -73,6 +73,7 @@ public class GameFrame extends JFrame implements Runnable{
         gameDimensions = new Dimension(width, height);
         setSize(gameDimensions);
         setMinimumSize(gameDimensions);
+        setResizable(false); //TODO for now
         setTitle("Cluedo");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,7 +81,7 @@ public class GameFrame extends JFrame implements Runnable{
         initContentPane();
 
         // creates the games menu and assigns to the frame
-        menuBar = new GameMenu();
+        menuBar = new GameMenu(this);
         setJMenuBar(menuBar);
 
         // Initialise the right hand side panels of the game window
@@ -108,8 +109,8 @@ public class GameFrame extends JFrame implements Runnable{
         //contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[]{5, 768, 20, 482, 5};
-        gridBagLayout.rowHeights = new int[]{30, 520, 20, 100, 50};
+        gridBagLayout.columnWidths = new int[]{5, canvasWidth, 20, 482, 5};
+        gridBagLayout.rowHeights = new int[]{30, canvasHeight - 120, 20, 100, 50};
         contentPane.setLayout(gridBagLayout);
     }
 
@@ -147,8 +148,8 @@ public class GameFrame extends JFrame implements Runnable{
     private Thread canvasThread;
     private boolean running = true;
 
-    private int canvasWidth = 768;
-    private int canvasHeight = 640;
+    private int canvasWidth = 800;
+    private int canvasHeight = 832;
 
     private int xOffSet = 0;
     private int yOffSet = 0;
@@ -239,7 +240,11 @@ public class GameFrame extends JFrame implements Runnable{
         bs.show();
     }
 
-	/**
+    public GameCanvas getCanvas() {
+        return CANVAS;
+    }
+
+    /**
 	 * @return the buttonPanel
 	 */
 	public ButtonPanel getButtonPanel() {
