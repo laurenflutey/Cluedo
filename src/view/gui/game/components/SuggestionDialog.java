@@ -36,7 +36,7 @@ public class SuggestionDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public SuggestionDialog(Entities entities, String type, final GuiGameController gameController) {
+	public SuggestionDialog(Entities entities, final String type, final GuiGameController gameController) {
 		this.entities = entities;
 		this.gameController = gameController;
 
@@ -105,7 +105,7 @@ public class SuggestionDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				Suggestion suggestion = new Suggestion((Player) characters.getSelectedItem(),
 						(Weapon) weapons.getSelectedItem(), (Room) rooms.getSelectedItem());
-				gameController.createSuggestion(suggestion);
+				gameController.createSuggestion(suggestion, type);
 
 			}
 		});

@@ -362,7 +362,7 @@ public class GuiGameController {
 		new GuiGameController();
 	}
 
-	public void createSuggestion(Suggestion suggestion) {
+	public void createSuggestion(Suggestion suggestion, String type) {
 		// TODO Auto-generated method stub
 
 	}
