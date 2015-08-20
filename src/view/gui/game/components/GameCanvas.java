@@ -36,7 +36,7 @@ public class GameCanvas extends Canvas{
     /**
      * Size of a single tileSize in the game
      */
-    private int tileSize = 32;
+    private int tileSize = 64;
 
     private final Tile[][] tiles;
     private final GuiGameController GUIGAMECONTROLLER;
@@ -181,7 +181,10 @@ public class GameCanvas extends Canvas{
                             pixels[xx + yy * width] = col;
                         }
                     } else {
-                        // TODO render 64 sprites
+                        int col = greenSpritesheet64Pixels[xx % tileSize + yy % tileSize * 256];
+                        if (col != -65316) {
+                            pixels[xx + yy * width] = col;
+                        }
                     }
                 }
             }
@@ -206,9 +209,17 @@ public class GameCanvas extends Canvas{
     }
 
 
-    //---------------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------------
+                 _______  _______  _______ __________________ _______  _______
+                (  ____ \(  ____ )(  ____ )\__   __/\__   __/(  ____ \(  ____ \
+                | (    \/| (    )|| (    )|   ) (      ) (   | (    \/| (    \/
+                | (_____ | (____)|| (____)|   | |      | |   | (__    | (_____
+                (_____  )|  _____)|     __)   | |      | |   |  __)   (_____  )
+                      ) || (      | (\ (      | |      | |   | (            ) |
+                /\____) || )      | ) \ \_____) (___   | |   | (____/\/\____) |
+                \_______)|/       |/   \__/\_______/   )_(   (_______/\_______)
 
-
+    ----------------------------------------------------------------------------------/*
     /**
      * Loads the sprites from the image resources into their respective pixel array
      */
@@ -275,14 +286,33 @@ public class GameCanvas extends Canvas{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        try {
+            BufferedImage image = ImageIO.read(new File("images/characters/green/green-spritesheet-32.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, greenSpritesheet32Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedImage image = ImageIO.read(new File("images/characters/green/green-spritesheet-64.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, greenSpritesheet64Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private static int[] wall32Pixels = new int[1024];
-    private static int[] floor32Pixels = new int[1024];
-    private static int[] wall64Pixels = new int[4096];
-    private static int[] floor64Pixels = new int[4096];
-    private static int[] boundary32Pixels = new int[1024];
-    private static int[] boundary64Pixels = new int[4096];
-    private static int[] greenSpritesheet32Pixels = new int[12288];
+    private static int[] wall32Pixels = new int[32 * 32];
+    private static int[] floor32Pixels = new int[32 * 32];
+    private static int[] boundary32Pixels = new int[32 * 32];
+    private static int[] wall64Pixels = new int[64 * 64];
+    private static int[] floor64Pixels = new int[64 * 64];
+    private static int[] boundary64Pixels = new int[64 * 64];
+    private static int[] greenSpritesheet32Pixels = new int[128 * 96];
+    private static int[] greenSpritesheet64Pixels = new int[256 * 192];
 
 }
