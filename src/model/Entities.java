@@ -189,8 +189,8 @@ public class Entities {
 	 * Creates the characters and adds them to the characters collection
 	 */
 	private void initCharacters() {
-		characters.add(new Character("Mrs Peacock", 'p', 23, 6));
-		characters.add(new Character("Professor Plum", 'r', 23, 20));
+		characters.add(new Character("Mrs Peacock", 'p', 24, 6));
+		characters.add(new Character("Professor Plum", 'r', 24, 20));
 		characters.add(new Character("Miss Scarlett", 's', 7, 25));
 		characters.add(new Character("Colonel Mustard", 'm', 0, 18));
 		characters.add(new Character("Mrs White", 'w', 9, 0));
