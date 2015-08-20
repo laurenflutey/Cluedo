@@ -148,13 +148,13 @@ public class GameCanvas extends Canvas{
                 int xx = x + xOffSet;
                 if (xx < 0 || xx >= width) continue;
 
-                if ((tiles[y / TILE_SIZE][x / TILE_SIZE].isOccupied())) {
+                if ((tiles[x / TILE_SIZE][y / TILE_SIZE].isOccupied())) {
                     pixels[xx + yy * width] = Color.RED.getRGB();
-                } else if (tiles[y / TILE_SIZE][x / TILE_SIZE].isWallTile()) {
+                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isWallTile()) {
                     pixels[xx + yy * width] = Color.BLUE.getRGB();
-                } else if (tiles[y / TILE_SIZE][x / TILE_SIZE].isBoundary()) {
+                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isBoundary()) {
                     pixels[xx + yy * width] = Color.GREEN.getRGB();
-                } else if (tiles[y / TILE_SIZE][x / TILE_SIZE].isBoundary()) {
+                } else if (tiles[x / TILE_SIZE][y / TILE_SIZE].isBoundary()) {
                     pixels[xx + yy * width] = Color.CYAN.getRGB();
                 } else {
                     pixels[xx + yy * width] = random.nextInt();

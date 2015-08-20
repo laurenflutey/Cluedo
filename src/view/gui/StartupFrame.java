@@ -1,20 +1,23 @@
 package view.gui;
 
 import controller.GuiGameController;
-import model.Entities;
-import model.Player;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
 
 /**
+ * Start up window frame that greets the user when they start the game. The frame allows the user to select
+ * the number of players in the game and then allows the creation of actual player objects. The player can enter a name
+ * for themselves and select a character token.
  *
+ * Once the creation process is complete the frame returns to the {@link GuiGameController} a list of players and the
+ * actual game begins
+ *
+ * @author Marcel
+ * @author Reuben
  */
 public class StartupFrame extends JFrame {
 
@@ -22,88 +25,101 @@ public class StartupFrame extends JFrame {
 	 * Randomly generated UID
 	 */
 	private static final long serialVersionUID = -5354647840440829401L;
+	private final int width = 500;
+	private final int height = 500;
+	private final Dimension gameDimensions = new Dimension(width, height);
 
-	private int height;
-	private int width;
-	private int players = 3;
+	private int players;
 	private int count;
-	private Dimension gameDimensions;
 	private JPanel panel;
 	private JTextField txtName;
-	private static List<Player> gamePlayers = new ArrayList<Player>();
-	private Entities entities;
 
-	public StartupFrame(int width, int height) {
-		this.width = width;
-		this.height = height;
-		this.panel = new JPanel();
-		this.entities = new Entities();
-		setContentPane(panel);
-
-		gameDimensions = new Dimension(width, height);
-		setSize(gameDimensions);
-		setMinimumSize(gameDimensions);
-
-		getPlayerCount();
-
-		setTitle("Cluedo");
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-		setLayout(null);
-		setLocationRelativeTo(null);
-		setResizable(false);
-		requestFocus();
-		setVisible(true);
-
+	public static void main(String[] args) {
+		new StartupFrame();
 	}
 
-	private int getPlayerCount() {
-		// image
-		ImageIcon image = new ImageIcon("images/Cluedo.png");
+	/**
+	 * Constructor for the startup frame
+	 *
+	 *
+	 */
+	public StartupFrame() {
+
+		// Sets the window style to the systems default look and feel
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException e) {
+			e.printStackTrace(); //TODO display something meaningful
+			System.out.println("Look and feel failed");
+		}
+
+		// Create contentPanel for frame
+		panel = new JPanel();
+		setContentPane(panel);
+
+		// Setup of frame
+		setTitle("Welcome to Cluedo");
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+		// Gets the player count from the user
+		setupStartupFrame();
+
+		// Absolute layout
+		setLayout(null);
+		setResizable(false);
+		requestFocus();
+
+		// Centred
+		setLocationRelativeTo(null);
+
+		// Display the
+		setVisible(true);
+	}
+
+	/**
+	 * First panel displayed to the user which shows the name of the game and asks them for the number of players that
+	 * will be playing Cluedo. When they click submit it refreshes the content of the panel and allows them to create
+	 * each player for the game.
+	 */
+	private void setupStartupFrame() {
+		// Change size to fit startup window
+		setSize(width, 250);
+
+		// Display image on panel
 		JLabel imageLabel = new JLabel();
 		imageLabel.setIcon(image);
-		imageLabel.setBounds(200, 0, 300, 100);
+		imageLabel.setBounds(150, 0, 300, 100);
+		panel.add(imageLabel);
 
 		// player combo box
 		String[] options = { "3", "4", "5", "6" };
+		final JComboBox<String> cb = new JComboBox<>(options);
+		cb.setBounds(170, 110, 60, 60);
+		panel.add(cb);
 
-		final JComboBox cb = new JComboBox(options);
-
+		// Add action listener so when user selects option, the player count is updated
 		cb.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				players = cb.getSelectedIndex() + 3;
 			}
 		});
-		cb.setBounds(200, 110, 60, 60);
-
-		// label
-		JLabel label = new JLabel("Welcome to Cluedo");
-		label.setBounds(20, 20, 200, 100);
 
 		// number of players label
 		JLabel playersLabel = new JLabel("Number of Players:");
-		playersLabel.setBounds(20, 90, 200, 100);
+		playersLabel.setBounds(40, 90, 200, 100);
+		panel.add(playersLabel);
 
 		// submit button
 		JButton submit = new JButton("Submit");
-		submit.setBounds(250, 200, 100, 20);
+		submit.setBounds(300, 130, 100, 20);
+		panel.add(submit);
 		submit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				getPlayers();
 			}
 		});
-
-		// adding to frame
-		panel.add(imageLabel);
-		panel.add(playersLabel);
-		panel.add(submit);
-		panel.add(cb);
-		panel.add(label);
-
-		return players;
-
 	}
 
 	private void getPlayers() {
@@ -218,7 +234,7 @@ public class StartupFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				new GuiGameController(gamePlayers, entities);
+				new GuiGameController();
 			}
 		});
 
@@ -238,11 +254,13 @@ public class StartupFrame extends JFrame {
 						if (!txtName.getText().equals("")) {
 							// find the character in the model that represents
 							// that player
-							model.Character ch = entities.getCharacter(button.getText());
-							Player p = new Player(txtName.getText(), button.getText(), ch.getCh(), ch.getXPos(),
-									ch.getYPos());
-							p.setCharacter(ch);
-							gamePlayers.add(p);
+
+							//TODO FIX THIS
+//							model.Character ch = entities.getCharacter(button.getText());
+//							Player p = new Player(txtName.getText(), button.getText(), ch.getCh(), ch.getXPos(),
+//									ch.getYPos());
+//							p.setCharacter(ch);
+							//gamePlayers.add(p);
 							// reset the text field and disable the radio button
 							// they clicked
 							button.setEnabled(false);
@@ -286,4 +304,7 @@ public class StartupFrame extends JFrame {
 		setVisible(true);
 
 	}
+
+	// Image resource
+	private static final ImageIcon image = new ImageIcon("images/Cluedo.png");
 }
