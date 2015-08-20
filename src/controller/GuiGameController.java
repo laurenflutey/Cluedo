@@ -235,7 +235,54 @@ public class GuiGameController {
         }
     }
 
+    /**
+     * Game loop
+     *
+     * Continuously performs the games logic until the game is ended
+     */
     private void doGame() {
+        // assign player turn to 0, so that the player 1 goes first
+        int playerTurn = 0;
+
+        // Begin game loop and continue until the game state changes
+        while (!isGameOver) {
+
+            // checks that everyone isn't dead
+            if (!checkForAlivePlayers()) {
+                isGameOver = true;
+                everyoneLost = true;
+                break;
+            }
+
+            // Gets the current player and sets that player as the current
+            // player so can be coloured on board
+            currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
+            if (currentPlayer.isAlive()) {
+                currentPlayer.setIsCurrentPlayer(true);
+
+
+                currentPlayer.setIsCurrentPlayer(false);
+            }
+            // Next players turn now
+            playerTurn++;
+        }
+
+        if (!everyoneLost) {
+            // The game is now over and the current player is the winner. Do
+            // endGame
+            // method
+            endGame(currentPlayer);
+        } else {
+            // case where no one has won the game...
+            endGame();
+        }
+    }
+
+    private void endGame() {
+
+    }
+
+    private void endGame(Player currentPlayer) {
 
     }
 
