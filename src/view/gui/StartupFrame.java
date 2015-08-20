@@ -29,7 +29,7 @@ public class StartupFrame extends JFrame {
 	private final int height = 500;
 	private final Dimension gameDimensions = new Dimension(width, height);
 
-	private int players = 3;
+	private int players;
 	private int count;
 	private JPanel panel;
 	private JTextField txtName;
@@ -44,6 +44,15 @@ public class StartupFrame extends JFrame {
 	 *
 	 */
 	public StartupFrame() {
+
+		// Sets the window style to the systems default look and feel
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException e) {
+			e.printStackTrace(); //TODO display something meaningful
+			System.out.println("Look and feel failed");
+		}
+
 		// Create contentPanel for frame
 		panel = new JPanel();
 		setContentPane(panel);
@@ -52,63 +61,65 @@ public class StartupFrame extends JFrame {
 		setTitle("Welcome to Cluedo");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+		// Gets the player count from the user
+		setupStartupFrame();
+
 		// Absolute layout
 		setLayout(null);
-		setLocationRelativeTo(null);
-		setSize(gameDimensions);
 		setResizable(false);
 		requestFocus();
 
-		getPlayerCount();
+		// Centred
+		setLocationRelativeTo(null);
 
+		// Display the
 		setVisible(true);
 	}
 
-	private int getPlayerCount() {
+	/**
+	 * First panel displayed to the user which shows the name of the game and asks them for the number of players that
+	 * will be playing Cluedo. When they click submit it refreshes the content of the panel and allows them to create
+	 * each player for the game.
+	 */
+	private void setupStartupFrame() {
+		// Change size to fit startup window
+		setSize(width, 250);
+
+		// Display image on panel
 		JLabel imageLabel = new JLabel();
 		imageLabel.setIcon(image);
-		imageLabel.setBounds(200, 0, 300, 100);
+		imageLabel.setBounds(150, 0, 300, 100);
+		panel.add(imageLabel);
 
 		// player combo box
 		String[] options = { "3", "4", "5", "6" };
+		final JComboBox<String> cb = new JComboBox<>(options);
+		cb.setBounds(170, 110, 60, 60);
+		panel.add(cb);
 
-		final JComboBox cb = new JComboBox(options);
-
+		// Add action listener so when user selects option, the player count is updated
 		cb.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				players = cb.getSelectedIndex() + 3;
 			}
 		});
-		cb.setBounds(200, 110, 60, 60);
-
-		// label
-		JLabel label = new JLabel("Welcome to Cluedo");
-		label.setBounds(20, 20, 200, 100);
 
 		// number of players label
 		JLabel playersLabel = new JLabel("Number of Players:");
-		playersLabel.setBounds(20, 90, 200, 100);
+		playersLabel.setBounds(40, 90, 200, 100);
+		panel.add(playersLabel);
 
 		// submit button
 		JButton submit = new JButton("Submit");
-		submit.setBounds(250, 200, 100, 20);
+		submit.setBounds(300, 130, 100, 20);
+		panel.add(submit);
 		submit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				getPlayers();
 			}
 		});
-
-		// adding to frame
-		panel.add(imageLabel);
-		panel.add(playersLabel);
-		panel.add(submit);
-		panel.add(cb);
-		panel.add(label);
-
-		return players;
-
 	}
 
 	private void getPlayers() {
