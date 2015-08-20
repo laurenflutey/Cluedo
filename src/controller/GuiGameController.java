@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import model.Character;
+import view.gui.StartupFrame;
 import view.gui.game.GameFrame;
 import view.gui.game.components.SuggestionDialog;
 import view.textui.UI;
@@ -65,6 +66,9 @@ public class GuiGameController {
 
 		/* Assign board to movement controller */
         this.MOVEMENT_CONTROLLER = new MovementController(BOARD);
+
+        StartupFrame startupFrame = new StartupFrame();
+        startupFrame.getPlayersList();
 
         //ENTITIES.setFinalPlayers(gamePlayers); //TODO find logical place to do this
         //ENTITIES.setPlayers(gamePlayers); //TODO find logical place to do this
