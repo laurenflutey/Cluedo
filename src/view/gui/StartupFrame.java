@@ -108,10 +108,12 @@ public class StartupFrame extends JFrame {
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if (firstPane) {
-					startPlayerCreation();
-				} else if (creatingPlayers) {
-					performNextPlayerLogic();
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (firstPane) {
+						startPlayerCreation();
+					} else if (creatingPlayers) {
+						performNextPlayerLogic();
+					}
 				}
 			}
 		});
