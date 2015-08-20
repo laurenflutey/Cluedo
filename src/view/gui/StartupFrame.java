@@ -11,12 +11,13 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 
 /**
- * Start up window frame that greets the user when they start the game. The frame allows the user to select
- * the number of players in the game and then allows the creation of actual player objects. The player can enter a name
- * for themselves and select a character token.
+ * Start up window frame that greets the user when they start the game. The
+ * frame allows the user to select the number of players in the game and then
+ * allows the creation of actual player objects. The player can enter a name for
+ * themselves and select a character token.
  *
- * Once the creation process is complete the frame returns to the {@link GuiGameController} a list of players and the
- * actual game begins
+ * Once the creation process is complete the frame returns to the
+ * {@link GuiGameController} a list of players and the actual game begins
  *
  * @author Marcel
  * @author Reuben
@@ -27,7 +28,6 @@ public class StartupFrame extends JFrame {
 	 * Randomly generated UID
 	 */
 	private static final long serialVersionUID = -5354647840440829401L;
-
 
 	private final GuiGameController GUIGAMECONTROLLER;
 
@@ -74,8 +74,9 @@ public class StartupFrame extends JFrame {
 		// Sets the window style to the systems default look and feel
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException e) {
-			e.printStackTrace(); //TODO display something meaningful
+		} catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException
+				| InstantiationException e) {
+			e.printStackTrace(); // TODO display something meaningful
 			System.out.println("Look and feel failed");
 		}
 
@@ -103,9 +104,10 @@ public class StartupFrame extends JFrame {
 	}
 
 	/**
-	 * First panel displayed to the user which shows the name of the game and asks them for the number of players that
-	 * will be playing Cluedo. When they click submit it refreshes the content of the panel and allows them to create
-	 * each player for the game.
+	 * First panel displayed to the user which shows the name of the game and
+	 * asks them for the number of players that will be playing Cluedo. When
+	 * they click submit it refreshes the content of the panel and allows them
+	 * to create each player for the game.
 	 */
 	private void setupStartupFrame() {
 		// Change size to fit startup window
@@ -123,7 +125,8 @@ public class StartupFrame extends JFrame {
 		playerSelectionBox.setBounds(230, 110, 60, 60);
 		panel.add(playerSelectionBox);
 
-		// Add action listener so when user selects option, the player count is updated
+		// Add action listener so when user selects option, the player count is
+		// updated
 		playerSelectionBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -136,7 +139,8 @@ public class StartupFrame extends JFrame {
 		playersLabel.setBounds(100, 90, 200, 100);
 		panel.add(playersLabel);
 
-		// Submit button, which when pressed will take the user to the create players window
+		// Submit button, which when pressed will take the user to the create
+		// players window
 		submitButton = new JButton("Submit");
 		submitButton.setBounds(350, 180, 100, 20);
 		panel.add(submitButton);
@@ -149,8 +153,10 @@ public class StartupFrame extends JFrame {
 	}
 
 	/**
-	 * Method which handles the creation of a list of players. The user is presented with the option to enter their
-	 * name and selection a character. This is then parsed into a {@link Player} object and added to the playersList
+	 * Method which handles the creation of a list of players. The user is
+	 * presented with the option to enter their name and selection a character.
+	 * This is then parsed into a {@link Player} object and added to the
+	 * playersList
 	 */
 	private void createPlayers() {
 
@@ -221,6 +227,7 @@ public class StartupFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// get rid of startup frame and begin the real game
 				dispose();
+				GUIGAMECONTROLLER.initGame(playersList);
 			}
 		});
 
@@ -228,7 +235,8 @@ public class StartupFrame extends JFrame {
 	}
 
 	/**
-	 *  Creates the action listener for the next button which checks that the user has selected a valid choice
+	 * Creates the action listener for the next button which checks that the
+	 * user has selected a valid choice
 	 */
 	private void intNextPlayerActionHandler() {
 		// create actions for each submit push
@@ -237,7 +245,8 @@ public class StartupFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				for (Enumeration<AbstractButton> buttons = characterChoiceOptions.getElements(); buttons.hasMoreElements(); ) {
+				for (Enumeration<AbstractButton> buttons = characterChoiceOptions.getElements(); buttons
+						.hasMoreElements();) {
 					AbstractButton button = buttons.nextElement();
 
 					if (button.isSelected()) {
@@ -246,12 +255,14 @@ public class StartupFrame extends JFrame {
 							// find the character in the model that represents
 							// that player
 
-							//TODO FIX THIS
-//							model.Character ch = entities.getCharacter(button.getText());
-//							Player p = new Player(nameEntryField.getText(), button.getText(), ch.getCh(), ch.getXPos(),
-//									ch.getYPos());
-//							p.setCharacter(ch);
-							//gamePlayers.add(p);
+							// TODO FIX THIS
+							// model.Character ch =
+							// entities.getCharacter(button.getText());
+							// Player p = new Player(nameEntryField.getText(),
+							// button.getText(), ch.getCh(), ch.getXPos(),
+							// ch.getYPos());
+							// p.setCharacter(ch);
+							// gamePlayers.add(p);
 							// reset the text field and disable the radio button
 							// they clicked
 							button.setEnabled(false);

@@ -69,7 +69,7 @@ public class GuiGameController {
 		/* Assign board to movement controller */
 		this.MOVEMENT_CONTROLLER = new MovementController(BOARD);
 
-		StartupFrame startupFrame = new StartupFrame(this);
+		new StartupFrame(this);
 
 		// TODO is this needed?
 		// DISPLAY.repaint();
@@ -91,7 +91,7 @@ public class GuiGameController {
 	 * @param gamePlayers
 	 *            Players in the game
 	 */
-	private void initGame(List<Player> gamePlayers) {
+	public void initGame(List<Player> gamePlayers) {
 		
 		DISPLAY = new GameFrame(this);
 		// Sets up the players in the game
