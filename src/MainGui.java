@@ -1,3 +1,4 @@
+import controller.GuiGameController;
 import view.gui.StartupFrame;
 
 /**
@@ -15,6 +16,6 @@ public class MainGui {
      * @param args redundant
      */
     public static void main(String[] args) {
-        new StartupFrame(500, 500);
+        new GuiGameController();
     }
 }

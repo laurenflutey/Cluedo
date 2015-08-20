@@ -1,20 +1,23 @@
 package view.gui;
 
 import controller.GuiGameController;
-import model.Entities;
-import model.Player;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
 
 /**
+ * Start up window frame that greets the user when they start the game. The frame allows the user to select
+ * the number of players in the game and then allows the creation of actual player objects. The player can enter a name
+ * for themselves and select a character token.
  *
+ * Once the creation process is complete the frame returns to the {@link GuiGameController} a list of players and the
+ * actual game begins
+ *
+ * @author Marcel
+ * @author Reuben
  */
 public class StartupFrame extends JFrame {
 
@@ -22,44 +25,46 @@ public class StartupFrame extends JFrame {
 	 * Randomly generated UID
 	 */
 	private static final long serialVersionUID = -5354647840440829401L;
+	private final int width = 500;
+	private final int height = 500;
+	private final Dimension gameDimensions = new Dimension(width, height);
 
-	private int height;
-	private int width;
 	private int players = 3;
 	private int count;
-	private Dimension gameDimensions;
 	private JPanel panel;
 	private JTextField txtName;
-	private static List<Player> gamePlayers = new ArrayList<Player>();
-	private Entities entities;
 
-	public StartupFrame(int width, int height) {
-		this.width = width;
-		this.height = height;
-		this.panel = new JPanel();
-		this.entities = new Entities();
+	public static void main(String[] args) {
+		new StartupFrame();
+	}
+
+	/**
+	 * Constructor for the startup frame
+	 *
+	 *
+	 */
+	public StartupFrame() {
+		// Create contentPanel for frame
+		panel = new JPanel();
 		setContentPane(panel);
 
-		gameDimensions = new Dimension(width, height);
+		// Setup of frame
+		setTitle("Welcome to Cluedo");
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+		// Absolute layout
+		setLayout(null);
+		setLocationRelativeTo(null);
 		setSize(gameDimensions);
-		setMinimumSize(gameDimensions);
+		setResizable(false);
+		requestFocus();
 
 		getPlayerCount();
 
-		setTitle("Cluedo");
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-		setLayout(null);
-		setLocationRelativeTo(null);
-		setResizable(false);
-		requestFocus();
 		setVisible(true);
-
 	}
 
 	private int getPlayerCount() {
-		// image
-		ImageIcon image = new ImageIcon("images/Cluedo.png");
 		JLabel imageLabel = new JLabel();
 		imageLabel.setIcon(image);
 		imageLabel.setBounds(200, 0, 300, 100);
@@ -109,9 +114,7 @@ public class StartupFrame extends JFrame {
 	private void getPlayers() {
 
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(0, 0, 500, 500);
 		panel = new JPanel();
-		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(panel);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		panel.setLayout(gbl_contentPane);
@@ -220,8 +223,7 @@ public class StartupFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-
-				new GuiGameController(gamePlayers, entities);
+				new GuiGameController();
 			}
 		});
 
@@ -241,11 +243,13 @@ public class StartupFrame extends JFrame {
 						if (!txtName.getText().equals("")) {
 							// find the character in the model that represents
 							// that player
-							model.Character ch = entities.getCharacter(button.getText());
-							Player p = new Player(txtName.getText(), button.getText(), ch.getCh(), ch.getXPos(),
-									ch.getYPos());
-							p.setCharacter(ch);
-							gamePlayers.add(p);
+
+							//TODO FIX THIS
+//							model.Character ch = entities.getCharacter(button.getText());
+//							Player p = new Player(txtName.getText(), button.getText(), ch.getCh(), ch.getXPos(),
+//									ch.getYPos());
+//							p.setCharacter(ch);
+							//gamePlayers.add(p);
 							// reset the text field and disable the radio button
 							// they clicked
 							button.setEnabled(false);
@@ -289,4 +293,7 @@ public class StartupFrame extends JFrame {
 		setVisible(true);
 
 	}
+
+	// Image resource
+	private static final ImageIcon image = new ImageIcon("images/Cluedo.png");
 }

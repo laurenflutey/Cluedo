@@ -1,7 +1,9 @@
 package controller;
 
 import model.*;
+import model.Character;
 import view.gui.game.GameFrame;
+import view.gui.game.components.SuggestionDialog;
 import view.textui.UI;
 
 import java.util.*;
@@ -27,7 +29,7 @@ public class GuiGameController {
     /**
      * Movement controller used to handle all of the players movement throughout
      * the board.
-     *
+     * <p/>
      * Movement is controlled by a recursive brute force(maybe greedy?)
      * algorithm
      */
@@ -51,41 +53,9 @@ public class GuiGameController {
 
     /**
      * Constructor
-     *
-     * Creates the entities in the game, initialises the board and creates the movement controller.
-     *
-     * @param gamePlayers list of players in the game
-     */
-    public GuiGameController(List<Player> gamePlayers, Entities entities) {
-        ENTITIES = entities;
-        ENTITIES.setFinalPlayers(gamePlayers);
-        ENTITIES.setPlayers(gamePlayers);
-        BOARD = ENTITIES.getBoard();
-
-        tiles = ENTITIES.getBoard().getTiles();
-
-		/* Assign board to movement controller */
-        MOVEMENT_CONTROLLER = new MovementController(BOARD);
-
-        // Initialises the game
-        initGame(gamePlayers);
-
-        // create the game frame
-        DISPLAY = new GameFrame(this);
-
-        //TODO is this needed?
-        //DISPLAY.repaint();
-    }
-
-    /**
-     * Alt Constructor
-     *
-     * Doesn't take a list of players parsed from the startup frame, and so is somewhat useless in the current
-     * implementation.
-     *
-     * Creates the entities in the game, initialises the board and creates the movement controller.
-     *
-     * Also creates the GUI Display frame
+     * <p/>
+     * Creates the entities in the game, initialises the board and creates the
+     * movement controller.
      */
     public GuiGameController() {
         ENTITIES = new Entities();
@@ -94,9 +64,19 @@ public class GuiGameController {
         tiles = ENTITIES.getBoard().getTiles();
 
 		/* Assign board to movement controller */
-        MOVEMENT_CONTROLLER = new MovementController(BOARD);
+        this.MOVEMENT_CONTROLLER = new MovementController(BOARD);
 
+        //ENTITIES.setFinalPlayers(gamePlayers); //TODO find logical place to do this
+        //ENTITIES.setPlayers(gamePlayers); //TODO find logical place to do this
+
+        // Initialises the game
+        //initGame(gamePlayers); //TODO find logical place to do this
+
+        // create the game frame
         DISPLAY = new GameFrame(this);
+
+        // TODO is this needed?
+        // DISPLAY.repaint();
     }
 
     /**
@@ -105,6 +85,7 @@ public class GuiGameController {
      * @return integer 1 - 6
      */
     public int rollDice() {
+        DISPLAY.getButtonPanel().setRoll(false);
         return (int) (Math.random() * 6 + 1);
     }
 
@@ -120,7 +101,7 @@ public class GuiGameController {
 
         isGameOver = false;
 
-        /*
+		/*
 		 * Creates a final game solution, deals the cards to the players, and
 		 * distributes the weapons throughout the board
 		 */
@@ -129,35 +110,6 @@ public class GuiGameController {
         distributeWeapons();
 
         doGame();
-    }
-
-    /**
-     * Delegates the creation of a Player list to the {@link UI} class
-     *
-     * The UI class returns a list of players and that is then stored in the
-     * {@link Entities} class
-     *
-     * @param players List of players in the game parsed from the startup frame
-     */
-    private void initPlayers(List<Player> players) {
-        // Gets a list of player objects from the UI class and sets the entities
-        // to hold it
-        ENTITIES.setPlayers(players);
-        ENTITIES.setFinalPlayers(players);
-
-        // Gets the list of tiles from the Entities class to set player
-        // locations to tile
-        for (int i = 0; i < tiles.length; i++) {
-            for (int j = 0; j < tiles[0].length; j++) {
-                for (Player p : players) {
-
-                    // assigns a player to a tile location
-                    if (p.getXPos() == i && p.getYPos() == j) {
-                        tiles[i][j].setPlayer(p);
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -237,7 +189,7 @@ public class GuiGameController {
 
     /**
      * Game loop
-     *
+     * <p/>
      * Continuously performs the games logic until the game is ended
      */
     private void doGame() {
@@ -286,6 +238,74 @@ public class GuiGameController {
 
     }
 
+    //TODO Secret passage
+    //TODO Suggestion
+    //TODO accusation
+    //TODO display options to player
+    //TODO player move
+    //TODO end game winner
+    //TODO end game all lost
+    //TODO gameloop
+
+    /**
+     * Gets entities.
+     *
+     * @return the entities
+     */
+    public Entities getEntities() {
+        return ENTITIES;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    /**
+     * Delegates the creation of a Player list to the {@link UI} class
+     * <p/>
+     * The UI class returns a list of players and that is then stored in the
+     * {@link Entities} class
+     *
+     * @param players List of players in the game parsed from the startup frame
+     */
+    private void initPlayers(List<Player> players) {
+        // initialises inactive players
+        for (Character character : ENTITIES.getCharacters()) {
+            boolean contains = false;
+            for (Player player : players) {
+                if (player.getCharacter().equals(character)) {
+                    contains = true;
+                }
+            }
+            if (!contains) {
+                Player player = new Player(character.getName(), character.getCh(), character.getXPos(),
+                        character.getYPos());
+                player.setCharacter(character);
+                players.add(player);
+
+                // TODO set player number
+            }
+        }
+        // Gets a list of player objects from the UI class and sets the entities
+        // to hold it
+        ENTITIES.setPlayers(players);
+        ENTITIES.setFinalPlayers(players);
+
+        // Gets the list of tiles from the Entities class to set player
+        // locations to tile
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles[0].length; j++) {
+                for (Player p : players) {
+
+                    // assigns a player to a tile location
+                    if (p.getXPos() == i && p.getYPos() == j) {
+                        tiles[i][j].setPlayer(p);
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Method to check if there are still players alive in the game
      *
@@ -302,7 +322,7 @@ public class GuiGameController {
     /**
      * Method to randomly assign a {@link Player} to a room
      *
-     * @param player Player being randomly placed in the room
+     * @param player       Player being randomly placed in the room
      * @param assignedRoom Room that the player is being randomly assigned to
      */
     private void randomAssignToRoom(Player player, Room assignedRoom) {
@@ -330,29 +350,41 @@ public class GuiGameController {
         }
     }
 
-    //TODO Secret passage
-    //TODO Suggestion
-    //TODO accusation
-    //TODO display options to player
-    //TODO player move
-    //TODO end game winner
-    //TODO end game all lost
-    //TODO gameloop
+    // TODO Secret passage
+    // TODO Suggestion
+    // TODO accusation
+    // TODO display options to player
+    // TODO player move
+    // TODO end game winner
+    // TODO end game all lost
+    // TODO gameloop
 
-    /**
-     * Gets entities.
-     *
-     * @return the entities
-     */
-    public Entities getEntities() {
-        return ENTITIES;
+    private void initPlayerTurn() {
+
+        DISPLAY.getButtonPanel().setRoll(true);
+        DISPLAY.getButtonPanel().setSuggest(true);
+        DISPLAY.getButtonPanel().setAccuse(true);
+
+        if (currentPlayer.getRoom().getConnectingRoom() != null) {
+            DISPLAY.getButtonPanel().setSecretRoom(true);
+        }
     }
 
-    public static void main(String[] args) {
-        new GuiGameController();
+    public void accuse() {
+        new SuggestionDialog(ENTITIES, "accuse", this);
+
     }
 
-    public Player getCurrentPlayer() {
-        return currentPlayer;
+    public void suggest() {
+        new SuggestionDialog(ENTITIES, "suggest", this);
+
+    }
+
+    public void moveToSecretRoom() {
+        randomAssignToRoom(currentPlayer, currentPlayer.getRoom().getConnectingRoom());
+    }
+
+    public void createSuggestion(Suggestion suggestion) {
+        // TODO Auto-generated method stub
     }
 }
