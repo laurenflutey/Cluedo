@@ -301,7 +301,7 @@ public class GuiGameController {
 				}
 			}
 			if (!contains) {
-				System.out.println(character.getName());
+				System.out.println(character.getName() + "'c'");
 				Player player = new Player(character.getName(), character.getCh(), character.getXPos(),
 						character.getYPos());
 				player.setCharacter(character);
