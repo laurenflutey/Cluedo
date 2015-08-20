@@ -278,7 +278,7 @@ public class StartupFrame extends JFrame {
 	 */
 	private void startGame() {
 		dispose();
-		//GUIGAMECONTROLLER.initGame(playersList);
+		GUIGAMECONTROLLER.initGame(playersList, nameList);
 	}
 
 	/**
