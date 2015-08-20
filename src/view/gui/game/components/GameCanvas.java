@@ -202,7 +202,7 @@ public class GameCanvas extends Canvas{
      */
     private void load() {
         try {
-            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("/tiles/wall-32.png"));
+            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("images/tiles/wall-32.png"));
             int w = image.getWidth();
             int h = image.getHeight();
             image.getRGB(0, 0, w, h, wall32Pixels, 0, w);
