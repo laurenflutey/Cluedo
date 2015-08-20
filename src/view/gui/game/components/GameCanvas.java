@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
@@ -202,7 +203,7 @@ public class GameCanvas extends Canvas{
      */
     private void load() {
         try {
-            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("images/tiles/wall-32.png"));
+            BufferedImage image = ImageIO.read(new File("images/tiles/wall-32.png"));
             int w = image.getWidth();
             int h = image.getHeight();
             image.getRGB(0, 0, w, h, wall32Pixels, 0, w);
@@ -211,7 +212,7 @@ public class GameCanvas extends Canvas{
         }
 
         try {
-            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("/tiles/wall-64.png"));
+            BufferedImage image = ImageIO.read(new File("images/tiles/wall-64.png"));
             int w = image.getWidth();
             int h = image.getHeight();
             image.getRGB(0, 0, w, h, wall64Pixels, 0, w);
@@ -220,7 +221,7 @@ public class GameCanvas extends Canvas{
         }
 
         try {
-            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("/tiles/floor-32.png"));
+            BufferedImage image = ImageIO.read(new File("images/tiles/floor-32.png"));
             int w = image.getWidth();
             int h = image.getHeight();
             image.getRGB(0, 0, w, h, floor32Pixels, 0, w);
@@ -229,7 +230,7 @@ public class GameCanvas extends Canvas{
         }
 
         try {
-            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("/tiles/floor-64.png"));
+            BufferedImage image = ImageIO.read(new File("images/tiles/floor-64.png"));
             int w = image.getWidth();
             int h = image.getHeight();
             image.getRGB(0, 0, w, h, floor64Pixels, 0, w);
@@ -238,7 +239,7 @@ public class GameCanvas extends Canvas{
         }
 
         try {
-            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("/tiles/boundary-32.png"));
+            BufferedImage image = ImageIO.read(new File("images/tiles/boundary-32.png"));
             int w = image.getWidth();
             int h = image.getHeight();
             image.getRGB(0, 0, w, h, boundary32Pixels, 0, w);
@@ -247,7 +248,7 @@ public class GameCanvas extends Canvas{
         }
 
         try {
-            BufferedImage image = ImageIO.read(GameCanvas.class.getResource("/tiles/boundary-64.png"));
+            BufferedImage image = ImageIO.read(new File("images/tiles/boundary-64.png"));
             int w = image.getWidth();
             int h = image.getHeight();
             image.getRGB(0, 0, w, h, boundary64Pixels, 0, w);
