@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import model.Character;
+import view.gui.StartupFrame;
 import view.gui.game.GameFrame;
 import view.gui.game.components.SuggestionDialog;
 import view.textui.UI;
@@ -64,45 +65,45 @@ public class GuiGameController {
 		tiles = ENTITIES.getBoard().getTiles();
 
 		/* Assign board to movement controller */
-		this.MOVEMENT_CONTROLLER = new MovementController(BOARD);
+        this.MOVEMENT_CONTROLLER = new MovementController(BOARD);
 
-		// ENTITIES.setFinalPlayers(gamePlayers); //TODO find logical place to
-		// do this
-		// ENTITIES.setPlayers(gamePlayers); //TODO find logical place to do
-		// this
+        StartupFrame startupFrame = new StartupFrame();
+        startupFrame.getPlayersList();
 
-		// Initialises the game
-		// initGame(gamePlayers); //TODO find logical place to do this
+        //ENTITIES.setFinalPlayers(gamePlayers); //TODO find logical place to do this
+        //ENTITIES.setPlayers(gamePlayers); //TODO find logical place to do this
 
-		// create the game frame
-		DISPLAY = new GameFrame(this);
+        // Initialises the game
+        //initGame(gamePlayers); //TODO find logical place to do this
 
-		// TODO is this needed?
-		// DISPLAY.repaint();
-	}
+        // create the game frame
+        DISPLAY = new GameFrame(this);
 
-	/**
-	 * Rolls the dice for a player, returning a value between 1 - 6
-	 *
-	 * @return integer 1 - 6
-	 */
-	public int rollDice() {
-		DISPLAY.getButtonPanel().setRoll(false);
-		return (int) (Math.random() * 6 + 1);
-	}
+        // TODO is this needed?
+        // DISPLAY.repaint();
+    }
 
-	/**
-	 * Delegate method to handle the various initialisation stages of the game
-	 *
-	 * @param gamePlayers
-	 *            Players in the game
-	 */
-	private void initGame(List<Player> gamePlayers) {
-		// Sets up the players in the game
-		playerCount = gamePlayers.size();
-		initPlayers(gamePlayers);
+    /**
+     * Rolls the dice for a player, returning a value between 1 - 6
+     *
+     * @return integer 1 - 6
+     */
+    public int rollDice() {
+        DISPLAY.getButtonPanel().setRoll(false);
+        return (int) (Math.random() * 6 + 1);
+    }
 
-		isGameOver = false;
+    /**
+     * Delegate method to handle the various initialisation stages of the game
+     *
+     * @param gamePlayers Players in the game
+     */
+    private void initGame(List<Player> gamePlayers) {
+        // Sets up the players in the game
+        playerCount = gamePlayers.size();
+        initPlayers(gamePlayers);
+
+        isGameOver = false;
 
 		/*
 		 * Creates a final game solution, deals the cards to the players, and

@@ -1,11 +1,13 @@
 package view.gui;
 
 import controller.GuiGameController;
+import model.Player;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Enumeration;
 
 /**
@@ -27,13 +29,16 @@ public class StartupFrame extends JFrame {
 	private static final long serialVersionUID = -5354647840440829401L;
 	private final int width = 500;
 	private final int height = 500;
-	private final Dimension gameDimensions = new Dimension(width, height);
+	private final Dimension startupFrame = new Dimension(width, height);
 
-	private int players;
+	private int players = 3;
 	private int count;
 	private JPanel panel;
 	private JTextField txtName;
 
+	private ArrayList<Player> playersList = new ArrayList<>();
+
+	//TODO remove me
 	public static void main(String[] args) {
 		new StartupFrame();
 	}
@@ -94,7 +99,7 @@ public class StartupFrame extends JFrame {
 		// player combo box
 		String[] options = { "3", "4", "5", "6" };
 		final JComboBox<String> cb = new JComboBox<>(options);
-		cb.setBounds(170, 110, 60, 60);
+		cb.setBounds(230, 110, 60, 60);
 		panel.add(cb);
 
 		// Add action listener so when user selects option, the player count is updated
@@ -107,12 +112,12 @@ public class StartupFrame extends JFrame {
 
 		// number of players label
 		JLabel playersLabel = new JLabel("Number of Players:");
-		playersLabel.setBounds(40, 90, 200, 100);
+		playersLabel.setBounds(100, 90, 200, 100);
 		panel.add(playersLabel);
 
 		// submit button
 		JButton submit = new JButton("Submit");
-		submit.setBounds(300, 130, 100, 20);
+		submit.setBounds(350, 180, 100, 20);
 		panel.add(submit);
 		submit.addActionListener(new ActionListener() {
 			@Override
@@ -122,112 +127,86 @@ public class StartupFrame extends JFrame {
 		});
 	}
 
+	/**
+	 *
+	 */
 	private void getPlayers() {
 
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		// Resize the frame
+		setSize(startupFrame);
+
+		// reset the panel
 		panel = new JPanel();
 		setContentPane(panel);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		panel.setLayout(gbl_contentPane);
+		panel.setLayout(null);
+
+		// Display image on panel
+		JLabel imageLabel = new JLabel();
+		imageLabel.setIcon(image);
+		imageLabel.setBounds(150, 0, 300, 100);
+		panel.add(imageLabel);
 
 		final JLabel lblPlayer = new JLabel("Player: " + (count + 1));
-		GridBagConstraints gbc_lblPlayer = new GridBagConstraints();
-		gbc_lblPlayer.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPlayer.gridx = 0;
-		gbc_lblPlayer.gridy = 0;
-		panel.add(lblPlayer, gbc_lblPlayer);
+		lblPlayer.setBounds(40, 100, 200, 50);
+		panel.add(lblPlayer);
 
-		JLabel lblPleaseEnterYour = new JLabel("Please enter your name");
-		GridBagConstraints gbc_lblPleaseEnterYour = new GridBagConstraints();
-		gbc_lblPleaseEnterYour.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPleaseEnterYour.gridx = 0;
-		gbc_lblPleaseEnterYour.gridy = 1;
-		panel.add(lblPleaseEnterYour, gbc_lblPleaseEnterYour);
+		JLabel lblPleaseEnterYour = new JLabel("Please enter your name:");
+		lblPleaseEnterYour.setBounds(40, 140, 150, 50);
+		panel.add(lblPleaseEnterYour);
+
+
 
 		txtName = new JTextField();
 		txtName.setText("");
-		GridBagConstraints gbc_txtName = new GridBagConstraints();
-		gbc_txtName.insets = new Insets(0, 0, 5, 0);
-		gbc_txtName.gridx = 4;
-		gbc_txtName.gridy = 1;
-		panel.add(txtName, gbc_txtName);
+		txtName.setBounds(190, 150, 200, 35);
+		panel.add(txtName);
 		txtName.setColumns(10);
 
-		JLabel lblSelectYourToken = new JLabel("Select your token");
-		GridBagConstraints gbc_lblSelectYourToken = new GridBagConstraints();
-		gbc_lblSelectYourToken.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSelectYourToken.gridx = 0;
-		gbc_lblSelectYourToken.gridy = 3;
-		panel.add(lblSelectYourToken, gbc_lblSelectYourToken);
+		txtName.requestFocusInWindow();
+
+		JLabel lblSelectYourToken = new JLabel("Select your token:");
+		lblSelectYourToken.setBounds(40, 200, 300, 35);
+		panel.add(lblSelectYourToken);
 
 		final ButtonGroup bg = new ButtonGroup();
 
 		final JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Miss Scarlett");
-		GridBagConstraints gbc_rdbtnNewRadioButton_1 = new GridBagConstraints();
-		gbc_rdbtnNewRadioButton_1.anchor = GridBagConstraints.WEST;
-		gbc_rdbtnNewRadioButton_1.insets = new Insets(0, 0, 5, 0);
-		gbc_rdbtnNewRadioButton_1.gridx = 4;
-		gbc_rdbtnNewRadioButton_1.gridy = 3;
-		panel.add(rdbtnNewRadioButton_1, gbc_rdbtnNewRadioButton_1);
+		rdbtnNewRadioButton_1.setBounds(180, 200, 300, 35);
+		panel.add(rdbtnNewRadioButton_1);
 
 		final JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("Mrs Peacock");
-		GridBagConstraints gbc_rdbtnNewRadioButton_2 = new GridBagConstraints();
-		gbc_rdbtnNewRadioButton_2.anchor = GridBagConstraints.WEST;
-		gbc_rdbtnNewRadioButton_2.insets = new Insets(0, 0, 5, 0);
-		gbc_rdbtnNewRadioButton_2.gridx = 4;
-		gbc_rdbtnNewRadioButton_2.gridy = 4;
-		panel.add(rdbtnNewRadioButton_2, gbc_rdbtnNewRadioButton_2);
+		rdbtnNewRadioButton_2.setBounds(180, 235, 300, 35);
+		panel.add(rdbtnNewRadioButton_2);
 
 		final JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("Mrs White");
-		GridBagConstraints gbc_rdbtnNewRadioButton_3 = new GridBagConstraints();
-		gbc_rdbtnNewRadioButton_3.anchor = GridBagConstraints.WEST;
-		gbc_rdbtnNewRadioButton_3.insets = new Insets(0, 0, 5, 0);
-		gbc_rdbtnNewRadioButton_3.gridx = 4;
-		gbc_rdbtnNewRadioButton_3.gridy = 5;
-		panel.add(rdbtnNewRadioButton_3, gbc_rdbtnNewRadioButton_3);
+		rdbtnNewRadioButton_3.setBounds(180, 270, 300, 35);
+		panel.add(rdbtnNewRadioButton_3);
 
 		final JRadioButton rdbtnNewRadioButton_4 = new JRadioButton("Colonel Mustard");
-		GridBagConstraints gbc_rdbtnNewRadioButton_4 = new GridBagConstraints();
-		gbc_rdbtnNewRadioButton_4.anchor = GridBagConstraints.WEST;
-		gbc_rdbtnNewRadioButton_4.insets = new Insets(0, 0, 5, 0);
-		gbc_rdbtnNewRadioButton_4.gridx = 4;
-		gbc_rdbtnNewRadioButton_4.gridy = 6;
-		panel.add(rdbtnNewRadioButton_4, gbc_rdbtnNewRadioButton_4);
-		bg.add(rdbtnNewRadioButton_4);
+		rdbtnNewRadioButton_4.setBounds(180, 305, 300, 35);
+		panel.add(rdbtnNewRadioButton_4);
+
 
 		final JRadioButton rdbtnNewRadioButton = new JRadioButton("Reverend Green");
-		GridBagConstraints gbc_rdbtnNewRadioButton = new GridBagConstraints();
-		gbc_rdbtnNewRadioButton.anchor = GridBagConstraints.WEST;
-		gbc_rdbtnNewRadioButton.insets = new Insets(0, 0, 5, 0);
-		gbc_rdbtnNewRadioButton.gridx = 4;
-		gbc_rdbtnNewRadioButton.gridy = 7;
-		panel.add(rdbtnNewRadioButton, gbc_rdbtnNewRadioButton);
+		rdbtnNewRadioButton.setBounds(180, 340, 300, 35);
+		panel.add(rdbtnNewRadioButton);
 
 		final JRadioButton rdbtnNewRadioButton_5 = new JRadioButton("Professor Plum");
-		GridBagConstraints gbc_rdbtnNewRadioButton_5 = new GridBagConstraints();
-		gbc_rdbtnNewRadioButton_5.anchor = GridBagConstraints.WEST;
-		gbc_rdbtnNewRadioButton_5.insets = new Insets(0, 0, 5, 0);
-		gbc_rdbtnNewRadioButton_5.gridx = 4;
-		gbc_rdbtnNewRadioButton_5.gridy = 8;
-		panel.add(rdbtnNewRadioButton_5, gbc_rdbtnNewRadioButton_5);
+		rdbtnNewRadioButton_5.setBounds(180, 375, 300, 35);
+		panel.add(rdbtnNewRadioButton_5);
 
 		bg.add(rdbtnNewRadioButton);
 		bg.add(rdbtnNewRadioButton_1);
 		bg.add(rdbtnNewRadioButton_2);
 		bg.add(rdbtnNewRadioButton_3);
+		bg.add(rdbtnNewRadioButton_4);
 		bg.add(rdbtnNewRadioButton_5);
 
-		final JButton btnSubmit = new JButton("Submit");
-		GridBagConstraints gbc_btnSubmit = new GridBagConstraints();
-		gbc_btnSubmit.insets = new Insets(0, 0, 5, 0);
-		gbc_btnSubmit.gridx = 4;
-		gbc_btnSubmit.gridy = 10;
+		final JButton btnSubmit = new JButton("Next Player");
+		btnSubmit.setBounds(270, 420, 100, 35);
 
-		final JButton btnNext = new JButton("Next");
-		GridBagConstraints gbc_btnNext = new GridBagConstraints();
-		gbc_btnNext.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNext.gridx = 5;
-		gbc_btnNext.gridy = 10;
+		final JButton btnNext = new JButton("Start Game");
+		btnNext.setBounds(380, 420, 100, 35);
 		btnNext.setEnabled(false);
 		btnNext.addActionListener(new ActionListener() {
 
@@ -238,7 +217,7 @@ public class StartupFrame extends JFrame {
 			}
 		});
 
-		panel.add(btnNext, gbc_btnNext);
+		panel.add(btnNext);
 
 		// create actions for each submit push
 		btnSubmit.addActionListener(new ActionListener() {
@@ -246,7 +225,7 @@ public class StartupFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				for (Enumeration<AbstractButton> buttons = bg.getElements(); buttons.hasMoreElements();) {
+				for (Enumeration<AbstractButton> buttons = bg.getElements(); buttons.hasMoreElements(); ) {
 					AbstractButton button = buttons.nextElement();
 
 					if (button.isSelected()) {
@@ -265,13 +244,13 @@ public class StartupFrame extends JFrame {
 							// they clicked
 							button.setEnabled(false);
 							bg.clearSelection();
+							count++;
 							lblPlayer.setText("Player: " + (count + 1));
 							txtName.setSelectionStart(0);
 							System.out.println(txtName.getText());
 							txtName.setText("");
 							txtName.requestFocus();
 							txtName.setSelectionStart(0);
-							count++;
 						}
 					}
 					// players have reached the max number specified
@@ -293,16 +272,17 @@ public class StartupFrame extends JFrame {
 			}
 		});
 
-		panel.add(btnSubmit, gbc_btnSubmit);
+		panel.add(btnSubmit);
 
-		txtName.requestFocus();
-		txtName.setSelectionStart(0);
 		// finalise the display
 		setLocationRelativeTo(null);
 		setResizable(false);
-		requestFocus();
 		setVisible(true);
 
+	}
+
+	public ArrayList<Player> getPlayersList() {
+		return playersList;
 	}
 
 	// Image resource
