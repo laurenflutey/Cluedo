@@ -109,7 +109,7 @@ public class GuiGameController {
 		dealCards();
 		distributeWeapons();
 
-		//doGame();
+		// doGame();
 	}
 
 	/**
@@ -263,23 +263,22 @@ public class GuiGameController {
 
 		List<Player> endPlayers = new ArrayList<>();
 
-		
-		for(int i = 0; i < gamePlayers.size(); i++){
-			System.out.println(namePlayers.get(i));
-			Character character = ENTITIES.getCharacter(namePlayers.get(i));
-			Player player = new Player(character.getName(), character.getCh(), character.getXPos(), character.getYPos());
+		for (int i = 0; i < gamePlayers.size(); i++) {
+			Character character = ENTITIES.getCharacter(gamePlayers.get(i));
+			Player player = new Player(character.getName(), character.getCh(), character.getXPos(),
+					character.getYPos());
 			player.setCharacter(character);
 			player.setXPos(character.getXPos());
 			player.setYPos(character.getYPos());
 			player.setAlive(true);
 			player.setPlayerNumber(playerCount + 1);
 			playerCount++;
-
 			endPlayers.add(player);
 		}
 
-		ENTITIES.getPlayers().addAll(endPlayers);
-		ENTITIES.getFinalPlayers().addAll(endPlayers);
+		ENTITIES.setPlayers(endPlayers);
+		ENTITIES.setFinalPlayers(endPlayers);
+
 
 	}
 
@@ -302,6 +301,7 @@ public class GuiGameController {
 				}
 			}
 			if (!contains) {
+				System.out.println(character.getName());
 				Player player = new Player(character.getName(), character.getCh(), character.getXPos(),
 						character.getYPos());
 				player.setCharacter(character);

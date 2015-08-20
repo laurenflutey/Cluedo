@@ -297,50 +297,54 @@ public class StartupFrame extends JFrame {
 	}
 
 	/**
-	 * Abstracted this method so that it can be called on a keyListener event as well
+	 * Abstracted this method so that it can be called on a keyListener event as
+	 * well
 	 */
 	private void performNextPlayerLogic() {
-		for (Enumeration<AbstractButton> buttons = characterChoiceOptions.getElements(); buttons
-                .hasMoreElements();) {
-            AbstractButton button = buttons.nextElement();
+		for (Enumeration<AbstractButton> buttons = characterChoiceOptions.getElements(); buttons.hasMoreElements();) {
+			AbstractButton button = buttons.nextElement();
 
-            if (button.isSelected()) {
-                if (!nameEntryField.getText().equals("")) {
+			if (button.isSelected()) {
+				if (!nameEntryField.getText().equals("")) {
+					System.out.println(button.getLabel());
+					// create the actual player
+					playersList.add(button.getLabel());
+					nameList.add(nameEntryField.getText());
 
-                    button.setEnabled(false);
-                    characterChoiceOptions.clearSelection();
-                    count++;
-                    playerLabel.setText("Player: " + (count + 1));
-                    nameEntryField.setText("");
-                    nameEntryField.requestFocusInWindow();
-                }
-            }
-            // players have reached the max number specified
-            // disable all the radio buttons
-            // and enabled the option to start game
-            if (count == players) {
-                playerLabel.setText("Player: " + (count));
-                nextPlayerButton.setEnabled(false);
-                nameEntryField.setEnabled(false);
-                reverendGreenButton.setEnabled(false);
-                missScarletButton.setEnabled(false);
-                mrsPeacockButton.setEnabled(false);
-                mrsWhiteButton.setEnabled(false);
-                colonelMustardButton.setEnabled(false);
-                professorPlumButton.setEnabled(false);
+					button.setEnabled(false);
+					characterChoiceOptions.clearSelection();
+					count++;
+					playerLabel.setText("Player: " + (count + 1));
+					nameEntryField.setText("");
+					nameEntryField.requestFocusInWindow();
+
+				}
+			}
+			// players have reached the max number specified
+			// disable all the radio buttons
+			// and enabled the option to start game
+			if (count == players) {
+				playerLabel.setText("Player: " + (count));
+				nextPlayerButton.setEnabled(false);
+				nameEntryField.setEnabled(false);
+				reverendGreenButton.setEnabled(false);
+				missScarletButton.setEnabled(false);
+				mrsPeacockButton.setEnabled(false);
+				mrsWhiteButton.setEnabled(false);
+				colonelMustardButton.setEnabled(false);
+				professorPlumButton.setEnabled(false);
 				startGameButton.setEnabled(true);
 				creatingPlayers = false;
 				break;
-            }
-        }
-		for (Enumeration<AbstractButton> buttons = characterChoiceOptions.getElements(); buttons
-                .hasMoreElements();) {
-            AbstractButton button = buttons.nextElement();
-            if (button.isEnabled()) {
-                button.setSelected(true);
-                break;
-            }
-        }
+			}
+		}
+		for (Enumeration<AbstractButton> buttons = characterChoiceOptions.getElements(); buttons.hasMoreElements();) {
+			AbstractButton button = buttons.nextElement();
+			if (button.isEnabled()) {
+				button.setSelected(true);
+				break;
+			}
+		}
 	}
 
 	/**
