@@ -44,9 +44,11 @@ public class GuiGameController {
 	/**
 	 * Handles the interaction with the users using the GUI Frame
 	 */
-	private final GameFrame DISPLAY;
+	private GameFrame DISPLAY;
 
 	private int playerCount;
+	private int playerTurn;
+
 	private boolean isGameOver;
 	private boolean everyoneLost = false;
 
@@ -65,45 +67,38 @@ public class GuiGameController {
 		tiles = ENTITIES.getBoard().getTiles();
 
 		/* Assign board to movement controller */
-        this.MOVEMENT_CONTROLLER = new MovementController(BOARD);
+		this.MOVEMENT_CONTROLLER = new MovementController(BOARD);
 
-        StartupFrame startupFrame = new StartupFrame();
-        startupFrame.getPlayersList();
+		StartupFrame startupFrame = new StartupFrame(this);
 
-        //ENTITIES.setFinalPlayers(gamePlayers); //TODO find logical place to do this
-        //ENTITIES.setPlayers(gamePlayers); //TODO find logical place to do this
+		// TODO is this needed?
+		// DISPLAY.repaint();
+	}
 
-        // Initialises the game
-        //initGame(gamePlayers); //TODO find logical place to do this
+	/**
+	 * Rolls the dice for a player, returning a value between 1 - 6
+	 *
+	 * @return integer 1 - 6
+	 */
+	public int rollDice() {
+		DISPLAY.getButtonPanel().setRoll(false);
+		return (int) (Math.random() * 6 + 1);
+	}
 
-        // create the game frame
-        DISPLAY = new GameFrame(this);
+	/**
+	 * Delegate method to handle the various initialisation stages of the game
+	 *
+	 * @param gamePlayers
+	 *            Players in the game
+	 */
+	private void initGame(List<Player> gamePlayers) {
+		
+		DISPLAY = new GameFrame(this);
+		// Sets up the players in the game
+		playerCount = gamePlayers.size();
+		initPlayers(gamePlayers);
 
-        // TODO is this needed?
-        // DISPLAY.repaint();
-    }
-
-    /**
-     * Rolls the dice for a player, returning a value between 1 - 6
-     *
-     * @return integer 1 - 6
-     */
-    public int rollDice() {
-        DISPLAY.getButtonPanel().setRoll(false);
-        return (int) (Math.random() * 6 + 1);
-    }
-
-    /**
-     * Delegate method to handle the various initialisation stages of the game
-     *
-     * @param gamePlayers Players in the game
-     */
-    private void initGame(List<Player> gamePlayers) {
-        // Sets up the players in the game
-        playerCount = gamePlayers.size();
-        initPlayers(gamePlayers);
-
-        isGameOver = false;
+		isGameOver = false;
 
 		/*
 		 * Creates a final game solution, deals the cards to the players, and
@@ -487,5 +482,10 @@ public class GuiGameController {
 		accusingPlayer.setAccusation(suggestion);
 
 		return true;
+	}
+
+	public void incrementPlayerTurn() {
+		currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
+		initPlayerTurn();
 	}
 }

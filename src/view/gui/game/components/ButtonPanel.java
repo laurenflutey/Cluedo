@@ -26,6 +26,8 @@ public class ButtonPanel extends JPanel {
 
 	private final GuiGameController gameController;
 
+	private JButton endButton;
+
 	public ButtonPanel(final GuiGameController guiGameController, final JPanel contentPane) {
 		this.gameController = guiGameController;
 		this.parent = contentPane;
@@ -75,6 +77,16 @@ public class ButtonPanel extends JPanel {
 			}
 		});
 		add(secretButton);
+		
+		endButton = new JButton("End Turn");
+		// secretButton.setBounds(368, 105, 105, 82);
+		endButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gameController.incrementPlayerTurn();
+			}
+		});
+		add(endButton);
 
 		parent.add(this, gridBagConstraints);
 
