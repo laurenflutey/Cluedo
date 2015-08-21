@@ -175,15 +175,29 @@ public class GameCanvas extends Canvas{
                 }
 
                 if (tiles[x / tileSize][y / tileSize].isOccupied()) {
-                    if (tileSize == 32) {
-                        int col = greenSpritesheet32Pixels[xx % tileSize + yy % tileSize * 128];
-                        if (col != -65316) {
-                            pixels[xx + yy * width] = col;
+                    if (tiles[x / tileSize][y / tileSize].getPlayer() != null) {
+                        if (tileSize == 32) {
+                            int col = greenSpritesheet32Pixels[xx % tileSize + yy % tileSize * 128];
+                            if (col != -65316) {
+                                pixels[xx + yy * width] = col;
+                            }
+                        } else {
+                            int col = greenSpritesheet64Pixels[xx % tileSize + yy % tileSize * 256];
+                            if (col != -65316) {
+                                pixels[xx + yy * width] = col;
+                            }
                         }
                     } else {
-                        int col = greenSpritesheet64Pixels[xx % tileSize + yy % tileSize * 256];
-                        if (col != -65316) {
-                            pixels[xx + yy * width] = col;
+                        if (tileSize == 32) {
+                            int col = weaponSpritesheet32Pixels[xx % tileSize + yy % tileSize * 96];
+                            if (col != -65316) {
+                                pixels[xx + yy * width] = col;
+                            }
+                        } else {
+                            int col = weaponSpritesheet64Pixels[xx % tileSize + yy % tileSize * 192];
+                            if (col != -65316) {
+                                pixels[xx + yy * width] = col;
+                            }
                         }
                     }
                 }
@@ -297,10 +311,10 @@ public class GameCanvas extends Canvas{
         }
 
         try {
-            BufferedImage image = ImageIO.read(new File("images/characters/green/green-spritesheet-64.png"));
+            BufferedImage image = ImageIO.read(new File("images/weapons/weapon-spritesheet-32.png"));
             int w = image.getWidth();
             int h = image.getHeight();
-            image.getRGB(0, 0, w, h, greenSpritesheet64Pixels, 0, w);
+            image.getRGB(0, 0, w, h, weaponSpritesheet32Pixels, 0, w);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -314,5 +328,8 @@ public class GameCanvas extends Canvas{
     private static int[] boundary64Pixels = new int[64 * 64];
     private static int[] greenSpritesheet32Pixels = new int[128 * 96];
     private static int[] greenSpritesheet64Pixels = new int[256 * 192];
+
+    private static int[] weaponSpritesheet32Pixels = new int[96 * 64];
+    private static int[] weaponSpritesheet64Pixels = new int[192 * 128];
 
 }
