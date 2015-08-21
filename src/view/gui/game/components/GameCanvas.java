@@ -1,6 +1,7 @@
 package view.gui.game.components;
 
 import controller.GuiGameController;
+import model.Player;
 import model.Tile;
 import view.gui.game.GameFrame;
 
@@ -178,22 +179,30 @@ public class GameCanvas extends Canvas{
                 }
 
                 if (currentTile.isOccupied()) {
-                    if (currentTile.getPlayer() != null) {
-                        if (tileSize == 32) {
-                            int col = greenSpritesheet32Pixels[xx % tileSize + yy % tileSize * 128];
-                            if (col != -65316) {
-                                pixels[xx + yy * width] = col;
-                            }
-                        } else {
-//                            int col = greenSpritesheet64Pixels[xx % tileSize + yy % tileSize * 256];
-//                            if (col != -65316) {
-//                                pixels[xx + yy * width] = col;
-//                            }
-                        }
+                    Player player = currentTile.getPlayer();
+                    if (player != null) {
+                        renderPlayers(yy, xx, player);
                     } else {
                         renderWeapon(yy, xx, currentTile);
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * Delegate method to handle the rendering of the players to the board
+     *
+     *  @param yy Absolute y position after offset
+     * @param xx Absolute x position after offset
+     * @param player The player to be rendered to the current tile
+     */
+    private void renderPlayers(int yy, int xx, Player player) {
+        if (tileSize == 32) {
+            if (player.getCh())
+            int col = greenSpritesheet32Pixels[xx % tileSize + yy % tileSize * 128];
+            if (col != -65316) {
+                pixels[xx + yy * width] = col;
             }
         }
     }
@@ -246,13 +255,6 @@ public class GameCanvas extends Canvas{
                     pixels[xx + yy * width] = col;
                 }
             }
-
-
-        } else {
-//                            int col = weaponSpritesheet64Pixels[xx % tileSize + yy % tileSize * 192];
-//                            if (col != -65316) {
-//                                pixels[xx + yy * width] = col;
-//                            }
         }
     }
 
