@@ -199,10 +199,36 @@ public class GameCanvas extends Canvas{
      */
     private void renderPlayers(int yy, int xx, Player player) {
         if (tileSize == 32) {
-            if (player.getCh())
-            int col = greenSpritesheet32Pixels[xx % tileSize + yy % tileSize * 128];
-            if (col != -65316) {
-                pixels[xx + yy * width] = col;
+            if (player.getCh() == 'p') {
+                int col = peacockSpritesheet32Pixels[xx % tileSize + yy % tileSize * 128];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (player.getCh() == 'r') {
+                int col = plumSpritesheet32Pixels[xx % tileSize + yy % tileSize * 128];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (player.getCh() == 's') {
+                int col = scarSpritesheet32Pixels[xx % tileSize + yy % tileSize * 128];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (player.getCh() == 'm') {
+                int col = mustSpritesheet32Pixels[xx % tileSize + yy % tileSize * 128];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (player.getCh() == 'w') {
+                int col = whiteSpritesheet32Pixels[xx % tileSize + yy % tileSize * 128];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (player.getCh() == 'g') {
+                int col = greenSpritesheet32Pixels[xx % tileSize + yy % tileSize * 128];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
             }
         }
     }
@@ -358,10 +384,46 @@ public class GameCanvas extends Canvas{
         }
 
         try {
-            BufferedImage image = ImageIO.read(new File("images/characters/green/green-spritesheet-32.png"));
+            BufferedImage image = ImageIO.read(new File("images/characters/must/must-spritesheet-32.png"));
             int w = image.getWidth();
             int h = image.getHeight();
-            image.getRGB(0, 0, w, h, greenSpritesheet32Pixels, 0, w);
+            image.getRGB(0, 0, w, h, mustSpritesheet32Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedImage image = ImageIO.read(new File("images/characters/peacock/peacock-spritesheet-32.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, peacockSpritesheet32Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedImage image = ImageIO.read(new File("images/characters/plum/plum-spritesheet-32.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, plumSpritesheet32Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedImage image = ImageIO.read(new File("images/characters/scar/scar-spritesheet-32.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, scarSpritesheet32Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedImage image = ImageIO.read(new File("images/characters/white/white-spritesheet-32.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, whiteSpritesheet32Pixels, 0, w);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -382,8 +444,24 @@ public class GameCanvas extends Canvas{
     private static int[] wall64Pixels = new int[64 * 64];
     private static int[] floor64Pixels = new int[64 * 64];
     private static int[] boundary64Pixels = new int[64 * 64];
+
     private static int[] greenSpritesheet32Pixels = new int[128 * 96];
     private static int[] greenSpritesheet64Pixels = new int[256 * 192]; // TODO
+
+    private static int[] mustSpritesheet32Pixels = new int[128 * 96];
+    private static int[] mustSpritesheet64Pixels = new int[256 * 192]; // TODO
+
+    private static int[] peacockSpritesheet32Pixels = new int[128 * 96];
+    private static int[] peacockSpritesheet64Pixels = new int[256 * 192]; // TODO
+
+    private static int[] plumSpritesheet32Pixels = new int[128 * 96];
+    private static int[] plumSpritesheet64Pixels = new int[256 * 192]; // TODO
+
+    private static int[] scarSpritesheet32Pixels = new int[128 * 96];
+    private static int[] scarSpritesheet64Pixels = new int[256 * 192]; // TODO
+
+    private static int[] whiteSpritesheet32Pixels = new int[128 * 96];
+    private static int[] whiteSpritesheet64Pixels = new int[256 * 192]; // TODO
 
     private static int[] weaponSpritesheet32Pixels = new int[96 * 64];
     private static int[] weaponSpritesheet64Pixels = new int[192 * 128]; // TODO
