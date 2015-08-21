@@ -86,7 +86,6 @@ public class GuiGameController {
 	 * @return integer 1 - 6
 	 */
 	public int rollDice() {
-		DISPLAY.getButtonPanel().setRoll(false);
 		return (int) (Math.random() * 6 + 1);
 	}
 

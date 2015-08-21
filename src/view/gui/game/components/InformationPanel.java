@@ -1,18 +1,21 @@
 package view.gui.game.components;
 
-import javax.imageio.ImageIO;
-import javax.sound.midi.VoiceStatus;
-import javax.swing.*;
-
-import controller.GuiGameController;
-import model.Character;
-import model.Player;
-
-import java.awt.*;
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Set;
+import java.util.Timer;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import controller.GuiGameController;
 
 /**
  * JPanel containing all of the game information. This includes includes the
@@ -37,11 +40,11 @@ public class InformationPanel extends JPanel {
 	private JLabel charactersLabel;
 	private Component secretNameLabel;
 	private JLabel dieRollImage;
-	
-	private HashSet<BufferedImage> dieSet;
+
+	private Set<BufferedImage> dieSet;
 
 	public InformationPanel(final GuiGameController guiGameController, final JPanel contentPane) {
-		
+
 		initDie();
 		this.guiGameController = guiGameController;
 		this.parentJPanel = contentPane;
@@ -59,11 +62,10 @@ public class InformationPanel extends JPanel {
 		imageLabel.setIcon(imageIcon);
 		add(imageLabel);
 
-
 		characterLabel = new JLabel(guiGameController.getCurrentPlayer().getName());
 		characterLabel.setBounds(239, 55, 261, 16);
 		add(characterLabel);
-		
+
 		nameLabel = new JLabel(guiGameController.getCurrentPlayer().getPlayerName());
 		nameLabel.setBounds(239, 27, 261, 16);
 		add(nameLabel);
@@ -79,10 +81,10 @@ public class InformationPanel extends JPanel {
 		roomNameLabel = new JLabel("name");
 		roomNameLabel.setBounds(23, 207, 61, 16);
 		add(roomNameLabel);
-		
+
 		secretNameLabel = new JLabel("secret");
 		secretNameLabel.setBounds(23, 235, 61, 16);
-		add(secretNameLabel);		
+		add(secretNameLabel);
 
 		contentsLabel = new JLabel("Contents:");
 		contentsLabel.setBounds(23, 263, 61, 16);
@@ -95,9 +97,9 @@ public class InformationPanel extends JPanel {
 		charactersLabel = new JLabel("Characters");
 		charactersLabel.setBounds(23, 319, 225, 16);
 		add(charactersLabel);
-		
+
 		dieRollImage = new JLabel("DieRoll");
-		dieRollImage.setBounds(23, 546, 61, 16);
+		dieRollImage.setBounds(23, 546, 100, 100);
 		add(dieRollImage);
 
 		GridBagConstraints gridBagConstraints = new GridBagConstraints();
@@ -110,9 +112,36 @@ public class InformationPanel extends JPanel {
 
 	private void initDie() {
 		dieSet = new HashSet<>();
+
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(new File("images/dice.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		for (int i = 0; i < 12; i++) {
+			for (int j = 0; j < 18; j++) {
+				dieSet.add(image.getSubimage(i * 64, j * 68, 64, 68));
+			}
+			
+		}
+		System.out.println();
+
+	}
+	
+	public void rollDieAnimation(int roll){
+		int count = 0;
+
+		for(BufferedImage img : dieSet){
+			System.out.println(count++);
+			Image dimg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+			dieRollImage.setIcon(new ImageIcon(dimg));
+			dieRollImage.repaint();
+		}
 		
-		//BufferedImage image = ImageIO.read("images/dice.png");
-		
+		//TODO
 	}
 
 	public void displayIcon() {
@@ -133,8 +162,8 @@ public class InformationPanel extends JPanel {
 		imageLabel.setIcon(imageIcon);
 
 	}
-	
-	public void setDieIcon(BufferedImage img){
+
+	public void setDieIcon(BufferedImage img) {
 		Image dimg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 		imageIcon = new ImageIcon(dimg);
 		dieRollImage.setIcon(imageIcon);
