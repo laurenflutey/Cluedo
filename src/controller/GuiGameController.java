@@ -93,13 +93,12 @@ public class GuiGameController {
 	 */
 	public void initGame(ArrayList<String> playersList, ArrayList<String> nameList) {
 
-		DISPLAY = new GameFrame(this);
 		// Sets up the players in the game
-		playerCount = playersList.size();
 		initHumanPlayers(playersList, nameList);
 		initFakePlayers(ENTITIES.getPlayers());
 
 		isGameOver = false;
+		DISPLAY = new GameFrame(this);
 
 		/*
 		 * Creates a final game solution, deals the cards to the players, and
@@ -265,7 +264,7 @@ public class GuiGameController {
 
 		for (int i = 0; i < gamePlayers.size(); i++) {
 			Character character = ENTITIES.getCharacter(gamePlayers.get(i));
-			Player player = new Player(character.getName(), character.getCh(), character.getXPos(),
+			Player player = new Player(namePlayers.get(i), character.getName(), character.getCh(), character.getXPos(),
 					character.getYPos());
 			player.setCharacter(character);
 			player.setXPos(character.getXPos());
@@ -276,9 +275,13 @@ public class GuiGameController {
 			endPlayers.add(player);
 		}
 
+		currentPlayer = endPlayers.get(0);
+		playerTurn = 1;
+
 		ENTITIES.setPlayers(endPlayers);
 		ENTITIES.setFinalPlayers(endPlayers);
-
+		
+		System.out.println(endPlayers.size());
 
 	}
 
@@ -293,34 +296,41 @@ public class GuiGameController {
 	 */
 	private void initFakePlayers(List<Player> players) {
 		// initialises inactive players
+		List<Player> fakePlayers = new ArrayList<>();
+		
 		for (Character character : ENTITIES.getCharacters()) {
 			boolean contains = false;
 			for (Player player : players) {
-				if (player.getCharacter().equals(character)) {
+				if (player.getCharacter().getName().equals(character.getName())) {
 					contains = true;
 				}
 			}
 			if (!contains) {
-				System.out.println(character.getName());
 				Player player = new Player(character.getName(), character.getCh(), character.getXPos(),
 						character.getYPos());
 				player.setCharacter(character);
 				player.setAlive(false);
-				players.add(player);
+				fakePlayers.add(player);
 				player.setPlayerNumber(players.size());
 
 			}
 		}
 		// Gets a list of player objects from the UI class and sets the entities
 		// to hold it
-		ENTITIES.getPlayers().addAll(players);
-		ENTITIES.getFinalPlayers().addAll(players);
+		
+
+		for(Player player : ENTITIES.getFinalPlayers()){
+			System.out.println(player.getName() + "----dasdas");
+		}
+		
+		ENTITIES.getPlayers().addAll(fakePlayers);
+		//ENTITIES.getFinalPlayers().addAll(fakePlayers);
 
 		// Gets the list of tiles from the Entities class to set player
 		// locations to tile
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {
-				for (Player p : players) {
+				for (Player p : ENTITIES.getPlayers()) {
 
 					// assigns a player to a tile location
 					if (p.getXPos() == i && p.getYPos() == j) {
@@ -328,6 +338,9 @@ public class GuiGameController {
 					}
 				}
 			}
+		}
+		for(Player player : ENTITIES.getFinalPlayers()){
+			System.out.println(player.getName() + "dasdas");
 		}
 	}
 
@@ -391,8 +404,11 @@ public class GuiGameController {
 		DISPLAY.getButtonPanel().setRoll(true);
 		DISPLAY.getButtonPanel().setSuggest(true);
 		DISPLAY.getButtonPanel().setAccuse(true);
+		
+		DISPLAY.getInformationPanel().setName(currentPlayer.getPlayerName());
+		DISPLAY.getInformationPanel().setChar(currentPlayer.getName());
 
-		if (currentPlayer.getRoom().getConnectingRoom() != null) {
+		if (currentPlayer.getRoom() != null) {
 			DISPLAY.getButtonPanel().setSecretRoom(true);
 		}
 	}
@@ -510,7 +526,8 @@ public class GuiGameController {
 	}
 
 	public void incrementPlayerTurn() {
-		currentPlayer = ENTITIES.getPlayer(playerTurn % playerCount);
+		currentPlayer = ENTITIES.getFinalPlayers().get(playerTurn++ % playerCount);
+		System.out.println(currentPlayer.getName());
 		initPlayerTurn();
 	}
 }
