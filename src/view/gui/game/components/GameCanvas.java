@@ -1,6 +1,7 @@
 package view.gui.game.components;
 
 import controller.GuiGameController;
+import model.Move;
 import model.Player;
 import model.Tile;
 import view.gui.game.GameFrame;
@@ -77,8 +78,12 @@ public class GameCanvas extends Canvas{
 
             @Override
             public void mousePressed(MouseEvent e) {
-                System.out.println("e.getX() = " + e.getX());
-                System.out.println("e.getY() = " + e.getY());
+
+                System.out.println("in click");
+
+                Move move = new Move(e.getX() / tileSize, e.getY() / tileSize);
+
+                GUIGAMECONTROLLER.sendMove(move);
             }
 
             @Override
@@ -200,32 +205,32 @@ public class GameCanvas extends Canvas{
     private void renderPlayers(int yy, int xx, Player player) {
         if (tileSize == 32) {
             if (player.getCh() == 'p') {
-                int col = peacockSpritesheet32Pixels[xx % tileSize + yy % tileSize * 128];
+                int col = peacockSpritesheet32Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (player.getCh() == 'r') {
-                int col = plumSpritesheet32Pixels[xx % tileSize + yy % tileSize * 128];
+                int col = plumSpritesheet32Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (player.getCh() == 's') {
-                int col = scarSpritesheet32Pixels[xx % tileSize + yy % tileSize * 128];
+                int col = scarSpritesheet32Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (player.getCh() == 'm') {
-                int col = mustSpritesheet32Pixels[xx % tileSize + yy % tileSize * 128];
+                int col = mustSpritesheet32Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (player.getCh() == 'w') {
-                int col = whiteSpritesheet32Pixels[xx % tileSize + yy % tileSize * 128];
+                int col = whiteSpritesheet32Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (player.getCh() == 'g') {
-                int col = greenSpritesheet32Pixels[xx % tileSize + yy % tileSize * 128];
+                int col = greenSpritesheet32Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
@@ -244,43 +249,45 @@ public class GameCanvas extends Canvas{
         if (tileSize == 32) {
             char weaponId = currentTile.getWeapon().getId();
             if (weaponId == '!') {
-                int col = weaponSpritesheet32Pixels[xx % tileSize + yy % tileSize * 96];
+                int col = weaponSpritesheet32Pixels[xx % tileSize + yy % tileSize * tileSize  * 3];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (weaponId == '?') {
-                int spritesheetoffsetX = 32;
-                int col = weaponSpritesheet32Pixels[(xx % tileSize) + spritesheetoffsetX + yy % tileSize * 96];
+                int spritesheetoffsetX = tileSize;
+                int col = weaponSpritesheet32Pixels[(xx % tileSize) + spritesheetoffsetX + yy % tileSize * tileSize  * 3];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (weaponId == '%') {
-                int spritesheetoffsetX = 64;
-                int col = weaponSpritesheet32Pixels[(xx % tileSize) + spritesheetoffsetX + yy % tileSize * 96];
+                int spritesheetoffsetX = tileSize * 2;
+                int col = weaponSpritesheet32Pixels[(xx % tileSize) + spritesheetoffsetX + yy % tileSize * tileSize  * 3];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (weaponId == '&') {
-                int spritesheetoffsetY = 32;
-                int col = weaponSpritesheet32Pixels[(xx % tileSize) + (yy % tileSize + spritesheetoffsetY) * 96 ];
+                int spritesheetoffsetY = tileSize;
+                int col = weaponSpritesheet32Pixels[(xx % tileSize) + (yy % tileSize + spritesheetoffsetY) * tileSize  * 3];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (weaponId == '*') {
-                int spritesheetoffsetX = 32;
-                int spritesheetoffsetY = 32;
-                int col = weaponSpritesheet32Pixels[(xx % tileSize) + spritesheetoffsetX + (yy % tileSize + spritesheetoffsetY) * 96 ];
+                int spritesheetoffsetX = tileSize;
+                int spritesheetoffsetY = tileSize;
+                int col = weaponSpritesheet32Pixels[(xx % tileSize) + spritesheetoffsetX + (yy % tileSize + spritesheetoffsetY) * tileSize  * 3];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (weaponId == '#') {
-                int spritesheetoffsetX = 64;
-                int spritesheetoffsetY = 32;
-                int col = weaponSpritesheet32Pixels[(xx % tileSize) + spritesheetoffsetX + (yy % tileSize + spritesheetoffsetY) * 96 ];
+                int spritesheetoffsetX = tileSize * 2;
+                int spritesheetoffsetY = tileSize;
+                int col = weaponSpritesheet32Pixels[(xx % tileSize) + spritesheetoffsetX + (yy % tileSize + spritesheetoffsetY) * tileSize  * 3];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             }
+        } else {
+
         }
     }
 
@@ -437,6 +444,26 @@ public class GameCanvas extends Canvas{
             e.printStackTrace();
         }
     }
+
+
+    //TODO Fix this and use it if we have time.
+//    private int[] convertFrom32To64(int[] spritesheet, int width) {
+//        int[] newSpritesheet = new int[spritesheet.length * 4];
+//        for (int i = 0; i < spritesheet.length; i++) {
+//            if (i >= width) {
+//                newSpritesheet[i * 2 + spritesheet.length] = spritesheet[i];
+//                newSpritesheet[i * 2 + spritesheet.length + 1] = spritesheet[i];
+//                newSpritesheet[i * 2 + 2 * spritesheet.length] = spritesheet[i];
+//                newSpritesheet[i * 2 + 2 * spritesheet.length + 1] = spritesheet[i];
+//            } else {
+//                newSpritesheet[i * 2] = spritesheet[i];
+//                newSpritesheet[i * 2 + 1] = spritesheet[i];
+//                newSpritesheet[i * 2 + spritesheet.length] = spritesheet[i];
+//                newSpritesheet[i * 2 + spritesheet.length + 1] = spritesheet[i];
+//            }
+//        }
+//        return newSpritesheet;
+//    }
 
     private static int[] wall32Pixels = new int[32 * 32];
     private static int[] floor32Pixels = new int[32 * 32];
