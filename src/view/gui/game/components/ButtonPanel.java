@@ -4,7 +4,10 @@ import javax.swing.*;
 
 import org.omg.CORBA.PUBLIC_MEMBER;
 
+import com.sun.istack.internal.FinalArrayList;
+
 import controller.GuiGameController;
+import view.gui.game.GameFrame;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -28,7 +31,7 @@ public class ButtonPanel extends JPanel {
 
 	private JButton endButton;
 
-	public ButtonPanel(final GuiGameController guiGameController, final JPanel contentPane) {
+	public ButtonPanel(final GuiGameController guiGameController, final JPanel contentPane, final GameFrame frame) {
 		this.gameController = guiGameController;
 		this.parent = contentPane;
 		// setBackground(Color.RED.darker().darker());
@@ -42,7 +45,8 @@ public class ButtonPanel extends JPanel {
 		rollButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gameController.rollDice();
+				frame.doRoll();
+				//gameController.rollDice();
 			}
 		});
 		add(rollButton);

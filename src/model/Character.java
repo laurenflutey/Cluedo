@@ -1,5 +1,6 @@
 package model;
 
+
 /**
  * Class representing a character within the Cluedo game.
  *
@@ -17,7 +18,8 @@ public class Character {
 	/**
 	 * Constructor for Character class
 	 * 
-	 * @param name the name of the Character
+	 * @param name
+	 *            the name of the Character
 	 */
 	public Character(String name, char ch, int xOrigin, int yOrigin) {
 		this.name = name;
@@ -30,7 +32,7 @@ public class Character {
 	 * Gets x pos.
 	 *
 	 * @return the x pos
-     */
+	 */
 	public int getXPos() {
 		return xPos;
 	}
@@ -38,8 +40,9 @@ public class Character {
 	/**
 	 * Sets x pos.
 	 *
-	 * @param xPos the x pos
-     */
+	 * @param xPos
+	 *            the x pos
+	 */
 	public void setXPos(int xPos) {
 		this.xPos = xPos;
 	}
@@ -48,7 +51,7 @@ public class Character {
 	 * Gets y pos.
 	 *
 	 * @return the y pos
-     */
+	 */
 	public int getYPos() {
 		return yPos;
 	}
@@ -56,8 +59,9 @@ public class Character {
 	/**
 	 * Sets y pos.
 	 *
-	 * @param yPos the y pos
-     */
+	 * @param yPos
+	 *            the y pos
+	 */
 	public void setYPos(int yPos) {
 		this.yPos = yPos;
 	}
@@ -66,7 +70,7 @@ public class Character {
 	 * Gets name.
 	 *
 	 * @return the name
-     */
+	 */
 	public String getName() {
 		return name;
 	}
@@ -75,7 +79,7 @@ public class Character {
 	 * Gets ch.
 	 *
 	 * @return the ch
-     */
+	 */
 	public char getCh() {
 		return ch;
 	}
@@ -88,15 +92,17 @@ public class Character {
 	}
 
 	/**
-	 * @param isUsed the isUsed to set
+	 * @param isUsed
+	 *            the isUsed to set
 	 */
 	public void setUsed(boolean isUsed) {
 		this.isUsed = isUsed;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return name;
 	}
+
 
 }
