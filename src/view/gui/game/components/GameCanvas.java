@@ -36,7 +36,7 @@ public class GameCanvas extends Canvas{
     /**
      * Size of a single tileSize in the game
      */
-    private int tileSize = 64;
+    private int tileSize = 32;
 
     private final Tile[][] tiles;
     private final GuiGameController GUIGAMECONTROLLER;
@@ -154,13 +154,16 @@ public class GameCanvas extends Canvas{
                 int xx = x + xOffSet;
                 if (xx < 0 || xx >= width) continue;
 
-                if (tiles[x / tileSize][y / tileSize].isWallTile()) {
+                // Gets the absolute tile position, rather than the pixel position
+                Tile currentTile = tiles[x / tileSize][y / tileSize];
+
+                if (currentTile.isWallTile()) {
                      if (tileSize == 32) {
                          pixels[xx + yy * width] = wall32Pixels[xx % tileSize + yy % tileSize * tileSize];
                      } else {
                          pixels[xx + yy * width] = wall64Pixels[xx % tileSize + yy % tileSize * tileSize];
                      }
-                } else if (tiles[x / tileSize][y / tileSize].isBoundary()) {
+                } else if (currentTile.isBoundary()) {
                      if (tileSize == 32) {
                          pixels[xx + yy * width] = boundary32Pixels[xx % tileSize + yy % tileSize * tileSize];
                      } else {
@@ -174,34 +177,82 @@ public class GameCanvas extends Canvas{
                      }
                 }
 
-                if (tiles[x / tileSize][y / tileSize].isOccupied()) {
-                    if (tiles[x / tileSize][y / tileSize].getPlayer() != null) {
+                if (currentTile.isOccupied()) {
+                    if (currentTile.getPlayer() != null) {
                         if (tileSize == 32) {
                             int col = greenSpritesheet32Pixels[xx % tileSize + yy % tileSize * 128];
                             if (col != -65316) {
                                 pixels[xx + yy * width] = col;
                             }
                         } else {
-                            int col = greenSpritesheet64Pixels[xx % tileSize + yy % tileSize * 256];
-                            if (col != -65316) {
-                                pixels[xx + yy * width] = col;
-                            }
+//                            int col = greenSpritesheet64Pixels[xx % tileSize + yy % tileSize * 256];
+//                            if (col != -65316) {
+//                                pixels[xx + yy * width] = col;
+//                            }
                         }
                     } else {
-                        if (tileSize == 32) {
-                            int col = weaponSpritesheet32Pixels[xx % tileSize + yy % tileSize * 96];
-                            if (col != -65316) {
-                                pixels[xx + yy * width] = col;
-                            }
-                        } else {
-                            int col = weaponSpritesheet64Pixels[xx % tileSize + yy % tileSize * 192];
-                            if (col != -65316) {
-                                pixels[xx + yy * width] = col;
-                            }
-                        }
+                        renderWeapon(yy, xx, currentTile);
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * Method to handle the rendering of a weapon to the board
+     *
+     * @param yy The absolute y position, once off set
+     * @param xx The absolute x position, once off set
+     * @param currentTile The that is is currently being rendered
+     */
+    private void renderWeapon(int yy, int xx, Tile currentTile) {
+        if (tileSize == 32) {
+            char weaponId = currentTile.getWeapon().getId();
+            if (weaponId == '!') {
+                int col = weaponSpritesheet32Pixels[xx % tileSize + yy % tileSize * 96];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (weaponId == '?') {
+                int spritesheetoffsetX = 32;
+                int col = weaponSpritesheet32Pixels[(xx % tileSize) + spritesheetoffsetX + yy % tileSize * 96];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (weaponId == '%') {
+                int spritesheetoffsetX = 64;
+                int col = weaponSpritesheet32Pixels[(xx % tileSize) + spritesheetoffsetX + yy % tileSize * 96];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (weaponId == '&') {
+                int spritesheetoffsetY = 32;
+                int col = weaponSpritesheet32Pixels[(xx % tileSize) + (yy % tileSize + spritesheetoffsetY) * 96 ];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (weaponId == '*') {
+                int spritesheetoffsetX = 32;
+                int spritesheetoffsetY = 32;
+                int col = weaponSpritesheet32Pixels[(xx % tileSize) + spritesheetoffsetX + (yy % tileSize + spritesheetoffsetY) * 96 ];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (weaponId == '#') {
+                int spritesheetoffsetX = 64;
+                int spritesheetoffsetY = 32;
+                int col = weaponSpritesheet32Pixels[(xx % tileSize) + spritesheetoffsetX + (yy % tileSize + spritesheetoffsetY) * 96 ];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            }
+
+
+        } else {
+//                            int col = weaponSpritesheet64Pixels[xx % tileSize + yy % tileSize * 192];
+//                            if (col != -65316) {
+//                                pixels[xx + yy * width] = col;
+//                            }
         }
     }
 
@@ -214,6 +265,9 @@ public class GameCanvas extends Canvas{
         return pixels;
     }
 
+    /**
+     * Toggles the tile size, resulting in a full view of the board or a more zoomed in version.
+     */
     public void toggleTileSize() {
         if (tileSize == 32) {
             tileSize = 64;
@@ -327,9 +381,9 @@ public class GameCanvas extends Canvas{
     private static int[] floor64Pixels = new int[64 * 64];
     private static int[] boundary64Pixels = new int[64 * 64];
     private static int[] greenSpritesheet32Pixels = new int[128 * 96];
-    private static int[] greenSpritesheet64Pixels = new int[256 * 192];
+    private static int[] greenSpritesheet64Pixels = new int[256 * 192]; // TODO
 
     private static int[] weaponSpritesheet32Pixels = new int[96 * 64];
-    private static int[] weaponSpritesheet64Pixels = new int[192 * 128];
+    private static int[] weaponSpritesheet64Pixels = new int[192 * 128]; // TODO
 
 }
