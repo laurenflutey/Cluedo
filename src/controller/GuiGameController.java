@@ -94,7 +94,6 @@ public class GuiGameController {
 	public void initGame(ArrayList<String> playersList, ArrayList<String> nameList) {
 
 		// Sets up the players in the game
-		playerCount = playersList.size();
 		initHumanPlayers(playersList, nameList);
 		initFakePlayers(ENTITIES.getPlayers());
 
@@ -527,7 +526,7 @@ public class GuiGameController {
 	}
 
 	public void incrementPlayerTurn() {
-		currentPlayer = ENTITIES.getFinalPlayers().get(playerTurn++ % 3);
+		currentPlayer = ENTITIES.getFinalPlayers().get(playerTurn++ % playerCount);
 		System.out.println(currentPlayer.getName());
 		initPlayerTurn();
 	}
