@@ -7,7 +7,12 @@ import view.gui.game.GameFrame;
 import view.gui.game.components.SuggestionDialog;
 import view.textui.UI;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
+
+import javax.imageio.ImageIO;
 
 /**
  * MVC Controller class to handle the logic of the GUI Cluedo game.
@@ -108,6 +113,7 @@ public class GuiGameController {
 		dealCards();
 		distributeWeapons();
 
+		initPlayerTurn();
 		// doGame();
 	}
 
@@ -280,8 +286,6 @@ public class GuiGameController {
 
 		ENTITIES.setPlayers(endPlayers);
 		ENTITIES.setFinalPlayers(endPlayers);
-		
-		System.out.println(endPlayers.size());
 
 	}
 
@@ -297,7 +301,7 @@ public class GuiGameController {
 	private void initFakePlayers(List<Player> players) {
 		// initialises inactive players
 		List<Player> fakePlayers = new ArrayList<>();
-		
+
 		for (Character character : ENTITIES.getCharacters()) {
 			boolean contains = false;
 			for (Player player : players) {
@@ -317,14 +321,13 @@ public class GuiGameController {
 		}
 		// Gets a list of player objects from the UI class and sets the entities
 		// to hold it
-		
 
-		for(Player player : ENTITIES.getFinalPlayers()){
+		for (Player player : ENTITIES.getFinalPlayers()) {
 			System.out.println(player.getName() + "----dasdas");
 		}
-		
+
 		ENTITIES.getPlayers().addAll(fakePlayers);
-		//ENTITIES.getFinalPlayers().addAll(fakePlayers);
+		// ENTITIES.getFinalPlayers().addAll(fakePlayers);
 
 		// Gets the list of tiles from the Entities class to set player
 		// locations to tile
@@ -338,9 +341,6 @@ public class GuiGameController {
 					}
 				}
 			}
-		}
-		for(Player player : ENTITIES.getFinalPlayers()){
-			System.out.println(player.getName() + "dasdas");
 		}
 	}
 
@@ -402,14 +402,20 @@ public class GuiGameController {
 	private void initPlayerTurn() {
 
 		DISPLAY.getButtonPanel().setRoll(true);
-		DISPLAY.getButtonPanel().setSuggest(true);
 		DISPLAY.getButtonPanel().setAccuse(true);
-		
+
 		DISPLAY.getInformationPanel().setName(currentPlayer.getPlayerName());
 		DISPLAY.getInformationPanel().setChar(currentPlayer.getName());
+		DISPLAY.getInformationPanel().setIcon(getCurrentPlayerImage());
 
 		if (currentPlayer.getRoom() != null) {
-			DISPLAY.getButtonPanel().setSecretRoom(true);
+			DISPLAY.getButtonPanel().setSuggest(true);
+			if (currentPlayer.getRoom().getConnectingRoom() != null) {
+				DISPLAY.getButtonPanel().setSecretRoom(true);
+			}
+		} else {
+			DISPLAY.getButtonPanel().setSuggest(false);
+			DISPLAY.getButtonPanel().setSecretRoom(false);
 		}
 	}
 
@@ -529,5 +535,16 @@ public class GuiGameController {
 		currentPlayer = ENTITIES.getFinalPlayers().get(playerTurn++ % playerCount);
 		System.out.println(currentPlayer.getName());
 		initPlayerTurn();
+	}
+
+	public final BufferedImage getCurrentPlayerImage() {
+		BufferedImage img = null;
+
+		try {
+			img = ImageIO.read(new File("images/characters/icon/" + currentPlayer.getName() + ".png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return img;
 	}
 }

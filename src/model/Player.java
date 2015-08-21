@@ -3,9 +3,14 @@ package model;
 import controller.GameController;
 import view.textui.UI;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  * Class to represent a Player within the game. The player extends a
@@ -91,7 +96,6 @@ public class Player extends Character {
 		this.cards = new HashSet<>();
 		this.successfulSuggestions = new HashSet<>();
 	}
-	
 
 	/**
 	 * Constructor used by the text based game client
@@ -270,10 +274,10 @@ public class Player extends Character {
 	public void setAccusation(Suggestion accusation) {
 		this.accusation = accusation;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return character.getName();
 	}
-	
+
 }
