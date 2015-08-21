@@ -306,7 +306,6 @@ public class StartupFrame extends JFrame {
 
 			if (button.isSelected()) {
 				if (!nameEntryField.getText().equals("")) {
-					System.out.println(button.getLabel());
 					// create the actual player
 					playersList.add(button.getLabel());
 					nameList.add(nameEntryField.getText());
