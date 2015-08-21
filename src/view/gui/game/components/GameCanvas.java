@@ -235,6 +235,38 @@ public class GameCanvas extends Canvas{
                     pixels[xx + yy * width] = col;
                 }
             }
+        } else {
+            if (player.getCh() == 'p') {
+                int col = peacockSpritesheet64Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (player.getCh() == 'r') {
+                int col = plumSpritesheet64Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (player.getCh() == 's') {
+                int col = scarSpritesheet64Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (player.getCh() == 'm') {
+                int col = mustSpritesheet64Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (player.getCh() == 'w') {
+                int col = whiteSpritesheet64Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (player.getCh() == 'g') {
+                int col = greenSpritesheet64Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            }
         }
     }
 
@@ -287,7 +319,45 @@ public class GameCanvas extends Canvas{
                 }
             }
         } else {
-
+            char weaponId = currentTile.getWeapon().getId();
+            if (weaponId == '!') {
+                int col = weaponSpritesheet64Pixels[xx % tileSize + yy % tileSize * tileSize  * 3];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (weaponId == '?') {
+                int spritesheetoffsetX = tileSize;
+                int col = weaponSpritesheet64Pixels[(xx % tileSize) + spritesheetoffsetX + yy % tileSize * tileSize  * 3];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (weaponId == '%') {
+                int spritesheetoffsetX = tileSize * 2;
+                int col = weaponSpritesheet64Pixels[(xx % tileSize) + spritesheetoffsetX + yy % tileSize * tileSize  * 3];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (weaponId == '&') {
+                int spritesheetoffsetY = tileSize;
+                int col = weaponSpritesheet64Pixels[(xx % tileSize) + (yy % tileSize + spritesheetoffsetY) * tileSize  * 3];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (weaponId == '*') {
+                int spritesheetoffsetX = tileSize;
+                int spritesheetoffsetY = tileSize;
+                int col = weaponSpritesheet64Pixels[(xx % tileSize) + spritesheetoffsetX + (yy % tileSize + spritesheetoffsetY) * tileSize  * 3];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            } else if (weaponId == '#') {
+                int spritesheetoffsetX = tileSize * 2;
+                int spritesheetoffsetY = tileSize;
+                int col = weaponSpritesheet64Pixels[(xx % tileSize) + spritesheetoffsetX + (yy % tileSize + spritesheetoffsetY) * tileSize  * 3];
+                if (col != -65316) {
+                    pixels[xx + yy * width] = col;
+                }
+            }
         }
     }
 
@@ -381,6 +451,8 @@ public class GameCanvas extends Canvas{
             e.printStackTrace();
         }
 
+        // Reverend Green
+
         try {
             BufferedImage image = ImageIO.read(new File("images/characters/green/green-spritesheet-32.png"));
             int w = image.getWidth();
@@ -389,6 +461,17 @@ public class GameCanvas extends Canvas{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        try {
+            BufferedImage image = ImageIO.read(new File("images/characters/green/green-spritesheet-64.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, greenSpritesheet64Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Colonel Mustard
 
         try {
             BufferedImage image = ImageIO.read(new File("images/characters/must/must-spritesheet-32.png"));
@@ -400,6 +483,17 @@ public class GameCanvas extends Canvas{
         }
 
         try {
+            BufferedImage image = ImageIO.read(new File("images/characters/must/must-spritesheet-64.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, mustSpritesheet64Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Mrs Peacock
+
+        try {
             BufferedImage image = ImageIO.read(new File("images/characters/peacock/peacock-spritesheet-32.png"));
             int w = image.getWidth();
             int h = image.getHeight();
@@ -407,6 +501,17 @@ public class GameCanvas extends Canvas{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        try {
+            BufferedImage image = ImageIO.read(new File("images/characters/peacock/peacock-spritesheet-64.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, peacockSpritesheet64Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Professor Plum
 
         try {
             BufferedImage image = ImageIO.read(new File("images/characters/plum/plum-spritesheet-32.png"));
@@ -418,6 +523,17 @@ public class GameCanvas extends Canvas{
         }
 
         try {
+            BufferedImage image = ImageIO.read(new File("images/characters/plum/plum-spritesheet-64.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, plumSpritesheet64Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Miss Scarlett
+
+        try {
             BufferedImage image = ImageIO.read(new File("images/characters/scar/scar-spritesheet-32.png"));
             int w = image.getWidth();
             int h = image.getHeight();
@@ -425,6 +541,17 @@ public class GameCanvas extends Canvas{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        try {
+            BufferedImage image = ImageIO.read(new File("images/characters/scar/scar-spritesheet-64.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, scarSpritesheet64Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Mrs White
 
         try {
             BufferedImage image = ImageIO.read(new File("images/characters/white/white-spritesheet-32.png"));
@@ -436,10 +563,30 @@ public class GameCanvas extends Canvas{
         }
 
         try {
+            BufferedImage image = ImageIO.read(new File("images/characters/white/white-spritesheet-64.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, whiteSpritesheet64Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Weapons
+
+        try {
             BufferedImage image = ImageIO.read(new File("images/weapons/weapon-spritesheet-32.png"));
             int w = image.getWidth();
             int h = image.getHeight();
             image.getRGB(0, 0, w, h, weaponSpritesheet32Pixels, 0, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedImage image = ImageIO.read(new File("images/weapons/weapon-spritesheet-64.png"));
+            int w = image.getWidth();
+            int h = image.getHeight();
+            image.getRGB(0, 0, w, h, weaponSpritesheet64Pixels, 0, w);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -491,6 +638,6 @@ public class GameCanvas extends Canvas{
     private static int[] whiteSpritesheet64Pixels = new int[256 * 192]; // TODO
 
     private static int[] weaponSpritesheet32Pixels = new int[96 * 64];
-    private static int[] weaponSpritesheet64Pixels = new int[192 * 128]; // TODO
+    private static int[] weaponSpritesheet64Pixels = new int[192 * 128];
 
 }
