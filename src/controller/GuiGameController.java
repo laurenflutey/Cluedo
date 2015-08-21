@@ -281,6 +281,8 @@ public class GuiGameController {
 
 		ENTITIES.setPlayers(endPlayers);
 		ENTITIES.setFinalPlayers(endPlayers);
+		
+		System.out.println(endPlayers.size());
 
 	}
 
@@ -296,6 +298,7 @@ public class GuiGameController {
 	private void initFakePlayers(List<Player> players) {
 		// initialises inactive players
 		List<Player> fakePlayers = new ArrayList<>();
+		
 		for (Character character : ENTITIES.getCharacters()) {
 			boolean contains = false;
 			for (Player player : players) {
@@ -315,6 +318,12 @@ public class GuiGameController {
 		}
 		// Gets a list of player objects from the UI class and sets the entities
 		// to hold it
+		
+
+		for(Player player : ENTITIES.getFinalPlayers()){
+			System.out.println(player.getName() + "----dasdas");
+		}
+		
 		ENTITIES.getPlayers().addAll(fakePlayers);
 		//ENTITIES.getFinalPlayers().addAll(fakePlayers);
 
@@ -322,7 +331,7 @@ public class GuiGameController {
 		// locations to tile
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {
-				for (Player p : players) {
+				for (Player p : ENTITIES.getPlayers()) {
 
 					// assigns a player to a tile location
 					if (p.getXPos() == i && p.getYPos() == j) {
@@ -330,6 +339,9 @@ public class GuiGameController {
 					}
 				}
 			}
+		}
+		for(Player player : ENTITIES.getFinalPlayers()){
+			System.out.println(player.getName() + "dasdas");
 		}
 	}
 
@@ -427,7 +439,6 @@ public class GuiGameController {
 		} else if (type.equals("suggest")) {
 			makeSuggestion(currentPlayer, suggestion);
 		}
-		incrementPlayerTurn();
 
 	}
 
@@ -516,7 +527,7 @@ public class GuiGameController {
 	}
 
 	public void incrementPlayerTurn() {
-		currentPlayer = ENTITIES.getFinalPlayers().get((ENTITIES.getFinalPlayers().indexOf(currentPlayer)+1 % playerCount));
+		currentPlayer = ENTITIES.getFinalPlayers().get(playerTurn++ % 3);
 		System.out.println(currentPlayer.getName());
 		initPlayerTurn();
 	}
