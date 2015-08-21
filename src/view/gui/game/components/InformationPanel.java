@@ -38,7 +38,7 @@ public class InformationPanel extends JPanel {
 
 		img = null;
 		try {
-			img = ImageIO.read(new File("images/characters/green/2.png"));
+			img = ImageIO.read(new File("images/characters/green/green.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
