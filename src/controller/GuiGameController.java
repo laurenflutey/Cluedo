@@ -530,4 +530,23 @@ public class GuiGameController {
 		System.out.println(currentPlayer.getName());
 		initPlayerTurn();
 	}
+
+	public void sendMove(Move move) {
+
+		if (MOVEMENT_CONTROLLER.isValidMove(move, currentPlayer, 6)) {
+			// Disassociate old tile with player
+			tiles[currentPlayer.getXPos()][currentPlayer.getYPos()].setPlayer(null);
+
+			// update xy position
+			currentPlayer.setXPos(move.getX());
+			currentPlayer.setYPos(move.getY());
+			Tile currentTile = tiles[currentPlayer.getXPos()][currentPlayer.getYPos()];
+
+			// Associate new tile with the player and update if the player
+			// is in a room or not
+			currentTile.setPlayer(currentPlayer);
+			currentPlayer.setRoom(currentTile.getRoom());
+
+		}
+	}
 }
