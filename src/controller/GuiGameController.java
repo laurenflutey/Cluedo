@@ -7,12 +7,11 @@ import view.gui.game.GameFrame;
 import view.gui.game.components.SuggestionDialog;
 import view.textui.UI;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-
-import javax.imageio.ImageIO;
 
 /**
  * MVC Controller class to handle the logic of the GUI Cluedo game.

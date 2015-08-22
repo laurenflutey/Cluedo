@@ -241,7 +241,11 @@ public class GameFrame extends JFrame implements Runnable {
 
 		// Delegates to the CANVAS to handle it's own rendering
 		// -currentPlayer.getXPos(), -currentPlayer.getYPos()
-		CANVAS.render(xOffSet, yOffSet);
+		if (currentPlayer != null) {
+			xOffSet = currentPlayer.getXPos();
+			yOffSet = currentPlayer.getYPos();
+		}
+		CANVAS.render(-xOffSet, -yOffSet);
 
 		// Copies the contents of the CANVAS pixels to the local pixel array
 		System.arraycopy(CANVAS.getPixels(), 0, pixels, 0, pixels.length);
