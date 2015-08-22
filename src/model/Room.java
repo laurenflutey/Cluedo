@@ -1,11 +1,13 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Class representing a room in the Cluedo game. A room may have a connecting room which a player can take as a
- * shortcut to that room. The room also has a list of tiles and a list of doors in that room. The list of doors is
- * used for the pathing algorithm, and so a player can leave the room from any door.
+ * Class representing a room in the Cluedo game. A room may have a connecting
+ * room which a player can take as a shortcut to that room. The room also has a
+ * list of tiles and a list of doors in that room. The list of doors is used for
+ * the pathing algorithm, and so a player can leave the room from any door.
  *
  * @author Marcel van Workum
  * @author Reuben Puketapu
@@ -14,6 +16,7 @@ public class Room {
 
 	private ArrayList<Tile> tiles;
 	private ArrayList<Tile> doors;
+
 	private Room connectingRoom;
 
 	private String name;
@@ -23,9 +26,12 @@ public class Room {
 	/**
 	 * Constructor
 	 *
-	 * @param name Name of the room
-	 * @param number Number of the room
-	 * @param ID ID of the room
+	 * @param name
+	 *            Name of the room
+	 * @param number
+	 *            Number of the room
+	 * @param ID
+	 *            ID of the room
 	 */
 	public Room(String name, int number, char ID) {
 		this.name = name;
@@ -36,11 +42,13 @@ public class Room {
 	}
 
 	/**
-	 * Method to assign a weapon to a room, by iterating through all the tiles in the room and
-	 * assigning the weapon to a empty tile.
+	 * Method to assign a weapon to a room, by iterating through all the tiles
+	 * in the room and assigning the weapon to a empty tile.
 	 *
-	 * @param allTiles Tiles in the room
-	 * @param weapon Weapon to assign
+	 * @param allTiles
+	 *            Tiles in the room
+	 * @param weapon
+	 *            Weapon to assign
 	 */
 	public void addWeaponToAvailableTile(Tile[][] allTiles, Weapon weapon) {
 		// Checks if the weapon is already on the same tile
@@ -73,11 +81,13 @@ public class Room {
 	}
 
 	/**
-	 * Method to assign a Player to a room, by iterating through all the tiles in the room and
-	 * assigning the player to a empty tile.
+	 * Method to assign a Player to a room, by iterating through all the tiles
+	 * in the room and assigning the player to a empty tile.
 	 *
-	 * @param allTiles All the tiles on the board
-	 * @param player Player to be assigned
+	 * @param allTiles
+	 *            All the tiles on the board
+	 * @param player
+	 *            Player to be assigned
 	 */
 	public void addPlayerToAvailableTile(Tile[][] allTiles, Player player) {
 		// Checks if the weapon is already on the same tile
@@ -127,7 +137,8 @@ public class Room {
 	}
 
 	/**
-	 * @param connectingRoom the connectingRoom to se
+	 * @param connectingRoom
+	 *            the connectingRoom to se
 	 */
 	public void setConnectingRoom(Room connectingRoom) {
 		this.connectingRoom = connectingRoom;
@@ -162,9 +173,33 @@ public class Room {
 	public char getID() {
 		return ID;
 	}
-	
+
+	public List<Weapon> getWeapons() {
+		List<Weapon> weapons = new ArrayList<>();
+		for (Tile tile : tiles) {
+			if (tile.isOccupied()) {
+				if (tile.getWeapon() != null) {
+					weapons.add(tile.getWeapon());
+				}
+			}
+		}
+		return weapons;
+	}
+
+	public List<Player> getPlayers() {
+		List<Player> players = new ArrayList<>();
+		for (Tile tile : tiles) {
+			if (tile.isOccupied()) {
+				if (tile.getPlayer() != null) {
+					players.add(tile.getPlayer());
+				}
+			}
+		}
+		return players;
+	}
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return name;
 	}
 

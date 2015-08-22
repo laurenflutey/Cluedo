@@ -8,14 +8,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Timer;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import controller.GuiGameController;
+import model.Player;
+import model.Room;
+import model.Weapon;
 
 /**
  * JPanel containing all of the game information. This includes includes the
@@ -79,7 +82,7 @@ public class InformationPanel extends JPanel {
 		add(roomInfoLabel);
 
 		roomNameLabel = new JLabel("name");
-		roomNameLabel.setBounds(23, 207, 61, 16);
+		roomNameLabel.setBounds(23, 207, 100, 16);
 		add(roomNameLabel);
 
 		secretNameLabel = new JLabel("secret");
@@ -125,23 +128,24 @@ public class InformationPanel extends JPanel {
 			for (int j = 0; j < 18; j++) {
 				dieSet.add(image.getSubimage(i * 64, j * 68, 64, 68));
 			}
-			
+
 		}
 		System.out.println();
 
 	}
-	
-	public void rollDieAnimation(int roll){
-		int count = 0;
 
-		for(BufferedImage img : dieSet){
+	public void rollDieAnimation(int roll) {
+		int count = 0;
+		// TODO
+		for (BufferedImage img : dieSet) {
 			System.out.println(count++);
 			Image dimg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 			dieRollImage.setIcon(new ImageIcon(dimg));
 			dieRollImage.repaint();
 		}
-		
-		//TODO
+		rollLabel.setText("Roll: " + roll);
+
+		// TODO
 	}
 
 	public void displayIcon() {
@@ -160,12 +164,31 @@ public class InformationPanel extends JPanel {
 		Image dimg = img.getScaledInstance(140, 140, Image.SCALE_SMOOTH);
 		imageIcon = new ImageIcon(dimg);
 		imageLabel.setIcon(imageIcon);
-
 	}
 
 	public void setDieIcon(BufferedImage img) {
 		Image dimg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 		imageIcon = new ImageIcon(dimg);
 		dieRollImage.setIcon(imageIcon);
+	}
+
+	public void setRoomInfo(Room room) {
+		if (room != null) {
+			roomNameLabel.setText(room.getName());
+			String weaponString = "";
+			for (Weapon weapon : room.getWeapons()) {
+				weaponString += (weapon.getName() + " ");
+			}
+			weaponsLabel.setText(weaponString);
+			String playerString = "";
+			for (Player player : room.getPlayers()) {
+				playerString += (player.getName() + " ");
+			}
+			charactersLabel.setText(playerString);
+		} else {
+			roomNameLabel.setText("");
+			weaponsLabel.setText("");
+			charactersLabel.setText("");
+		}
 	}
 }

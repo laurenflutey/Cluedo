@@ -273,6 +273,7 @@ public class GameFrame extends JFrame implements Runnable {
 
 	public void doRoll() {
 		int roll = GUIGAMECONTROLLER.rollDice();
+		informationPanel.setr
 		informationPanel.rollDieAnimation(roll);
 		buttonPanel.setRoll(false);
 	}

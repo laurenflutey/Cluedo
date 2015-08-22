@@ -4,6 +4,7 @@ import model.*;
 import model.Character;
 import view.gui.StartupFrame;
 import view.gui.game.GameFrame;
+import view.gui.game.components.ButtonPanel;
 import view.gui.game.components.SuggestionDialog;
 import view.textui.UI;
 
@@ -538,7 +539,6 @@ public class GuiGameController {
 
 	public final BufferedImage getCurrentPlayerImage() {
 		BufferedImage img = null;
-
 		try {
 			img = ImageIO.read(new File("images/characters/icon/" + currentPlayer.getName() + ".png"));
 		} catch (IOException e) {
@@ -546,7 +546,7 @@ public class GuiGameController {
 		}
 		return img;
 	}
-		
+
 	public void sendMove(Move move) {
 
 		if (MOVEMENT_CONTROLLER.isValidMove(move, currentPlayer, 6)) {
@@ -562,7 +562,12 @@ public class GuiGameController {
 			// is in a room or not
 			currentTile.setPlayer(currentPlayer);
 			currentPlayer.setRoom(currentTile.getRoom());
+			DISPLAY.getInformationPanel().setRoomInfo(currentPlayer.getRoom());
 
 		}
+	}
+
+	public ButtonPanel getButtonPanel() {
+		return DISPLAY.getButtonPanel();
 	}
 }
