@@ -4,16 +4,25 @@ import controller.GuiGameController;
 import model.Player;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
 
 /**
+ * Start up window frame that greets the user when they start the game. The
+ * frame allows the user to select the number of players in the game and then
+ * allows the creation of actual player objects. The player can enter a name for
+ * themselves and select a character token.
  *
+ * Once the creation process is complete the frame returns to the
+ * {@link GuiGameController} a list of players and the actual game begins
+ *
+ * @author Marcel
+ * @author Reuben
  */
 public class StartupFrame extends JFrame {
 
@@ -22,258 +31,358 @@ public class StartupFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = -5354647840440829401L;
 
-	private int height;
-	private int width;
+	private final GuiGameController GUIGAMECONTROLLER;
+
+	// startup frame dimensions
+	private final int width = 500;
+	private final int height = 500;
+	private final Dimension startupFrame = new Dimension(width, height);
+
+	// Image resource
+	private static final ImageIcon image = new ImageIcon("images/Cluedo.png");
+
 	private int players = 3;
 	private int count;
-	private Dimension gameDimensions;
 	private JPanel panel;
-	private JTextField txtName;
-	private static List<Player> gamePlayers = new ArrayList<Player>();
+	private JTextField nameEntryField;
 
-	public StartupFrame(int width, int height) {
-		this.width = width;
-		this.height = height;
-		this.panel = new JPanel();
+	private ArrayList<String> playersList = new ArrayList<>();
+	private ArrayList<String> nameList = new ArrayList<>();
+
+	// Swing Components
+	private JButton startGameButton;
+	private JButton nextPlayerButton;
+	private JRadioButton professorPlumButton;
+	private JRadioButton reverendGreenButton;
+	private JRadioButton colonelMustardButton;
+	private JRadioButton mrsWhiteButton;
+	private JRadioButton mrsPeacockButton;
+	private JRadioButton missScarletButton;
+	private JLabel playerLabel;
+	private ButtonGroup characterChoiceOptions;
+	private JLabel selectionPromptLabel;
+	private JLabel nameEntryPromptLabel;
+	private JLabel cluedoImage;
+	private JButton submitButton;
+	private JComboBox<String> playerSelectionBox;
+
+	// Shortcut booleans
+	private boolean creatingPlayers = false;
+	private boolean firstPane = true;
+
+	/**
+	 * Constructor for the startup frame
+	 *
+	 *
+	 */
+	public StartupFrame(final GuiGameController GUIGAMECONTROLLER) {
+
+		this.GUIGAMECONTROLLER = GUIGAMECONTROLLER;
+
+		// Sets the window style to the systems default look and feel
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException
+				| InstantiationException e) {
+			e.printStackTrace(); // TODO display something meaningful
+			System.out.println("Look and feel failed");
+		}
+
+		// Create contentPanel for frame
+		panel = new JPanel();
 		setContentPane(panel);
 
-		gameDimensions = new Dimension(width, height);
-		setSize(gameDimensions);
-		setMinimumSize(gameDimensions);
+		setFocusable(true);
 
-		getPlayerCount();
-
-		setTitle("Cluedo");
+		// Setup of frame
+		setTitle("Welcome to Cluedo");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-		setLayout(null);
-		setLocationRelativeTo(null);
-		setResizable(false);
-		requestFocus();
-		setVisible(true);
+		// Gets the player count from the user
+		setupStartupFrame();
 
+		// Absolute layout
+		setLayout(null);
+		setResizable(false);
+
+		// Shortcuts for the lazy
+		addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (firstPane) {
+						startPlayerCreation();
+					} else if (creatingPlayers) {
+						performNextPlayerLogic();
+					}
+				}
+			}
+		});
+
+		// Centred
+		setLocationRelativeTo(null);
+
+		// Display the
+		setVisible(true);
 	}
 
-	private int getPlayerCount() {
-		// image
-		ImageIcon image = new ImageIcon("images/Cluedo.png");
-		JLabel imageLabel = new JLabel();
-		imageLabel.setIcon(image);
-		imageLabel.setBounds(200, 0, 300, 100);
+	/**
+	 * First panel displayed to the user which shows the name of the game and
+	 * asks them for the number of players that will be playing Cluedo. When
+	 * they click submit it refreshes the content of the panel and allows them
+	 * to create each player for the game.
+	 */
+	private void setupStartupFrame() {
+		// Change size to fit startup window
+		setSize(width, 250);
 
-		// player combo box
+		// Display the cluedo image to the startup frame
+		cluedoImage = new JLabel();
+		cluedoImage.setIcon(image);
+		cluedoImage.setBounds(150, 0, 300, 100);
+		panel.add(cluedoImage);
+
+		// Number of players selection box
 		String[] options = { "3", "4", "5", "6" };
-		JComboBox<String> cb = new JComboBox<>(options);
+		playerSelectionBox = new JComboBox<>(options);
+		playerSelectionBox.setBounds(230, 110, 60, 60);
+		panel.add(playerSelectionBox);
 
-//		cb.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				players = cb.getSelectedIndex() + 3;
-//			}
-//		});
-		cb.setBounds(200, 110, 60, 60);
-
-		// label
-		JLabel label = new JLabel("Welcome to Cluedo");
-		label.setBounds(20, 20, 200, 100);
+		// Add action listener so when user selects option, the player count is
+		// updated
+		playerSelectionBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				players = playerSelectionBox.getSelectedIndex() + 3;
+			}
+		});
 
 		// number of players label
 		JLabel playersLabel = new JLabel("Number of Players:");
-		playersLabel.setBounds(20, 90, 200, 100);
+		playersLabel.setBounds(100, 90, 200, 100);
+		panel.add(playersLabel);
 
-		// submit button
-		JButton submit = new JButton("Submit");
-		submit.setBounds(250, 200, 100, 20);
-		submit.addActionListener(new ActionListener() {
+		// Submit button, which when pressed will take the user to the create
+		// players window
+		submitButton = new JButton("Submit");
+		submitButton.setBounds(350, 180, 100, 20);
+		panel.add(submitButton);
+		submitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				getPlayers();
+				startPlayerCreation();
 			}
 		});
-
-		// adding to frame
-		panel.add(imageLabel);
-		panel.add(playersLabel);
-		panel.add(submit);
-		panel.add(cb);
-		panel.add(label);
-
-		return players;
-
 	}
 
-	private void getPlayers() {
+	/**
+	 * Method to delegate to the player creation
+	 */
+	private void startPlayerCreation() {
+		firstPane = false;
+		creatingPlayers = true;
+		createPlayers();
+	}
 
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(0, 0, 500, 500);
+	/**
+	 * Method which handles the creation of a list of players. The user is
+	 * presented with the option to enter their name and selection a character.
+	 * This is then parsed into a {@link Player} object and added to the
+	 * playersList
+	 */
+	private void createPlayers() {
+
+		// Resize the frame
+		setSize(startupFrame);
+
+		// reset the panel
 		panel = new JPanel();
-		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(panel);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		panel.setLayout(gbl_contentPane);
 
-		final JLabel lblPlayer = new JLabel("Player: " + (count + 1));
-		GridBagConstraints gbc_lblPlayer = new GridBagConstraints();
-		gbc_lblPlayer.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPlayer.gridx = 0;
-		gbc_lblPlayer.gridy = 0;
-		panel.add(lblPlayer, gbc_lblPlayer);
+		// Set to absolute layout again
+		panel.setLayout(null);
 
-		JLabel lblPleaseEnterYour = new JLabel("Please enter your name");
-		GridBagConstraints gbc_lblPleaseEnterYour = new GridBagConstraints();
-		gbc_lblPleaseEnterYour.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPleaseEnterYour.gridx = 0;
-		gbc_lblPleaseEnterYour.gridy = 1;
-		panel.add(lblPleaseEnterYour, gbc_lblPleaseEnterYour);
+		// Display cluedo image to the panel
+		panel.add(cluedoImage);
 
-		txtName = new JTextField();
-		txtName.setText("");
-		GridBagConstraints gbc_txtName = new GridBagConstraints();
-		gbc_txtName.insets = new Insets(0, 0, 5, 0);
-		gbc_txtName.gridx = 4;
-		gbc_txtName.gridy = 1;
-		panel.add(txtName, gbc_txtName);
-		txtName.setColumns(10);
+		// Display the current player to be made
+		playerLabel = new JLabel("Player: " + (count + 1));
+		playerLabel.setBounds(40, 100, 200, 50);
+		panel.add(playerLabel);
 
-		JLabel lblSelectYourToken = new JLabel("Select your token");
-		GridBagConstraints gbc_lblSelectYourToken = new GridBagConstraints();
-		gbc_lblSelectYourToken.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSelectYourToken.gridx = 0;
-		gbc_lblSelectYourToken.gridy = 3;
-		panel.add(lblSelectYourToken, gbc_lblSelectYourToken);
+		// The user must enter there name
+		nameEntryPromptLabel = new JLabel("Please enter your name:");
+		nameEntryPromptLabel.setBounds(40, 140, 150, 50);
+		panel.add(nameEntryPromptLabel);
 
-		final ButtonGroup bg = new ButtonGroup();
-
-		final JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Miss Scarlett");
-		GridBagConstraints gbc_rdbtnNewRadioButton_1 = new GridBagConstraints();
-		gbc_rdbtnNewRadioButton_1.anchor = GridBagConstraints.WEST;
-		gbc_rdbtnNewRadioButton_1.insets = new Insets(0, 0, 5, 0);
-		gbc_rdbtnNewRadioButton_1.gridx = 4;
-		gbc_rdbtnNewRadioButton_1.gridy = 3;
-		panel.add(rdbtnNewRadioButton_1, gbc_rdbtnNewRadioButton_1);
-
-		final JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("Mrs Peacock");
-		GridBagConstraints gbc_rdbtnNewRadioButton_2 = new GridBagConstraints();
-		gbc_rdbtnNewRadioButton_2.anchor = GridBagConstraints.WEST;
-		gbc_rdbtnNewRadioButton_2.insets = new Insets(0, 0, 5, 0);
-		gbc_rdbtnNewRadioButton_2.gridx = 4;
-		gbc_rdbtnNewRadioButton_2.gridy = 4;
-		panel.add(rdbtnNewRadioButton_2, gbc_rdbtnNewRadioButton_2);
-
-		final JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("Mrs White");
-		GridBagConstraints gbc_rdbtnNewRadioButton_3 = new GridBagConstraints();
-		gbc_rdbtnNewRadioButton_3.anchor = GridBagConstraints.WEST;
-		gbc_rdbtnNewRadioButton_3.insets = new Insets(0, 0, 5, 0);
-		gbc_rdbtnNewRadioButton_3.gridx = 4;
-		gbc_rdbtnNewRadioButton_3.gridy = 5;
-		panel.add(rdbtnNewRadioButton_3, gbc_rdbtnNewRadioButton_3);
-
-		final JRadioButton rdbtnNewRadioButton_4 = new JRadioButton("Colonel Mustard");
-		GridBagConstraints gbc_rdbtnNewRadioButton_4 = new GridBagConstraints();
-		gbc_rdbtnNewRadioButton_4.anchor = GridBagConstraints.WEST;
-		gbc_rdbtnNewRadioButton_4.insets = new Insets(0, 0, 5, 0);
-		gbc_rdbtnNewRadioButton_4.gridx = 4;
-		gbc_rdbtnNewRadioButton_4.gridy = 6;
-		panel.add(rdbtnNewRadioButton_4, gbc_rdbtnNewRadioButton_4);
-		bg.add(rdbtnNewRadioButton_4);
-
-		final JRadioButton rdbtnNewRadioButton = new JRadioButton("Reverend Green");
-		GridBagConstraints gbc_rdbtnNewRadioButton = new GridBagConstraints();
-		gbc_rdbtnNewRadioButton.anchor = GridBagConstraints.WEST;
-		gbc_rdbtnNewRadioButton.insets = new Insets(0, 0, 5, 0);
-		gbc_rdbtnNewRadioButton.gridx = 4;
-		gbc_rdbtnNewRadioButton.gridy = 7;
-		panel.add(rdbtnNewRadioButton, gbc_rdbtnNewRadioButton);
-
-		final JRadioButton rdbtnNewRadioButton_5 = new JRadioButton("Professor Plum");
-		GridBagConstraints gbc_rdbtnNewRadioButton_5 = new GridBagConstraints();
-		gbc_rdbtnNewRadioButton_5.anchor = GridBagConstraints.WEST;
-		gbc_rdbtnNewRadioButton_5.insets = new Insets(0, 0, 5, 0);
-		gbc_rdbtnNewRadioButton_5.gridx = 4;
-		gbc_rdbtnNewRadioButton_5.gridy = 8;
-		panel.add(rdbtnNewRadioButton_5, gbc_rdbtnNewRadioButton_5);
-
-		bg.add(rdbtnNewRadioButton);
-		bg.add(rdbtnNewRadioButton_1);
-		bg.add(rdbtnNewRadioButton_2);
-		bg.add(rdbtnNewRadioButton_3);
-		bg.add(rdbtnNewRadioButton_5);
-
-		final JButton btnSubmit = new JButton("Submit");
-		GridBagConstraints gbc_btnSubmit = new GridBagConstraints();
-		gbc_btnSubmit.insets = new Insets(0, 0, 5, 0);
-		gbc_btnSubmit.gridx = 4;
-		gbc_btnSubmit.gridy = 10;
-
-		final JButton btnNext = new JButton("Next");
-		GridBagConstraints gbc_btnNext = new GridBagConstraints();
-		gbc_btnNext.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNext.gridx = 5;
-		gbc_btnNext.gridy = 10;
-		btnNext.setEnabled(false);
-		btnNext.addActionListener(new ActionListener() {
-
+		nameEntryField = new JTextField();
+		nameEntryField.setText("");
+		nameEntryField.setBounds(190, 150, 200, 35);
+		nameEntryField.addKeyListener(new KeyAdapter() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-				new GuiGameController(gamePlayers);
-			}
-		});
-
-		panel.add(btnNext, gbc_btnNext);
-
-		btnSubmit.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				for (Enumeration<AbstractButton> buttons = bg.getElements(); buttons.hasMoreElements();) {
-					AbstractButton button = buttons.nextElement();
-
-					if (button.isSelected()) {
-						// TODO find XY POSITION AND CHAR
-						if (!txtName.getText().equals("")) {
-							gamePlayers.add(new Player(txtName.getText(), button.getText(), 'n', 0, 0));
-							button.setEnabled(false);
-							bg.clearSelection();
-							System.out.println(button.getText());
-							count++;
-							lblPlayer.setText("Player: " + (count + 1));
-							txtName.setSelectionStart(0);
-							System.out.println(txtName.getText());
-							txtName.setText("");
-							txtName.requestFocus();
-							txtName.setSelectionStart(0);
-						}
-
-					}
-
-					if (count == players) {
-						btnSubmit.setEnabled(false);
-						txtName.setEnabled(false);
-						lblPlayer.setText("Player: " + (count));
-						rdbtnNewRadioButton.setEnabled(false);
-						rdbtnNewRadioButton_1.setEnabled(false);
-						rdbtnNewRadioButton_2.setEnabled(false);
-						rdbtnNewRadioButton_3.setEnabled(false);
-						rdbtnNewRadioButton_4.setEnabled(false);
-						rdbtnNewRadioButton_5.setEnabled(false);
-						btnNext.setEnabled(true);
-					}
-
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					performNextPlayerLogic();
 				}
-
 			}
 		});
-		panel.add(btnSubmit, gbc_btnSubmit);
+		panel.add(nameEntryField);
 
-		txtName.requestFocus();
-		txtName.setSelectionStart(0);
+		// Lets pull focus to the textfield just to be nice
+		nameEntryField.requestFocusInWindow();
 
+		selectionPromptLabel = new JLabel("Select your token:");
+		selectionPromptLabel.setBounds(40, 200, 300, 35);
+		panel.add(selectionPromptLabel);
+
+		// Delegates to method to create player buttons
+		initCharacterButtons();
+
+		// Delegates to method to create action buttons
+		initActionButtons();
+
+		// finalise the display
 		setLocationRelativeTo(null);
 		setResizable(false);
-		requestFocus();
-		setVisible(true);
-
 	}
+
+	/**
+	 * Initialise the next Player and Start Game action buttons
+	 */
+	private void initActionButtons() {
+		nextPlayerButton = new JButton("Next Player");
+		nextPlayerButton.setBounds(270, 420, 100, 35);
+
+		// Method to handle the action listener for nextPlayerButton
+		intNextPlayerActionHandler();
+
+		panel.add(nextPlayerButton);
+
+		startGameButton = new JButton("Start Game");
+		startGameButton.setBounds(380, 420, 100, 35);
+		startGameButton.setEnabled(false);
+		startGameButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// get rid of startup frame and begin the real game
+				startGame();
+			}
+		});
+
+		panel.add(startGameButton);
+	}
+
+	/**
+	 * Method to start the game
+	 */
+	private void startGame() {
+		dispose();
+		GUIGAMECONTROLLER.initGame(playersList, nameList);
+	}
+
+	/**
+	 * Creates the action listener for the next button which checks that the
+	 * user has selected a valid choice
+	 */
+	private void intNextPlayerActionHandler() {
+		// create actions for each submit push
+		nextPlayerButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				performNextPlayerLogic();
+			}
+		});
+	}
+
+	/**
+	 * Abstracted this method so that it can be called on a keyListener event as
+	 * well
+	 */
+	private void performNextPlayerLogic() {
+		for (Enumeration<AbstractButton> buttons = characterChoiceOptions.getElements(); buttons.hasMoreElements();) {
+			AbstractButton button = buttons.nextElement();
+
+			if (button.isSelected()) {
+				if (!nameEntryField.getText().equals("")) {
+					// create the actual player
+					playersList.add(button.getLabel());
+					nameList.add(nameEntryField.getText());
+
+					button.setEnabled(false);
+					characterChoiceOptions.clearSelection();
+					count++;
+					playerLabel.setText("Player: " + (count + 1));
+					nameEntryField.setText("");
+					nameEntryField.requestFocusInWindow();
+
+				}
+			}
+			// players have reached the max number specified
+			// disable all the radio buttons
+			// and enabled the option to start game
+			if (count == players) {
+				playerLabel.setText("Player: " + (count));
+				nextPlayerButton.setEnabled(false);
+				nameEntryField.setEnabled(false);
+				reverendGreenButton.setEnabled(false);
+				missScarletButton.setEnabled(false);
+				mrsPeacockButton.setEnabled(false);
+				mrsWhiteButton.setEnabled(false);
+				colonelMustardButton.setEnabled(false);
+				professorPlumButton.setEnabled(false);
+				startGameButton.setEnabled(true);
+				creatingPlayers = false;
+				break;
+			}
+		}
+		for (Enumeration<AbstractButton> buttons = characterChoiceOptions.getElements(); buttons.hasMoreElements();) {
+			AbstractButton button = buttons.nextElement();
+			if (button.isEnabled()) {
+				button.setSelected(true);
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Adds all character options to the button group
+	 */
+	private void initCharacterButtons() {
+		characterChoiceOptions = new ButtonGroup();
+
+		missScarletButton = new JRadioButton("Miss Scarlett");
+		missScarletButton.setBounds(180, 200, 300, 35);
+		missScarletButton.setSelected(true);
+		panel.add(missScarletButton);
+
+		mrsPeacockButton = new JRadioButton("Mrs Peacock");
+		mrsPeacockButton.setBounds(180, 235, 300, 35);
+		panel.add(mrsPeacockButton);
+
+		mrsWhiteButton = new JRadioButton("Mrs White");
+		mrsWhiteButton.setBounds(180, 270, 300, 35);
+		panel.add(mrsWhiteButton);
+
+		colonelMustardButton = new JRadioButton("Colonel Mustard");
+		colonelMustardButton.setBounds(180, 305, 300, 35);
+		panel.add(colonelMustardButton);
+
+		reverendGreenButton = new JRadioButton("Reverend Green");
+		reverendGreenButton.setBounds(180, 340, 300, 35);
+		panel.add(reverendGreenButton);
+
+		professorPlumButton = new JRadioButton("Professor Plum");
+		professorPlumButton.setBounds(180, 375, 300, 35);
+		panel.add(professorPlumButton);
+
+		characterChoiceOptions.add(reverendGreenButton);
+		characterChoiceOptions.add(missScarletButton);
+		characterChoiceOptions.add(mrsPeacockButton);
+		characterChoiceOptions.add(mrsWhiteButton);
+		characterChoiceOptions.add(colonelMustardButton);
+		characterChoiceOptions.add(professorPlumButton);
+	}
+
 }

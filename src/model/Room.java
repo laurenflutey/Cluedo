@@ -162,5 +162,10 @@ public class Room {
 	public char getID() {
 		return ID;
 	}
+	
+	@Override
+	public String toString(){
+		return name;
+	}
 
 }

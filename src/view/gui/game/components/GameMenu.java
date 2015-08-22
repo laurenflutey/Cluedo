@@ -1,6 +1,9 @@
 package view.gui.game.components;
 
+import view.gui.game.GameFrame;
+
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 /**
  * Created by Marcel on 18/08/15.
@@ -14,13 +17,29 @@ public class GameMenu extends JMenuBar {
     private final JMenuItem guiModeItem;
     private final JMenuItem textBasedModeItem;
     private final JMenuItem toggleTextColouringItem;
+    private final JMenu appearanceMenu;
 
-    public GameMenu() {
+    private final GameFrame PARENT;
+
+    public GameMenu(final GameFrame PARENT) {
+
+        this.PARENT = PARENT;
 
         setBorderPainted(false);
 
         fileMenu = new JMenu("File");
         add(fileMenu);
+
+        appearanceMenu = new JMenu("Appearance");
+        add(appearanceMenu);
+
+        JMenuItem toggleZoomItem = new JMenuItem(new AbstractAction("Toggle Zoom") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PARENT.getCanvas().toggleTileSize();
+            }
+        });
+        appearanceMenu.add(toggleZoomItem);
 
         selectBoardItem = new JMenuItem("New Game");
         fileMenu.add(selectBoardItem);
