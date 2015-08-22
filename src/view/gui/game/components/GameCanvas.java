@@ -48,6 +48,8 @@ public class GameCanvas extends Canvas{
 
     //TODO Remove
     private final Random random = new Random();
+    private int globalXOffset;
+    private int globalYOffset;
 
     /**
      * Constructor
@@ -79,9 +81,12 @@ public class GameCanvas extends Canvas{
             @Override
             public void mousePressed(MouseEvent e) {
 
-                System.out.println("in click");
 
-                Move move = new Move(e.getX() / tileSize, e.getY() / tileSize);
+
+                int x = e.getX() -  globalXOffset;
+                int y = e.getY() - globalYOffset;
+
+                Move move = new Move((x) / tileSize, (y) / tileSize);
 
                 GUIGAMECONTROLLER.sendMove(move);
             }
@@ -126,33 +131,22 @@ public class GameCanvas extends Canvas{
     }
 
     /**
-     * Render method which updates the contents of the canvas
-     */
-    public void render() {
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                if ((tiles[x / tileSize][y / tileSize].isOccupied())) {
-                    pixels[x + y * width] = Color.RED.getRGB();
-                } else if (tiles[x / tileSize][y / tileSize].isWallTile()) {
-                    pixels[x + y * width] = Color.BLUE.getRGB();
-                } else if (tiles[x / tileSize][y / tileSize].isBoundary()) {
-                    pixels[x + y * width] = Color.GREEN.getRGB();
-                } else if (tiles[x / tileSize][y / tileSize].isBoundary()) {
-                    pixels[x + y * width] = Color.CYAN.getRGB();
-                } else {
-                    pixels[x + y * width] = random.nextInt();
-                }
-            }
-        }
-    }
-
-    /**
      * Alternate render method that off sets the render area by a specified amount
      *
      * @param xOffSet x offset value
      * @param yOffSet y offset value
      */
     public void render(int xOffSet, int yOffSet) {
+        if (tileSize == 32) {
+            xOffSet = 0;
+            yOffSet = 0;
+        } else {
+            xOffSet = xOffSet * tileSize + width / 2;
+            yOffSet = yOffSet * tileSize + height / 2;
+            globalXOffset = xOffSet;
+            globalYOffset = yOffSet;
+        }
+
         for (int y = 0; y < height; y++) {
             int yy = y + yOffSet;
             if (yy < 0 || yy >= height) continue;
@@ -165,30 +159,30 @@ public class GameCanvas extends Canvas{
 
                 if (currentTile.isWallTile()) {
                      if (tileSize == 32) {
-                         pixels[xx + yy * width] = wall32Pixels[xx % tileSize + yy % tileSize * tileSize];
+                         pixels[xx + yy * width] = wall32Pixels[x % tileSize + y % tileSize * tileSize];
                      } else {
-                         pixels[xx + yy * width] = wall64Pixels[xx % tileSize + yy % tileSize * tileSize];
+                         pixels[xx + yy * width] = wall64Pixels[x % tileSize + y % tileSize * tileSize];
                      }
                 } else if (currentTile.isBoundary()) {
                      if (tileSize == 32) {
-                         pixels[xx + yy * width] = boundary32Pixels[xx % tileSize + yy % tileSize * tileSize];
+                         pixels[xx + yy * width] = boundary32Pixels[x % tileSize + y % tileSize * tileSize];
                      } else {
-                         pixels[xx + yy * width] = boundary64Pixels[xx % tileSize + yy % tileSize * tileSize];
+                         pixels[xx + yy * width] = boundary64Pixels[x % tileSize + y % tileSize * tileSize];
                      }
                 } else {
                      if (tileSize == 32) {
-                         pixels[xx + yy * width] = floor32Pixels[xx % tileSize + yy % tileSize * tileSize];
+                         pixels[xx + yy * width] = floor32Pixels[x % tileSize + y % tileSize * tileSize];
                      } else {
-                         pixels[xx + yy * width] = floor64Pixels[xx % tileSize + yy % tileSize * tileSize];
+                         pixels[xx + yy * width] = floor64Pixels[x % tileSize + y % tileSize * tileSize];
                      }
                 }
 
                 if (currentTile.isOccupied()) {
                     Player player = currentTile.getPlayer();
                     if (player != null) {
-                        renderPlayers(yy, xx, player);
+                        renderPlayers(x, y, yy, xx, player);
                     } else {
-                        renderWeapon(yy, xx, currentTile);
+                        renderWeapon(x, y, yy, xx, currentTile);
                     }
                 }
             }
@@ -198,71 +192,73 @@ public class GameCanvas extends Canvas{
     /**
      * Delegate method to handle the rendering of the players to the board
      *
-     *  @param yy Absolute y position after offset
+     * @param x
+     * @param y
+     * @param yy Absolute y position after offset
      * @param xx Absolute x position after offset
      * @param player The player to be rendered to the current tile
      */
-    private void renderPlayers(int yy, int xx, Player player) {
+    private void renderPlayers(int x, int y, int yy, int xx, Player player) {
         if (tileSize == 32) {
             if (player.getCh() == 'p') {
-                int col = peacockSpritesheet32Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
+                int col = peacockSpritesheet32Pixels[x % tileSize + y % tileSize * tileSize * 4];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (player.getCh() == 'r') {
-                int col = plumSpritesheet32Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
+                int col = plumSpritesheet32Pixels[x % tileSize + y % tileSize * tileSize * 4];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (player.getCh() == 's') {
-                int col = scarSpritesheet32Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
+                int col = scarSpritesheet32Pixels[x % tileSize + y % tileSize * tileSize * 4];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (player.getCh() == 'm') {
-                int col = mustSpritesheet32Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
+                int col = mustSpritesheet32Pixels[x % tileSize + y % tileSize * tileSize * 4];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (player.getCh() == 'w') {
-                int col = whiteSpritesheet32Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
+                int col = whiteSpritesheet32Pixels[x % tileSize + y % tileSize * tileSize * 4];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (player.getCh() == 'g') {
-                int col = greenSpritesheet32Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
+                int col = greenSpritesheet32Pixels[x % tileSize + y % tileSize * tileSize * 4];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             }
         } else {
             if (player.getCh() == 'p') {
-                int col = peacockSpritesheet64Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
+                int col = peacockSpritesheet64Pixels[x % tileSize + y % tileSize * tileSize * 4];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (player.getCh() == 'r') {
-                int col = plumSpritesheet64Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
+                int col = plumSpritesheet64Pixels[x % tileSize + y % tileSize * tileSize * 4];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (player.getCh() == 's') {
-                int col = scarSpritesheet64Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
+                int col = scarSpritesheet64Pixels[x % tileSize + y % tileSize * tileSize * 4];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (player.getCh() == 'm') {
-                int col = mustSpritesheet64Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
+                int col = mustSpritesheet64Pixels[x % tileSize + y % tileSize * tileSize * 4];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (player.getCh() == 'w') {
-                int col = whiteSpritesheet64Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
+                int col = whiteSpritesheet64Pixels[x % tileSize + y % tileSize * tileSize * 4];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (player.getCh() == 'g') {
-                int col = greenSpritesheet64Pixels[xx % tileSize + yy % tileSize * tileSize * 4];
+                int col = greenSpritesheet64Pixels[x % tileSize + y % tileSize * tileSize * 4];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
@@ -273,47 +269,49 @@ public class GameCanvas extends Canvas{
     /**
      * Method to handle the rendering of a weapon to the board
      *
+     * @param x
+     * @param y
      * @param yy The absolute y position, once off set
      * @param xx The absolute x position, once off set
      * @param currentTile The that is is currently being rendered
      */
-    private void renderWeapon(int yy, int xx, Tile currentTile) {
+    private void renderWeapon(int x, int y, int yy, int xx, Tile currentTile) {
         if (tileSize == 32) {
             char weaponId = currentTile.getWeapon().getId();
             if (weaponId == '!') {
-                int col = weaponSpritesheet32Pixels[xx % tileSize + yy % tileSize * tileSize  * 3];
+                int col = weaponSpritesheet32Pixels[x % tileSize + y % tileSize * tileSize  * 3];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (weaponId == '?') {
                 int spritesheetoffsetX = tileSize;
-                int col = weaponSpritesheet32Pixels[(xx % tileSize) + spritesheetoffsetX + yy % tileSize * tileSize  * 3];
+                int col = weaponSpritesheet32Pixels[(x % tileSize) + spritesheetoffsetX + y % tileSize * tileSize  * 3];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (weaponId == '%') {
                 int spritesheetoffsetX = tileSize * 2;
-                int col = weaponSpritesheet32Pixels[(xx % tileSize) + spritesheetoffsetX + yy % tileSize * tileSize  * 3];
+                int col = weaponSpritesheet32Pixels[(x % tileSize) + spritesheetoffsetX + y % tileSize * tileSize  * 3];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (weaponId == '&') {
                 int spritesheetoffsetY = tileSize;
-                int col = weaponSpritesheet32Pixels[(xx % tileSize) + (yy % tileSize + spritesheetoffsetY) * tileSize  * 3];
+                int col = weaponSpritesheet32Pixels[(x % tileSize) + (y % tileSize + spritesheetoffsetY) * tileSize  * 3];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (weaponId == '*') {
                 int spritesheetoffsetX = tileSize;
                 int spritesheetoffsetY = tileSize;
-                int col = weaponSpritesheet32Pixels[(xx % tileSize) + spritesheetoffsetX + (yy % tileSize + spritesheetoffsetY) * tileSize  * 3];
+                int col = weaponSpritesheet32Pixels[(x % tileSize) + spritesheetoffsetX + (y % tileSize + spritesheetoffsetY) * tileSize  * 3];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (weaponId == '#') {
                 int spritesheetoffsetX = tileSize * 2;
                 int spritesheetoffsetY = tileSize;
-                int col = weaponSpritesheet32Pixels[(xx % tileSize) + spritesheetoffsetX + (yy % tileSize + spritesheetoffsetY) * tileSize  * 3];
+                int col = weaponSpritesheet32Pixels[(x % tileSize) + spritesheetoffsetX + (y % tileSize + spritesheetoffsetY) * tileSize  * 3];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
@@ -321,39 +319,39 @@ public class GameCanvas extends Canvas{
         } else {
             char weaponId = currentTile.getWeapon().getId();
             if (weaponId == '!') {
-                int col = weaponSpritesheet64Pixels[xx % tileSize + yy % tileSize * tileSize  * 3];
+                int col = weaponSpritesheet64Pixels[x % tileSize + y % tileSize * tileSize  * 3];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (weaponId == '?') {
                 int spritesheetoffsetX = tileSize;
-                int col = weaponSpritesheet64Pixels[(xx % tileSize) + spritesheetoffsetX + yy % tileSize * tileSize  * 3];
+                int col = weaponSpritesheet64Pixels[(x % tileSize) + spritesheetoffsetX + y % tileSize * tileSize  * 3];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (weaponId == '%') {
                 int spritesheetoffsetX = tileSize * 2;
-                int col = weaponSpritesheet64Pixels[(xx % tileSize) + spritesheetoffsetX + yy % tileSize * tileSize  * 3];
+                int col = weaponSpritesheet64Pixels[(x % tileSize) + spritesheetoffsetX + y % tileSize * tileSize  * 3];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (weaponId == '&') {
                 int spritesheetoffsetY = tileSize;
-                int col = weaponSpritesheet64Pixels[(xx % tileSize) + (yy % tileSize + spritesheetoffsetY) * tileSize  * 3];
+                int col = weaponSpritesheet64Pixels[(x % tileSize) + (y % tileSize + spritesheetoffsetY) * tileSize  * 3];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (weaponId == '*') {
                 int spritesheetoffsetX = tileSize;
                 int spritesheetoffsetY = tileSize;
-                int col = weaponSpritesheet64Pixels[(xx % tileSize) + spritesheetoffsetX + (yy % tileSize + spritesheetoffsetY) * tileSize  * 3];
+                int col = weaponSpritesheet64Pixels[(x % tileSize) + spritesheetoffsetX + (y % tileSize + spritesheetoffsetY) * tileSize  * 3];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
             } else if (weaponId == '#') {
                 int spritesheetoffsetX = tileSize * 2;
                 int spritesheetoffsetY = tileSize;
-                int col = weaponSpritesheet64Pixels[(xx % tileSize) + spritesheetoffsetX + (yy % tileSize + spritesheetoffsetY) * tileSize  * 3];
+                int col = weaponSpritesheet64Pixels[(x % tileSize) + spritesheetoffsetX + (y % tileSize + spritesheetoffsetY) * tileSize  * 3];
                 if (col != -65316) {
                     pixels[xx + yy * width] = col;
                 }
