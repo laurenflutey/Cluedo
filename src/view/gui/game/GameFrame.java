@@ -281,4 +281,13 @@ public class GameFrame extends JFrame implements Runnable {
 		buttonPanel.setRoll(false);
 	}
 
+	public void close() {
+		running = false;
+		try {
+			canvasThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		dispose();
+	}
 }
