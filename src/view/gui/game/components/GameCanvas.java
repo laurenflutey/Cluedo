@@ -372,13 +372,13 @@ public class GameCanvas extends Canvas{
      * Toggles the tile size, resulting in a full view of the board or a more zoomed in version.
      */
     public void toggleTileSize() {
-        if (tileSize == 32) {
-            tileSize = 64;
-        } else {
-            tileSize = 32;
-        }
+        //TODO Make this work
+//        if (tileSize == 32) {
+//            tileSize = 64;
+//        } else {
+//            tileSize = 32;
+//        }
     }
-
 
     /*---------------------------------------------------------------------------------
                  _______  _______  _______ __________________ _______  _______

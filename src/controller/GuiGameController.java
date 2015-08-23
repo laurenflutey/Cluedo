@@ -49,7 +49,7 @@ public class GuiGameController {
 	/**
 	 * Handles the interaction with the users using the GUI Frame
 	 */
-	private GameFrame DISPLAY;
+	private static GameFrame DISPLAY;
 
 	private int playerCount;
 	private int playerTurn;
@@ -568,5 +568,12 @@ public class GuiGameController {
 
 	public ButtonPanel getButtonPanel() {
 		return DISPLAY.getButtonPanel();
+	}
+	/**
+	 * Handles the closing of the game client
+	 */
+	public static void closeGame() {
+		DISPLAY.close();
+		DISPLAY = null;
 	}
 }

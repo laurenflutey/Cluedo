@@ -2,13 +2,12 @@ package view.gui.game;
 
 import controller.GuiGameController;
 import model.Player;
-import view.gui.game.components.ButtonPanel;
-import view.gui.game.components.GameCanvas;
-import view.gui.game.components.GameMenu;
-import view.gui.game.components.InformationPanel;
+import view.gui.game.components.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -42,6 +41,9 @@ public class GameFrame extends JFrame implements Runnable {
 	private ButtonPanel buttonPanel;
 	private JPanel contentPane;
 	private JMenuBar menuBar;
+
+	// Confirmation dialog used on exit close
+	private ConfirmationDialog closingConfirmation;
 
 	// Game Dimensions
 	private int width = 1330;
@@ -82,7 +84,7 @@ public class GameFrame extends JFrame implements Runnable {
 		setMinimumSize(gameDimensions);
 		setResizable(false); // TODO for now
 		setTitle("Cluedo");
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
 		// Initialises the JPanel content pane that holds all the other
 		// components of the game window
@@ -103,6 +105,13 @@ public class GameFrame extends JFrame implements Runnable {
 		setLocationRelativeTo(null);
 		requestFocus();
 		setVisible(true);
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				closingConfirmation = new ConfirmationDialog();
+			}
+		});
 
 		// Finally start the CANVAS thread
 		start();
@@ -275,6 +284,7 @@ public class GameFrame extends JFrame implements Runnable {
 		return informationPanel;
 	}
 
+	//TODO fix this
 	public void doRoll() {
 		int roll = GUIGAMECONTROLLER.rollDice();
 		//informationPanel.setr
@@ -282,4 +292,16 @@ public class GameFrame extends JFrame implements Runnable {
 		buttonPanel.setRoll(false);
 	}
 
+	/**
+	 * Changes the game state to false and closes the canvas thread.
+	 */
+	public void close() {
+		running = false;
+		try {
+			canvasThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		dispose();
+	}
 }
