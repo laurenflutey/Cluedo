@@ -118,7 +118,7 @@ public class GameMenu extends JMenuBar {
         exitItem = new JMenuItem(new AbstractAction("Exit") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                new ConfirmationDialog();
             }
         });
         fileMenu.add(exitItem);

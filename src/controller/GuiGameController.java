@@ -565,6 +565,9 @@ public class GuiGameController {
 		}
 	}
 
+	/**
+	 * Handles the closing of the game client
+	 */
 	public static void closeGame() {
 		DISPLAY.close();
 		DISPLAY = null;
