@@ -45,6 +45,7 @@ public class Entities {
 	 */
 	private List<Card> cards = new ArrayList<>();
 
+	private List<Card> allCards = new ArrayList<>();
 	/**
 	 * List of players in the game. A player is associated with a
 	 * {@link Character}
@@ -106,29 +107,31 @@ public class Entities {
 		// Characters
 		cards.add(new Card("Mrs Peacock", "Character", "images/characters/icon/Mrs Peacock.png"));
 		cards.add(new Card("Mrs White", "Character", "images/characters/icon/Mrs White.png"));
-		cards.add(new Card("Miss Scarlett", "Character", "images/characters/icon/Mrs Scarlett.png"));
+		cards.add(new Card("Miss Scarlett", "Character", "images/characters/icon/Miss Scarlett.png"));
 		cards.add(new Card("Proffessor Plum", "Character", "images/characters/icon/Proffessor Plum.png"));
 		cards.add(new Card("Reverend Green", "Character", "images/characters/icon/Reverend Green.png"));
 		cards.add(new Card("Colonel Mustard", "Character", "images/characters/icon/Colonel Mustard.png"));
 
 		// Weapons
-		cards.add(new Card("Candlestick", "Weapon","images/weapons/candlestick.png"));
-		cards.add(new Card("Dagger", "Weapon","images/weapons/dagger.png"));
-		cards.add(new Card("Lead Pipe", "Weapon","images/weapons/leadpipe.png"));
-		cards.add(new Card("Revolver", "Weapon,","images/weapons/revolver.png"));
-		cards.add(new Card("Rope", "Weapon","images/weapons/rope.png"));
-		cards.add(new Card("Spanner", "Weapon","images/weapons/spanner.png"));
+		cards.add(new Card("Candlestick", "Weapon", "images/weapons/candlestick.png"));
+		cards.add(new Card("Dagger", "Weapon", "images/weapons/dagger.png"));
+		cards.add(new Card("Lead Pipe", "Weapon", "images/weapons/leadpipe.png"));
+		cards.add(new Card("Revolver", "Weapon,", "images/weapons/revolver.png"));
+		cards.add(new Card("Rope", "Weapon", "images/weapons/rope.png"));
+		cards.add(new Card("Spanner", "Weapon", "images/weapons/spanner.png"));
 
 		// Rooms
-		cards.add(new Card("Kitchen", "Room","images/rooms/kitchen.png"));
-		cards.add(new Card("Study", "Room","images/rooms/study.png"));
-		cards.add(new Card("Lounge", "Room","images/rooms/lounge.png"));
-		cards.add(new Card("Conservatory", "Room","images/rooms/conservatory.png"));
-		cards.add(new Card("Ball Room", "Room","images/rooms/ballroom.png"));
-		cards.add(new Card("Billiard Room", "Room","images/rooms/billiardroom"));
-		cards.add(new Card("Library", "Room","images/rooms/library.png"));
-		cards.add(new Card("Hall", "Room","images/rooms/hall.png"));
-		cards.add(new Card("Dining Room", "Room","images/rooms/diningroom.png"));
+		cards.add(new Card("Kitchen", "Room", "images/rooms/kitchen.png"));
+		cards.add(new Card("Study", "Room", "images/rooms/study.png"));
+		cards.add(new Card("Lounge", "Room", "images/rooms/lounge.png"));
+		cards.add(new Card("Conservatory", "Room", "images/rooms/conservatory.png"));
+		cards.add(new Card("Ball Room", "Room", "images/rooms/ballroom.png"));
+		cards.add(new Card("Billiard Room", "Room", "images/rooms/billiardroom.png"));
+		cards.add(new Card("Library", "Room", "images/rooms/library.png"));
+		cards.add(new Card("Hall", "Room", "images/rooms/hall.png"));
+		cards.add(new Card("Dining Room", "Room", "images/rooms/diningroom.png"));
+
+		allCards.addAll(cards);
 	}
 
 	/**
@@ -318,6 +321,10 @@ public class Entities {
 			}
 		}
 		return null;
+	}
+
+	public List<Card> getAllCards() {
+		return allCards;
 	}
 
 }

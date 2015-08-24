@@ -33,6 +33,7 @@ import model.Card;
 import model.Player;
 import model.Room;
 import model.Weapon;
+import sun.awt.X11.InfoWindow.Balloon;
 
 /**
  * JPanel containing all of the game information. This includes includes the
@@ -42,7 +43,7 @@ import model.Weapon;
  */
 public class InformationPanel extends JPanel {
 
-	private GuiGameController guiGameController;
+	private final GuiGameController guiGameController;
 	private JPanel parentJPanel;
 	private BufferedImage img;
 	private JLabel imageLabel;
@@ -78,6 +79,14 @@ public class InformationPanel extends JPanel {
 	private JLabel colonelMustard;
 
 	private JLabel library;
+	private JLabel billiardRoom;
+	private JLabel ballRoom;
+	private JLabel study;
+	private JLabel kitchen;
+	private JLabel conservatory;
+	private JLabel diningRoom;
+	private JLabel lounge;
+	private JLabel hall;
 
 	public InformationPanel(final GuiGameController guiGameController, final JPanel contentPane) {
 
@@ -86,6 +95,7 @@ public class InformationPanel extends JPanel {
 		this.parentJPanel = contentPane;
 		jLabelMap = new HashMap<>();
 		// setBackground(Color.BLUE.darker());
+		initCardIcons();
 		setLayout(null);
 
 		imageLabel = new JLabel();
@@ -143,7 +153,7 @@ public class InformationPanel extends JPanel {
 		add(secretLabel);
 
 		dieRollImage = new JLabel("DieRoll");
-		dieRollImage.setBounds(23, 546, 100, 100);
+		dieRollImage.setBounds(239, 116, 100, 100);
 		add(dieRollImage);
 
 		lblCardsInHand = new JLabel("Cards In Hand:");
@@ -151,37 +161,62 @@ public class InformationPanel extends JPanel {
 		lblCardsInHand.setBounds(23, 402, 113, 16);
 		add(lblCardsInHand);
 
+		GridBagConstraints gridBagConstraints = new GridBagConstraints();
+		gridBagConstraints.fill = GridBagConstraints.BOTH;
+		gridBagConstraints.gridx = 3;
+		gridBagConstraints.gridy = 1;
+
+		contentPane.add(this, gridBagConstraints);
+
+	}
+
+	private void initCardIcons() {
+		initRoomIcons();
+		initPlayerIcons();
+		initWeaponIcons();
+	}
+
+	private void initWeaponIcons() {
+
 		dagger = new JLabel();
 		dagger.setIcon(guiGameController.getEntities().getCard("Dagger").getImage());
 		jLabelMap.put(guiGameController.getEntities().getCard("Dagger"), dagger);
 		dagger.setBounds(23, 410, 64, 64);
 		add(dagger);
+
 		revolver = new JLabel();
 		revolver.setIcon(guiGameController.getEntities().getCard("Revolver").getImage());
 		jLabelMap.put(guiGameController.getEntities().getCard("Revolver"), revolver);
 		revolver.setBounds(87, 410, 64, 64);
 		add(revolver);
+
 		leadPipe = new JLabel();
 		leadPipe.setIcon(guiGameController.getEntities().getCard("Lead Pipe").getImage());
 		jLabelMap.put(guiGameController.getEntities().getCard("Lead Pipe"), leadPipe);
 		leadPipe.setBounds(151, 410, 64, 64);
 		add(leadPipe);
+
 		rope = new JLabel();
 		rope.setIcon(guiGameController.getEntities().getCard("Rope").getImage());
 		jLabelMap.put(guiGameController.getEntities().getCard("Rope"), rope);
 		rope.setBounds(215, 410, 64, 64);
 		add(rope);
+
 		spanner = new JLabel();
 		spanner.setIcon(guiGameController.getEntities().getCard("Spanner").getImage());
 		jLabelMap.put(guiGameController.getEntities().getCard("Spanner"), spanner);
 		spanner.setBounds(279, 410, 64, 64);
 		add(spanner);
+
 		candlestick = new JLabel();
 		candlestick.setIcon(guiGameController.getEntities().getCard("Candlestick").getImage());
 		jLabelMap.put(guiGameController.getEntities().getCard("Candlestick"), candlestick);
 		candlestick.setBounds(343, 410, 64, 64);
 		add(candlestick);
 
+	}
+
+	private void initPlayerIcons() {
 		mrsPeacock = new JLabel();
 		mrsPeacock.setIcon(guiGameController.getEntities().getCard("Mrs Peacock").getImage());
 		jLabelMap.put(guiGameController.getEntities().getCard("Mrs Peacock"), mrsPeacock);
@@ -218,18 +253,62 @@ public class InformationPanel extends JPanel {
 		colonelMustard.setBounds(343, 454, 64, 64);
 		add(colonelMustard);
 
+	}
+
+	private void initRoomIcons() {
 		library = new JLabel();
 		library.setIcon(guiGameController.getEntities().getCard("Library").getImage());
 		jLabelMap.put(guiGameController.getEntities().getCard("Library"), library);
-		library.setBounds(87, 500, 64, 64);
+		library.setBounds(23, 480, 100, 100);
 		add(library);
 
-		GridBagConstraints gridBagConstraints = new GridBagConstraints();
-		gridBagConstraints.fill = GridBagConstraints.BOTH;
-		gridBagConstraints.gridx = 3;
-		gridBagConstraints.gridy = 1;
+		billiardRoom = new JLabel();
+		billiardRoom.setIcon(guiGameController.getEntities().getCard("Billiard Room").getImage());
+		jLabelMap.put(guiGameController.getEntities().getCard("Billiard Room"), billiardRoom);
+		billiardRoom.setBounds(133, 480, 170, 100);
+		add(billiardRoom);
 
-		contentPane.add(this, gridBagConstraints);
+		ballRoom = new JLabel();
+		ballRoom.setIcon(guiGameController.getEntities().getCard("Ball Room").getImage());
+		jLabelMap.put(guiGameController.getEntities().getCard("Ball Room"), ballRoom);
+		ballRoom.setBounds(313, 480, 120, 100);
+		add(ballRoom);
+
+		study = new JLabel();
+		study.setIcon(guiGameController.getEntities().getCard("Study").getImage());
+		jLabelMap.put(guiGameController.getEntities().getCard("Study"), study);
+		study.setBounds(23, 510, 100, 100);
+		add(study);
+
+		kitchen = new JLabel();
+		kitchen.setIcon(guiGameController.getEntities().getCard("Kitchen").getImage());
+		jLabelMap.put(guiGameController.getEntities().getCard("Kitchen"), kitchen);
+		kitchen.setBounds(130, 510, 100, 100);
+		add(kitchen);
+
+		conservatory = new JLabel();
+		conservatory.setIcon(guiGameController.getEntities().getCard("Conservatory").getImage());
+		jLabelMap.put(guiGameController.getEntities().getCard("Conservatory"), conservatory);
+		conservatory.setBounds(250, 510, 200, 100);
+		add(conservatory);
+
+		diningRoom = new JLabel();
+		diningRoom.setIcon(guiGameController.getEntities().getCard("Dining Room").getImage());
+		jLabelMap.put(guiGameController.getEntities().getCard("Dining Room"), diningRoom);
+		diningRoom.setBounds(23, 540, 200, 100);
+		add(diningRoom);
+
+		lounge = new JLabel();
+		lounge.setIcon(guiGameController.getEntities().getCard("Lounge").getImage());
+		jLabelMap.put(guiGameController.getEntities().getCard("Lounge"), lounge);
+		lounge.setBounds(170, 540, 100, 100);
+		add(lounge);
+
+		hall = new JLabel();
+		hall.setIcon(guiGameController.getEntities().getCard("Hall").getImage());
+		jLabelMap.put(guiGameController.getEntities().getCard("Hall"), hall);
+		hall.setBounds(300, 540, 100, 100);
+		add(hall);
 
 	}
 
@@ -319,11 +398,11 @@ public class InformationPanel extends JPanel {
 	}
 
 	public void setCardsInHand() {
-		for (Card card : guiGameController.getCurrentPlayer().getCards()) {
-			if (jLabelMap.containsKey(card)) {
-				// jLabelMap.get(card).setVisible(true);
+		for (Card card : guiGameController.getEntities().getAllCards()) {
+			if (guiGameController.getCurrentPlayer().containsCardWithName(card.getName())) {
+				jLabelMap.get(card).setVisible(true);
 			} else {
-				// jLabelMap.get(card).setVisible(false);
+				jLabelMap.get(card).setVisible(false);
 			}
 		}
 	}

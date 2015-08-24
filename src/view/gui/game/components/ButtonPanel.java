@@ -81,6 +81,7 @@ public class ButtonPanel extends JPanel  {
 			public void actionPerformed(ActionEvent e) {
 				gameController.moveToSecretRoom();
 				setSecretRoom(false);
+				setRoll(false);
 			}
 		});
 		add(secretButton);
