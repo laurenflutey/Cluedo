@@ -1,9 +1,7 @@
 package view.gui.game.components;
 
 import controller.GuiGameController;
-import model.Move;
-import model.Player;
-import model.Tile;
+import model.*;
 import view.gui.game.GameFrame;
 
 import javax.imageio.ImageIO;
@@ -53,6 +51,8 @@ public class GameCanvas extends Canvas {
 	private int globalYOffset;
 
 	private Player currentPlayerHovered;
+	private Weapon currentWeaponHovered;
+	private Room currentRoomHovered;
 
 	/**
 	 * Constructor
@@ -88,6 +88,13 @@ public class GameCanvas extends Canvas {
 
 				String tileInfo = GUIGAMECONTROLLER.getTileInfo((x) / tileSize, (y) / tileSize);
 				currentPlayerHovered = GUIGAMECONTROLLER.getCurrentPlayerHovered((x) / tileSize, (y) / tileSize);
+
+				if (currentPlayerHovered == null) {
+					currentWeaponHovered = GUIGAMECONTROLLER.getCurrentWeaponHovered((x) / tileSize, (y) / tileSize);
+					if (currentWeaponHovered == null) {
+						currentRoomHovered = GUIGAMECONTROLLER.getCurrentRoomHovered((x) / tileSize, (y) / tileSize);
+					}
+				}
 
 				System.out.println(tileInfo);
 			}
@@ -229,29 +236,11 @@ public class GameCanvas extends Canvas {
 			int col = 0;
 
 			if (currentPlayerHovered != null) {
-				if (currentPlayerHovered.getCh() == 'p') {
-					col = peacockHoverText32Pixels[position];
-				}
-
-				else if (currentPlayerHovered.getCh() == 'r') {
-					col = plumHoverText32Pixels[position];
-				}
-
-				else if (currentPlayerHovered.getCh() == 's') {
-					col = scarHoverText32Pixels[position];
-				}
-
-				else if (currentPlayerHovered.getCh() == 'm') {
-					col = mustHoverText32Pixels[position];
-				}
-
-				else if (currentPlayerHovered.getCh() == 'w') {
-					col = whiteHoverText32Pixels[position];
-				}
-
-				else if (currentPlayerHovered.getCh() == 'g') {
-					col = greenHoverText32Pixels[position];
-				}
+				col = renderPlayerHover(position, col);
+			} else if (currentWeaponHovered != null) {
+				col = renderWeaponHover(position, col);
+			} else if (currentRoomHovered != null) {
+				col = renderRoomHover(position, col);
 			} else {
 				col = hoverBoxText32Pixels[position];
 			}
@@ -262,6 +251,76 @@ public class GameCanvas extends Canvas {
 				pixels[xx + yy * width] = Color.BLACK.getRGB();
 			}
 		}
+	}
+
+	private int renderRoomHover(int position, int col) {
+		char roomId = currentRoomHovered.getID();
+		if (roomId == 'K') {
+			col = kitchenHoverText32Pixels[position];
+		} else if (roomId == 'S') {
+			col = studyHoverText32Pixels[position];
+		} else if (roomId == 'L') {
+			col = loungeHoverText32Pixels[position];
+		} else if (roomId == 'C') {
+			col = conservatoryRoomHoverText32Pixels[position];
+		} else if (roomId == 'B') {
+			col = ballroomHoverText32Pixels[position];
+		} else if (roomId == 'I') {
+			col = billiardRoomHoverText32Pixels[position];
+		} else if (roomId == 'Y') {
+			col = libraryHoverText32Pixels[position];
+		} else if (roomId == 'D') {
+			col = diningRoomHoverText32Pixels[position];
+		} else if (roomId == 'X') {
+			col = poolHoverText32Pixels[position];
+		}
+		return col;
+	}
+
+	private int renderWeaponHover(int position, int col) {
+		char weaponId = currentWeaponHovered.getId();
+		if (weaponId == '!'){
+			col = candlestickHoverText32Pixels[position];
+		} else if (weaponId == '%') {
+			col = daggerHoverText32Pixels[position];
+		} else if (weaponId == '?') {
+			col = leadpipeHoverText32Pixels[position];
+		} else if (weaponId == '&') {
+			col = revolverHoverText32Pixels[position];
+		} else if (weaponId == '#') {
+			col = ropeHoverText32Pixels[position];
+		} else if (weaponId == '*') {
+			col = spannerHoverText32Pixels[position];
+		}
+		return col;
+	}
+
+	private int renderPlayerHover(int position, int col) {
+		char playerChar = currentPlayerHovered.getCh();
+		if (playerChar == 'p') {
+            col = peacockHoverText32Pixels[position];
+        }
+
+        else if (playerChar == 'r') {
+            col = plumHoverText32Pixels[position];
+        }
+
+        else if (playerChar == 's') {
+            col = scarHoverText32Pixels[position];
+        }
+
+        else if (playerChar == 'm') {
+            col = mustHoverText32Pixels[position];
+        }
+
+        else if (playerChar == 'w') {
+            col = whiteHoverText32Pixels[position];
+        }
+
+        else if (playerChar == 'g') {
+            col = greenHoverText32Pixels[position];
+        }
+		return col;
 	}
 
 	/**
@@ -731,11 +790,152 @@ public class GameCanvas extends Canvas {
 			e.printStackTrace();
 		}
 
+		// Empty text
+
 		try {
 			BufferedImage image = ImageIO.read(new File("images/hover-box-text-32.png"));
 			int w = image.getWidth();
 			int h = image.getHeight();
 			image.getRGB(0, 0, w, h, hoverBoxText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// Room text
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/rooms/ballroom-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, ballroomHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/rooms/billiardroom-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, billiardRoomHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/rooms/conservatory-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, conservatoryRoomHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/rooms/diningroom-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, diningRoomHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/rooms/kitchen-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, kitchenHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/rooms/library-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, libraryHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/rooms/lounge-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, loungeHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/rooms/pool-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, poolHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/rooms/study-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, studyHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// Weapon text
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/weapons/candlestick-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, candlestickHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/weapons/dagger-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, daggerHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/weapons/leadpipe-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, leadpipeHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/weapons/revolver-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, revolverHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/weapons/rope-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, ropeHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/weapons/spanner-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, spannerHoverText32Pixels, 0, w);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -795,4 +995,24 @@ public class GameCanvas extends Canvas {
 	private static int[] weaponSpritesheet64Pixels = new int[192 * 128];
 
 	private static int[] hoverBoxText32Pixels = new int[184 * 24];
+
+	// Room text
+	private static int[]  ballroomHoverText32Pixels = new int[184 * 24];
+	private static int[]  billiardRoomHoverText32Pixels = new int[184 * 24];
+	private static int[]  conservatoryRoomHoverText32Pixels = new int[184 * 24];
+	private static int[]  diningRoomHoverText32Pixels = new int[184 * 24];
+	private static int[]  kitchenHoverText32Pixels = new int[184 * 24];
+	private static int[]  libraryHoverText32Pixels = new int[184 * 24];
+	private static int[]  loungeHoverText32Pixels = new int[184 * 24];
+	private static int[]  poolHoverText32Pixels = new int[184 * 24];
+	private static int[]  studyHoverText32Pixels = new int[184 * 24];
+
+	// Weapon text
+	private static int[]  candlestickHoverText32Pixels = new int[184 * 24];
+	private static int[]  daggerHoverText32Pixels = new int[184 * 24];
+	private static int[]  leadpipeHoverText32Pixels = new int[184 * 24];
+	private static int[]  revolverHoverText32Pixels = new int[184 * 24];
+	private static int[]  ropeHoverText32Pixels = new int[184 * 24];
+	private static int[]  spannerHoverText32Pixels = new int[184 * 24];
+
 }
