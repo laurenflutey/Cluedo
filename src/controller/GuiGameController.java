@@ -607,4 +607,12 @@ public class GuiGameController {
 	public Player getCurrentPlayerHovered(int x, int y) {
 		return tiles[x][y].getPlayer();
 	}
+
+	public Weapon getCurrentWeaponHovered(int x, int y) {
+		return tiles[x][y].getWeapon();
+	}
+
+	public Room getCurrentRoomHovered(int x, int y) {
+		return tiles[x][y].getRoom();
+	}
 }
