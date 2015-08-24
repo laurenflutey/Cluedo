@@ -4,6 +4,7 @@ import model.*;
 import model.Character;
 import view.gui.StartupFrame;
 import view.gui.game.GameFrame;
+import view.gui.game.components.ButtonPanel;
 import view.gui.game.components.SuggestionDialog;
 import view.textui.UI;
 
@@ -48,7 +49,7 @@ public class GuiGameController {
 	/**
 	 * Handles the interaction with the users using the GUI Frame
 	 */
-	private GameFrame DISPLAY;
+	private static GameFrame DISPLAY;
 
 	private int playerCount;
 	private int playerTurn;
@@ -463,7 +464,7 @@ public class GuiGameController {
 			// this is not worth randomising
 			if (nextPlayer.containsCardWithName(suggestion.getPlayer().getName())) {
 				suggestingPlayer.getSuggestions().add(new Card(suggestion.getPlayer().getName(), "Character"));
-				playerRoom.addPlayerToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getPlayer());
+				randomAssignToRoom(suggestion.getPlayer(), currentPlayer.getRoom());
 				found = true;
 			} else if (nextPlayer.containsCardWithName(suggestion.getRoom().getName())) {
 				suggestingPlayer.getSuggestions().add(new Card(suggestion.getRoom().getName(), "Room"));
@@ -476,6 +477,8 @@ public class GuiGameController {
 				count++;
 			}
 		}
+
+		DISPLAY.getInformationPanel().repaint();
 	}
 
 	/**
@@ -537,7 +540,6 @@ public class GuiGameController {
 
 	public final BufferedImage getCurrentPlayerImage() {
 		BufferedImage img = null;
-
 		try {
 			img = ImageIO.read(new File("images/characters/icon/" + currentPlayer.getName() + ".png"));
 		} catch (IOException e) {
@@ -545,7 +547,7 @@ public class GuiGameController {
 		}
 		return img;
 	}
-		
+
 	public void sendMove(Move move) {
 
 		if (MOVEMENT_CONTROLLER.isValidMove(move, currentPlayer, 6)) {
@@ -561,7 +563,53 @@ public class GuiGameController {
 			// is in a room or not
 			currentTile.setPlayer(currentPlayer);
 			currentPlayer.setRoom(currentTile.getRoom());
+			DISPLAY.getInformationPanel().setRoomInfo(currentPlayer.getRoom());
+
+			if (currentPlayer.getRoom() != null) {
+				DISPLAY.getButtonPanel().setSuggest(true);
+				if(currentPlayer.getRoom().getConnectingRoom()!=null){
+					DISPLAY.getButtonPanel().setSecretRoom(true);
+				}
+				else{
+					DISPLAY.getButtonPanel().setSecretRoom(false);
+				}
+			} else {
+				DISPLAY.getButtonPanel().setSuggest(false);
+				DISPLAY.getButtonPanel().setSecretRoom(false);
+			}
 
 		}
+	}
+
+	public ButtonPanel getButtonPanel() {
+		return DISPLAY.getButtonPanel();
+	}
+
+	/**
+	 * Handles the closing of the game client
+	 */
+	public static void closeGame() {
+		DISPLAY.close();
+		DISPLAY = null;
+	}
+
+	public String getTileInfo(int x, int y) {
+		Tile t = tiles[x][y];
+		if (t.isRoomTile()) {
+			return t.getRoom().getName();
+		}
+		return "";
+	}
+
+	public Player getCurrentPlayerHovered(int x, int y) {
+		return tiles[x][y].getPlayer();
+	}
+
+	public Weapon getCurrentWeaponHovered(int x, int y) {
+		return tiles[x][y].getWeapon();
+	}
+
+	public Room getCurrentRoomHovered(int x, int y) {
+		return tiles[x][y].getRoom();
 	}
 }
