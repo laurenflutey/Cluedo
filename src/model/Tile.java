@@ -15,7 +15,6 @@ public class Tile {
 	private char name;
 	private Room room;
 	private boolean isWallTile;
-	private boolean isConnection;
 	private boolean isDoor;
 	private int x, y;
 	private Player player;
@@ -173,20 +172,6 @@ public class Tile {
 	 */
 	public boolean isBoundary() {
 		return isBoundary;
-	}
-
-	/**
-	 * @return the isConnection
-	 */
-	public boolean isConnection() {
-		return isConnection;
-	}
-
-	/**
-	 * @param isConnection the isConnection to set
-	 */
-	public void setConnection(boolean isConnection) {
-		this.isConnection = isConnection;
 	}
 
 
