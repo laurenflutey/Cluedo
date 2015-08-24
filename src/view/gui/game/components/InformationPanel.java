@@ -1,6 +1,7 @@
 package view.gui.game.components;
 
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -12,7 +13,9 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
 import javax.swing.Timer;
 
 import controller.GuiGameController;
@@ -41,10 +44,16 @@ public class InformationPanel extends JPanel {
 	private JLabel contentsLabel;
 	private JLabel weaponsLabel;
 	private JLabel charactersLabel;
-	private Component secretNameLabel;
+	private JLabel secretNameLabel;
+	private JLabel secretLabel;
 	private JLabel dieRollImage;
 
 	private Set<BufferedImage> dieSet;
+	private JLabel lblCardsInHand;
+	private JLabel currentWeapons;
+	private JLabel currentCharacters;
+	private JLabel currentRooms;
+	private JList<Player> list;
 
 	public InformationPanel(final GuiGameController guiGameController, final JPanel contentPane) {
 
@@ -77,33 +86,70 @@ public class InformationPanel extends JPanel {
 		rollLabel.setBounds(239, 89, 113, 16);
 		add(rollLabel);
 
-		roomInfoLabel = new JLabel("Room Information ");
+		roomInfoLabel = new JLabel("Room Information:");
+		roomInfoLabel.setFont(new Font("Lucida Grande", Font.BOLD, 13));
 		roomInfoLabel.setBounds(23, 179, 156, 16);
 		add(roomInfoLabel);
 
-		roomNameLabel = new JLabel("name");
+		roomNameLabel = new JLabel("");
 		roomNameLabel.setBounds(23, 207, 100, 16);
 		add(roomNameLabel);
 
-		secretNameLabel = new JLabel("secret");
-		secretNameLabel.setBounds(23, 235, 61, 16);
+		secretNameLabel = new JLabel("Secret Room:");
+		secretNameLabel.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		secretNameLabel.setBounds(23, 235, 100, 16);
 		add(secretNameLabel);
 
 		contentsLabel = new JLabel("Contents:");
-		contentsLabel.setBounds(23, 263, 61, 16);
+		contentsLabel.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		contentsLabel.setBounds(23, 318, 100, 16);
 		add(contentsLabel);
 
-		weaponsLabel = new JLabel("Weapons");
-		weaponsLabel.setBounds(23, 291, 225, 16);
+		weaponsLabel = new JLabel("");
+		weaponsLabel.setBounds(23, 346, 400, 16);
 		add(weaponsLabel);
 
-		charactersLabel = new JLabel("Characters");
-		charactersLabel.setBounds(23, 319, 225, 16);
+		charactersLabel = new JLabel("");
+		charactersLabel.setBounds(23, 374, 400, 16);
 		add(charactersLabel);
-
+		
+		secretLabel = new JLabel("");
+		secretLabel.setBounds(23, 263, 100, 16);
+		add(secretLabel);
+		
 		dieRollImage = new JLabel("DieRoll");
 		dieRollImage.setBounds(23, 546, 100, 100);
 		add(dieRollImage);
+		
+		lblCardsInHand = new JLabel("Cards In Hand:");
+		lblCardsInHand.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		lblCardsInHand.setBounds(23, 402, 113, 16);
+		add(lblCardsInHand);
+		
+		list = new JList<Player>();
+		list.setBounds(265, 458, 120, 31);
+		list.setCellRenderer(new ListCellRenderer<Player>() {
+
+			@Override
+			public Component getListCellRendererComponent(JList<? extends Player> list, Player value, int index,
+					boolean isSelected, boolean cellHasFocus) {
+				//super()
+				return null;
+			}
+		});
+		add(list);
+		
+		currentWeapons = new JLabel("weapons");
+		currentWeapons.setBounds(23, 430, 61, 16);
+		add(currentWeapons);
+		
+		currentCharacters = new JLabel("characters");
+		currentCharacters.setBounds(23, 458, 61, 16);
+		add(currentCharacters);
+		
+		currentRooms = new JLabel("rooms");
+		currentRooms.setBounds(23, 486, 61, 16);
+		add(currentRooms);
 
 		GridBagConstraints gridBagConstraints = new GridBagConstraints();
 		gridBagConstraints.fill = GridBagConstraints.BOTH;
@@ -182,13 +228,20 @@ public class InformationPanel extends JPanel {
 			weaponsLabel.setText(weaponString);
 			String playerString = "";
 			for (Player player : room.getPlayers()) {
-				playerString += (player.getName() + " ");
+				if (!player.equals(guiGameController.getCurrentPlayer())) {
+					playerString += (player.getName() + " ");
+				}
 			}
 			charactersLabel.setText(playerString);
+			if (room.getConnectingRoom() != null) {
+				secretLabel.setText(room.getConnectingRoom().getName());
+			}
 		} else {
 			roomNameLabel.setText("");
 			weaponsLabel.setText("");
 			charactersLabel.setText("");
+			secretLabel.setText("");
 		}
 	}
+
 }

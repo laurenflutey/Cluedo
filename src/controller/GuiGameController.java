@@ -464,7 +464,7 @@ public class GuiGameController {
 			// this is not worth randomising
 			if (nextPlayer.containsCardWithName(suggestion.getPlayer().getName())) {
 				suggestingPlayer.getSuggestions().add(new Card(suggestion.getPlayer().getName(), "Character"));
-				playerRoom.addPlayerToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getPlayer());
+				randomAssignToRoom(suggestion.getPlayer(), currentPlayer.getRoom());
 				found = true;
 			} else if (nextPlayer.containsCardWithName(suggestion.getRoom().getName())) {
 				suggestingPlayer.getSuggestions().add(new Card(suggestion.getRoom().getName(), "Room"));
@@ -477,6 +477,8 @@ public class GuiGameController {
 				count++;
 			}
 		}
+
+		DISPLAY.getInformationPanel().repaint();
 	}
 
 	/**
@@ -563,12 +565,26 @@ public class GuiGameController {
 			currentPlayer.setRoom(currentTile.getRoom());
 			DISPLAY.getInformationPanel().setRoomInfo(currentPlayer.getRoom());
 
+			if (currentPlayer.getRoom() != null) {
+				DISPLAY.getButtonPanel().setSuggest(true);
+				if(currentPlayer.getRoom().getConnectingRoom()!=null){
+					DISPLAY.getButtonPanel().setSecretRoom(true);
+				}
+				else{
+					DISPLAY.getButtonPanel().setSecretRoom(false);
+				}
+			} else {
+				DISPLAY.getButtonPanel().setSuggest(false);
+				DISPLAY.getButtonPanel().setSecretRoom(false);
+			}
+
 		}
 	}
 
 	public ButtonPanel getButtonPanel() {
 		return DISPLAY.getButtonPanel();
 	}
+
 	/**
 	 * Handles the closing of the game client
 	 */

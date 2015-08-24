@@ -67,6 +67,9 @@ public class ButtonPanel extends JPanel  {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				gameController.suggest();
+				suggButton.setEnabled(false);
+				secretButton.setEnabled(false);
+				rollButton.setEnabled(false);
 			}
 		});
 		add(suggButton);
@@ -77,6 +80,7 @@ public class ButtonPanel extends JPanel  {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				gameController.moveToSecretRoom();
+				setSecretRoom(false);
 			}
 		});
 		add(secretButton);

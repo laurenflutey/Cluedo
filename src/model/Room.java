@@ -99,7 +99,7 @@ public class Room {
 			}
 		}
 
-		// Removes any instance of the weapon on the board
+		// Removes any instance of the character on the board
 		for (Tile[] tileCollection : allTiles) {
 			for (Tile tile : tileCollection) {
 				if (tile.getPlayer() != null) {
