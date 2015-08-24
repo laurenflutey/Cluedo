@@ -373,7 +373,7 @@ public class StartupFrame extends JFrame {
 		reverendGreenButton.setBounds(180, 340, 300, 35);
 		panel.add(reverendGreenButton);
 
-		professorPlumButton = new JRadioButton("Professor Plum");
+		professorPlumButton = new JRadioButton("Proffessor Plum");
 		professorPlumButton.setBounds(180, 375, 300, 35);
 		panel.add(professorPlumButton);
 

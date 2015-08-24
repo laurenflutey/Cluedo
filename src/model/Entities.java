@@ -193,7 +193,7 @@ public class Entities {
 	 */
 	private void initCharacters() {
 		characters.add(new Character("Mrs Peacock", 'p', 24, 6));
-		characters.add(new Character("Professor Plum", 'r', 24, 20));
+		characters.add(new Character("Proffessor Plum", 'r', 24, 20));
 		characters.add(new Character("Miss Scarlett", 's', 7, 25));
 		characters.add(new Character("Colonel Mustard", 'm', 0, 18));
 		characters.add(new Character("Mrs White", 'w', 9, 0));
@@ -316,6 +316,15 @@ public class Entities {
 
 	public Card getCard(String name) {
 		for (Card c : cards) {
+			if (c.getName().equals(name)) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
+	public Card getFromAllCard(String name) {
+		for (Card c : allCards) {
 			if (c.getName().equals(name)) {
 				return c;
 			}

@@ -321,10 +321,6 @@ public class GuiGameController {
 		// Gets a list of player objects from the UI class and sets the entities
 		// to hold it
 
-		for (Player player : ENTITIES.getFinalPlayers()) {
-			System.out.println(player.getName() + "----dasdas");
-		}
-
 		ENTITIES.getPlayers().addAll(fakePlayers);
 		// ENTITIES.getFinalPlayers().addAll(fakePlayers);
 
@@ -466,16 +462,19 @@ public class GuiGameController {
 			// this is not worth randomising
 			if (nextPlayer.containsCardWithName(suggestion.getPlayer().getName())) {
 				suggestingPlayer.getSuggestions().add(new Card(suggestion.getPlayer().getName(), "Character",
-						ENTITIES.getCard(suggestion.getPlayer().getName()).getPath()));
+						ENTITIES.getFromAllCard(suggestion.getPlayer().getName()).getPath()));
 				randomAssignToRoom(suggestion.getPlayer(), currentPlayer.getRoom());
 				found = true;
 			} else if (nextPlayer.containsCardWithName(suggestion.getRoom().getName())) {
 				suggestingPlayer.getSuggestions().add(new Card(suggestion.getRoom().getName(), "Room",
-						ENTITIES.getCard(suggestion.getRoom().getName()).getPath()));
+						ENTITIES.getFromAllCard(suggestion.getRoom().getName()).getPath()));
 				found = true;
 			} else if (nextPlayer.containsCardWithName(suggestion.getWeapon().getName())) {
 				suggestingPlayer.getSuggestions().add(new Card(suggestion.getWeapon().getName(), "Weapon",
-						ENTITIES.getCard(suggestion.getWeapon().getName()).getPath()));
+						ENTITIES.getFromAllCard(suggestion.
+								getWeapon().
+								getName()).
+								getPath()));
 				found = true;
 				playerRoom.addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getWeapon());
 			} else {
