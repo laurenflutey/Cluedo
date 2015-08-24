@@ -229,13 +229,13 @@ public class GameFrame extends JFrame implements Runnable {
 			frames++;
 
 			// Debug to the console the updates and frames per second
-			// if (System.currentTimeMillis() - timer > 1000) {
-			// timer += 1000;
-			// System.out.println("Cluedo" + " | " + updates + " ups, " + frames
-			// + " fps");
-			// updates = 0;
-			// frames = 0;
-			// }
+//			 if (System.currentTimeMillis() - timer > 1000) {
+//			 timer += 1000;
+//			 System.out.println("Cluedo" + " | " + updates + " ups, " + frames
+//			 + " fps");
+//			 updates = 0;
+//			 frames = 0;
+//			 }
 		}
 	}
 

@@ -95,7 +95,6 @@ public class GameCanvas extends Canvas {
 				double trueX = x / (tileSize * scaleX);
 				double trueY = y / (tileSize * scaleY);
 
-				String tileInfo = GUIGAMECONTROLLER.getTileInfo((int)trueX, (int)trueY);
 				currentPlayerHovered = GUIGAMECONTROLLER.getCurrentPlayerHovered((int)trueX, (int)trueY);
 
 				if (currentPlayerHovered == null) {
@@ -104,8 +103,6 @@ public class GameCanvas extends Canvas {
 						currentRoomHovered = GUIGAMECONTROLLER.getCurrentRoomHovered((int)trueX, (int)trueY);
 					}
 				}
-
-				System.out.println(tileInfo);
 			}
 		});
 

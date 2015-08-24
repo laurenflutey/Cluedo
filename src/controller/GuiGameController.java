@@ -591,14 +591,6 @@ public class GuiGameController {
 		DISPLAY = null;
 	}
 
-	public String getTileInfo(int x, int y) {
-		Tile t = tiles[x][y];
-		if (t.isRoomTile()) {
-			return t.getRoom().getName();
-		}
-		return "";
-	}
-
 	public Player getCurrentPlayerHovered(int x, int y) {
 		return tiles[x][y].getPlayer();
 	}
