@@ -9,8 +9,8 @@ import view.gui.game.GameFrame;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -52,12 +52,14 @@ public class GameCanvas extends Canvas {
 	private int globalXOffset;
 	private int globalYOffset;
 
+	private Player currentPlayerHovered;
+
 	/**
 	 * Constructor
 	 *
 	 * Creates the GameCanvas and assigns it to it position on the parent grid
 	 * bag layout
-	 * 
+	 *
 	 * @param guiGameController
 	 *            Board
 	 * @param contentPane
@@ -77,15 +79,24 @@ public class GameCanvas extends Canvas {
 		// add canvas to parent panel
 		contentPane.add(this, constraints);
 
-		addMouseListener(new MouseListener() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		addMouseMotionListener(new MouseAdapter() {
 
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				int x = e.getX() - globalXOffset;
+				int y = e.getY() - globalYOffset;
+
+				String tileInfo = GUIGAMECONTROLLER.getTileInfo((x) / tileSize, (y) / tileSize);
+				currentPlayerHovered = GUIGAMECONTROLLER.getCurrentPlayerHovered((x) / tileSize, (y) / tileSize);
+
+				System.out.println(tileInfo);
 			}
+		});
+
+		addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-
 				int x = e.getX() - globalXOffset;
 				int y = e.getY() - globalYOffset;
 
@@ -93,22 +104,11 @@ public class GameCanvas extends Canvas {
 
 				GUIGAMECONTROLLER.sendMove(move);
 			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-
-			}
 		});
+
+
+
+
 
 		load();
 
@@ -162,38 +162,104 @@ public class GameCanvas extends Canvas {
 				if (xx < 0 || xx >= width)
 					continue;
 
-				// Gets the absolute tile position, rather than the pixel
-				// position
-				Tile currentTile = tiles[x / tileSize][y / tileSize];
-
-				if (currentTile.isWallTile()) {
-					if (tileSize == 32) {
-						pixels[xx + yy * width] = wall32Pixels[x % tileSize + y % tileSize * tileSize];
-					} else {
-						pixels[xx + yy * width] = wall64Pixels[x % tileSize + y % tileSize * tileSize];
-					}
-				} else if (currentTile.isBoundary()) {
-					if (tileSize == 32) {
-						pixels[xx + yy * width] = boundary32Pixels[x % tileSize + y % tileSize * tileSize];
-					} else {
-						pixels[xx + yy * width] = boundary64Pixels[x % tileSize + y % tileSize * tileSize];
-					}
+				if (yy < tileSize && xx > width - tileSize * 6) {
+					renderHoverBar(yy, xx, x, y);
 				} else {
-					if (tileSize == 32) {
-						pixels[xx + yy * width] = floor32Pixels[x % tileSize + y % tileSize * tileSize];
+
+					// Gets the absolute tile position, rather than the pixel
+					// position
+					Tile currentTile = tiles[x / tileSize][y / tileSize];
+
+					if (currentTile.isWallTile()) {
+						if (tileSize == 32) {
+							pixels[xx + yy * width] = wall32Pixels[x % tileSize + y % tileSize * tileSize];
+						} else {
+							pixels[xx + yy * width] = wall64Pixels[x % tileSize + y % tileSize * tileSize];
+						}
+					} else if (currentTile.isBoundary()) {
+						if (tileSize == 32) {
+							pixels[xx + yy * width] = boundary32Pixels[x % tileSize + y % tileSize * tileSize];
+						} else {
+							pixels[xx + yy * width] = boundary64Pixels[x % tileSize + y % tileSize * tileSize];
+						}
 					} else {
-						pixels[xx + yy * width] = floor64Pixels[x % tileSize + y % tileSize * tileSize];
+						if (tileSize == 32) {
+							pixels[xx + yy * width] = floor32Pixels[x % tileSize + y % tileSize * tileSize];
+						} else {
+							pixels[xx + yy * width] = floor64Pixels[x % tileSize + y % tileSize * tileSize];
+						}
 					}
+
+					if (currentTile.isOccupied()) {
+						Player player = currentTile.getPlayer();
+						if (player != null) {
+							renderPlayers(x, y, yy, xx, player);
+						} else {
+							renderWeapon(x, y, yy, xx, currentTile);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void renderHoverBar(int yy, int xx, int x, int y) {
+		int border = tileSize/8;
+		int xOffset = width - tileSize * 6;
+
+
+		if (yy < border || yy > tileSize - border) {
+			pixels[xx + yy * width] = Color.GRAY.getRGB();
+		}else if ((xx > xOffset && xx < xOffset + border)
+				|| (xx < width && xx > width - border)) {
+			pixels[xx + yy * width] = Color.GRAY.getRGB();
+		} else {
+
+			int textX = (xx % 612);
+			int textY = (yy % tileSize - 4);
+
+			int position = textX + textY * 184;
+
+			if (position > 4415) {
+				// I am lazy and hate arrays
+				return;
+			}
+
+
+			int col = 0;
+
+			if (currentPlayerHovered != null) {
+				if (currentPlayerHovered.getCh() == 'p') {
+					col = peacockHoverText32Pixels[position];
 				}
 
-				if (currentTile.isOccupied()) {
-					Player player = currentTile.getPlayer();
-					if (player != null) {
-						renderPlayers(x, y, yy, xx, player);
-					} else {
-						renderWeapon(x, y, yy, xx, currentTile);
-					}
+				else if (currentPlayerHovered.getCh() == 'r') {
+					col = plumHoverText32Pixels[position];
 				}
+
+				else if (currentPlayerHovered.getCh() == 's') {
+					col = scarHoverText32Pixels[position];
+				}
+
+				else if (currentPlayerHovered.getCh() == 'm') {
+					col = mustHoverText32Pixels[position];
+				}
+
+				else if (currentPlayerHovered.getCh() == 'w') {
+					col = whiteHoverText32Pixels[position];
+				}
+
+				else if (currentPlayerHovered.getCh() == 'g') {
+					col = greenHoverText32Pixels[position];
+				}
+			} else {
+				col = hoverBoxText32Pixels[position];
+			}
+
+			if (col != -65316) {
+				pixels[xx + yy * width] = col;
+			} else {
+				pixels[xx + yy * width] = Color.BLACK.getRGB();
 			}
 		}
 	}
@@ -491,6 +557,15 @@ public class GameCanvas extends Canvas {
 			e.printStackTrace();
 		}
 
+		try {
+			BufferedImage image = ImageIO.read(new File("images/characters/green/green-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, greenHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		// Colonel Mustard
 
 		try {
@@ -507,6 +582,15 @@ public class GameCanvas extends Canvas {
 			int w = image.getWidth();
 			int h = image.getHeight();
 			image.getRGB(0, 0, w, h, mustSpritesheet64Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/characters/must/mustard-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, mustHoverText32Pixels, 0, w);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -531,6 +615,15 @@ public class GameCanvas extends Canvas {
 			e.printStackTrace();
 		}
 
+		try {
+			BufferedImage image = ImageIO.read(new File("images/characters/peacock/peacock-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, peacockHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		// Professor Plum
 
 		try {
@@ -547,6 +640,15 @@ public class GameCanvas extends Canvas {
 			int w = image.getWidth();
 			int h = image.getHeight();
 			image.getRGB(0, 0, w, h, plumSpritesheet64Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/characters/plum/plum-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, plumHoverText32Pixels, 0, w);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -571,6 +673,15 @@ public class GameCanvas extends Canvas {
 			e.printStackTrace();
 		}
 
+		try {
+			BufferedImage image = ImageIO.read(new File("images/characters/scar/scar-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, scarHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		// Mrs White
 
 		try {
@@ -591,6 +702,15 @@ public class GameCanvas extends Canvas {
 			e.printStackTrace();
 		}
 
+		try {
+			BufferedImage image = ImageIO.read(new File("images/characters/white/white-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, whiteHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		// Weapons
 
 		try {
@@ -607,6 +727,15 @@ public class GameCanvas extends Canvas {
 			int w = image.getWidth();
 			int h = image.getHeight();
 			image.getRGB(0, 0, w, h, weaponSpritesheet64Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/hover-box-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, hoverBoxText32Pixels, 0, w);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -639,24 +768,31 @@ public class GameCanvas extends Canvas {
 	private static int[] boundary64Pixels = new int[64 * 64];
 
 	private static int[] greenSpritesheet32Pixels = new int[128 * 96];
-	private static int[] greenSpritesheet64Pixels = new int[256 * 192]; // TODO
+	private static int[] greenSpritesheet64Pixels = new int[256 * 192];
+	private static int[] greenHoverText32Pixels = new int[184 * 24];
 
 	private static int[] mustSpritesheet32Pixels = new int[128 * 96];
-	private static int[] mustSpritesheet64Pixels = new int[256 * 192]; // TODO
+	private static int[] mustSpritesheet64Pixels = new int[256 * 192];
+	private static int[] mustHoverText32Pixels = new int[184 * 24];
 
 	private static int[] peacockSpritesheet32Pixels = new int[128 * 96];
-	private static int[] peacockSpritesheet64Pixels = new int[256 * 192]; // TODO
+	private static int[] peacockSpritesheet64Pixels = new int[256 * 192];
+	private static int[] peacockHoverText32Pixels = new int[184 * 24];
 
 	private static int[] plumSpritesheet32Pixels = new int[128 * 96];
-	private static int[] plumSpritesheet64Pixels = new int[256 * 192]; // TODO
+	private static int[] plumSpritesheet64Pixels = new int[256 * 192];
+	private static int[] plumHoverText32Pixels = new int[184 * 24];
 
 	private static int[] scarSpritesheet32Pixels = new int[128 * 96];
-	private static int[] scarSpritesheet64Pixels = new int[256 * 192]; // TODO
+	private static int[] scarSpritesheet64Pixels = new int[256 * 192];
+	private static int[] scarHoverText32Pixels = new int[184 * 24];
 
 	private static int[] whiteSpritesheet32Pixels = new int[128 * 96];
-	private static int[] whiteSpritesheet64Pixels = new int[256 * 192]; // TODO
+	private static int[] whiteSpritesheet64Pixels = new int[256 * 192];
+	private static int[] whiteHoverText32Pixels = new int[184 * 24];
 
 	private static int[] weaponSpritesheet32Pixels = new int[96 * 64];
 	private static int[] weaponSpritesheet64Pixels = new int[192 * 128];
 
+	private static int[] hoverBoxText32Pixels = new int[184 * 24];
 }
