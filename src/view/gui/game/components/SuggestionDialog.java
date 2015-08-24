@@ -74,14 +74,8 @@ public class SuggestionDialog extends JDialog {
 			rooms.addItem(room);
 		}
 
-		if (type.equals("suggest")) {
-			rooms.setSelectedItem(gameController.getCurrentPlayer().getRoom());
-			rooms.setEnabled(false);
-		} else {
-			rooms.setSelectedIndex(0);
-		}
-
 		rooms.setBounds(115, 199, 201, 27);
+		rooms.setSelectedIndex(0);
 		contentPanel.add(rooms);
 
 		JLabel lblPleaseHighlightThe = new JLabel("Please highlight the items you want to " + type);
@@ -111,9 +105,7 @@ public class SuggestionDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				Suggestion suggestion = new Suggestion((Player) characters.getSelectedItem(),
 						(Weapon) weapons.getSelectedItem(), (Room) rooms.getSelectedItem());
-				System.out.println(suggestion.getPlayer() + " " + suggestion.getRoom() + " " + suggestion.getWeapon());
 				gameController.createSuggestion(suggestion, type);
-				dispose();
 
 			}
 		});
@@ -123,11 +115,11 @@ public class SuggestionDialog extends JDialog {
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.setActionCommand("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-
+				
 			}
 		});
 		buttonPane.add(cancelButton);
