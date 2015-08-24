@@ -46,12 +46,19 @@ public class GameFrame extends JFrame implements Runnable {
 	private ConfirmationDialog closingConfirmation;
 
 	// Game Dimensions
-	private int width = 1330;
-	private int height = 912;
+	private int width = 1312;
+	private int height = 892;
 	private Dimension gameDimensions;
 
 	// The current player, ie the player whose turn it is
 	private Player currentPlayer;
+	private GridBagLayout gridBagLayout;
+	private int columnBorder = 5;
+	private int rowBorder = 30;
+	private int middleBorder = 20;
+	private int panelSize = 482;
+	private int buttonPanelSize = 100;
+	private int vertialBorder = 20;
 
 	/**
 	 * Constructor
@@ -82,7 +89,7 @@ public class GameFrame extends JFrame implements Runnable {
 		gameDimensions = new Dimension(width, height);
 		setSize(gameDimensions);
 		setMinimumSize(gameDimensions);
-		setResizable(false); // TODO for now
+		//setResizable(false); // TODO for now
 		setTitle("Cluedo");
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -123,12 +130,20 @@ public class GameFrame extends JFrame implements Runnable {
 	 */
 	private void initContentPane() {
 		contentPane = new JPanel();
-		// contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 5, canvasWidth, 20, 482, 5 };
-		gridBagLayout.rowHeights = new int[] { 30, canvasHeight - 120, 20, 100, 50 };
+		contentPane.setBackground(new Color(0x2c3e50));
+		gridBagLayout = new GridBagLayout();
+
+		// Delegates to a method as these constraints will need to be updated as game resizes
+		updateGridBagConstraints();
+
 		contentPane.setLayout(gridBagLayout);
+	}
+
+	private void updateGridBagConstraints() {
+		gridBagLayout.columnWidths = new int[] {columnBorder, canvasWidth, middleBorder, panelSize, columnBorder };
+		gridBagLayout.rowHeights = new int[] {rowBorder, canvasHeight - (vertialBorder + buttonPanelSize),
+				vertialBorder, buttonPanelSize, rowBorder };
 	}
 
 	/**
@@ -169,8 +184,8 @@ public class GameFrame extends JFrame implements Runnable {
 	private Thread canvasThread;
 	private boolean running = true;
 
-	private int canvasWidth = 800;
-	private int canvasHeight = 832;
+	private int canvasWidth = width - columnBorder * 2 - middleBorder - panelSize;
+	private int canvasHeight = height - (rowBorder * 2);
 
 	private int xOffSet = 0;
 	private int yOffSet = 0;
@@ -231,6 +246,22 @@ public class GameFrame extends JFrame implements Runnable {
 	private void tick() {
 		currentPlayer = GUIGAMECONTROLLER.getCurrentPlayer();
 		CANVAS.tick();
+		updateSizing();
+		updateGridBagConstraints();
+	}
+
+	private void updateSizing() {
+		int newWidth = getWidth();
+		int newHeight = getHeight();
+		if(newWidth != gameDimensions.getWidth() || newHeight != gameDimensions.getHeight()) {
+			gameDimensions = new Dimension(newWidth, newHeight);
+			width = newWidth;
+			height = newHeight;
+
+			// Update canvas
+			canvasWidth = width - columnBorder * 2 - middleBorder - panelSize;
+			canvasHeight = height - 60;
+		}
 	}
 
 	/**
@@ -287,7 +318,6 @@ public class GameFrame extends JFrame implements Runnable {
 	//TODO fix this
 	public void doRoll() {
 		int roll = GUIGAMECONTROLLER.rollDice();
-		//informationPanel.setr
 		informationPanel.rollDieAnimation(roll);
 		buttonPanel.setRoll(false);
 	}
