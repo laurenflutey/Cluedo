@@ -416,6 +416,8 @@ public class GuiGameController {
 			DISPLAY.getButtonPanel().setSuggest(false);
 			DISPLAY.getButtonPanel().setSecretRoom(false);
 		}
+
+		DISPLAY.getInformationPanel().setCardsInHand();
 	}
 
 	public void accuse() {
@@ -463,14 +465,17 @@ public class GuiGameController {
 			// Checks for matching characters, then rooms and finally weapons,
 			// this is not worth randomising
 			if (nextPlayer.containsCardWithName(suggestion.getPlayer().getName())) {
-				suggestingPlayer.getSuggestions().add(new Card(suggestion.getPlayer().getName(), "Character"));
+				suggestingPlayer.getSuggestions().add(new Card(suggestion.getPlayer().getName(), "Character",
+						ENTITIES.getCard(suggestion.getPlayer().getName()).getPath()));
 				randomAssignToRoom(suggestion.getPlayer(), currentPlayer.getRoom());
 				found = true;
 			} else if (nextPlayer.containsCardWithName(suggestion.getRoom().getName())) {
-				suggestingPlayer.getSuggestions().add(new Card(suggestion.getRoom().getName(), "Room"));
+				suggestingPlayer.getSuggestions().add(new Card(suggestion.getRoom().getName(), "Room",
+						ENTITIES.getCard(suggestion.getRoom().getName()).getPath()));
 				found = true;
 			} else if (nextPlayer.containsCardWithName(suggestion.getWeapon().getName())) {
-				suggestingPlayer.getSuggestions().add(new Card(suggestion.getWeapon().getName(), "Weapon"));
+				suggestingPlayer.getSuggestions().add(new Card(suggestion.getWeapon().getName(), "Weapon",
+						ENTITIES.getCard(suggestion.getWeapon().getName()).getPath()));
 				found = true;
 				playerRoom.addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getWeapon());
 			} else {
@@ -567,10 +572,9 @@ public class GuiGameController {
 
 			if (currentPlayer.getRoom() != null) {
 				DISPLAY.getButtonPanel().setSuggest(true);
-				if(currentPlayer.getRoom().getConnectingRoom()!=null){
+				if (currentPlayer.getRoom().getConnectingRoom() != null) {
 					DISPLAY.getButtonPanel().setSecretRoom(true);
-				}
-				else{
+				} else {
 					DISPLAY.getButtonPanel().setSecretRoom(false);
 				}
 			} else {

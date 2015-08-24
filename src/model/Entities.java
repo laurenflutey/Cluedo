@@ -104,31 +104,31 @@ public class Entities {
 	 */
 	private void initCards() {
 		// Characters
-		cards.add(new Card("Mrs Peacock", "Character"));
-		cards.add(new Card("Mrs White", "Character"));
-		cards.add(new Card("Miss Scarlet", "Character"));
-		cards.add(new Card("Proffesor Plum", "Character"));
-		cards.add(new Card("Reverend Green", "Character"));
-		cards.add(new Card("Colonel Mustard", "Character"));
+		cards.add(new Card("Mrs Peacock", "Character", "images/characters/icon/Mrs Peacock.png"));
+		cards.add(new Card("Mrs White", "Character", "images/characters/icon/Mrs White.png"));
+		cards.add(new Card("Miss Scarlett", "Character", "images/characters/icon/Mrs Scarlett.png"));
+		cards.add(new Card("Proffessor Plum", "Character", "images/characters/icon/Proffessor Plum.png"));
+		cards.add(new Card("Reverend Green", "Character", "images/characters/icon/Reverend Green.png"));
+		cards.add(new Card("Colonel Mustard", "Character", "images/characters/icon/Colonel Mustard.png"));
 
 		// Weapons
-		cards.add(new Card("Candlestick", "Weapon"));
-		cards.add(new Card("Dagger", "Weapon"));
-		cards.add(new Card("Lead Pipe", "Weapon"));
-		cards.add(new Card("Revolver", "Weapon"));
-		cards.add(new Card("Rope", "Weapon"));
-		cards.add(new Card("Spanner", "Weapon"));
+		cards.add(new Card("Candlestick", "Weapon","images/weapons/candlestick.png"));
+		cards.add(new Card("Dagger", "Weapon","images/weapons/dagger.png"));
+		cards.add(new Card("Lead Pipe", "Weapon","images/weapons/leadpipe.png"));
+		cards.add(new Card("Revolver", "Weapon,","images/weapons/revolver.png"));
+		cards.add(new Card("Rope", "Weapon","images/weapons/rope.png"));
+		cards.add(new Card("Spanner", "Weapon","images/weapons/spanner.png"));
 
 		// Rooms
-		cards.add(new Card("Kitchen", "Room"));
-		cards.add(new Card("Study", "Room"));
-		cards.add(new Card("Lounge", "Room"));
-		cards.add(new Card("Conservatory", "Room"));
-		cards.add(new Card("Ball Room", "Room"));
-		cards.add(new Card("Billiard Room", "Room"));
-		cards.add(new Card("Library", "Room"));
-		cards.add(new Card("Hall", "Room"));
-		cards.add(new Card("Dining Room", "Room"));
+		cards.add(new Card("Kitchen", "Room","images/rooms/kitchen.png"));
+		cards.add(new Card("Study", "Room","images/rooms/study.png"));
+		cards.add(new Card("Lounge", "Room","images/rooms/lounge.png"));
+		cards.add(new Card("Conservatory", "Room","images/rooms/conservatory.png"));
+		cards.add(new Card("Ball Room", "Room","images/rooms/ballroom.png"));
+		cards.add(new Card("Billiard Room", "Room","images/rooms/billiardroom"));
+		cards.add(new Card("Library", "Room","images/rooms/library.png"));
+		cards.add(new Card("Hall", "Room","images/rooms/hall.png"));
+		cards.add(new Card("Dining Room", "Room","images/rooms/diningroom.png"));
 	}
 
 	/**
@@ -298,11 +298,21 @@ public class Entities {
 	/**
 	 * Gets character.
 	 *
-	 * @param name the name
+	 * @param name
+	 *            the name
 	 * @return the character
-     */
+	 */
 	public Character getCharacter(String name) {
 		for (Character c : characters) {
+			if (c.getName().equals(name)) {
+				return c;
+			}
+		}
+		return null;
+	}
+
+	public Card getCard(String name) {
+		for (Card c : cards) {
 			if (c.getName().equals(name)) {
 				return c;
 			}
