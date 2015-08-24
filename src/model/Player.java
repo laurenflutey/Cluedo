@@ -42,7 +42,7 @@ public class Player extends Character {
 	 * represents either a {@link Weapon}, {@link Room} or {@link Character} and
 	 * allows the user to make a guess at the correct solution to the murder.
 	 */
-	private Set<Card> cards;
+	private HashSet<Card> cards;
 
 	/**
 	 * Player number which is used to display the player on the board, with
@@ -139,7 +139,7 @@ public class Player extends Character {
 	/**
 	 * @return the cards
 	 */
-	public Set<Card> getCards() {
+	public HashSet<Card> getCards() {
 		return cards;
 	}
 
@@ -227,6 +227,11 @@ public class Player extends Character {
 	 */
 	public boolean containsCardWithName(String name) {
 		for (Card card : cards) {
+			if (card.getName().equals(name)) {
+				return true;
+			}
+		}
+		for (Card card : getSuggestions()) {
 			if (card.getName().equals(name)) {
 				return true;
 			}

@@ -321,10 +321,6 @@ public class GuiGameController {
 		// Gets a list of player objects from the UI class and sets the entities
 		// to hold it
 
-		for (Player player : ENTITIES.getFinalPlayers()) {
-			System.out.println(player.getName() + "----dasdas");
-		}
-
 		ENTITIES.getPlayers().addAll(fakePlayers);
 		// ENTITIES.getFinalPlayers().addAll(fakePlayers);
 
@@ -416,6 +412,8 @@ public class GuiGameController {
 			DISPLAY.getButtonPanel().setSuggest(false);
 			DISPLAY.getButtonPanel().setSecretRoom(false);
 		}
+
+		DISPLAY.getInformationPanel().setCardsInHand();
 	}
 
 	public void accuse() {
@@ -463,14 +461,14 @@ public class GuiGameController {
 			// Checks for matching characters, then rooms and finally weapons,
 			// this is not worth randomising
 			if (nextPlayer.containsCardWithName(suggestion.getPlayer().getName())) {
-				suggestingPlayer.getSuggestions().add(new Card(suggestion.getPlayer().getName(), "Character"));
+				suggestingPlayer.getSuggestions().add(ENTITIES.getFromAllCard(suggestion.getPlayer().getName()));
 				randomAssignToRoom(suggestion.getPlayer(), currentPlayer.getRoom());
 				found = true;
 			} else if (nextPlayer.containsCardWithName(suggestion.getRoom().getName())) {
-				suggestingPlayer.getSuggestions().add(new Card(suggestion.getRoom().getName(), "Room"));
+				suggestingPlayer.getSuggestions().add(ENTITIES.getFromAllCard(suggestion.getRoom().getName()));
 				found = true;
 			} else if (nextPlayer.containsCardWithName(suggestion.getWeapon().getName())) {
-				suggestingPlayer.getSuggestions().add(new Card(suggestion.getWeapon().getName(), "Weapon"));
+				suggestingPlayer.getSuggestions().add(ENTITIES.getFromAllCard(suggestion.getWeapon().getName()));
 				found = true;
 				playerRoom.addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getWeapon());
 			} else {
@@ -478,6 +476,7 @@ public class GuiGameController {
 			}
 		}
 
+		DISPLAY.getInformationPanel().setCardsInHand();
 		DISPLAY.getInformationPanel().repaint();
 	}
 
@@ -567,10 +566,9 @@ public class GuiGameController {
 
 			if (currentPlayer.getRoom() != null) {
 				DISPLAY.getButtonPanel().setSuggest(true);
-				if(currentPlayer.getRoom().getConnectingRoom()!=null){
+				if (currentPlayer.getRoom().getConnectingRoom() != null) {
 					DISPLAY.getButtonPanel().setSecretRoom(true);
-				}
-				else{
+				} else {
 					DISPLAY.getButtonPanel().setSecretRoom(false);
 				}
 			} else {
