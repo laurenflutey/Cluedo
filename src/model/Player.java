@@ -231,6 +231,11 @@ public class Player extends Character {
 				return true;
 			}
 		}
+		for (Card card : getSuggestions()) {
+			if (card.getName().equals(name)) {
+				return true;
+			}
+		}
 		return false;
 	}
 

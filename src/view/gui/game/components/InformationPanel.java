@@ -399,7 +399,8 @@ public class InformationPanel extends JPanel {
 
 	public void setCardsInHand() {
 		for (Card card : guiGameController.getEntities().getAllCards()) {
-			if (guiGameController.getCurrentPlayer().containsCardWithName(card.getName())) {
+			if (guiGameController.getCurrentPlayer().containsCardWithName(card.getName())
+					|| guiGameController.getCurrentPlayer().getSuggestions().contains(card.getName())) {
 				jLabelMap.get(card).setVisible(true);
 			} else {
 				jLabelMap.get(card).setVisible(false);

@@ -97,7 +97,7 @@ public class GameCanvas extends Canvas {
 					}
 				}
 
-				System.out.println(tileInfo);
+				//System.out.println(tileInfo);
 			}
 		});
 

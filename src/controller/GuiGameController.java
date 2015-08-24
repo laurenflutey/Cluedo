@@ -461,20 +461,14 @@ public class GuiGameController {
 			// Checks for matching characters, then rooms and finally weapons,
 			// this is not worth randomising
 			if (nextPlayer.containsCardWithName(suggestion.getPlayer().getName())) {
-				suggestingPlayer.getSuggestions().add(new Card(suggestion.getPlayer().getName(), "Character",
-						ENTITIES.getFromAllCard(suggestion.getPlayer().getName()).getPath()));
+				suggestingPlayer.getSuggestions().add(ENTITIES.getFromAllCard(suggestion.getPlayer().getName()));
 				randomAssignToRoom(suggestion.getPlayer(), currentPlayer.getRoom());
 				found = true;
 			} else if (nextPlayer.containsCardWithName(suggestion.getRoom().getName())) {
-				suggestingPlayer.getSuggestions().add(new Card(suggestion.getRoom().getName(), "Room",
-						ENTITIES.getFromAllCard(suggestion.getRoom().getName()).getPath()));
+				suggestingPlayer.getSuggestions().add(ENTITIES.getFromAllCard(suggestion.getRoom().getName()));
 				found = true;
 			} else if (nextPlayer.containsCardWithName(suggestion.getWeapon().getName())) {
-				suggestingPlayer.getSuggestions().add(new Card(suggestion.getWeapon().getName(), "Weapon",
-						ENTITIES.getFromAllCard(suggestion.
-								getWeapon().
-								getName()).
-								getPath()));
+				suggestingPlayer.getSuggestions().add(ENTITIES.getFromAllCard(suggestion.getWeapon().getName()));
 				found = true;
 				playerRoom.addWeaponToAvailableTile(ENTITIES.getBoard().getTiles(), suggestion.getWeapon());
 			} else {
@@ -482,6 +476,7 @@ public class GuiGameController {
 			}
 		}
 
+		DISPLAY.getInformationPanel().setCardsInHand();
 		DISPLAY.getInformationPanel().repaint();
 	}
 
