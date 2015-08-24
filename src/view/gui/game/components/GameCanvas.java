@@ -54,6 +54,7 @@ public class GameCanvas extends Canvas {
 	private Weapon currentWeaponHovered;
 	private Room currentRoomHovered;
 
+
 	/**
 	 * Constructor
 	 *
@@ -241,8 +242,6 @@ public class GameCanvas extends Canvas {
 				col = renderWeaponHover(position, col);
 			} else if (currentRoomHovered != null) {
 				col = renderRoomHover(position, col);
-			} else {
-				col = hoverBoxText32Pixels[position];
 			}
 
 			if (col != -65316) {
@@ -269,6 +268,8 @@ public class GameCanvas extends Canvas {
 			col = billiardRoomHoverText32Pixels[position];
 		} else if (roomId == 'Y') {
 			col = libraryHoverText32Pixels[position];
+		} else if (roomId == 'H') {
+			col = hallRoomHoverText32Pixels[position];
 		} else if (roomId == 'D') {
 			col = diningRoomHoverText32Pixels[position];
 		} else if (roomId == 'X') {
@@ -790,17 +791,6 @@ public class GameCanvas extends Canvas {
 			e.printStackTrace();
 		}
 
-		// Empty text
-
-		try {
-			BufferedImage image = ImageIO.read(new File("images/hover-box-text-32.png"));
-			int w = image.getWidth();
-			int h = image.getHeight();
-			image.getRGB(0, 0, w, h, hoverBoxText32Pixels, 0, w);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 		// Room text
 
 		try {
@@ -853,6 +843,15 @@ public class GameCanvas extends Canvas {
 			int w = image.getWidth();
 			int h = image.getHeight();
 			image.getRGB(0, 0, w, h, libraryHoverText32Pixels, 0, w);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			BufferedImage image = ImageIO.read(new File("images/rooms/hall-text-32.png"));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			image.getRGB(0, 0, w, h, hallRoomHoverText32Pixels, 0, w);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -994,25 +993,24 @@ public class GameCanvas extends Canvas {
 	private static int[] weaponSpritesheet32Pixels = new int[96 * 64];
 	private static int[] weaponSpritesheet64Pixels = new int[192 * 128];
 
-	private static int[] hoverBoxText32Pixels = new int[184 * 24];
-
 	// Room text
-	private static int[]  ballroomHoverText32Pixels = new int[184 * 24];
-	private static int[]  billiardRoomHoverText32Pixels = new int[184 * 24];
-	private static int[]  conservatoryRoomHoverText32Pixels = new int[184 * 24];
-	private static int[]  diningRoomHoverText32Pixels = new int[184 * 24];
-	private static int[]  kitchenHoverText32Pixels = new int[184 * 24];
-	private static int[]  libraryHoverText32Pixels = new int[184 * 24];
-	private static int[]  loungeHoverText32Pixels = new int[184 * 24];
-	private static int[]  poolHoverText32Pixels = new int[184 * 24];
-	private static int[]  studyHoverText32Pixels = new int[184 * 24];
+	private static int[] ballroomHoverText32Pixels = new int[184 * 24];
+	private static int[] billiardRoomHoverText32Pixels = new int[184 * 24];
+	private static int[] conservatoryRoomHoverText32Pixels = new int[184 * 24];
+	private static int[] diningRoomHoverText32Pixels = new int[184 * 24];
+	private static int[] kitchenHoverText32Pixels = new int[184 * 24];
+	private static int[] libraryHoverText32Pixels = new int[184 * 24];
+	private static int[] loungeHoverText32Pixels = new int[184 * 24];
+	private static int[] hallRoomHoverText32Pixels = new int[184 * 24];
+	private static int[] poolHoverText32Pixels = new int[184 * 24];
+	private static int[] studyHoverText32Pixels = new int[184 * 24];
 
 	// Weapon text
-	private static int[]  candlestickHoverText32Pixels = new int[184 * 24];
-	private static int[]  daggerHoverText32Pixels = new int[184 * 24];
-	private static int[]  leadpipeHoverText32Pixels = new int[184 * 24];
-	private static int[]  revolverHoverText32Pixels = new int[184 * 24];
-	private static int[]  ropeHoverText32Pixels = new int[184 * 24];
-	private static int[]  spannerHoverText32Pixels = new int[184 * 24];
+	private static int[] candlestickHoverText32Pixels = new int[184 * 24];
+	private static int[] daggerHoverText32Pixels = new int[184 * 24];
+	private static int[] leadpipeHoverText32Pixels = new int[184 * 24];
+	private static int[] revolverHoverText32Pixels = new int[184 * 24];
+	private static int[] ropeHoverText32Pixels = new int[184 * 24];
+	private static int[] spannerHoverText32Pixels = new int[184 * 24];
 
 }
