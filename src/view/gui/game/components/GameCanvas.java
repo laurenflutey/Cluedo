@@ -41,6 +41,7 @@ public class GameCanvas extends Canvas {
 
 	private final Tile[][] tiles;
 	private final GuiGameController GUIGAMECONTROLLER;
+	private final GameFrame GAMEFRAME;
 
 	// An array of pixels representing the game canvas
 	private int[] pixels;
@@ -66,8 +67,9 @@ public class GameCanvas extends Canvas {
 	 * @param contentPane
 	 *            Parent panel
 	 */
-	public GameCanvas(final GuiGameController guiGameController, JPanel contentPane) {
+	public GameCanvas(final GuiGameController guiGameController, final JPanel contentPane, final GameFrame gameFrame) {
 		GUIGAMECONTROLLER = guiGameController;
+		GAMEFRAME = gameFrame;
 		tiles = GUIGAMECONTROLLER.getEntities().getBoard().getTiles();
 
 		// Set up grid bag constraints
@@ -84,20 +86,26 @@ public class GameCanvas extends Canvas {
 
 			@Override
 			public void mouseMoved(MouseEvent e) {
+				double scaleX = GAMEFRAME.getCanvasWidth() / (double)width;
+				double scaleY = GAMEFRAME.getCanvasHeight() / (double)height;
+
 				int x = e.getX() - globalXOffset;
 				int y = e.getY() - globalYOffset;
 
-				String tileInfo = GUIGAMECONTROLLER.getTileInfo((x) / tileSize, (y) / tileSize);
-				currentPlayerHovered = GUIGAMECONTROLLER.getCurrentPlayerHovered((x) / tileSize, (y) / tileSize);
+				double trueX = x / (tileSize * scaleX);
+				double trueY = y / (tileSize * scaleY);
+
+				String tileInfo = GUIGAMECONTROLLER.getTileInfo((int)trueX, (int)trueY);
+				currentPlayerHovered = GUIGAMECONTROLLER.getCurrentPlayerHovered((int)trueX, (int)trueY);
 
 				if (currentPlayerHovered == null) {
-					currentWeaponHovered = GUIGAMECONTROLLER.getCurrentWeaponHovered((x) / tileSize, (y) / tileSize);
+					currentWeaponHovered = GUIGAMECONTROLLER.getCurrentWeaponHovered((int)trueX, (int)trueY);
 					if (currentWeaponHovered == null) {
-						currentRoomHovered = GUIGAMECONTROLLER.getCurrentRoomHovered((x) / tileSize, (y) / tileSize);
+						currentRoomHovered = GUIGAMECONTROLLER.getCurrentRoomHovered((int)trueX, (int)trueY);
 					}
 				}
 
-				//System.out.println(tileInfo);
+				System.out.println(tileInfo);
 			}
 		});
 
@@ -105,18 +113,21 @@ public class GameCanvas extends Canvas {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
+
+				double scaleX = GAMEFRAME.getCanvasWidth() / (double)width;
+				double scaleY = GAMEFRAME.getCanvasHeight() / (double)height;
+
 				int x = e.getX() - globalXOffset;
 				int y = e.getY() - globalYOffset;
 
-				Move move = new Move((x) / tileSize, (y) / tileSize);
+				double trueX = x / (tileSize * scaleX);
+				double trueY = y / (tileSize * scaleY);
+
+				Move move = new Move((int)trueX, (int)trueY);
 
 				GUIGAMECONTROLLER.sendMove(move);
 			}
 		});
-
-
-
-
 
 		load();
 

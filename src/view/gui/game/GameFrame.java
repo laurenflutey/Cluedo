@@ -106,7 +106,7 @@ public class GameFrame extends JFrame implements Runnable {
 		buttonPanel = new ButtonPanel(guiGameController, contentPane, this);
 
 		// Create the game CANVAS
-		CANVAS = new GameCanvas(guiGameController, contentPane);
+		CANVAS = new GameCanvas(guiGameController, contentPane, this);
 
 		// Position the window in the middle of the screen and request focus
 		setLocationRelativeTo(null);
@@ -297,6 +297,10 @@ public class GameFrame extends JFrame implements Runnable {
 		bs.show();
 	}
 
+	public Dimension getGameDimensions() {
+		return gameDimensions;
+	}
+
 	public GameCanvas getCanvas() {
 		return CANVAS;
 	}
@@ -333,5 +337,13 @@ public class GameFrame extends JFrame implements Runnable {
 			e.printStackTrace();
 		}
 		dispose();
+	}
+
+	public int getCanvasWidth() {
+		return canvasWidth;
+	}
+
+	public int getCanvasHeight() {
+		return canvasHeight;
 	}
 }
