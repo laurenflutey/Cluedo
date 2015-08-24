@@ -85,10 +85,9 @@ public class GameFrame extends JFrame implements Runnable {
 		}
 
 		// Create the game window and sets min size to be the initial
-		// dimension(720p)
 		gameDimensions = new Dimension(width, height);
 		setSize(gameDimensions);
-		setMinimumSize(gameDimensions);
+		setMinimumSize(new Dimension(panelSize + columnBorder * 2 + middleBorder + 100, 800));
 		//setResizable(false); // TODO for now
 		setTitle("Cluedo");
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
